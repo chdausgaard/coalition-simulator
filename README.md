@@ -121,6 +121,67 @@ node analyze.js results/sweep-TIMESTAMP.jsonl
 
 This produces a summary table, flags configurations where Frederiksen's PM probability drops below threshold, detects interaction effects, and reports coalition composition shifts.
 
+## Using from R or Python
+
+The simulator is a Node.js script with no dependencies. Call it from R or Python via system commands:
+
+### R
+
+```r
+library(jsonlite)
+
+# Baseline: 1000 iterations
+result <- fromJSON(system2("node", c("sim3.js", "'{}'", "1000"), stdout = TRUE))
+result$results[[1]]$pm            # PM probabilities
+result$results[[1]]$topCoalitions # top coalitions with passage probabilities
+
+# With configuration overrides
+cfg <- toJSON(list(cfg = list(mDemandPM = TRUE)), auto_unbox = TRUE)
+result <- fromJSON(system2("node", c("sim3.js", shQuote(cfg), "1000"), stdout = TRUE))
+```
+
+### Python
+
+```python
+import subprocess, json
+
+result = json.loads(subprocess.run(
+    ["node", "sim3.js", "{}", "1000"],
+    capture_output=True, text=True
+).stdout)
+print(result["results"][0]["pm"])
+print(result["results"][0]["topCoalitions"])
+```
+
+## Plugging in election results
+
+Once actual seat counts are known, plug them in directly:
+
+```r
+# Full mandate override with actual results
+cfg <- list(mandates = list(
+  S=40, SF=25, EL=11, ALT=4, RV=8,
+  M=10, KF=13, V=18, LA=20, DD=12, DF=13, BP=5
+))
+result <- fromJSON(system2("node",
+  c("sim3.js", shQuote(toJSON(cfg, auto_unbox=TRUE)), "3000"),
+  stdout = TRUE))
+result$results[[1]]$pm
+result$results[[1]]$topCoalitions
+```
+
+Partial overrides keep polling baselines for unspecified parties:
+
+```r
+# "What if S collapses to 32 seats?"
+cfg <- list(mandates = list(S = 32))
+result <- fromJSON(system2("node",
+  c("sim3.js", shQuote(toJSON(cfg, auto_unbox=TRUE)), "1000"),
+  stdout = TRUE))
+```
+
+North Atlantic seats can also be overridden (`GL1`, `GL2`, `FO1`, `FO2` — each 0 or 1).
+
 ## Research
 
 The `research/` directory contains background documents used during model calibration:
