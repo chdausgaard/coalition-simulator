@@ -2305,37 +2305,68 @@ buildImplications();
   el.innerHTML = html;
 })();
 
-// ===== DYNAMIC EXECUTIVE SUMMARY =====
+// ===== DYNAMIC EXECUTIVE SUMMARY (priors-weighted) =====
 const execStats = document.getElementById('exec-stats');
-const execNarr = document.getElementById('exec-narrative');
 if (execStats) {
-  const bl = getScenario('baseline');
-  const dg = getScenario('mDemandGov+current-polls');
-  const bs = getScenario('archetype:blue-surge');
+  // Load priors grid from embedded PRIORS or compute inline
+  const PRIORS_GRID = [
+    {w:0.0280, l:'grid:red-demandGov-S-r50-s50'}, {w:0.0245, l:'grid:red-demandGov-V-r50-s50'}, {w:0.0175, l:'grid:red-demandGov-self-r50-s50'},
+    {w:0.0088, l:'grid:red-standard-S-r50-s50'}, {w:0.0077, l:'grid:red-standard-V-r50-s50'}, {w:0.0055, l:'grid:red-standard-self-r50-s50'},
+    {w:0.0032, l:'grid:red-demandPM-S-r50-s50'}, {w:0.0028, l:'grid:red-demandPM-V-r50-s50'}, {w:0.0020, l:'grid:red-demandPM-self-r50-s50'},
+    {w:0.2464, l:'grid:current-demandGov-S-r50-s50'}, {w:0.2156, l:'grid:current-demandGov-V-r50-s50'}, {w:0.1540, l:'grid:current-demandGov-self-r50-s50'},
+    {w:0.0774, l:'grid:current-standard-S-r50-s50'}, {w:0.0678, l:'grid:current-standard-V-r50-s50'}, {w:0.0484, l:'grid:current-standard-self-r50-s50'},
+    {w:0.0282, l:'grid:current-demandPM-S-r50-s50'}, {w:0.0246, l:'grid:current-demandPM-V-r50-s50'}, {w:0.0176, l:'grid:current-demandPM-self-r50-s50'},
+    {w:0.0056, l:'grid:blue-demandGov-S-r50-s50'}, {w:0.0049, l:'grid:blue-demandGov-V-r50-s50'}, {w:0.0035, l:'grid:blue-demandGov-self-r50-s50'},
+    {w:0.0018, l:'grid:blue-standard-S-r50-s50'}, {w:0.0015, l:'grid:blue-standard-V-r50-s50'}, {w:0.0011, l:'grid:blue-standard-self-r50-s50'},
+    {w:0.0006, l:'grid:blue-demandPM-S-r50-s50'}, {w:0.0006, l:'grid:blue-demandPM-V-r50-s50'}, {w:0.0004, l:'grid:blue-demandPM-self-r50-s50'},
+  ];
 
-  const blPmS = bl?.pm?.S ?? '?';
-  const blTop = bl?.topCoalitions?.[0];
-  const dgMInGov = dg ? (dg.topCoalitions || []).filter(t => t.govt.includes('M')).reduce((s,t) => s+t.pct, 0) : 0;
-  const bsPmS = bs?.pm?.S ?? '?';
+  // Compute weighted averages across all priors cells
+  let wPmS = 0;
+  let wMInGov = 0;
+  const coalFreqs = {};
 
-  const blMInGov = bl ? (bl.topCoalitions || []).filter(t => t.govt.includes('M')).reduce((s,t) => s+t.pct, 0) : 0;
+  for (const cell of PRIORS_GRID) {
+    const d = getScenario(cell.l);
+    if (!d) continue;
+    wPmS += cell.w * (d.pm.S || 0) / 100;
+    const mIn = (d.topCoalitions || []).filter(t => t.govt.includes('M')).reduce((s,t) => s + t.pct, 0);
+    wMInGov += cell.w * mIn / 100;
+    for (const c of (d.topCoalitions || [])) {
+      coalFreqs[c.govt] = (coalFreqs[c.govt] || 0) + cell.w * c.pct / 100;
+    }
+  }
+
+  // Find weighted top coalition
+  const topCoal = Object.entries(coalFreqs).sort((a,b) => b[1] - a[1])[0];
+  const topCoalName = topCoal ? topCoal[0] : '?';
+  const topCoalPct = topCoal ? (topCoal[1] * 100).toFixed(0) : '?';
+
+  // Blue majority conditional (just blue cells)
+  const blueCells = PRIORS_GRID.filter(c => c.l.startsWith('grid:blue-'));
+  const blueWeight = blueCells.reduce((s,c) => s + c.w, 0);
+  let bluePmS = 0;
+  for (const cell of blueCells) {
+    const d = getScenario(cell.l);
+    if (d) bluePmS += (cell.w / blueWeight) * (d.pm.S || 0) / 100;
+  }
 
   execStats.innerHTML = `
     <div class="stat-card">
-      <div class="stat-number">${typeof blPmS === 'number' ? blPmS.toFixed(0) + '%' : '?'}</div>
-      <div class="stat-label">Frederiksen som statsminister</div>
+      <div class="stat-number">${(wPmS * 100).toFixed(0)}%</div>
+      <div class="stat-label">Frederiksen som statsminister (v\u00e6gtet gennemsnit)</div>
     </div>
     <div class="stat-card">
-      <div class="stat-number">${typeof bsPmS === 'number' ? bsPmS.toFixed(0) + '%' : '?'}</div>
+      <div class="stat-number">${(bluePmS * 100).toFixed(0)}%</div>
       <div class="stat-label">Frederiksen som statsminister ved bl\u00e5t flertal</div>
     </div>
     <div class="stat-card">
-      <div class="stat-number" style="font-size:1.6rem">${blTop?.govt || '?'}</div>
-      <div class="stat-label">Hyppigste koalition (${(blTop?.pct||0).toFixed(0)}% af simulationerne)</div>
+      <div class="stat-number" style="font-size:1.6rem">${topCoalName}</div>
+      <div class="stat-label">Hyppigste koalition (${topCoalPct}% v\u00e6gtet)</div>
     </div>
     <div class="stat-card">
-      <div class="stat-number">${dgMInGov.toFixed(0)}%</div>
-      <div class="stat-label">M i regeringskoalition (ved inklusionskrav)</div>
+      <div class="stat-number">${(wMInGov * 100).toFixed(0)}%</div>
+      <div class="stat-label">M i regeringskoalition (v\u00e6gtet)</div>
     </div>
   `;
 }
