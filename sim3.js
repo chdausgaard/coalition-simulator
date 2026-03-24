@@ -338,6 +338,14 @@ function evalBudgetVote(partyId, govSet, platform, bases, params, naAlignments, 
     return { pFor: 0, pAbstain: 0.02, pAgainst: 0.98 };
   }
 
+  // demandGov: M insists on being IN government (but not necessarily as PM).
+  // When active, M votes AGAINST any budget for a government that excludes M.
+  // M in government behaves normally. This is the "kongelig undersøger" strategy:
+  // Løkke blocks formation paths that don't include Moderaterne.
+  if (partyId === "M" && cfg && cfg.mDemandGov && !govSet.has("M")) {
+    return { pFor: 0, pAbstain: 0.02, pAgainst: 0.98 };
+  }
+
   // Government parties vote FOR (near-certain), with soft constraint penalties (spec §9.4)
   if (govSet.has(partyId)) {
     // V in S-led government: use drawn v_sled_in base instead of generic 0.98
@@ -974,6 +982,7 @@ function runSim(userCfg, N) {
     elMBoost: userCfg.cfg?.elMBoost || 1.10,
     mPmPref: userCfg.cfg?.mPmPref || "S",
     mDemandPM: userCfg.cfg?.mDemandPM || false,
+    mDemandGov: userCfg.cfg?.mDemandGov || false,
     sigmaBloc: userCfg.cfg?.sigmaBloc || 4.0,
     sigmaSub: userCfg.cfg?.sigmaSub || 1.5,
     sigmaParty: userCfg.cfg?.sigmaParty || 1.5,
