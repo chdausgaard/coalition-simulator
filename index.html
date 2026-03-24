@@ -1668,35 +1668,6 @@ function recolorExtraLineSeries(containerId, color) {
   root.querySelectorAll('[fill="undefined"]').forEach(el => el.setAttribute('fill', color));
 }
 
-// Chart A: M mandates
-(function() {
-  const mandates = Array.from({ length: 11 }, (_, i) => i + 5);
-  const baseline = mandates.map(m => {
-    const d = getScenario('M-mandater=' + m);
-    return d ? { x: m, y: mInGovPct(d) } : null;
-  }).filter(Boolean);
-  const demandGov = mandates.map(m => {
-    const d = getScenario('M-mandater=' + m + '+demandGov');
-    return d ? { x: m, y: mInGovPct(d) } : null;
-  }).filter(Boolean);
-  const blueGov = mandates.map(m => {
-    const d = getScenario('M-mandater=' + m);
-    return d ? { x: m, y: d.govType.blue || 0 } : null;
-  }).filter(Boolean);
-
-  buildLineChart('chart-m-mandater',
-    [
-      { name: 'M i regering', points: baseline },
-      { name: 'M i regering (inklusionskrav)', points: demandGov },
-      { name: 'Bl\u00e5 regering', points: blueGov }
-    ],
-    'Moderaternes mandater',
-    'Andel af simulationer (%)',
-    mandates.map(m => ({ v: m, label: '' + m }))
-  );
-  recolorExtraLineSeries('chart-m-mandater', '#64b5f6');
-})();
-
 // Chart B: Blue steps
 (function() {
   const defaults = { V: 17, LA: 19, KF: 12 };
