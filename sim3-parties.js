@@ -2,21 +2,21 @@
 // See sim3-spec.md §7 for full specification.
 
 // ============================================================================
-// PARTY DEFINITIONS (2026 exit-poll baseline, 24 March 2026 21:00)
+// PARTY DEFINITIONS (2026 projection baseline, 24 March 2026 — avg of 3 prognoses)
 // ============================================================================
 const PARTIES = [
-  { id: "S",   m: 37, s: 2.5, lr: 3, bloc: "red",   subGroup: "S",   govEligible: true,  pmEligible: true  },
-  { id: "SF",  m: 22, s: 2.1, lr: 2, bloc: "red",   subGroup: "SF",  govEligible: true,  pmEligible: false },
-  { id: "EL",  m: 12, s: 1.5, lr: 1, bloc: "red",   subGroup: null,  govEligible: false, pmEligible: false },
-  { id: "ALT", m: 6,  s: 0.9, lr: 2, bloc: "red",   subGroup: null,  govEligible: false, pmEligible: false,
-    threshold: true, baseVoteShare: 3.3, thresholdPct: 2.0, pClear: 0.95 },
-  { id: "RV",  m: 9,  s: 1.5, lr: 4, bloc: "red",   subGroup: null,  govEligible: true,  pmEligible: false },
+  { id: "S",   m: 38, s: 2.5, lr: 3, bloc: "red",   subGroup: "S",   govEligible: true,  pmEligible: true  },
+  { id: "SF",  m: 20, s: 2.1, lr: 2, bloc: "red",   subGroup: "SF",  govEligible: true,  pmEligible: false },
+  { id: "EL",  m: 11, s: 1.5, lr: 1, bloc: "red",   subGroup: null,  govEligible: false, pmEligible: false },
+  { id: "ALT", m: 4,  s: 0.9, lr: 2, bloc: "red",   subGroup: null,  govEligible: false, pmEligible: false,
+    threshold: true, baseVoteShare: 2.3, thresholdPct: 2.0, pClear: 0.65 },
+  { id: "RV",  m: 10, s: 1.5, lr: 4, bloc: "red",   subGroup: null,  govEligible: true,  pmEligible: false },
   { id: "M",   m: 14, s: 1.5, lr: 5, bloc: "swing", subGroup: null,  govEligible: true,  pmEligible: true  },
   { id: "KF",  m: 13, s: 1.5, lr: 6, bloc: "blue",  subGroup: null,  govEligible: true,  pmEligible: false },
-  { id: "V",   m: 16, s: 1.7, lr: 7, bloc: "blue",  subGroup: "V",   govEligible: true,  pmEligible: true  },
-  { id: "LA",  m: 18, s: 1.9, lr: 9, bloc: "blue",  subGroup: "LA",  govEligible: true,  pmEligible: true  },
-  { id: "DD",  m: 11, s: 1.6, lr: 7, bloc: "blue",  subGroup: "DD",  govEligible: true,  pmEligible: false },
-  { id: "DF",  m: 13, s: 1.5, lr: 7, bloc: "blue",  subGroup: "DF",  govEligible: false, pmEligible: false },
+  { id: "V",   m: 18, s: 1.7, lr: 7, bloc: "blue",  subGroup: "V",   govEligible: true,  pmEligible: true  },
+  { id: "LA",  m: 17, s: 1.9, lr: 9, bloc: "blue",  subGroup: "LA",  govEligible: true,  pmEligible: true  },
+  { id: "DD",  m: 10, s: 1.6, lr: 7, bloc: "blue",  subGroup: "DD",  govEligible: true,  pmEligible: false },
+  { id: "DF",  m: 16, s: 1.5, lr: 7, bloc: "blue",  subGroup: "DF",  govEligible: false, pmEligible: false },
   { id: "BP",  m: 4,  s: 1.1, lr: 8, bloc: "blue",  subGroup: null,  govEligible: false, pmEligible: false,
     threshold: true, baseVoteShare: 2.3, thresholdPct: 2.0, pClear: 0.65 },
 ];
