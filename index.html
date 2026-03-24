@@ -215,8 +215,7 @@ section { margin-top: 3rem; }
   text-align: right;
   color: #2a2420;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow: visible;
 }
 .stacked-bar {
   display: flex;
@@ -623,7 +622,7 @@ details .panel {
     <div class="combiner-dim">
       <label class="small" style="font-weight:600;display:block;margin-bottom:0.3rem;">Valgresultat</label>
       <select id="cb-v" style="width:100%;padding:0.4rem;border:1px solid #d4cdc2;border-radius:4px;font-size:0.85rem;">
-        <option value="current" selected>T&aelig;t l&oslash;b (m&aring;linger)</option>
+        <option value="current" selected>Ingen blok-flertal (m&aring;linger)</option>
         <option value="red">R&oslash;dt flertal (r&oslash;d=90)</option>
         <option value="blue">Bl&aring;t flertal (bl&aring;=90)</option>
       </select>
@@ -660,7 +659,7 @@ details .panel {
         <option value="s50" selected>Neutral</option>
         <option value="s70">Svag (SF f&oslash;lger blokken)</option>
       </select>
-      <div class="small muted" style="font-size:0.72rem;margin-top:0.2rem;">Den vigtigste parameter for om S+M-midterregering er mulig</div>
+      <div class="small muted" style="font-size:0.72rem;margin-top:0.2rem;">Hvor trov&aelig;rdigt kan SF stemme imod finansloven for en regering SF er udelukket fra? Afg&oslash;rende for om S+M er mulig uden SF</div>
     </div>
   </div>
   <div id="combiner-result" style="background:#faf7f2;border:1px solid #d4cdc2;border-radius:8px;padding:1rem;">
@@ -1491,7 +1490,7 @@ function buildTornado() {
   let svg = '<svg viewBox="0 0 ' + w + ' ' + h + '" class="tornado-svg">';
   const blX = labelW + scale(baseline);
   svg += '<line x1="' + blX + '" y1="0" x2="' + blX + '" y2="' + (h - 20) + '" stroke="#d4cdc2" stroke-dasharray="4,3"/>';
-  svg += '<text x="' + blX + '" y="' + (h - 5) + '" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#8a7e72">Current polls ' + baseline + '%</text>';
+  svg += '<text x="' + blX + '" y="' + (h - 5) + '" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#8a7e72">Baseline ' + baseline.toFixed(1) + '%</text>';
 
   tornadoData.forEach((d, i) => {
     const y = i * (barH + gap) + 10;
@@ -1564,23 +1563,27 @@ function buildLineChart(containerId, dataPoints, xLabel, yLabel, xTicks) {
   svg += '<line x1="' + pad.l + '" y1="' + (h - pad.b) + '" x2="' + (w - pad.r) + '" y2="' + (h - pad.b) + '" stroke="#d4cdc2"/>';
 
   // Lines
-  const lineColors = ['#1e3a5f', '#c0392b'];
+  const lineColors = ['#1e3a5f', '#c0392b', '#64b5f6'];
   dataPoints.forEach((series, si) => {
-    const pts = series.points.map(p => sx(p.x) + ',' + sy(p.y)).join(' ');
-    svg += '<polyline points="' + pts + '" fill="none" stroke="' + lineColors[si] + '" stroke-width="2"/>';
-    // Dots
-    series.points.forEach(p => {
-      svg += '<circle cx="' + sx(p.x) + '" cy="' + sy(p.y) + '" r="3" fill="' + lineColors[si] + '"/>';
-      svg += '<text x="' + sx(p.x) + '" y="' + (sy(p.y) - 8) + '" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8" fill="' + lineColors[si] + '">' + p.y.toFixed(1) + '</text>';
+    const color = lineColors[si % lineColors.length];
+    const pts = series.points.filter(p => p != null).map(p => sx(p.x) + ',' + sy(p.y)).join(' ');
+    svg += '<polyline points="' + pts + '" fill="none" stroke="' + color + '" stroke-width="2"/>';
+    series.points.filter(p => p != null).forEach(p => {
+      svg += '<circle cx="' + sx(p.x) + '" cy="' + sy(p.y) + '" r="3" fill="' + color + '"/>';
     });
-    // Legend
-    const ly = pad.t + 12 + si * 16;
-    svg += '<line x1="' + (w - pad.r - 160) + '" y1="' + ly + '" x2="' + (w - pad.r - 140) + '" y2="' + ly + '" stroke="' + lineColors[si] + '" stroke-width="2"/>';
-    svg += '<text x="' + (w - pad.r - 135) + '" y="' + (ly + 4) + '" font-family="DM Sans, sans-serif" font-size="10" fill="' + lineColors[si] + '">' + series.name + '</text>';
   });
 
   svg += '</svg>';
-  document.getElementById(containerId).innerHTML = svg;
+
+  // Legend below chart
+  const legendHtml = dataPoints.map((series, si) => {
+    const color = lineColors[si % lineColors.length];
+    return '<span style="display:inline-flex;align-items:center;margin-right:1.2rem;font-size:0.8rem;">' +
+      '<span style="display:inline-block;width:16px;height:3px;background:' + color + ';margin-right:5px;"></span>' +
+      series.name + '</span>';
+  }).join('');
+
+  document.getElementById(containerId).innerHTML = svg + '<div style="margin-top:0.4rem;text-align:center;">' + legendHtml + '</div>';
 }
 
 function coalPct(d, name) {
