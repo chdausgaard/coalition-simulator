@@ -13,10 +13,10 @@ const PBF_BY_SCENARIO = {
 };
 
 const MANDATE_BASELINES = {
-  current: {},  // stochastic draws from code defaults (pre-election uncertainty)
-  // Full 12-party deterministic overrides (post-election conditionals):
-  red: { S:40, SF:25, EL:12, ALT:4, RV:9, M:9, KF:12, V:15, LA:17, DD:12, DF:13, BP:7 },
-  blue: { S:33, SF:19, EL:10, ALT:3, RV:11, M:9, KF:14, V:22, LA:22, DD:13, DF:14, BP:5 },
+  current: {},  // stochastic draws from code defaults (exit-poll baseline with uncertainty)
+  // Full 12-party deterministic overrides (hypothetical scenarios):
+  red: { S:42, SF:25, EL:14, ALT:6, RV:10, M:12, KF:11, V:14, LA:15, DD:10, DF:11, BP:5 },
+  blue: { S:33, SF:18, EL:10, ALT:4, RV:8, M:12, KF:15, V:21, LA:22, DD:13, DF:14, BP:5 },
 };
 
 const BLUE_STEP_OVERRIDES = {
@@ -675,5 +675,22 @@ function generateMandateSweeps() {
   }
 }
 generateMandateSweeps();
+
+// "Midten" family: Frederiksen prefers centrist coalition (low redPreference + SF-M gate active)
+function generateMidtenFamily() {
+  const midtenBase = { redPreference: 0.15 };
+  const midtenSweep = { sfAcceptM_lo: [0.3], sfAcceptM_hi: [0.7] };
+
+  addCurrentRecord("midten:baseline", midtenBase, midtenSweep);
+  addCurrentRecord("midten:mDemandGov", { ...midtenBase, mDemandGov: true }, midtenSweep);
+  addCurrentRecord("midten:sRelaxPM", { ...midtenBase, sRelaxPM: true }, midtenSweep);
+  addCurrentRecord("midten:sRelaxPM+mDemandGov", { ...midtenBase, sRelaxPM: true, mDemandGov: true }, midtenSweep);
+  addCurrentRecord("midten:M->V", { ...midtenBase, mPmPref: "V" }, midtenSweep);
+  addCurrentRecord("midten:strong-centrist", { redPreference: 0 }, midtenSweep);
+  addCurrentRecord("midten:strong-centrist+mDemandGov", { redPreference: 0, mDemandGov: true }, midtenSweep);
+  addScenarioRecord("midten:red-majority", "red", midtenBase, midtenSweep);
+  addScenarioRecord("midten:blue-majority", "blue", midtenBase, midtenSweep);
+}
+generateMidtenFamily();
 
 emit();

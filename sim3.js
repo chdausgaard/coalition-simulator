@@ -1049,7 +1049,7 @@ function runSim(userCfg, N) {
     elMBoost: userCfg.cfg?.elMBoost || 1.10,
     mPmPref: userCfg.cfg?.mPmPref || "S",
     mDemandPM: userCfg.cfg?.mDemandPM || false,
-    mDemandGov: userCfg.cfg?.mDemandGov || false,
+    mDemandGov: userCfg.cfg?.mDemandGov != null ? userCfg.cfg.mDemandGov : true,
     sRelaxPM: userCfg.cfg?.sRelaxPM || false,
     sigmaBloc: userCfg.cfg?.sigmaBloc || 4.0,
     sigmaSub: userCfg.cfg?.sigmaSub || 1.5,
@@ -1074,8 +1074,8 @@ function runSim(userCfg, N) {
     sf_budget_abstain_sf: 0.75,
     m_substitute_pfor_lo: 0.15,
     m_substitute_pfor_hi: 0.45,
-    sfAcceptM_lo: 1.0,
-    sfAcceptM_hi: 1.0,
+    sfAcceptM_lo: 0.30,
+    sfAcceptM_hi: 0.70,
   };
 
   const sweepKeys = Object.keys(sweepParams);

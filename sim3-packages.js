@@ -66,6 +66,14 @@ function violatesMemberConstraints(platform, govMembers) {
   if (memberSet.has("V") && platform.taxation !== "none") return true;
   // V in government -> immigration != status_quo
   if (memberSet.has("V") && platform.immigration === "status_quo") return true;
+  // V in government -> no forståelsespapir (V would never offer EL a written agreement)
+  if (memberSet.has("V") && platform.forstaelsespapir === "yes") return true;
+  // V in government -> green != high (V opposes maximum green ambition)
+  if (memberSet.has("V") && platform.green === "high") return true;
+  // LA in government -> no forståelsespapir
+  if (memberSet.has("LA") && platform.forstaelsespapir === "yes") return true;
+  // LA in government -> green != high
+  if (memberSet.has("LA") && platform.green === "high") return true;
 
   return false;
 }
