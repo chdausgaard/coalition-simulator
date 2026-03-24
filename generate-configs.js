@@ -443,7 +443,7 @@ function generateParametricSweeps() {
     addCurrent(`minForVotes=${val}`, { minForVotes: val });
   }
 
-  for (const [label, val] of [["0.0", 0.0], ["0.10", 0.10], ["0.20", 0.20], ["0.30", 0.30], ["0.40", 0.40]]) {
+  for (const [label, val] of [["0.0", 0.0], ["0.1", 0.1], ["0.2", 0.2], ["0.3", 0.3], ["0.4", 0.4]]) {
     addRecord(
       `pBlueFormateur=${label}`,
       buildConfig(currentMandates, { pBlueFormateur: val }),
@@ -649,10 +649,12 @@ function generatePhaseTransitionProbes() {
   addRecord("S-alone:S=42+flex=0.4", specialMandateConfig(SPECIAL_MANDATES.sAlone42, { flexibility: 0.4 }), 1000);
 
   for (const bias of [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0]) {
-    addRecord(`pollError:blue+${bias}`, currentConfig({ blocBiasBlue: bias }), 1000);
+    const bl = bias.toFixed(1);
+    addRecord(`pollError:blue+${bl}`, currentConfig({ blocBiasBlue: bias }), 1000);
   }
   for (const bias of [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0]) {
-    addRecord(`pollError:blue+${bias}+demandPM`, currentConfig({ blocBiasBlue: bias, mDemandPM: true }), 1000);
+    const bl = bias.toFixed(1);
+    addRecord(`pollError:blue+${bl}+demandPM`, currentConfig({ blocBiasBlue: bias, mDemandPM: true }), 1000);
   }
 }
 
@@ -683,7 +685,7 @@ function generateDemandGovExtras() {
 
   for (const bias of [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0]) {
     addRecord(
-      `mDemandGov+pollError:blue+${bias}`,
+      `mDemandGov+pollError:blue+${bias.toFixed(1)}`,
       currentConfig({ mDemandGov: true, blocBiasBlue: bias }),
       1000,
     );
