@@ -591,90 +591,26 @@ details .panel {
 <!-- ===== SECTION 1: EXECUTIVE SUMMARY ===== -->
 <section id="exec-summary">
   <h2>Executive Summary</h2>
-  <div class="stat-row">
-    <div class="stat-card">
-      <div class="stat-number"><span class="tip" data-tip="Ved aktuelle meningsm&aring;linger med M=12 mandater er Frederiksen PM i alle simulationer">100%</span></div>
-      <div class="stat-label">PM Frederiksen ved aktuelle m&aring;linger</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-number"><span class="tip" data-tip="Med M's inklusionskrav ender M i regering i 94% af simulationerne">94%</span></div>
-      <div class="stat-label">M-inkluderende koalitioner (mDemandGov)</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-number"><span class="tip" data-tip="PM(Frederiksen) n&aring;r bl&aring; blok n&aring;r 90 mandater (V=22, LA=22, KF=14)">6,6%</span></div>
-      <div class="stat-label">PM Frederiksen ved bl&aring;t flertal</div>
-    </div>
+  <div class="stat-row" id="exec-stats">
+    <!-- Populated dynamically from DATA -->
   </div>
-  <p style="font-size: 0.92rem; line-height: 1.7; max-width: 860px;">
-    Med M p&aring; 12 mandater (Altingets snit) er Frederiksens statsministerpost sikker i alle scenarier undtagen bl&aring;t flertal.
-    Det interessante sp&oslash;rgsm&aring;l er <em>hvilken</em> regering &mdash; ikke <em>hvem</em> der leder den.
-    N&aring;r L&oslash;kke kr&aelig;ver regeringsdeltagelse, springer M-inkluderende koalitioner fra 67% til 94%.
-    Den st&oslash;rste koalition er S+SF+RV+M (58% under inklusionskrav).
-  </p>
+  <p id="exec-narrative" style="font-size: 0.92rem; line-height: 1.7; max-width: 860px;"></p>
 </section>
 
 
 <!-- ===== SECTION: THREE-SCENARIO OVERVIEW ===== -->
 <section id="scenario-overview" class="scenario-overview">
   <h2>Tre mandatscenarier</h2>
-  <p class="small muted" style="margin-bottom:0.5rem;">Med M p&aring; 12 mandater er r&oslash;d+M=97 &mdash; Frederiksen er PM i alle scenarier undtagen bl&aring;t flertal. Variationen ligger i koalitionssammens&aelig;tningen.</p>
+  <p class="small muted" style="margin-bottom:0.5rem;">Mandater tr&aelig;kkes stokastisk fra Altingets snit (M=9, S=38, SF=23, ...) med &sigma;<sub>bloc</sub>=4.0. De tre scenarier nedenfor varierer mandatgrundlaget. Alle tal opdateres automatisk fra sweep-data.</p>
 
-  <div class="scenario-cards">
-    <div class="scenario-card">
-      <h3>R&oslash;dt flertal</h3>
-      <div class="scenario-subtitle">S=40, SF=25 &rarr; r&oslash;d=90</div>
-      <div class="scenario-metric"><span class="metric-label">PM (Frederiksen)</span><span class="metric-value">100%</span></div>
-      <div class="scenario-metric"><span class="metric-label">Top koalition</span><span class="metric-value">S+SF (53%)</span></div>
-      <div class="scenario-metric"><span class="metric-label">S+SF+RV+M</span><span class="metric-value">14%</span></div>
-      <div class="scenario-metric"><span class="metric-label">M i regering</span><span class="metric-value">~20%</span></div>
-    </div>
-
-    <div class="scenario-card kingmaker">
-      <h3>Aktuelle m&aring;linger (M afg&oslash;r)</h3>
-      <div class="scenario-subtitle">R&oslash;d=85, Bl&aring;=78, M=12 &mdash; M er kongemager</div>
-      <div class="scenario-metric"><span class="metric-label">PM (Frederiksen)</span><span class="metric-value">100%</span></div>
-      <div class="scenario-metric"><span class="metric-label">Top koalition</span><span class="metric-value">S+SF+RV+M (43%)</span></div>
-      <div class="scenario-metric"><span class="metric-label">S+SF+M</span><span class="metric-value">24%</span></div>
-      <div class="scenario-metric"><span class="metric-label">M i regering</span><span class="metric-value highlight">67%</span></div>
-    </div>
-
-    <div class="scenario-card">
-      <h3>Bl&aring;t flertal</h3>
-      <div class="scenario-subtitle">V=22, LA=22, KF=14 &rarr; bl&aring;=90</div>
-      <div class="scenario-metric"><span class="metric-label">PM (Frederiksen)</span><span class="metric-value">6,6%</span></div>
-      <div class="scenario-metric"><span class="metric-label">Top koalition</span><span class="metric-value">V-ledet bl&aring; (79%)</span></div>
-      <div class="scenario-metric"><span class="metric-label">Bl&aring; regering</span><span class="metric-value">93%</span></div>
-      <div class="scenario-metric"><span class="metric-label">Gridlock</span><span class="metric-value">0%</span></div>
-    </div>
+  <div class="scenario-cards" id="scenario-cards">
+    <!-- Populated dynamically from DATA after sweep -->
   </div>
 
   <div class="scenario-toggle">
     <h3>&hellip;med L&oslash;kkes inklusionskrav (mDemandGov)</h3>
-    <div class="scenario-cards">
-      <div class="scenario-card">
-        <h3>R&oslash;dt flertal + inklusionskrav</h3>
-        <div class="scenario-subtitle">R&oslash;d kan regere uden M alligevel</div>
-        <div class="scenario-metric"><span class="metric-label">PM (Frederiksen)</span><span class="metric-value">100%</span></div>
-        <div class="scenario-metric"><span class="metric-label">Top koalition</span><span class="metric-value">S+SF+RV+M (49%)</span></div>
-        <div class="scenario-metric"><span class="metric-label">M i regering</span><span class="metric-value">~80%</span></div>
-      </div>
-
-      <div class="scenario-card kingmaker">
-        <h3>Aktuelle m&aring;linger + inklusionskrav</h3>
-        <div class="scenario-subtitle">M-koalitioner springer til 94%</div>
-        <div class="scenario-metric"><span class="metric-label">PM (Frederiksen)</span><span class="metric-value">100%</span></div>
-        <div class="scenario-metric"><span class="metric-label">Top koalition</span><span class="metric-value">S+SF+RV+M (58%)</span></div>
-        <div class="scenario-metric"><span class="metric-label">S+SF+M</span><span class="metric-value">36%</span></div>
-        <div class="scenario-metric"><span class="metric-label">M i regering</span><span class="metric-value highlight">94%</span></div>
-      </div>
-
-      <div class="scenario-card">
-        <h3>Bl&aring;t flertal + inklusionskrav</h3>
-        <div class="scenario-subtitle">Bl&aring; kan regere uden M alligevel</div>
-        <div class="scenario-metric"><span class="metric-label">PM (Frederiksen)</span><span class="metric-value">14%</span></div>
-        <div class="scenario-metric"><span class="metric-label">Top koalition</span><span class="metric-value">V-ledet bl&aring; (70%)</span></div>
-        <div class="scenario-metric"><span class="metric-label">Bl&aring; regering</span><span class="metric-value">85%</span></div>
-      </div>
+    <div class="scenario-cards" id="scenario-cards-demandgov">
+      <!-- Populated dynamically from DATA after sweep -->
     </div>
   </div>
 </section>
@@ -901,7 +837,12 @@ details .panel {
               <li>Branch 3: EL = AGAINST &rarr; M is boosted (higher pFor for M, signaling centrist budget)</li>
             </ul>
             <p>Final P(passage) = weighted sum of the three branches, weighted by EL&rsquo;s (pFor, pAbstain, pAgainst).</p>
-            <p style="margin-top:0.5rem;"><strong>The mDemandPM mechanism.</strong> When L&oslash;kke demands the PM post and is in a government where he is not PM, M&rsquo;s mandates are treated as rebelling: routed through the DP with pFor = 0, pAgainst = 0.98, pAbstain = 0.02. This tanks the passage probability for any government containing M where M is not the formateur.</p>
+            <p style="margin-top:0.5rem;"><strong>Tre L&oslash;kke-parametre.</strong></p>
+            <ul style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
+              <li><strong>mDemandGov</strong> (inklusionskrav): M stemmer imod enhver finanslov for en regering uden M. Modellerer L&oslash;kkes krav om regeringsdeltagelse. <em>N&aring;r aktivt dominerer dette L&oslash;kkes retningspr&aelig;ference (mPmPref) fuldst&aelig;ndigt &mdash; kravet foreg&aring;r i koden f&oslash;r orienteringen evalueres.</em></li>
+              <li><strong>mDemandPM</strong> (SM-krav): M stemmer imod enhver finanslov hvor M ikke er statsminister. Da ingen M-ledet pakke eksisterer under standard (sRelaxPM=false), er dette selvdestruktivt &mdash; M ekskluderes fra alle koalitioner.</li>
+              <li><strong>sRelaxPM</strong> (S accepterer ikke-S SM): N&aring;r aktivt kan M-ledede pakker (M+S+SF, M+S+RV) konkurrere med S-ledede pakker. S stemmer ikke l&aelig;ngere automatisk imod ikke-S statsministre. Prior: 5% baseret p&aring; Polymarket L&oslash;kke-SM pris (~4%).</li>
+            </ul>
             <p style="margin-top:0.5rem;"><strong>Key P(FOR) ranges by party</strong> (approximate, vary by platform):</p>
             <ul style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
               <li>SF: 0.60&ndash;0.85 (high for red platforms, lower if not in government but ideologically close)</li>
@@ -947,26 +888,26 @@ details .panel {
               </li>
               <li><strong>Historical precedent</strong>: <code>1 + score &times; 0.02</code> per precedent point. Coalitions resembling past Danish governments (e.g., S+RV has historical precedent from several governments) get a small multiplicative boost.</li>
             </ul>
-            <p style="margin-top:0.5rem;"><strong>Formateur protocol.</strong> By default, S (Socialdemokratiet) evaluates first as formateur, reflecting the convention that the largest party gets the first attempt. With probability pBlueFormateur, the blue bloc gets the formateur mandate instead, and V or LA evaluates first. The formateur evaluates all 11 candidate governments and picks the highest-scoring one.</p>
+            <p style="margin-top:0.5rem;"><strong>Formateur protocol.</strong> By default, S (Socialdemokratiet) evaluates first as formateur, reflecting the convention that the largest party gets the first attempt. With probability pBlueFormateur, the blue bloc evaluates first. When the parameter <code>sRelaxPM</code> = true, S accepts a non-S PM &mdash; enabling M-led packages (M+S+SF, M+S+RV) to compete alongside S-led packages on equal footing within the same evaluation round. The formateur evaluates all 13 candidate governments and picks the highest-scoring one. M-led governments only form when sRelaxPM = true <em>and</em> an M-led package scores higher than the best S-led alternative.</p>
           </div>
         </details>
       </div>
 
       <div class="pipeline-stage">
         <div class="pipeline-num">Stage 5</div>
-        <div class="pipeline-title">Repeat 1,000+ Times and Count</div>
-        <p class="pipeline-desc">Aggregation: PM probabilities, government type frequencies, top coalition rankings. "After 1,000&ndash;5,000 simulated election nights, we count: how often does each party leader become PM? What is the most common government type?"</p>
+        <div class="pipeline-title">Repeat 500 Times and Count</div>
+        <p class="pipeline-desc">Aggregation: PM probabilities, government type frequencies, top coalition rankings. "After 500 simulated election nights per configuration, we count: how often does each party leader become PM? What is the most common government type?"</p>
         <details class="pipeline-detail">
           <summary>Technical detail</summary>
           <div class="detail-content">
-            <p><strong>Outer loop.</strong> N iterations per configuration (750&ndash;5,000). Each iteration is independent.</p>
+            <p><strong>Outer loop.</strong> N = 500 iterations per configuration. Each iteration is independent. At N=500, the standard error for a 50% probability is 2.2 procentpoint &mdash; sufficient for detecting all substantive parameter effects (&ge;5pp). Additional iterations can be added later and merged without re-running existing simulations.</p>
             <p style="margin-top:0.5rem;"><strong>Per-iteration pipeline:</strong></p>
             <ol style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
               <li>Draw mandates (Stage 1 correlation structure)</li>
               <li>Draw budget basis probabilities (per-party pFor/pAgainst/pAbstain, with noise)</li>
-              <li>Draw NA seat alignment (4 independent Bernoulli draws)</li>
-              <li>Call <code>selectGovernment()</code>: evaluate all 11 candidate governments &times; top-K platforms, compute DP passage for each, score, pick winner</li>
-              <li>Record outcome: PM identity, government type, winning coalition, passage probability, platform</li>
+              <li>Draw NA seat alignment (4 independent trinomial draws)</li>
+              <li>Call <code>selectGovernment()</code>: evaluate all 13 candidate governments &times; top-K platforms, compute DP passage for each, score, pick winner</li>
+              <li>Record outcome: PM identity (S, M, V, or LA), government type, winning coalition, passage probability, platform</li>
             </ol>
             <p style="margin-top:0.5rem;"><strong>Aggregation.</strong> After all N iterations:</p>
             <ul style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
@@ -976,13 +917,13 @@ details .panel {
               <li>Best platform: the most common winning platform for each coalition type</li>
             </ul>
             <p style="margin-top:0.5rem;"><strong>Confidence check.</strong> Before accepting a government, a pre-filter checks that the opposition mandates voting FOR a <em>mistillidsvotum</em> (vote of no confidence) would be &lt; 90. This is a structural sanity check, not a binding constraint &mdash; it filters out arithmetically impossible governments.</p>
-            <p style="margin-top:0.5rem;"><strong>Sweep methodology.</strong> The sensitivity analysis uses one-at-a-time (OAT) parameter variation plus targeted interaction crosses:</p>
+            <p style="margin-top:0.5rem;"><strong>Sweep methodology.</strong> The sensitivity analysis combines two approaches:</p>
             <ul style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
-              <li>Pass 1: 191 configurations at N = 750 for broad coverage of the parameter space</li>
-              <li>Pass 2: 61 key configurations re-run at N = 5,000 for precision on important scenarios</li>
-              <li>Transitions: 54 fine-grained runs at N = 5,000 exploring phase boundaries (e.g., what polling error flips PM identity)</li>
-              <li>Where labels overlap across passes, the higher-N result is used</li>
-              <li>Interaction crosses: pairwise combinations of mDemandPM &times; mandate archetype &times; pBlueFormateur, plus redPref &times; flex, to map the interaction surface</li>
+              <li><strong>5D factorial grid</strong> (243+ celler): mandatscenarie &times; L&oslash;kkes forhandlingsposition &times; L&oslash;kkes retning &times; Frederiksens pr&aelig;ference &times; SFs forhandlingsstyrke. Hver celle k&oslash;res ved N=500. Giver brugeren mulighed for at kombinere antagelser interaktivt.</li>
+              <li><strong>One-at-a-time (OAT) parametric sweeps</strong> (~90 konfigurationer): &eacute;n parameter varieres ad gangen mens &oslash;vrige holdes p&aring; baseline. Bruges til tornadodiagrammer og f&oslash;lsomhedsanalyse.</li>
+              <li><strong>Interaction crosses</strong> (~80 konfigurationer): parvise kombinationer af de vigtigste parametre (mDemandGov &times; redPref, pBlueFormateur &times; mandater, elMPenalty &times; mPmPref, m.fl.).</li>
+              <li><strong>Phase transition probes</strong> (~50 konfigurationer): finkornede sweeps der kortl&aelig;gger hvor sm&aring; &aelig;ndringer udl&oslash;ser kvalitative skift (f.eks. "hvor meget skal m&aring;lingerne tage fejl f&oslash;r bl&aring; vinder?").</li>
+              <li><strong>Nye parametre</strong>: <code>sRelaxPM</code> (S accepterer ikke-S statsminister, standard: false, prior: 5%) og <code>sigmaBloc</code> sweeps (3.0&ndash;8.0) for at unders&oslash;ge effekten af bredere meningsm&aring;lingsusikkerhed.</li>
             </ul>
           </div>
         </details>
@@ -1000,17 +941,18 @@ details .panel {
             <p style="margin-top:0.5rem;"><strong>The &ldquo;substitute&rdquo; taxation level is a modeling construct.</strong> The three taxation levels (formueskat / substitute / none) are an abstraction. &ldquo;Substitute&rdquo; represents an alternative revenue measure that is less ideologically charged than a wealth tax but still generates revenue. It does not correspond to a specific real-world policy proposal.</p>
             <p style="margin-top:0.5rem;"><strong>Fixed party positions within each iteration.</strong> Within a single iteration, party positions and preferences are fixed. There is no intra-iteration negotiation or position adjustment. Variation comes from across-iteration noise, not within-iteration dynamics.</p>
             <p style="margin-top:0.5rem;"><strong>No <em>nyvalg</em> (snap re-election) threat modeling.</strong> The model does not include the possibility of a government calling a snap election as a bargaining tool. In practice, the threat of <em>nyvalg</em> can discipline coalition partners.</p>
-            <p style="margin-top:0.5rem;"><strong>The 11 enumerated government packages.</strong> The model evaluates a fixed set of 11 candidate governments:</p>
+            <p style="margin-top:0.5rem;"><strong>De 13 optalte regeringspakker.</strong> Modellen evaluerer et fast s&aelig;t af kandidatregeringer:</p>
             <ul style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
-              <li>Red-bloc: S+SF, S+SF+RV, S+SF+RV+M, S+SF+M</li>
-              <li>Cross-bloc: S+V, S+V+M</li>
-              <li>Blue-bloc: V-led blue, LA-led blue</li>
-              <li>Minority: S-alone</li>
-              <li>Broad: S+RV (historical)</li>
-              <li>Other combinations as defined in sim3-packages.js</li>
+              <li>S-ledet r&oslash;d: S-alene, S+SF, S+SF+RV, S+RV</li>
+              <li>S-ledet med M: S+M, S+SF+M, S+SF+RV+M</li>
+              <li>S-ledet med V: S+V, S+V+M</li>
+              <li>Bl&aring;-ledet: V-ledet bl&aring; (V+LA+KF), LA-ledet bl&aring; (LA+V+KF)</li>
+              <li>M-ledet (kun n&aring;r <code>sRelaxPM</code> = true): M+S+SF, M+S+RV</li>
             </ul>
-            <p>Notable exclusions: no M-led governments (M is too small to lead), no governments including EL (they have never been in government and have stated they will not join one), no governments including DF (similar structural constraints).</p>
-            <p style="margin-top:0.5rem;"><strong>The calibration problem.</strong> P(FOR) ranges for each party are informed by expert judgment and historical voting patterns, but they are not empirically validated against a large sample of actual budget votes for all parties. The EL-M conditioning structure, for instance, is based on qualitative observation of their political interdependence rather than a formal statistical estimate. Results should be interpreted as &ldquo;given these assumed probability ranges, what follows structurally&rdquo; rather than &ldquo;this is the true probability.&rdquo;</p>
+            <p><strong>M-ledede regeringer</strong> er en ny tilf&oslash;jelse. De modellerer scenariet hvor Frederiksen accepterer L&oslash;kke som statsminister &mdash; historisk pr&aelig;cedens fra 1968 (Baunsgaard fra det mindste koalitionsparti blev statsminister). Med <code>sRelaxPM</code> = true konkurrerer M-ledede pakker p&aring; lige vilk&aring;r med S-ledede pakker baseret p&aring; scoring. Prior: P(sRelaxPM = true) = 5%, baseret p&aring; Polymarkets pris p&aring; L&oslash;kke som SM (~4%) og ekspertvurderinger.</p>
+            <p style="margin-top:0.5rem;"><strong>Eksklutioner:</strong> Ingen regeringer med EL (har aldrig siddet i regering), DF (strukturelle begr&aelig;nsninger + gensidig veto med M), eller ALT/BP (for sm&aring;, ikke regeringsduelige). Ingen bl&aring; midterregering (V+LA+KF+M) &mdash; aritmetisk d&oslash;d uden DF, og DF blokerer L&oslash;kke.</p>
+            <p style="margin-top:0.5rem;"><strong>Kalibreringsproblemet.</strong> P(FOR)-intervallerne for hvert parti er baseret p&aring; ekspertvurderinger og historiske afstemningsm&oslash;nstre (finanslovsafstemninger 2002&ndash;2025), men de er ikke empirisk valideret mod et stort stikpr&oslash;veudvalg af faktiske budgetafstemninger for alle partier. EL-M-konditioneringsstrukturen er f.eks. baseret p&aring; kvalitativ observation af deres politiske interdependens snarere end et formelt statistisk estimat. Resultaterne b&oslash;r fortolkes som &rdquo;givet disse antagne sandsynlighedsintervaller, hvad f&oslash;lger strukturelt&rdquo; &mdash; ikke som &rdquo;dette er den sande sandsynlighed.&rdquo;</p>
+            <p style="margin-top:0.5rem;"><strong>Mandatgrundlaget.</strong> Basislinjefordelingen (S=38, SF=23, M=9, ...) stammer fra Altingets v&aelig;gtede snit af meningsm&aring;linger fra flere institutter. Mandaterne tr&aelig;kkes stokastisk med &sigma;<sub>bloc</sub> = 4.0 som standard, hvilket modellerer +/&minus;8 mandaters usikkerhed for hver blok. Parameteren <code>sigmaBloc</code> kan &oslash;ges for at unders&oslash;ge effekten af st&oslash;rre m&aring;lingsusikkerhed.</p>
           </div>
         </details>
       </div>
@@ -1918,6 +1860,81 @@ function highlightTableRows(labels) {
     const row = document.querySelector('#data-table tr[data-label="' + CSS.escape(label) + '"]');
     if (row) row.classList.add('highlight-row');
   });
+}
+
+// ===== DYNAMIC SCENARIO CARDS =====
+function buildScenarioCard(label, title, subtitle) {
+  const d = getScenario(label);
+  if (!d) return `<div class="scenario-card"><h3>${title}</h3><div class="scenario-subtitle">${subtitle}</div><p class="small muted">Ingen data for "${label}"</p></div>`;
+  const top = d.topCoalitions?.[0];
+  const mInGov = (d.topCoalitions || []).filter(t => t.govt.includes('M')).reduce((s,t) => s + t.pct, 0);
+  const pmS = d.pm?.S ?? 0;
+  const blue = d.govType?.blue ?? 0;
+  const none = d.govType?.none ?? 0;
+  const isKingmaker = label === 'baseline' || label === 'mDemandGov+current-polls';
+  return `<div class="scenario-card ${isKingmaker ? 'kingmaker' : ''}">
+    <h3>${title}</h3>
+    <div class="scenario-subtitle">${subtitle}</div>
+    <div class="scenario-metric"><span class="metric-label">Top koalition</span><span class="metric-value">${top?.govt || '?'} (${(top?.pct||0).toFixed(0)}%)</span></div>
+    <div class="scenario-metric"><span class="metric-label">M i regering</span><span class="metric-value ${mInGov > 60 ? 'highlight' : ''}">${mInGov.toFixed(0)}%</span></div>
+    <div class="scenario-metric"><span class="metric-label">PM(S)</span><span class="metric-value">${pmS.toFixed(0)}%</span></div>
+    ${blue > 1 ? `<div class="scenario-metric"><span class="metric-label">Bl&aring; regering</span><span class="metric-value">${blue.toFixed(0)}%</span></div>` : ''}
+    ${none > 1 ? `<div class="scenario-metric"><span class="metric-label">Gridlock</span><span class="metric-value">${none.toFixed(0)}%</span></div>` : ''}
+  </div>`;
+}
+
+// ===== DYNAMIC EXECUTIVE SUMMARY =====
+const execStats = document.getElementById('exec-stats');
+const execNarr = document.getElementById('exec-narrative');
+if (execStats) {
+  const bl = getScenario('baseline');
+  const dg = getScenario('mDemandGov+current-polls');
+  const bs = getScenario('archetype:blue-surge');
+
+  const blPmS = bl?.pm?.S ?? '?';
+  const blTop = bl?.topCoalitions?.[0];
+  const dgMInGov = dg ? (dg.topCoalitions || []).filter(t => t.govt.includes('M')).reduce((s,t) => s+t.pct, 0) : 0;
+  const bsPmS = bs?.pm?.S ?? '?';
+
+  execStats.innerHTML = `
+    <div class="stat-card">
+      <div class="stat-number"><span class="tip" data-tip="PM(S) ved aktuelle m\u00e5linger (Altingets snit, stokastiske mandattr\u00e6k)">${typeof blPmS === 'number' ? blPmS.toFixed(0) + '%' : '?'}</span></div>
+      <div class="stat-label">PM Frederiksen ved aktuelle m\u00e5linger</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number"><span class="tip" data-tip="Andel af simulationer hvor M er i regering n\u00e5r L\u00f8kke kr\u00e6ver deltagelse">${dgMInGov.toFixed(0)}%</span></div>
+      <div class="stat-label">M i regering (inklusionskrav)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number"><span class="tip" data-tip="PM(S) n\u00e5r bl\u00e5 blok n\u00e5r 90 mandater (V=22, LA=22, KF=14)">${typeof bsPmS === 'number' ? bsPmS.toFixed(0) + '%' : '?'}</span></div>
+      <div class="stat-label">PM Frederiksen ved bl\u00e5t flertal</div>
+    </div>
+  `;
+
+  const blMInGov = bl ? (bl.topCoalitions || []).filter(t => t.govt.includes('M')).reduce((s,t) => s+t.pct, 0) : 0;
+  execNarr.innerHTML = `
+    Det centrale sp\u00f8rgsm\u00e5l er <em>hvilken</em> regering Frederiksen danner \u2014 ikke om hun bliver statsminister.
+    Ved aktuelle m\u00e5linger er den hyppigste koalition <strong>${blTop?.govt || '?'}</strong> (${(blTop?.pct||0).toFixed(0)}% af simulationerne).
+    M er i regering i ${blMInGov.toFixed(0)}% af tilf\u00e6ldene under standardantagelser, stigende til ${dgMInGov.toFixed(0)}% n\u00e5r L\u00f8kke kr\u00e6ver deltagelse.
+  `;
+}
+
+const scenarioCardsEl = document.getElementById('scenario-cards');
+if (scenarioCardsEl) {
+  scenarioCardsEl.innerHTML = [
+    buildScenarioCard('red-majority', 'R\u00f8dt flertal', 'S=40, SF=25 \u2192 r\u00f8d=90'),
+    buildScenarioCard('baseline', 'Aktuelle m\u00e5linger', 'Altingets snit \u2014 M er kongemager'),
+    buildScenarioCard('archetype:blue-surge', 'Bl\u00e5t flertal', 'V=22, LA=22, KF=14 \u2192 bl\u00e5=90'),
+  ].join('');
+}
+
+const scenarioCardsDG = document.getElementById('scenario-cards-demandgov');
+if (scenarioCardsDG) {
+  scenarioCardsDG.innerHTML = [
+    buildScenarioCard('mDemandGov+red-majority', 'R\u00f8dt flertal + inklusionskrav', 'R\u00f8d kan regere uden M alligevel'),
+    buildScenarioCard('mDemandGov+current-polls', 'Aktuelle m\u00e5linger + inklusionskrav', 'M-koalitioner dominerer'),
+    buildScenarioCard('mDemandGov+blue-surge', 'Bl\u00e5t flertal + inklusionskrav', 'Bl\u00e5 kan regere uden M alligevel'),
+  ].join('');
 }
 </script>
 </body>

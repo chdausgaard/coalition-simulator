@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 "use strict";
 
+const DEFAULT_N = 500;
 const PARTY_ORDER = ["S", "SF", "EL", "ALT", "RV", "M", "KF", "V", "LA", "DD", "DF", "BP"];
-const TOTAL_DANISH_MANDATES = 175;
-
-const MANDATES = {
-  current: { S: 37, SF: 23, EL: 13, ALT: 3, RV: 9, M: 12, KF: 14, V: 16, LA: 18, DD: 12, DF: 14, BP: 4 },
-  red:     { S: 40, SF: 25, EL: 13, ALT: 3, RV: 9, M: 12, KF: 14, V: 14, LA: 16, DD: 11, DF: 13, BP: 5 },
-  blue:    { S: 33, SF: 20, EL: 11, ALT: 3, RV: 6, M: 12, KF: 15, V: 22, LA: 22, DD: 13, DF: 15, BP: 3 },
-};
 
 const PBF_BY_SCENARIO = {
   current: 0.15,
   red: 0.0,
   blue: 0.85,
+};
+
+const MANDATE_BASELINES = {
+  current: {},
+  red: { S: 40, SF: 25 },
+  blue: { V: 22, LA: 22, KF: 14 },
 };
 
 const BLUE_STEP_OVERRIDES = {
@@ -29,11 +29,29 @@ const BLUE_STEP_OVERRIDES = {
   10: { V: 24, LA: 24, KF: 15 },
 };
 
-const HISTORICAL_2019 = {
-  S: 48, SF: 14, RV: 16, EL: 13,
-  V: 20, LA: 14, KF: 12, M: 9,
-  DF: 16, DD: 0, ALT: 5, BP: 0,
+const SPECIAL_MANDATES = {
+  knifeEdge: { S: 35, SF: 22 },
+  redTide: { S: 42, SF: 25 },
+  sfLeverage: { S: 36, SF: 24 },
+  historical2019: { S: 48, SF: 14, RV: 16, M: 6 },
+  sfSurgeS34SF27: { S: 34, SF: 27 },
+  sfSurgeS32SF30: { S: 32, SF: 30 },
+  sAlone42: { S: 42 },
+  sAlone45: { S: 45 },
+  sAlone48: { S: 48 },
 };
+
+for (const [step, overrides] of Object.entries(BLUE_STEP_OVERRIDES)) {
+  SPECIAL_MANDATES[`blueStep${step}`] = overrides;
+}
+
+for (const sfSeats of [23, 25, 27, 30]) {
+  SPECIAL_MANDATES[`sfSurge${sfSeats}`] = { SF: sfSeats };
+}
+
+const gridConfigs = new Map();
+const records = [];
+const labelSet = new Set();
 
 function cleanObject(obj) {
   const out = {};
@@ -43,85 +61,77 @@ function cleanObject(obj) {
   return out;
 }
 
-function orderMandates(mandates) {
-  const out = {};
-  for (const party of PARTY_ORDER) {
-    if (mandates[party] == null) {
-      throw new Error(`Missing mandate for ${party}`);
-    }
-    out[party] = mandates[party];
-  }
-  return out;
-}
-
 function orderObjectKeys(obj) {
+  const clean = cleanObject(obj);
   const out = {};
-  for (const key of Object.keys(obj || {}).sort()) {
-    out[key] = obj[key];
+  for (const key of Object.keys(clean).sort()) {
+    out[key] = clean[key];
   }
   return out;
 }
 
-function sumMandates(mandates) {
-  return PARTY_ORDER.reduce((sum, party) => sum + (mandates[party] || 0), 0);
+function orderMandates(mandates) {
+  const clean = cleanObject(mandates);
+  const out = {};
+
+  for (const party of PARTY_ORDER) {
+    if (clean[party] != null) {
+      out[party] = clean[party];
+    }
+  }
+
+  for (const key of Object.keys(clean).sort()) {
+    if (!(key in out)) {
+      out[key] = clean[key];
+    }
+  }
+
+  return out;
 }
 
-function rebalanceMandates(baseMandates, overrides, options = {}) {
-  const protectOverrides = options.protectOverrides !== false;
-  const result = { ...baseMandates, ...overrides };
-  let diff = TOTAL_DANISH_MANDATES - sumMandates(result);
-  let adjustable = PARTY_ORDER.filter((party) => !protectOverrides || overrides[party] == null);
-  if (adjustable.length === 0) adjustable = PARTY_ORDER.slice();
-
-  while (diff !== 0) {
-    const direction = diff > 0 ? 1 : -1;
-    const candidates = adjustable
-      .filter((party) => direction > 0 || result[party] > 0)
-      .sort((a, b) => {
-        if (result[b] !== result[a]) return result[b] - result[a];
-        return PARTY_ORDER.indexOf(a) - PARTY_ORDER.indexOf(b);
-      });
-
-    if (candidates.length === 0) {
-      throw new Error(`Unable to rebalance mandates: diff=${diff}`);
-    }
-
-    for (const party of candidates) {
-      if (diff === 0) break;
-      if (direction < 0 && result[party] === 0) continue;
-      result[party] += direction;
-      diff -= direction;
-      if (diff === 0) break;
-    }
+function withDefaultPBF(defaultValue, cfg) {
+  const cleanCfg = cleanObject(cfg);
+  if (cleanCfg.pBlueFormateur == null) {
+    cleanCfg.pBlueFormateur = defaultValue;
   }
-
-  const ordered = orderMandates(result);
-  if (sumMandates(ordered) !== TOTAL_DANISH_MANDATES) {
-    throw new Error(`Mandates do not sum to ${TOTAL_DANISH_MANDATES}`);
-  }
-  return ordered;
+  return cleanCfg;
 }
 
 function buildConfig(mandates, cfg, sweep) {
   const config = {};
-  if (mandates && Object.keys(mandates).length > 0) {
-    config.mandates = orderMandates(mandates);
+  const orderedMandates = orderMandates(mandates);
+  const orderedCfg = orderObjectKeys(cfg);
+  const orderedSweep = orderObjectKeys(sweep);
+
+  if (Object.keys(orderedMandates).length > 0) {
+    config.mandates = orderedMandates;
   }
-  const cleanCfg = orderObjectKeys(cleanObject(cfg));
-  if (Object.keys(cleanCfg).length > 0) {
-    config.cfg = cleanCfg;
+  if (Object.keys(orderedCfg).length > 0) {
+    config.cfg = orderedCfg;
   }
-  const cleanSweep = orderObjectKeys(cleanObject(sweep));
-  if (Object.keys(cleanSweep).length > 0) {
-    config.sweep = cleanSweep;
+  if (Object.keys(orderedSweep).length > 0) {
+    config.sweep = orderedSweep;
   }
+
   return config;
+}
+
+function addBuiltRecord(label, config, n = DEFAULT_N) {
+  if (labelSet.has(label)) {
+    throw new Error(`Duplicate label: ${label}`);
+  }
+  labelSet.add(label);
+  records.push({ label, config, n });
+}
+
+function addRecord(label, mandates = {}, cfg = {}, sweep = {}, n = DEFAULT_N) {
+  addBuiltRecord(label, buildConfig(mandates, cfg, sweep), n);
 }
 
 function scenarioConfig(scenario, cfg, sweep) {
   return buildConfig(
-    MANDATES[scenario],
-    { pBlueFormateur: PBF_BY_SCENARIO[scenario], ...(cfg || {}) },
+    MANDATE_BASELINES[scenario],
+    withDefaultPBF(PBF_BY_SCENARIO[scenario], cfg),
     sweep,
   );
 }
@@ -130,53 +140,34 @@ function currentConfig(cfg, sweep) {
   return scenarioConfig("current", cfg, sweep);
 }
 
-function specialMandateConfig(mandates, cfg, sweep, pBlueFormateur = 0.15) {
-  return buildConfig(mandates, { pBlueFormateur, ...(cfg || {}) }, sweep);
+function specialMandateConfig(mandates, cfg, sweep, pBlueFormateur = PBF_BY_SCENARIO.current) {
+  return buildConfig(mandates, withDefaultPBF(pBlueFormateur, cfg), sweep);
 }
 
-function currentSpecialMandates(overrides) {
-  return rebalanceMandates(MANDATES.current, overrides);
+function addScenarioRecord(label, scenario, cfg, sweep, n = DEFAULT_N) {
+  addBuiltRecord(label, scenarioConfig(scenario, cfg, sweep), n);
 }
 
-const SPECIAL_MANDATES = {
-  knifeEdge: currentSpecialMandates({ S: 35, SF: 22 }),
-  redTide: currentSpecialMandates({ S: 42, SF: 25 }),
-  sfLeverage: currentSpecialMandates({ S: 36, SF: 24 }),
-  historical2019: rebalanceMandates(MANDATES.current, HISTORICAL_2019),
-};
-
-for (const [step, overrides] of Object.entries(BLUE_STEP_OVERRIDES)) {
-  SPECIAL_MANDATES[`blueStep${step}`] = currentSpecialMandates(overrides);
+function addCurrentRecord(label, cfg, sweep, n = DEFAULT_N) {
+  addScenarioRecord(label, "current", cfg, sweep, n);
 }
 
-for (const sfSeats of [23, 25, 27, 30]) {
-  SPECIAL_MANDATES[`sfSurge${sfSeats}`] = currentSpecialMandates({ SF: sfSeats });
+function addSpecialRecord(label, mandates, cfg, sweep, pBlueFormateur = PBF_BY_SCENARIO.current, n = DEFAULT_N) {
+  addBuiltRecord(label, specialMandateConfig(mandates, cfg, sweep, pBlueFormateur), n);
 }
 
-SPECIAL_MANDATES.sfSurgeS34SF27 = currentSpecialMandates({ S: 34, SF: 27 });
-SPECIAL_MANDATES.sfSurgeS32SF30 = currentSpecialMandates({ S: 32, SF: 30 });
-SPECIAL_MANDATES.sAlone42 = currentSpecialMandates({ S: 42 });
-SPECIAL_MANDATES.sAlone45 = currentSpecialMandates({ S: 45 });
-SPECIAL_MANDATES.sAlone48 = currentSpecialMandates({ S: 48 });
-
-const gridConfigs = new Map();
-const records = [];
-const labelSet = new Set();
-
-function addRecord(label, config, n) {
-  if (labelSet.has(label)) {
-    throw new Error(`Duplicate label: ${label}`);
-  }
-  labelSet.add(label);
-  records.push({ label, config, n });
+function gridKey(scenario, behavior, orientation, pref, sf, sRelaxPM = false) {
+  const suffix = sRelaxPM ? "+sRelaxPM" : "";
+  return `${scenario}-${behavior}-${orientation}-${pref}-${sf}${suffix}`;
 }
 
-function gridKey(scenario, behavior, orientation, pref, sf) {
-  return `${scenario}-${behavior}-${orientation}-${pref}-${sf}`;
+function gridLabel(scenario, behavior, orientation, pref, sf, sRelaxPM = false) {
+  return `grid:${gridKey(scenario, behavior, orientation, pref, sf, sRelaxPM)}`;
 }
 
-function gridLabel(scenario, behavior, orientation, pref, sf) {
-  return `grid:${gridKey(scenario, behavior, orientation, pref, sf)}`;
+function registerGridRecord(key, config) {
+  gridConfigs.set(key, config);
+  addBuiltRecord(`grid:${key}`, config);
 }
 
 function generateGrid() {
@@ -211,26 +202,27 @@ function generateGrid() {
       for (const orientation of orientations) {
         for (const preference of preferences) {
           for (const sf of sfLevels) {
-            const label = gridLabel(
+            const cfg = { ...behavior.cfg, ...orientation.cfg, ...preference.cfg };
+            const key = gridKey(
               scenario.code,
               behavior.code,
               orientation.code,
               preference.code,
               sf.code,
             );
-            const config = scenarioConfig(
-              scenario.code,
-              { ...behavior.cfg, ...orientation.cfg, ...preference.cfg },
-              sf.sweep,
-            );
-            gridConfigs.set(gridKey(
-              scenario.code,
-              behavior.code,
-              orientation.code,
-              preference.code,
-              sf.code,
-            ), config);
-            addRecord(label, config, 1000);
+            registerGridRecord(key, scenarioConfig(scenario.code, cfg, sf.sweep));
+
+            if (scenario.code === "current") {
+              const relaxKey = gridKey(
+                scenario.code,
+                behavior.code,
+                orientation.code,
+                preference.code,
+                sf.code,
+                true,
+              );
+              registerGridRecord(relaxKey, currentConfig({ ...cfg, sRelaxPM: true }, sf.sweep));
+            }
           }
         }
       }
@@ -238,12 +230,12 @@ function generateGrid() {
   }
 }
 
-function addGridAlias(label, key, n = 2500) {
+function addGridAlias(label, key, n = DEFAULT_N) {
   const config = gridConfigs.get(key);
   if (!config) {
     throw new Error(`Unknown grid alias target: ${key}`);
   }
-  addRecord(label, config, n);
+  addBuiltRecord(label, config, n);
 }
 
 function generateAliases() {
@@ -274,102 +266,60 @@ function generateAliases() {
     ["redPref=0.2", "current-standard-S-r20-s50"],
   ];
 
+  const sRelaxAliases = [
+    ["sRelaxPM+baseline", "current-standard-S-r50-s50+sRelaxPM"],
+    ["sRelaxPM+mDemandGov", "current-demandGov-S-r50-s50+sRelaxPM"],
+    ["sRelaxPM+M->V", "current-standard-V-r50-s50+sRelaxPM"],
+    ["sRelaxPM+M-demands-PM", "current-demandPM-S-r50-s50+sRelaxPM"],
+  ];
+
   for (const [label, key] of mappedAliases) {
-    addGridAlias(label, key, 2500);
+    addGridAlias(label, key);
   }
 
-  addRecord("archetype:knife-edge", specialMandateConfig(SPECIAL_MANDATES.knifeEdge), 2500);
-  addRecord(
-    "mDemandGov+red-weakened",
-    specialMandateConfig(SPECIAL_MANDATES.knifeEdge, { mDemandGov: true }),
-    2500,
-  );
-  addRecord(
-    "mDemandGov+mDemandPM",
-    currentConfig({ mDemandGov: true, mDemandPM: true }),
-    2500,
-  );
+  for (const [label, key] of sRelaxAliases) {
+    addGridAlias(label, key);
+  }
 
-  addRecord("redPref=0.0", currentConfig({ redPreference: 0.0 }), 1000);
-  addRecord("redPref=0.35", currentConfig({ redPreference: 0.35 }), 1000);
-  addRecord("redPref=0.65", currentConfig({ redPreference: 0.65 }), 1000);
-  addRecord("redPref=1.0", currentConfig({ redPreference: 1.0 }), 1000);
+  addSpecialRecord("archetype:knife-edge", SPECIAL_MANDATES.knifeEdge);
+  addSpecialRecord("mDemandGov+red-weakened", SPECIAL_MANDATES.knifeEdge, { mDemandGov: true });
+  addCurrentRecord("mDemandGov+mDemandPM", { mDemandGov: true, mDemandPM: true });
 
-  addRecord("flex=0.4", currentConfig({ flexibility: 0.4 }), 2500);
-  addRecord("flex=-0.4", currentConfig({ flexibility: -0.4 }), 2500);
-  addRecord("flex=-0.2", currentConfig({ flexibility: -0.2 }), 1000);
-  addRecord("flex=0.0", currentConfig({ flexibility: 0.0 }), 1000);
-  addRecord("flex=0.2", currentConfig({ flexibility: 0.2 }), 1000);
+  addCurrentRecord("redPref=0.0", { redPreference: 0.0 });
+  addCurrentRecord("redPref=0.35", { redPreference: 0.35 });
+  addCurrentRecord("redPref=0.65", { redPreference: 0.65 });
+  addCurrentRecord("redPref=1.0", { redPreference: 1.0 });
+
+  addCurrentRecord("flex=0.4", { flexibility: 0.4 });
+  addCurrentRecord("flex=-0.4", { flexibility: -0.4 });
+  addCurrentRecord("flex=-0.2", { flexibility: -0.2 });
+  addCurrentRecord("flex=0.0", { flexibility: 0.0 });
+  addCurrentRecord("flex=0.2", { flexibility: 0.2 });
 }
 
 function generateGridlockTier1() {
-  addRecord(
-    "GRIDLOCK:demandPM+pBF=0+baseline",
-    buildConfig(MANDATES.current, { mDemandPM: true, pBlueFormateur: 0.0 }),
-    2500,
-  );
-  addRecord(
-    "GRIDLOCK:demandPM+pBF=0+knife-edge",
-    specialMandateConfig(SPECIAL_MANDATES.knifeEdge, { mDemandPM: true }, undefined, 0.0),
-    2500,
-  );
-  addRecord(
-    "GRIDLOCK:demandPM+pBF=0+blue-strong",
-    buildConfig(MANDATES.blue, { mDemandPM: true, pBlueFormateur: 0.0 }),
-    2500,
-  );
-  addRecord(
-    "GRIDLOCK:demandPM+pBF=0.2+blue-strong",
-    buildConfig(MANDATES.blue, { mDemandPM: true, pBlueFormateur: 0.2 }),
-    2500,
-  );
+  addCurrentRecord("GRIDLOCK:demandPM+pBF=0+baseline", { mDemandPM: true, pBlueFormateur: 0.0 });
+  addSpecialRecord("GRIDLOCK:demandPM+pBF=0+knife-edge", SPECIAL_MANDATES.knifeEdge, { mDemandPM: true }, undefined, 0.0);
+  addRecord("GRIDLOCK:demandPM+pBF=0+blue-strong", MANDATE_BASELINES.blue, { mDemandPM: true, pBlueFormateur: 0.0 });
+  addRecord("GRIDLOCK:demandPM+pBF=0.2+blue-strong", MANDATE_BASELINES.blue, { mDemandPM: true, pBlueFormateur: 0.2 });
 }
 
 function generateArchetypes() {
-  addRecord(
-    "archetype:red-tide",
-    buildConfig(SPECIAL_MANDATES.redTide, { pBlueFormateur: 0.0, redPreference: 0.8 }),
-    2500,
-  );
-  addRecord(
-    "archetype:sf-leverage",
-    specialMandateConfig(
-      SPECIAL_MANDATES.sfLeverage,
-      {},
-      { sf_budget_abstain_sm: [0.35] },
-    ),
-    2500,
-  );
-  addRecord(
+  addRecord("archetype:red-tide", SPECIAL_MANDATES.redTide, { pBlueFormateur: 0.0, redPreference: 0.8 });
+  addSpecialRecord("archetype:sf-leverage", SPECIAL_MANDATES.sfLeverage, {}, { sf_budget_abstain_sm: [0.35] });
+  addCurrentRecord(
     "archetype:midter-forced",
-    currentConfig(
-      { redPreference: 0.3, flexibility: 0.2 },
-      { m_substitute_pfor_hi: [0.55], m_substitute_pfor_lo: [0.35] },
-    ),
-    2500,
+    { redPreference: 0.3, flexibility: 0.2 },
+    { m_substitute_pfor_hi: [0.55], m_substitute_pfor_lo: [0.35] },
   );
-  addRecord(
-    "archetype:m-goes-blue",
-    currentConfig({ mPmPref: "V", redPreference: 0.6 }),
-    2500,
-  );
-  addRecord(
-    "archetype:broad-compromise",
-    currentConfig({ redPreference: 0.3, viabilityThreshold: 0.7, flexibility: 0.2 }),
-    2500,
-  );
-  addRecord(
-    "archetype:historical-2019",
-    buildConfig(SPECIAL_MANDATES.historical2019, { pBlueFormateur: 0.0, redPreference: 0.7 }),
-    2500,
-  );
+  addCurrentRecord("archetype:m-goes-blue", { mPmPref: "V", redPreference: 0.6 });
+  addCurrentRecord("archetype:broad-compromise", { redPreference: 0.3, viabilityThreshold: 0.7, flexibility: 0.2 });
+  addRecord("archetype:historical-2019", SPECIAL_MANDATES.historical2019, { pBlueFormateur: 0.0, redPreference: 0.7 });
 }
 
 function generateParametricSweeps() {
-  const currentMandates = MANDATES.current;
-
   const addCurrent = (label, cfg, sweep) => {
-    addRecord(label, buildConfig(currentMandates, { pBlueFormateur: 0.15, ...(cfg || {}) }, sweep), 1000);
+    addRecord(label, {}, withDefaultPBF(PBF_BY_SCENARIO.current, cfg), sweep);
   };
 
   for (const val of [0.3, 0.4, 0.5, 0.6, 0.7]) {
@@ -444,11 +394,7 @@ function generateParametricSweeps() {
   }
 
   for (const [label, val] of [["0.0", 0.0], ["0.1", 0.1], ["0.2", 0.2], ["0.3", 0.3], ["0.4", 0.4]]) {
-    addRecord(
-      `pBlueFormateur=${label}`,
-      buildConfig(currentMandates, { pBlueFormateur: val }),
-      1000,
-    );
+    addRecord(`pBlueFormateur=${label}`, {}, { pBlueFormateur: val });
   }
 
   for (const [label, val] of [["-2.0", -2.0], ["-1.0", -1.0], ["0.0", 0.0], ["1.0", 1.0], ["2.0", 2.0]]) {
@@ -460,18 +406,29 @@ function generateParametricSweeps() {
   }
 }
 
+function generateSigmaBlocSweeps() {
+  const values = [3.0, 4.0, 5.0, 6.0, 8.0];
+
+  for (const value of values) {
+    const label = value.toFixed(1);
+    addCurrentRecord(`sigmaBloc=${label}`, { sigmaBloc: value });
+    addCurrentRecord(`sigmaBloc=${label}+mDemandGov`, { sigmaBloc: value, mDemandGov: true });
+    addCurrentRecord(`sigmaBloc=${label}+sRelaxPM`, { sigmaBloc: value, sRelaxPM: true });
+  }
+}
+
 function generateInteractions() {
   const addCurrent = (label, cfg, sweep) => {
-    addRecord(label, currentConfig(cfg, sweep), 1000);
+    addCurrentRecord(label, cfg, sweep);
   };
-  const addKnifeEdge = (label, cfg, sweep, pBlueFormateur = 0.15) => {
-    addRecord(label, specialMandateConfig(SPECIAL_MANDATES.knifeEdge, cfg, sweep, pBlueFormateur), 1000);
+  const addKnifeEdge = (label, cfg, sweep, pBlueFormateur = PBF_BY_SCENARIO.current) => {
+    addSpecialRecord(label, SPECIAL_MANDATES.knifeEdge, cfg, sweep, pBlueFormateur);
   };
   const addRed = (label, cfg, sweep, pBlueFormateur = PBF_BY_SCENARIO.red) => {
-    addRecord(label, buildConfig(MANDATES.red, { pBlueFormateur, ...(cfg || {}) }, sweep), 1000);
+    addRecord(label, MANDATE_BASELINES.red, withDefaultPBF(pBlueFormateur, cfg), sweep);
   };
   const addBlue = (label, cfg, sweep, pBlueFormateur = PBF_BY_SCENARIO.blue) => {
-    addRecord(label, buildConfig(MANDATES.blue, { pBlueFormateur, ...(cfg || {}) }, sweep), 1000);
+    addRecord(label, MANDATE_BASELINES.blue, withDefaultPBF(pBlueFormateur, cfg), sweep);
   };
 
   addCurrent("M->V+demandPM", { mPmPref: "V", mDemandPM: true });
@@ -491,38 +448,22 @@ function generateInteractions() {
   }
 
   for (const pbf of [0.2, 0.3]) {
-    addRecord(`pBF=${pbf}+baseline`, buildConfig(MANDATES.current, { pBlueFormateur: pbf }), 1000);
+    addRecord(`pBF=${pbf}+baseline`, {}, { pBlueFormateur: pbf });
     addKnifeEdge(`pBF=${pbf}+knife-edge`, undefined, undefined, pbf);
     addBlue(`pBF=${pbf}+blue-strong`, undefined, undefined, pbf);
     addRed(`pBF=${pbf}+red-strong`, undefined, undefined, pbf);
   }
 
   for (const pref of ["S", "V", "M"]) {
-    addRecord(
-      `pBF=0.2+M->${pref}`,
-      buildConfig(MANDATES.current, { pBlueFormateur: 0.2, mPmPref: pref }),
-      1000,
-    );
+    addRecord(`pBF=0.2+M->${pref}`, {}, { pBlueFormateur: 0.2, mPmPref: pref });
   }
   for (const pref of ["S", "V", "M"]) {
-    addRecord(
-      `pBF=0.3+M->${pref}`,
-      buildConfig(MANDATES.current, { pBlueFormateur: 0.3, mPmPref: pref }),
-      1000,
-    );
+    addRecord(`pBF=0.3+M->${pref}`, {}, { pBlueFormateur: 0.3, mPmPref: pref });
   }
 
   for (const pbf of [0.2, 0.3]) {
-    addRecord(
-      `pBF=${pbf}+demandPM=false`,
-      buildConfig(MANDATES.current, { pBlueFormateur: pbf, mDemandPM: false }),
-      1000,
-    );
-    addRecord(
-      `pBF=${pbf}+demandPM=true`,
-      buildConfig(MANDATES.current, { pBlueFormateur: pbf, mDemandPM: true }),
-      1000,
-    );
+    addRecord(`pBF=${pbf}+demandPM=false`, {}, { pBlueFormateur: pbf, mDemandPM: false });
+    addRecord(`pBF=${pbf}+demandPM=true`, {}, { pBlueFormateur: pbf, mDemandPM: true });
   }
 
   for (const sa of [0.3, 0.7]) {
@@ -556,6 +497,7 @@ function generateInteractions() {
       mPrefV_blue_modifier: 1.25,
     });
   }
+
   for (const blue of [0.9, 1.6]) {
     addCurrent(`V-lean:Sled=0.55+blue=${blue}`, {
       mPmPref: "V",
@@ -572,11 +514,7 @@ function generateInteractions() {
 
   for (const pref of ["S", "V"]) {
     for (const pbf of [0.0, 0.2]) {
-      addRecord(
-        `TRIANGLE:M->${pref}+pBF=${pbf}+baseline`,
-        buildConfig(MANDATES.current, { mPmPref: pref, pBlueFormateur: pbf }),
-        1000,
-      );
+      addRecord(`TRIANGLE:M->${pref}+pBF=${pbf}+baseline`, {}, { mPmPref: pref, pBlueFormateur: pbf });
       addKnifeEdge(`TRIANGLE:M->${pref}+pBF=${pbf}+knife-edge`, { mPmPref: pref }, undefined, pbf);
       addBlue(`TRIANGLE:M->${pref}+pBF=${pbf}+blue-strong`, { mPmPref: pref }, undefined, pbf);
     }
@@ -585,11 +523,7 @@ function generateInteractions() {
   for (const pbf of [0.0, 0.2]) {
     const baselineLabel = `GRIDLOCK:demandPM+pBF=${pbf}+baseline`;
     if (!labelSet.has(baselineLabel)) {
-      addRecord(
-        baselineLabel,
-        buildConfig(MANDATES.current, { mDemandPM: true, pBlueFormateur: pbf }),
-        1000,
-      );
+      addRecord(baselineLabel, {}, { mDemandPM: true, pBlueFormateur: pbf });
     }
 
     const knifeEdgeLabel = `GRIDLOCK:demandPM+pBF=${pbf}+knife-edge`;
@@ -605,180 +539,112 @@ function generateInteractions() {
 }
 
 function generatePhaseTransitionProbes() {
-  for (const step of Object.keys(BLUE_STEP_OVERRIDES).map(Number).sort((a, b) => a - b)) {
-    addRecord(
-      `blue-step-${step}`,
-      specialMandateConfig(SPECIAL_MANDATES[`blueStep${step}`]),
-      1000,
-    );
+  const blueSteps = Object.keys(BLUE_STEP_OVERRIDES).map(Number).sort((a, b) => a - b);
+
+  for (const step of blueSteps) {
+    addSpecialRecord(`blue-step-${step}`, SPECIAL_MANDATES[`blueStep${step}`]);
   }
 
-  for (const step of Object.keys(BLUE_STEP_OVERRIDES).map(Number).sort((a, b) => a - b)) {
-    addRecord(
-      `blue-step-${step}+demandPM`,
-      specialMandateConfig(SPECIAL_MANDATES[`blueStep${step}`], { mDemandPM: true }),
-      1000,
-    );
+  for (const step of blueSteps) {
+    addSpecialRecord(`blue-step-${step}+demandPM`, SPECIAL_MANDATES[`blueStep${step}`], { mDemandPM: true });
   }
 
-  addRecord("forst-tradeoff:ELhigh+Mharsh", currentConfig({ flexibility: 0.3, mPrefV_Sled_modifier: 0.35 }), 1000);
-  addRecord("forst-tradeoff:ELhigh+Mmild", currentConfig({ flexibility: 0.3, mPrefV_Sled_modifier: 0.75 }), 1000);
-  addRecord("forst-tradeoff:ELbase+Mharsh", currentConfig({ flexibility: 0.0, mPrefV_Sled_modifier: 0.35 }), 1000);
-  addRecord("forst-tradeoff:ELbase+Mmild", currentConfig({ flexibility: 0.0, mPrefV_Sled_modifier: 0.75 }), 1000);
-  addRecord("forst-tradeoff:ELlow+Mharsh", currentConfig({ flexibility: -0.3, mPrefV_Sled_modifier: 0.35 }), 1000);
-  addRecord("forst-tradeoff:ELlow+Mmild", currentConfig({ flexibility: -0.3, mPrefV_Sled_modifier: 0.75 }), 1000);
+  addCurrentRecord("forst-tradeoff:ELhigh+Mharsh", { flexibility: 0.3, mPrefV_Sled_modifier: 0.35 });
+  addCurrentRecord("forst-tradeoff:ELhigh+Mmild", { flexibility: 0.3, mPrefV_Sled_modifier: 0.75 });
+  addCurrentRecord("forst-tradeoff:ELbase+Mharsh", { flexibility: 0.0, mPrefV_Sled_modifier: 0.35 });
+  addCurrentRecord("forst-tradeoff:ELbase+Mmild", { flexibility: 0.0, mPrefV_Sled_modifier: 0.75 });
+  addCurrentRecord("forst-tradeoff:ELlow+Mharsh", { flexibility: -0.3, mPrefV_Sled_modifier: 0.35 });
+  addCurrentRecord("forst-tradeoff:ELlow+Mmild", { flexibility: -0.3, mPrefV_Sled_modifier: 0.75 });
 
-  addRecord("demandPM+redPref=0.2", currentConfig({ mDemandPM: true, redPreference: 0.2 }), 1000);
-  addRecord("demandPM+redPref=0.5", currentConfig({ mDemandPM: true, redPreference: 0.5 }), 1000);
-  addRecord("demandPM+redPref=0.8", currentConfig({ mDemandPM: true, redPreference: 0.8 }), 1000);
-  addRecord("demandPM+redPref=1.0", currentConfig({ mDemandPM: true, redPreference: 1.0 }), 1000);
+  addCurrentRecord("demandPM+redPref=0.2", { mDemandPM: true, redPreference: 0.2 });
+  addCurrentRecord("demandPM+redPref=0.5", { mDemandPM: true, redPreference: 0.5 });
+  addCurrentRecord("demandPM+redPref=0.8", { mDemandPM: true, redPreference: 0.8 });
+  addCurrentRecord("demandPM+redPref=1.0", { mDemandPM: true, redPreference: 1.0 });
 
   for (const sfSeats of [23, 25, 27, 30]) {
-    addRecord(
-      `SF-surge:SF=${sfSeats}`,
-      specialMandateConfig(SPECIAL_MANDATES[`sfSurge${sfSeats}`]),
-      1000,
-    );
+    addSpecialRecord(`SF-surge:SF=${sfSeats}`, SPECIAL_MANDATES[`sfSurge${sfSeats}`]);
   }
-  addRecord("SF-surge:S=34+SF=27", specialMandateConfig(SPECIAL_MANDATES.sfSurgeS34SF27), 1000);
-  addRecord("SF-surge:S=32+SF=30", specialMandateConfig(SPECIAL_MANDATES.sfSurgeS32SF30), 1000);
+  addSpecialRecord("SF-surge:S=34+SF=27", SPECIAL_MANDATES.sfSurgeS34SF27);
+  addSpecialRecord("SF-surge:S=32+SF=30", SPECIAL_MANDATES.sfSurgeS32SF30);
 
-  addRecord("S-alone:S=42+flex=0.2", specialMandateConfig(SPECIAL_MANDATES.sAlone42, { flexibility: 0.2 }), 1000);
-  addRecord("S-alone:S=45+flex=0.2", specialMandateConfig(SPECIAL_MANDATES.sAlone45, { flexibility: 0.2 }), 1000);
-  addRecord("S-alone:S=48+flex=0.2", specialMandateConfig(SPECIAL_MANDATES.sAlone48, { flexibility: 0.2 }), 1000);
-  addRecord("S-alone:S=42+flex=0.4", specialMandateConfig(SPECIAL_MANDATES.sAlone42, { flexibility: 0.4 }), 1000);
+  addSpecialRecord("S-alone:S=42+flex=0.2", SPECIAL_MANDATES.sAlone42, { flexibility: 0.2 });
+  addSpecialRecord("S-alone:S=45+flex=0.2", SPECIAL_MANDATES.sAlone45, { flexibility: 0.2 });
+  addSpecialRecord("S-alone:S=48+flex=0.2", SPECIAL_MANDATES.sAlone48, { flexibility: 0.2 });
+  addSpecialRecord("S-alone:S=42+flex=0.4", SPECIAL_MANDATES.sAlone42, { flexibility: 0.4 });
 
   for (const bias of [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0]) {
-    const bl = bias.toFixed(1);
-    addRecord(`pollError:blue+${bl}`, currentConfig({ blocBiasBlue: bias }), 1000);
+    const label = bias.toFixed(1);
+    addCurrentRecord(`pollError:blue+${label}`, { blocBiasBlue: bias });
   }
   for (const bias of [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0]) {
-    const bl = bias.toFixed(1);
-    addRecord(`pollError:blue+${bl}+demandPM`, currentConfig({ blocBiasBlue: bias, mDemandPM: true }), 1000);
+    const label = bias.toFixed(1);
+    addCurrentRecord(`pollError:blue+${label}+demandPM`, { blocBiasBlue: bias, mDemandPM: true });
   }
 }
 
 function generateDemandGovExtras() {
   for (const rp of [0.2, 0.5, 0.8, 1.0]) {
-    addRecord(`mDemandGov+redPref=${rp}`, currentConfig({ mDemandGov: true, redPreference: rp }), 1000);
+    addCurrentRecord(`mDemandGov+redPref=${rp}`, { mDemandGov: true, redPreference: rp });
   }
 
   for (const fl of [-0.3, 0.3]) {
-    addRecord(`mDemandGov+flex=${fl}`, currentConfig({ mDemandGov: true, flexibility: fl }), 1000);
+    addCurrentRecord(`mDemandGov+flex=${fl}`, { mDemandGov: true, flexibility: fl });
   }
 
   for (const pbf of [0.0, 0.2, 0.35]) {
-    addRecord(
-      `mDemandGov+pBF=${pbf}`,
-      buildConfig(MANDATES.current, { mDemandGov: true, pBlueFormateur: pbf }),
-      1000,
-    );
+    addRecord(`mDemandGov+pBF=${pbf}`, {}, { mDemandGov: true, pBlueFormateur: pbf });
   }
 
   for (const sa of [0.3, 0.7]) {
-    addRecord(
-      `mDemandGov+sf-abstain=${sa}`,
-      currentConfig({ mDemandGov: true }, { sf_budget_abstain_sm: [sa] }),
-      1000,
-    );
+    addCurrentRecord(`mDemandGov+sf-abstain=${sa}`, { mDemandGov: true }, { sf_budget_abstain_sm: [sa] });
   }
 
   for (const bias of [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0]) {
-    addRecord(
-      `mDemandGov+pollError:blue+${bias.toFixed(1)}`,
-      currentConfig({ mDemandGov: true, blocBiasBlue: bias }),
-      1000,
-    );
+    addCurrentRecord(`mDemandGov+pollError:blue+${bias.toFixed(1)}`, { mDemandGov: true, blocBiasBlue: bias });
   }
 
   for (const step of Object.keys(BLUE_STEP_OVERRIDES).map(Number).sort((a, b) => a - b)) {
-    addRecord(
-      `mDemandGov+blue-step-${step}`,
-      specialMandateConfig(SPECIAL_MANDATES[`blueStep${step}`], { mDemandGov: true }),
-      1000,
-    );
+    addSpecialRecord(`mDemandGov+blue-step-${step}`, SPECIAL_MANDATES[`blueStep${step}`], { mDemandGov: true });
   }
 }
 
 function generatePriorsGridFills() {
-  addRecord("M->V+knife-edge", specialMandateConfig(SPECIAL_MANDATES.knifeEdge, { mPmPref: "V" }), 1000);
-  addRecord("M->self+knife-edge", specialMandateConfig(SPECIAL_MANDATES.knifeEdge, { mPmPref: "M" }), 1000);
-  addRecord("M-demands-PM+red-majority", scenarioConfig("red", { mDemandPM: true }), 1000);
-  addRecord("M-demands-PM+knife-edge", specialMandateConfig(SPECIAL_MANDATES.knifeEdge, { mDemandPM: true }), 1000);
-  addRecord("M-demands-PM+blue-surge", scenarioConfig("blue", { mDemandPM: true }), 1000);
+  addSpecialRecord("M->V+knife-edge", SPECIAL_MANDATES.knifeEdge, { mPmPref: "V" });
+  addSpecialRecord("M->self+knife-edge", SPECIAL_MANDATES.knifeEdge, { mPmPref: "M" });
+  addScenarioRecord("M-demands-PM+red-majority", "red", { mDemandPM: true });
+  addSpecialRecord("M-demands-PM+knife-edge", SPECIAL_MANDATES.knifeEdge, { mDemandPM: true });
+  addScenarioRecord("M-demands-PM+blue-surge", "blue", { mDemandPM: true });
 }
 
 function generateElectionNightSpecials() {
   for (const sfSeats of [23, 25, 27, 30]) {
-    addRecord(
-      `SF-surge:SF=${sfSeats}+mDemandGov`,
-      specialMandateConfig(SPECIAL_MANDATES[`sfSurge${sfSeats}`], { mDemandGov: true }),
-      1000,
-    );
+    addSpecialRecord(`SF-surge:SF=${sfSeats}+mDemandGov`, SPECIAL_MANDATES[`sfSurge${sfSeats}`], { mDemandGov: true });
   }
-  addRecord(
-    "SF-surge:S=34+SF=27+mDemandGov",
-    specialMandateConfig(SPECIAL_MANDATES.sfSurgeS34SF27, { mDemandGov: true }),
-    1000,
-  );
+  addSpecialRecord("SF-surge:S=34+SF=27+mDemandGov", SPECIAL_MANDATES.sfSurgeS34SF27, { mDemandGov: true });
 
-  addRecord(
-    "S-alone:S=42+mDemandGov",
-    specialMandateConfig(SPECIAL_MANDATES.sAlone42, { mDemandGov: true }, undefined, 0.0),
-    1000,
-  );
-  addRecord(
-    "S-alone:S=45+mDemandGov",
-    specialMandateConfig(SPECIAL_MANDATES.sAlone45, { mDemandGov: true }, undefined, 0.0),
-    1000,
-  );
+  addSpecialRecord("S-alone:S=42+mDemandGov", SPECIAL_MANDATES.sAlone42, { mDemandGov: true }, undefined, 0.0);
+  addSpecialRecord("S-alone:S=45+mDemandGov", SPECIAL_MANDATES.sAlone45, { mDemandGov: true }, undefined, 0.0);
 
-  addRecord(
-    "archetype:red-tide+mDemandGov",
-    buildConfig(SPECIAL_MANDATES.redTide, { mDemandGov: true, pBlueFormateur: 0.0, redPreference: 0.8 }),
-    1000,
-  );
-  addRecord(
-    "archetype:broad-compromise+mDemandGov",
-    currentConfig({ mDemandGov: true, redPreference: 0.3, viabilityThreshold: 0.7, flexibility: 0.2 }),
-    1000,
-  );
-  addRecord(
+  addRecord("archetype:red-tide+mDemandGov", SPECIAL_MANDATES.redTide, { mDemandGov: true, pBlueFormateur: 0.0, redPreference: 0.8 });
+  addCurrentRecord("archetype:broad-compromise+mDemandGov", {
+    mDemandGov: true,
+    redPreference: 0.3,
+    viabilityThreshold: 0.7,
+    flexibility: 0.2,
+  });
+  addCurrentRecord(
     "archetype:midter-forced+mDemandGov",
-    currentConfig(
-      { mDemandGov: true, redPreference: 0.3, flexibility: 0.2 },
-      { m_substitute_pfor_hi: [0.55], m_substitute_pfor_lo: [0.35] },
-    ),
-    1000,
+    { mDemandGov: true, redPreference: 0.3, flexibility: 0.2 },
+    { m_substitute_pfor_hi: [0.55], m_substitute_pfor_lo: [0.35] },
   );
-  addRecord(
-    "archetype:m-goes-blue+mDemandGov",
-    currentConfig({ mDemandGov: true, mPmPref: "V", redPreference: 0.6 }),
-    1000,
-  );
+  addCurrentRecord("archetype:m-goes-blue+mDemandGov", { mDemandGov: true, mPmPref: "V", redPreference: 0.6 });
 }
 
 function emit() {
-  const firstLabelByJson = new Map();
-  let tier1 = 0;
-  let tier2 = 0;
-
   for (const record of records) {
-    const json = JSON.stringify(record.config);
-    const firstLabel = firstLabelByJson.get(json);
-    if (!firstLabel) {
-      firstLabelByJson.set(json, record.label);
-    }
-    if (record.n === 2500) tier1 += 1;
-    if (record.n === 1000) tier2 += 1;
-
-    const comment = firstLabel ? ` # duplicate of ${firstLabel}` : "";
-    process.stdout.write(`${record.label}|${json}|${record.n}${comment}\n`);
+    process.stdout.write(`${record.label}|${JSON.stringify(record.config)}|${record.n}\n`);
   }
-
   process.stderr.write(`total configs: ${records.length}\n`);
-  process.stderr.write(`tier 1 count: ${tier1}\n`);
-  process.stderr.write(`tier 2 count: ${tier2}\n`);
 }
 
 generateGrid();
@@ -786,6 +652,7 @@ generateAliases();
 generateGridlockTier1();
 generateArchetypes();
 generateParametricSweeps();
+generateSigmaBlocSweeps();
 generateInteractions();
 generatePhaseTransitionProbes();
 generateDemandGovExtras();
