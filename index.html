@@ -668,13 +668,16 @@ details .panel {
 <!-- ===== SECTION 5: PHASE TRANSITION CURVES ===== -->
 <section id="transitions">
   <h2>Faseskift</h2>
+  <p class="small muted" style="margin-bottom:1rem;">Disse kurver viser hvordan sandsynligheder &aelig;ndrer sig n&aring;r mandatfordelingen forskydes. Y-aksen viser P(Frederiksen SM). De stiplede linjer viser scenariet hvor L&oslash;kke kr&aelig;ver statsministerposten. Faseskiftet &mdash; det punkt hvor sandsynligheder springer &mdash; afsl&oslash;rer de kritiske t&aelig;rskler i forhandlingsrummet.</p>
   <div class="chart-container">
     <div class="chart-box">
-      <div class="chart-title">Hvor meget skal m&aring;lingerne tage fejl?</div>
+      <div class="chart-title">Systematisk m&aring;lingsfejl mod bl&aring;</div>
+      <p class="small muted" style="margin:0 0 0.5rem;">X-aksen viser hvor mange mandater bl&aring; blok vinder ud over det forventede (0 = m&aring;lingerne rammer; 3 = bl&aring; f&aring;r ~12 ekstra mandater)</p>
       <div id="chart-poll-error"></div>
     </div>
     <div class="chart-box">
-      <div class="chart-title">Bl&aring; bloks mandattærskel</div>
+      <div class="chart-title">Bl&aring; bloks mandater (V+LA+KF)</div>
+      <p class="small muted" style="margin:0 0 0.5rem;">X-aksen viser det samlede mandattal for V+LA+KF. Bl&aring; blok i alt = V+LA+KF + DD+DF+BP (~32). Kurven viser t&aelig;rsklen for bl&aring; regering</p>
       <div id="chart-blue-steps"></div>
     </div>
   </div>
@@ -928,22 +931,22 @@ details .panel {
 
 <!-- ===== SECTION 10: DATA TABLE ===== -->
 <section id="data-table-section">
-  <h2>Full Data Table</h2>
+  <h2>Alle data</h2>
   <div class="table-controls">
-    <input type="text" class="table-search" id="table-search" placeholder="Search scenarios...">
+    <input type="text" class="table-search" id="table-search" placeholder="S&oslash;g i scenarier...">
     <span class="small muted" id="table-count"></span>
   </div>
   <div style="overflow-x: auto;">
     <table class="data-table" id="data-table">
       <thead>
         <tr>
-          <th data-col="label">Scenario <span class="sort-arrow"></span></th>
-          <th data-col="pmS" class="num">PM (S) % <span class="sort-arrow"></span></th>
-          <th data-col="blue" class="num">Blue % <span class="sort-arrow"></span></th>
-          <th data-col="gridlock" class="num">Gridlock % <span class="sort-arrow"></span></th>
-          <th data-col="cross" class="num">Cross-bloc % <span class="sort-arrow"></span></th>
-          <th data-col="topCoal">Top Coalition <span class="sort-arrow"></span></th>
-          <th data-col="pPass" class="num">P(Passage) <span class="sort-arrow"></span></th>
+          <th data-col="label">Scenarie <span class="sort-arrow"></span></th>
+          <th data-col="pmS" class="num">PM(S) % <span class="sort-arrow"></span></th>
+          <th data-col="blue" class="num">Bl&aring; % <span class="sort-arrow"></span></th>
+          <th data-col="gridlock" class="num">D&oslash;dvande % <span class="sort-arrow"></span></th>
+          <th data-col="cross" class="num">Tv&aelig;rblok % <span class="sort-arrow"></span></th>
+          <th data-col="topCoal">Top koalition <span class="sort-arrow"></span></th>
+          <th data-col="pPass" class="num">P(finanslov) <span class="sort-arrow"></span></th>
           <th data-col="N" class="num">N <span class="sort-arrow"></span></th>
         </tr>
       </thead>
@@ -1049,47 +1052,87 @@ function getScenario(label) { return dataMap.get(label); }
 // ===== NATURAL LANGUAGE LABELS =====
 function naturalLabel(label) {
   const map = {
-    'baseline': 'Current polls',
-    'M-demands-PM': 'L\u00f8kke demands PM',
-    'baseline+M->S': 'L\u00f8kke leans red',
-    'baseline+M->V': 'L\u00f8kke leans blue (baseline)',
-    'baseline+M->M': 'L\u00f8kke stays neutral',
-    'M->V': 'L\u00f8kke leans blue',
-    'M->self': 'L\u00f8kke wants PM himself',
-    'archetype:blue-surge': 'Blue majority',
-    'archetype:knife-edge': 'Red weakened',
-    'archetype:red-tide': 'Red tide',
-    'archetype:broad-compromise': 'Broad compromise',
-    'archetype:historical-2019': 'Historical 2019 mandates',
-    'archetype:m-goes-blue': 'M goes blue',
-    'archetype:midter-forced': 'Midter forced',
-    'archetype:sf-leverage': 'SF leverage',
-    'red-majority': 'Red majority',
-    'red-majority+M->S': 'Red majority + L\u00f8kke leans red',
-    'red-majority+M->V': 'Red majority + L\u00f8kke leans blue',
-    'red-majority+M->M': 'Red majority + L\u00f8kke neutral',
-    'blue-strong+M->S': 'Blue majority + L\u00f8kke leans red',
-    'blue-strong+M->V': 'Blue majority + L\u00f8kke leans blue',
-    'blue-strong+M->M': 'Blue majority + L\u00f8kke neutral',
-    'redPref=0.2': 'Frederiksen prefers broad (0.2)',
-    'redPref=0.5': 'Frederiksen neutral (0.5)',
-    'redPref=0.8': 'Frederiksen prefers red (0.8)',
-    'flex=-0.4': 'Rigid parties',
-    'flex=0.4': 'Flexible parties',
-    'mDemandGov+current-polls': 'L\u00f8kke demands inclusion (current polls)',
-    'mDemandGov+M->S': 'L\u00f8kke demands inclusion (leans red)',
-    'mDemandGov+M->V': 'L\u00f8kke demands inclusion (leans blue)',
-    'mDemandGov+M->self': 'L\u00f8kke demands inclusion (wants PM)',
-    'mDemandGov+red-majority': 'L\u00f8kke demands inclusion + red majority',
-    'mDemandGov+blue-surge': 'L\u00f8kke demands inclusion + blue majority',
-    'mDemandGov+mDemandPM': 'L\u00f8kke demands inclusion + PM post',
+    'baseline': 'Aktuelle m\u00e5linger',
+    'M-demands-PM': 'L\u00f8kke kr\u00e6ver SM-post',
+    'baseline+M->S': 'L\u00f8kke orientering mod S',
+    'baseline+M->V': 'L\u00f8kke orientering mod V',
+    'baseline+M->M': 'L\u00f8kke neutral',
+    'M->V': 'L\u00f8kke orientering mod V',
+    'M->self': 'L\u00f8kke fokus p\u00e5 egne m\u00e6rkesager',
+    'archetype:blue-surge': 'Bl\u00e5t flertal (bl\u00e5=90)',
+    'archetype:knife-edge': 'R\u00f8d sv\u00e6kket (S=35)',
+    'archetype:red-tide': 'R\u00f8d b\u00f8lge (S=42)',
+    'archetype:broad-compromise': 'Bredt kompromis',
+    'archetype:historical-2019': 'Historiske 2019-mandater',
+    'archetype:m-goes-blue': 'M orienterer mod bl\u00e5',
+    'archetype:midter-forced': 'Midterregering tvunget',
+    'archetype:sf-leverage': 'SF som blokerer',
+    'red-majority': 'R\u00f8dt flertal (r\u00f8d=90)',
+    'red-majority+M->S': 'R\u00f8dt flertal + L\u00f8kke mod S',
+    'red-majority+M->V': 'R\u00f8dt flertal + L\u00f8kke mod V',
+    'red-majority+M->M': 'R\u00f8dt flertal + L\u00f8kke neutral',
+    'blue-strong+M->S': 'Bl\u00e5t flertal + L\u00f8kke mod S',
+    'blue-strong+M->V': 'Bl\u00e5t flertal + L\u00f8kke mod V',
+    'blue-strong+M->M': 'Bl\u00e5t flertal + L\u00f8kke neutral',
+    'redPref=0.2': 'Frederiksen foretr\u00e6kker bred koalition',
+    'redPref=0.5': 'Frederiksen neutral',
+    'redPref=0.8': 'Frederiksen foretr\u00e6kker r\u00f8d koalition',
+    'flex=-0.4': 'Rigide partier',
+    'flex=0.4': 'Fleksible partier',
+    'mDemandGov+current-polls': 'Inklusionskrav (aktuelle m\u00e5linger)',
+    'mDemandGov+M->S': 'Inklusionskrav + mod S',
+    'mDemandGov+M->V': 'Inklusionskrav + mod V',
+    'mDemandGov+M->self': 'Inklusionskrav + egne m\u00e6rkesager',
+    'mDemandGov+red-majority': 'Inklusionskrav + r\u00f8dt flertal',
+    'mDemandGov+blue-surge': 'Inklusionskrav + bl\u00e5t flertal',
+    'mDemandGov+mDemandPM': 'Inklusionskrav + SM-krav',
+    'mDemandGov+red-weakened': 'Inklusionskrav + r\u00f8d sv\u00e6kket',
+    'sRelaxPM+baseline': 'S accepterer L\u00f8kke-SM',
+    'sRelaxPM+mDemandGov': 'S accepterer L\u00f8kke-SM + inklusionskrav',
   };
-  // Handle label renames for display
+  // Parametric sweep labels — auto-translate
+  const paramLabels = {
+    'sf-abstain-sm': 'SF budgetblokering',
+    'viab-threshold': 'Viabilitetst\u00e6rskel',
+    'distPenalty': 'Ideologisk afstand',
+    'sizePenalty': 'Koalitionsst\u00f8rrelse',
+    'precedentWeight': 'Historisk pr\u00e6cedens',
+    'tax-weight': 'Skatteoverbevisning',
+    'elMPenalty': 'EL-M konditionering',
+    'elAbstain': 'EL afst\u00e5-andel',
+    'mAbstain': 'M afst\u00e5-andel',
+    'mPrefV-Sled': 'M V-lean: S-ledet',
+    'mPrefV-blue': 'M V-lean: bl\u00e5-ledet',
+    'mPrefSelf': 'M selvfokus',
+    'naRedShift': 'Nordatlantisk r\u00f8dt skift',
+    'mwccFullBonus': 'MWCC-bonus',
+    'minForVotes': 'Min. FOR-stemmer',
+    'pBlueFormateur': 'Bl\u00e5 formateur-sandsynlighed',
+    'blocBiasBlue': 'Bl\u00e5 m\u00e5lingsbias',
+    'blocBiasRed': 'R\u00f8d m\u00e5lingsbias',
+    'sigmaBloc': 'M\u00e5lingsusikkerhed (\u03c3)',
+    'M-mandater': 'Ms mandater',
+    'S-mandater': 'Ss mandater',
+    'pollError:blue': 'M\u00e5lingsfejl mod bl\u00e5',
+    'mDemandGov+pollError:blue': 'Inklusionskrav + m\u00e5lingsfejl',
+    'mDemandGov+redPref': 'Inklusionskrav + S-pr\u00e6ference',
+    'mDemandGov+sf-abstain': 'Inklusionskrav + SF-styrke',
+    'mDemandGov+flex': 'Inklusionskrav + fleksibilitet',
+    'mDemandGov+pBF': 'Inklusionskrav + bl\u00e5 formateur',
+  };
+  if (map[label]) return map[label];
+  // Try parametric pattern: key=value or key+value
+  for (const [prefix, dk] of Object.entries(paramLabels)) {
+    if (label.startsWith(prefix + '=') || label.startsWith(prefix + '+')) {
+      const val = label.substring(prefix.length + 1);
+      return dk + ' = ' + val;
+    }
+  }
+  // Fallback: clean up common patterns
   let display = label;
-  if (display.includes('red-strong')) display = display.replace(/red-strong/g, 'red-majority');
-  if (display.includes('blue-strong') && !map[label]) display = display.replace(/blue-strong/g, 'blue-majority');
-  if (display.includes('blue-surge') && !map[label]) display = display.replace(/blue-surge/g, 'blue-majority');
-  return map[label] || display;
+  if (display.includes('red-strong')) display = display.replace(/red-strong/g, 'r\u00f8dt flertal');
+  if (display.includes('blue-strong')) display = display.replace(/blue-strong/g, 'bl\u00e5t flertal');
+  return display;
 }
 
 // ===== RENDER PRESET BUTTONS =====
@@ -1123,13 +1166,13 @@ function renderPresets(container, onSelect, prefix) {
 function renderResultCard(gridEl, barEl, legendEl, d) {
   if (!d) return;
   const items = [
-    { label: 'PM (Frederiksen)', value: (d.pm.S || 0).toFixed(1) + '%', tip: 'Percentage of simulated election nights where Frederiksen becomes PM' },
-    { label: 'PM (V/LA)', value: ((d.pm.V || 0) + (d.pm.LA || 0)).toFixed(1) + '%', tip: 'Combined probability of V or LA leader becoming PM' },
-    { label: 'Blue govt', value: (d.govType.blue || 0).toFixed(1) + '%', tip: 'Share of simulations producing a blue (right-wing) government' },
-    { label: 'Gridlock', value: (d.govType.none || 0).toFixed(1) + '%', tip: 'Share of simulations with no viable government' },
-    { label: 'Cross-bloc', value: (d.govType.cross || 0).toFixed(1) + '%', tip: 'Share of simulations with cross-bloc government (e.g. S+V)' },
-    { label: 'Top coalition', value: d.topCoalitions[0].govt, tip: 'Most frequent coalition in simulation' },
-    { label: 'P(passage)', value: d.topCoalitions[0].avgPPassage.toFixed(3), tip: 'Average budget passage probability for the top coalition' }
+    { label: 'PM (Frederiksen)', value: (d.pm.S || 0).toFixed(1) + '%', tip: 'Andel af simulationer hvor Frederiksen bliver statsminister' },
+    { label: 'PM (V/LA)', value: ((d.pm.V || 0) + (d.pm.LA || 0)).toFixed(1) + '%', tip: 'Sandsynlighed for V- eller LA-leder som statsminister' },
+    { label: 'Bl\u00e5 regering', value: (d.govType.blue || 0).toFixed(1) + '%', tip: 'Andel af simulationer med bl\u00e5 (V+LA+KF) regering' },
+    { label: 'D\u00f8dvande', value: (d.govType.none || 0).toFixed(1) + '%', tip: 'Andel af simulationer uden levedygtig regering' },
+    { label: 'Tv\u00e6rblok', value: (d.govType.cross || 0).toFixed(1) + '%', tip: 'Andel med tv\u00e6rblok-regering (f.eks. S+V)' },
+    { label: 'Top koalition', value: d.topCoalitions[0].govt, tip: 'Hyppigste koalition i simulationen' },
+    { label: 'P(finanslov)', value: d.topCoalitions[0].avgPPassage.toFixed(3), tip: 'Gennemsnitlig sandsynlighed for at finansloven vedtages' }
   ];
   gridEl.innerHTML = items.map(i =>
     '<div class="result-item"><div class="result-value"><span class="tip" data-tip="' + i.tip + '">' + i.value + '</span></div><div class="result-label">' + i.label + '</div></div>'
@@ -1320,10 +1363,10 @@ function updateDelta() {
   document.getElementById('delta-section').style.display = 'block';
   const metrics = [
     { label: 'PM (S)', a: a.pm.S || 0, b: b.pm.S || 0 },
-    { label: 'Blue govt', a: a.govType.blue || 0, b: b.govType.blue || 0 },
-    { label: 'Gridlock', a: a.govType.none || 0, b: b.govType.none || 0 },
-    { label: 'Cross-bloc', a: a.govType.cross || 0, b: b.govType.cross || 0 },
-    { label: 'P(passage)', a: a.topCoalitions[0].avgPPassage, b: b.topCoalitions[0].avgPPassage }
+    { label: 'Bl\u00e5 regering', a: a.govType.blue || 0, b: b.govType.blue || 0 },
+    { label: 'D\u00f8dvande', a: a.govType.none || 0, b: b.govType.none || 0 },
+    { label: 'Tv\u00e6rblok', a: a.govType.cross || 0, b: b.govType.cross || 0 },
+    { label: 'P(finanslov)', a: a.topCoalitions[0].avgPPassage, b: b.topCoalitions[0].avgPPassage }
   ];
   document.getElementById('delta-grid').innerHTML = metrics.map(m => {
     const diff = m.b - m.a;
@@ -1337,26 +1380,26 @@ function updateDelta() {
 // ===== TORNADO CHART =====
 function buildTornado() {
   const groups = [
-    { name: 'Mandatscenarie', filter: l => ['baseline', 'archetype:blue-surge', 'archetype:knife-edge', 'archetype:red-tide', 'red-majority'].includes(l) },
-    { name: 'S accepterer L\u00f8kke-SM (sRelaxPM)', filter: l => l === 'baseline' || l === 'sRelaxPM+baseline' },
-    { name: 'L\u00f8kke kr\u00e6ver SM-post', filter: l => l === 'baseline' || l === 'M-demands-PM' },
-    { name: 'L\u00f8kke kr\u00e6ver deltagelse', filter: l => l === 'baseline' || l === 'mDemandGov+current-polls' },
-    { name: 'M\u00e5lingsusikkerhed (\u03c3-bloc)', filter: l => /^sigmaBloc=/.test(l) },
-    { name: 'M\u2019s mandater', filter: l => /^M-mandater=/.test(l) && !l.includes('+') },
-    { name: 'S\u2019 mandater', filter: l => /^S-mandater=/.test(l) },
-    { name: 'Bl\u00e5 formateur-sandsynlighed', filter: l => /^pBlueFormateur=/.test(l) },
-    { name: 'Bl\u00e5 bias (meningsm\u00e5lingsfejl)', filter: l => /^blocBiasBlue=/.test(l) },
-    { name: 'Frederiksens koalitionspr\u00e6ference', filter: l => /^redPref=[0-9]/.test(l) && !l.includes('+') },
-    { name: 'SF budgetafstemningsrate', filter: l => /^sf-abstain-sm=/.test(l) },
-    { name: 'L\u00f8kkes retning', filter: l => ['baseline+M->S', 'baseline+M->V', 'baseline+M->M', 'baseline'].includes(l) },
-    { name: 'EL-M konditionering', filter: l => /^elMPenalty=/.test(l) && !l.includes('+') },
-    { name: 'Forhandlingsfleksibilitet', filter: l => /^flex=[-0-9]/.test(l) && !l.includes('+') },
-    { name: 'Viabilitetstærskel', filter: l => /^viab-threshold=/.test(l) },
-    { name: 'Skatteoverbevisning', filter: l => /^tax-weight=/.test(l) },
-    { name: 'Ideologisk afstandsstraf', filter: l => /^distPenalty=/.test(l) },
-    { name: 'Koalitionsst\u00f8rrelsesstraf', filter: l => /^sizePenalty=/.test(l) },
-    { name: 'M afst\u00e5-andel', filter: l => /^mAbstain=/.test(l) },
-    { name: 'EL afst\u00e5-andel', filter: l => /^elAbstain=/.test(l) && !l.includes('+') },
+    { name: 'Mandatscenarie', tip: 'R\u00f8dt flertal \u2194 aktuelle m\u00e5linger \u2194 bl\u00e5t flertal', filter: l => ['baseline', 'archetype:blue-surge', 'archetype:knife-edge', 'archetype:red-tide', 'red-majority'].includes(l) },
+    { name: 'S accepterer L\u00f8kke-SM', tip: 'Hvad hvis Frederiksen accepterer L\u00f8kke som statsminister? Prior: 5%', filter: l => l === 'baseline' || l === 'sRelaxPM+baseline' },
+    { name: 'L\u00f8kke kr\u00e6ver SM-post', tip: 'M stemmer imod alt hvor M ikke er SM \u2014 selvdestruktivt', filter: l => l === 'baseline' || l === 'M-demands-PM' },
+    { name: 'L\u00f8kke kr\u00e6ver deltagelse', tip: 'M blokerer alle regeringer uden M. Det mest sandsynlige scenarie', filter: l => l === 'baseline' || l === 'mDemandGov+current-polls' },
+    { name: 'M\u00e5lingsusikkerhed', tip: 'Bredere \u03c3 = flere tr\u00e6k langt fra gennemsnittet. 4 = normal, 8 = stor fejl', filter: l => /^sigmaBloc=/.test(l) },
+    { name: 'Ms mandater', tip: 'Moderaternes st\u00f8rrelse: 5\u201315 mandater. Kodestandard: 9', filter: l => /^M-mandater=/.test(l) && !l.includes('+') },
+    { name: 'Ss mandater', tip: 'Socialdemokratiets st\u00f8rrelse: 30\u201345 mandater. Kodestandard: 38', filter: l => /^S-mandater=/.test(l) },
+    { name: 'Bl\u00e5 formateur', tip: 'Sandsynlighed for at bl\u00e5 blok f\u00e5r formateurmandatet f\u00f8rst. 0 = S altid f\u00f8rst', filter: l => /^pBlueFormateur=/.test(l) },
+    { name: 'Systematisk bl\u00e5 bias', tip: 'Forskydning af bl\u00e5 bloks mandater. +2 = bl\u00e5 f\u00e5r ~8 ekstra mandater', filter: l => /^blocBiasBlue=/.test(l) },
+    { name: 'Frederiksens pr\u00e6ference', tip: 'R\u00f8d (0.8) = S+SF foretrukket. Bred (0.2) = S+SF+RV+M foretrukket', filter: l => /^redPref=[0-9]/.test(l) && !l.includes('+') },
+    { name: 'SFs budgetblokering', tip: 'Lav (0.3) = SF blokerer troværdigt. H\u00f8j (0.7) = SF f\u00f8lger blokken', filter: l => /^sf-abstain-sm=/.test(l) },
+    { name: 'L\u00f8kkes retning', tip: 'Mod S = st\u00f8tter S-ledet. Mod V = st\u00f8tter bl\u00e5-ledet. Neutral = egne m\u00e6rkesager', filter: l => ['baseline+M->S', 'baseline+M->V', 'baseline+M->M', 'baseline'].includes(l) },
+    { name: 'EL-M konditionering', tip: 'N\u00e5r EL stemmer FOR str\u00e6ffer det M. Lav = st\u00e6rk straf, h\u00f8j = mild', filter: l => /^elMPenalty=/.test(l) && !l.includes('+') },
+    { name: 'Forhandlingsfleksibilitet', tip: 'Negativ = rigide partier. Positiv = pragmatiske partier', filter: l => /^flex=[-0-9]/.test(l) && !l.includes('+') },
+    { name: 'Viabilitetst\u00e6rskel', tip: 'Min. P(finanslov) for at en koalition er levedygtig. 0.3 = risikovillig, 0.7 = forsigtig', filter: l => /^viab-threshold=/.test(l) },
+    { name: 'Skatteoverbevisning', tip: 'Frederiksens v\u00e6gt p\u00e5 formueskat. 1.0 = neutral, 1.15 = st\u00e6rk skattepr\u00e6ference', filter: l => /^tax-weight=/.test(l) },
+    { name: 'Ideologisk afstand', tip: 'Straf for ideologisk spredning i koalitionen. H\u00f8jere = st\u00e6rkere pr\u00e6ference for smalle koalitioner', filter: l => /^distPenalty=/.test(l) },
+    { name: 'Koalitionsst\u00f8rrelse', tip: 'Straf pr. ekstra parti i koalitionen. H\u00f8jere = f\u00e6rre partier foretr\u00e6kkes', filter: l => /^sizePenalty=/.test(l) },
+    { name: 'M afst\u00e5-andel', tip: 'N\u00e5r M ikke stemmer FOR: andel der afst\u00e5r vs. stemmer imod', filter: l => /^mAbstain=/.test(l) },
+    { name: 'EL afst\u00e5-andel', tip: 'N\u00e5r EL ikke stemmer FOR: andel der afst\u00e5r vs. stemmer imod', filter: l => /^elAbstain=/.test(l) && !l.includes('+') },
   ];
 
   const tornadoData = [];
@@ -1366,7 +1409,7 @@ function buildTornado() {
     const vals = matching.map(d => d.pm.S || 0);
     const min = Math.min(...vals);
     const max = Math.max(...vals);
-    tornadoData.push({ name: g.name, min, max, range: max - min, labels: matching.map(d => d.label) });
+    tornadoData.push({ name: g.name, tip: g.tip || '', min, max, range: max - min, labels: matching.map(d => d.label) });
   }
   tornadoData.sort((a, b) => b.range - a.range);
 
@@ -1390,7 +1433,7 @@ function buildTornado() {
     const x2 = labelW + scale(d.max);
     const opacity = 0.4 + (d.range / tornadoData[0].range) * 0.6;
 
-    svg += '<text x="' + (labelW - 8) + '" y="' + (y + barH / 2 + 4) + '" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#2a2420">' + d.name + '</text>';
+    svg += '<text x="' + (labelW - 8) + '" y="' + (y + barH / 2 + 4) + '" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#2a2420">' + (d.tip ? '<title>' + d.tip + '</title>' : '') + d.name + '</text>';
     svg += '<rect class="tornado-bar" data-labels="' + d.labels.join(',') + '" x="' + x1 + '" y="' + y + '" width="' + (x2 - x1) + '" height="' + barH + '" fill="#1e3a5f" opacity="' + opacity.toFixed(2) + '" rx="0"/>';
     svg += '<text x="' + (x1 - 4) + '" y="' + (y + barH / 2 + 4) + '" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9" fill="#8a7e72">' + d.min.toFixed(1) + '</text>';
     svg += '<text x="' + (x2 + 4) + '" y="' + (y + barH / 2 + 4) + '" text-anchor="start" font-family="IBM Plex Mono, monospace" font-size="9" fill="#8a7e72">' + d.max.toFixed(1) + '</text>';
