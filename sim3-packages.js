@@ -27,6 +27,9 @@ const PACKAGES = [
   { id: 9,  name: "S+V+M",      members: ["S", "V", "M"],   leader: "S" },
   { id: 10, name: "V-led blue", members: ["V", "LA", "KF"], leader: "V" },
   { id: 11, name: "LA-led blue",members: ["LA", "V", "KF"], leader: "LA" },
+  // Blå midterregering: TLP's proposal (V/LA+KF+M, blue-led with M as junior partner)
+  { id: 14, name: "V-led blå midter", members: ["V", "LA", "KF", "M"], leader: "V" },
+  { id: 15, name: "LA-led blå midter",members: ["LA", "V", "KF", "M"], leader: "LA" },
   // M-led packages (only evaluated when sRelaxPM = true)
   { id: 12, name: "M+S+SF",    members: ["M", "S", "SF"],  leader: "M" },
   { id: 13, name: "M+S+RV",    members: ["M", "S", "RV"],  leader: "M" },

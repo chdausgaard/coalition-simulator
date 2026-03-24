@@ -276,7 +276,7 @@ function drawBudgetBases(params, cfg) {
     df_blue_restrictive: pfd(0.50, 0.85, "DF"),  // raised slightly: 10yr perfect loyalty; escape hatches on ultimatum
     df_blue_moderate:    pfd(0.20, 0.50, "DF"),
     df_blue_status_quo:  pfd(0.05, 0.25, "DF"),
-    df_m_penalty:        uniformDraw(0.08, 0.25), // penalty, not shifted — lowered: personal veto but rhetoric-reality gap
+    df_m_penalty:        uniformDraw(0.20, 0.50), // penalty, not shifted — personal veto but rhetoric-reality gap + 10yr loyalty record + escape hatch on ultimatum + Frederiksen-alternative pressure
     df_sled:             uniformDraw(0.00, 0.05), // near-zero
     m_bp_penalty:        uniformDraw(0.75, 0.92), // M's aversion to relying on BP (extreme party exclusion)
 
@@ -1017,15 +1017,37 @@ function selectGovernment(mandates, naAlignments, bases, params, cfg) {
     };
   }
 
-  // Formateur order: endogenous to mandate draw.
-  // If blue bloc >= 90, blue always evaluates first (they have a majority).
-  // Otherwise, with probability pBlueFormateur (default 0.15), blue evaluates first.
-  // M-led packages evaluated as fallback after both S-led and blue-led.
+  // Formateur order: endogenous to mandate draw and M orientation.
+  // Based on calibration table (research/calibration.md §3):
+  //   Blue >= 90: pBF = 0.95 (blue majority, blue always first)
+  //   Red >= 90:  pBF = 0.02 (red majority, S almost always first)
+  //   Contested (neither >= 90):
+  //     M->V and M+blue >= 90: pBF = 0.55
+  //     M->V:                  pBF = 0.35
+  //     M->M (neutral):        pBF = 0.20
+  //     M->S:                  pBF = 0.05
+  // Explicit cfg.pBlueFormateur overrides the endogenous calculation.
   const blueBloc = (mandates["V"]||0) + (mandates["LA"]||0) + (mandates["KF"]||0) +
                    (mandates["DD"]||0) + (mandates["DF"]||0) + (mandates["BP"]||0);
   const redBloc = (mandates["S"]||0) + (mandates["SF"]||0) + (mandates["EL"]||0) +
                   (mandates["ALT"]||0) + (mandates["RV"]||0);
-  const blueFirst = blueBloc >= 90 || (cfg.pBlueFormateur > 0 && Math.random() < cfg.pBlueFormateur);
+  let effectivePBF;
+  if (cfg._pBlueFormateurExplicit) {
+    effectivePBF = cfg.pBlueFormateur;
+  } else if (blueBloc >= 90) {
+    effectivePBF = 0.95;
+  } else if (redBloc >= 90) {
+    effectivePBF = 0.02;
+  } else {
+    // Contested: M's orientation determines kongerunde dynamics
+    const mPref = cfg.mPmPref || "S";
+    const mBlueBloc = blueBloc + (mandates["M"] || 0);
+    if (mPref === "V" && mBlueBloc >= 90) effectivePBF = 0.55;
+    else if (mPref === "V") effectivePBF = 0.35;
+    else if (mPref === "M") effectivePBF = 0.20;
+    else effectivePBF = 0.05; // M->S
+  }
+  const blueFirst = Math.random() < effectivePBF;
 
   if (blueFirst) {
     return tryBlue() || trySLed() || tryMLed() || null;
@@ -1067,6 +1089,7 @@ function runSim(userCfg, N) {
     mwccFullBonus: userCfg.cfg?.mwccFullBonus != null ? userCfg.cfg.mwccFullBonus : 1.15,
     naRedShift: userCfg.cfg?.naRedShift != null ? userCfg.cfg.naRedShift : 0,
     pBlueFormateur: userCfg.cfg?.pBlueFormateur != null ? userCfg.cfg.pBlueFormateur : 0.15,
+    _pBlueFormateurExplicit: userCfg.cfg?.pBlueFormateur != null,
   };
 
   const sweepDefaults = {
