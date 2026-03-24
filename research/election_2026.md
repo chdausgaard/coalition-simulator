@@ -399,7 +399,7 @@ Expert commentary converges on a handful of realistic formations:
 
 **Frederiksen is the overwhelming favorite.** Polymarket prices her at approximately 80% to remain PM. The YouGov LSS model finds red + M achieves a majority in >99% of simulations. Holstein calls her the "absolut favorit." No analyst envisions a scenario where TLP gets first shot at the forhandlingsleder role under current polling.
 
-**The SF-M incompatibility is the formation's hardest problem.** Olsen Dyhr and Loekke disagree on 11 of 24 questions in TV 2's candidate test. If Frederiksen pursues a broad midterregering including M, she risks losing SF. But SF's government-or-nothing stance means she cannot keep SF as a support party either.
+**The SF-M incompatibility is the formation's hardest problem.** Olsen Dyhr and Loekke disagree on 11 of 24 questions in TV 2's kandidattest. If Frederiksen pursues a broad midterregering including M, she risks losing SF. But SF's government-or-nothing stance means she cannot keep SF as a support party either.
 
 **A blue government faces near-insurmountable structural obstacles.** The DF-M mutual veto eliminates most viable blue configurations.
 
@@ -521,4 +521,4 @@ This section retains each expert's distinctive contribution as a reference appen
 
 **ValgiDanmark simulation (March 22):** Red bloc majority (90+): 24%. Blue bloc majority: 1%. Neither: approximately 75%.
 
-**Recent polls (Voxmeter March 20, DR/Epinion March 21, TV2/Megafon March 18):** Consistently show red bloc at 85-88, blue bloc at 77-80, M at 10-12. S at 19-22% (historically low but still largest). SF at 12-13% (potentially its best result ever). DF has recovered dramatically from 2.6% in 2022 to 8-9.5%, largely cannibalizing DD.
+**Altingets snit af meningsmålinger (pr. 23. marts 2026):** Consistently show red bloc at 85-88, blue bloc at 77-80, M at 10-12. S at 19-22% (historically low but still largest). SF at 12-13% (potentially its best result ever). DF has recovered dramatically from 2.6% in 2022 to 8-9.5%, largely cannibalizing DD.
