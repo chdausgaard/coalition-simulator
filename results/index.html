@@ -652,7 +652,7 @@ details .panel {
   </div>
 
   <div class="scenario-toggle">
-    <h3>&hellip;with L&oslash;kke demanding government inclusion (kongelig unders&oslash;ger)</h3>
+    <h3>&hellip;with L&oslash;kke demanding government inclusion</h3>
     <div class="scenario-cards">
       <div class="scenario-card">
         <h3>Red Majority + mDemandGov</h3>
@@ -807,7 +807,7 @@ details .panel {
 
   <div class="callout">
     <h3>Government participation demands reshape coalitions without changing leadership</h3>
-    <p>When L&oslash;kke insists on M&rsquo;s inclusion in government (the &lsquo;kongelig unders&oslash;ger&rsquo; strategy), M-including coalitions rise from 49% to 70%. But PM(S) stays at ~97%. L&oslash;kke&rsquo;s leverage determines <em>who governs with Frederiksen</em>, not <em>whether</em> she governs.</p>
+    <p>When L&oslash;kke insists on M&rsquo;s inclusion in government, M-including coalitions rise from 49% to 70%. But PM(S) stays at ~97%. L&oslash;kke&rsquo;s leverage determines <em>who governs with Frederiksen</em>, not <em>whether</em> she governs.</p>
     <div class="evidence">mDemandGov = false &rarr; M-including = <span class="tip" data-tip="Share of coalitions that include M">48.7%</span>, M-excluding = <span class="tip" data-tip="Share of coalitions that exclude M">50.9%</span> &ensp;|&ensp; mDemandGov = true &rarr; M-including = <span class="tip" data-tip="Share of coalitions that include M when L&oslash;kke demands inclusion">69.5%</span>, M-excluding = <span class="tip" data-tip="Share of coalitions that exclude M when L&oslash;kke demands inclusion">29.5%</span></div>
   </div>
 
@@ -1062,9 +1062,9 @@ const DATA = [{"label":"GRIDLOCK:demandPM+pBF=0.2+baseline","config":{"cfg":{"mD
 const COAL_COLORS = {
   'S+SF': '#c0392b',
   'S+SF+RV': '#e67e22',
-  'S+SF+RV+M': '#1e3a5f',
-  'S+SF+M': '#8e44ad',
-  'Blue': '#2980b9',
+  'S+SF+RV+M': '#6a1b9a',
+  'S+SF+M': '#ab47bc',
+  'Blue': '#64b5f6',
   'Cross-bloc': '#27ae60',
   'Gridlock': '#95a5a6',
   'S-alone': '#e74c3c'
@@ -1486,7 +1486,7 @@ function highlightTornadoScenario(label) {
   document.querySelectorAll('.tornado-bar').forEach(bar => {
     const labels = bar.dataset.labels.split(',');
     if (labels.includes(label)) {
-      bar.setAttribute('stroke', '#c0392b');
+      bar.setAttribute('stroke', '#1e3a5f');
       bar.setAttribute('stroke-width', '2');
     } else {
       bar.removeAttribute('stroke');
@@ -1755,7 +1755,7 @@ const SCENARIO_DESCRIPTIONS = {
   "baseline+M->S": "Current polls + L\u00f8kke leans toward red bloc",
   "baseline+M->V": "Current polls + L\u00f8kke leans toward blue bloc",
   "baseline+M->M": "Current polls + L\u00f8kke stays neutral / prioritizes self",
-  "mDemandGov+current-polls": "L\u00f8kke demands government inclusion (kongelig unders\u00f8ger) at current polls",
+  "mDemandGov+current-polls": "L\u00f8kke demands government inclusion at current polls",
   "mDemandGov+M->S": "L\u00f8kke demands inclusion, leaning red",
   "mDemandGov+M->V": "L\u00f8kke demands inclusion, leaning blue",
   "mDemandGov+M->self": "L\u00f8kke demands inclusion, wants PM himself",
