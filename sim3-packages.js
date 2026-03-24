@@ -27,13 +27,17 @@ const PACKAGES = [
   { id: 9,  name: "S+V+M",      members: ["S", "V", "M"],   leader: "S" },
   { id: 10, name: "V-led blue", members: ["V", "LA", "KF"], leader: "V" },
   { id: 11, name: "LA-led blue",members: ["LA", "V", "KF"], leader: "LA" },
+  // M-led packages (only evaluated when sRelaxPM = true)
+  { id: 12, name: "M+S+SF",    members: ["M", "S", "SF"],  leader: "M" },
+  { id: 13, name: "M+S+RV",    members: ["M", "S", "RV"],  leader: "M" },
 ];
 
 // ============================================================================
-// PACKAGE GROUPINGS (S-led vs blue-led)
+// PACKAGE GROUPINGS (S-led vs blue-led vs M-led)
 // ============================================================================
 const S_LED_PACKAGES = PACKAGES.filter(p => p.leader === "S");
 const BLUE_LED_PACKAGES = PACKAGES.filter(p => p.leader === "V" || p.leader === "LA");
+const M_LED_PACKAGES = PACKAGES.filter(p => p.leader === "M");
 
 // ============================================================================
 // PLATFORM COHERENCE CONSTRAINTS (spec §9.4)
@@ -145,10 +149,21 @@ function preferenceWeight_LA(platform) {
   return w;
 }
 
+// M as formateur: pragmatic centrist — mild preference for substitute taxation,
+// moderate fiscal, no strong policy convictions (consistent with Løkke's profile)
+function preferenceWeight_M(platform) {
+  let w = 1.0;
+  if (platform.taxation === "substitute") w *= 1.05;
+  else if (platform.taxation === "formueskat") w *= 0.85;
+  if (platform.fiscal === "moderate") w *= 1.03;
+  return w;
+}
+
 function getPreferenceWeight(formateur, platform, taxWeight) {
   if (formateur === "S") return preferenceWeight_S(platform, taxWeight);
   if (formateur === "V") return preferenceWeight_V(platform);
   if (formateur === "LA") return preferenceWeight_LA(platform);
+  if (formateur === "M") return preferenceWeight_M(platform);
   return 1.0;
 }
 
@@ -204,6 +219,7 @@ module.exports = {
   PACKAGES,
   S_LED_PACKAGES,
   BLUE_LED_PACKAGES,
+  M_LED_PACKAGES,
   FULL_GRID,
   getCoherentPlatforms,
   isPlatformCoherent,

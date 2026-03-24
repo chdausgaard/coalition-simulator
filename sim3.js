@@ -15,7 +15,7 @@ const {
 } = require("./sim3-parties.js");
 
 const {
-  PACKAGES, S_LED_PACKAGES, BLUE_LED_PACKAGES,
+  PACKAGES, S_LED_PACKAGES, BLUE_LED_PACKAGES, M_LED_PACKAGES,
   getCoherentPlatforms, getPreferenceWeight,
   platformToString, classifyGovType,
 } = require("./sim3-packages.js");
@@ -331,9 +331,9 @@ function evalBudgetVote(partyId, govSet, platform, bases, params, naAlignments, 
   // demandPM: party votes AGAINST any budget where it's not PM — whether
   // inside or outside government. A party that demands PM won't join a
   // government as junior partner either.
-  // S always demands PM (Frederiksen won't serve under anyone).
+  // S demands PM unless sRelaxPM is set (models S accepting a non-S PM).
   // M demands PM only if mDemandPM cfg is set (sweepable).
-  const demandsPM = (partyId === "S") || (partyId === "M" && cfg && cfg.mDemandPM);
+  const demandsPM = (partyId === "S" && !(cfg && cfg.sRelaxPM)) || (partyId === "M" && cfg && cfg.mDemandPM);
   if (demandsPM && pmParty !== partyId) {
     return { pFor: 0, pAbstain: 0.02, pAgainst: 0.98 };
   }
@@ -668,7 +668,7 @@ function computePpassage(govMembers, platform, mandates, bases, params, naAlignm
   let govMandates = 0;
   const rebellingGovMembers = [];
   for (const id of govMembers) {
-    const demandsPM = (id === "S") || (id === "M" && cfg && cfg.mDemandPM);
+    const demandsPM = (id === "S" && !(cfg && cfg.sRelaxPM)) || (id === "M" && cfg && cfg.mDemandPM);
     if (demandsPM && pmParty !== id) {
       rebellingGovMembers.push(id); // Process in DP with pFor=0
     } else {
@@ -897,25 +897,30 @@ function selectGovernment(mandates, naAlignments, bases, params, cfg) {
   const viabilityThreshold = cfg.viabilityThreshold || 0.50;
   const redPreference = cfg.redPreference != null ? cfg.redPreference : 0.5;
 
-  // --- Helper: evaluate all S-led packages, return best or null ---
+  // --- Helper: evaluate all S-led (and M-led when sRelaxPM) packages ---
   function trySLed() {
+    const candidates = [...S_LED_PACKAGES];
+    // When S relaxes PM demand, M-led packages compete alongside S-led
+    if (cfg.sRelaxPM) candidates.push(...M_LED_PACKAGES);
+
     const sLedResults = [];
-    for (const pkg of S_LED_PACKAGES) {
+    for (const pkg of candidates) {
       if (!confidenceCheck(pkg.members, mandates).passes) continue;
       if (pkg.members.includes("V") && Math.random() > bases.v_accept_sled) continue;
-      const result = evaluatePackage(pkg, "S", mandates, bases, params, naAlignments, cfg);
+      const pm = pkg.leader; // "S" for S-led packages, "M" for M-led
+      const result = evaluatePackage(pkg, pm, mandates, bases, params, naAlignments, cfg);
       if (result && result.pPassage > viabilityThreshold) {
         const conf = confidenceCheck(pkg.members, mandates);
         const bonus = frederiksenBonus(pkg, redPreference);
         const totalScore = result.score * bonus;
-        sLedResults.push({ pkg, result, conf, totalScore });
+        sLedResults.push({ pkg, result, conf, totalScore, pm });
       }
     }
     if (sLedResults.length === 0) return null;
     sLedResults.sort((a, b) => b.totalScore - a.totalScore);
     const best = sLedResults[0];
     return {
-      pm: "S",
+      pm: best.pm,
       govType: classifyGovType(best.pkg.members),
       coalition: best.pkg.name,
       members: best.pkg.members,
@@ -956,14 +961,45 @@ function selectGovernment(mandates, naAlignments, bases, params, cfg) {
     };
   }
 
-  // Formateur order: with probability pBlueFormateur, blue evaluates first
+  // --- Helper: evaluate M-led packages (only when sRelaxPM = true) ---
+  function tryMLed() {
+    if (!cfg.sRelaxPM) return null;
+    const mLedResults = [];
+    for (const pkg of M_LED_PACKAGES) {
+      if (!confidenceCheck(pkg.members, mandates).passes) continue;
+      const result = evaluatePackage(pkg, "M", mandates, bases, params, naAlignments, cfg);
+      if (result && result.pPassage > viabilityThreshold) {
+        const conf = confidenceCheck(pkg.members, mandates);
+        const noise = Math.exp(0.1 * normDraw(0, 1));
+        const totalScore = result.score * noise;
+        mLedResults.push({ pkg, result, conf, totalScore });
+      }
+    }
+    if (mLedResults.length === 0) return null;
+    mLedResults.sort((a, b) => b.totalScore - a.totalScore);
+    const best = mLedResults[0];
+    return {
+      pm: "M",
+      govType: classifyGovType(best.pkg.members),
+      coalition: best.pkg.name,
+      members: best.pkg.members,
+      bestPlatform: best.result.bestPlatform,
+      pPassage: best.result.pPassage,
+      score: best.totalScore,
+      confidence: best.conf,
+    };
+  }
+
+  // Formateur order: with probability pBlueFormateur, blue evaluates first.
+  // M-led packages are evaluated as fallback after both S-led and blue-led,
+  // modelling that M only gets a chance if neither primary formateur succeeds.
   // Models uncertainty about kongerunde outcome (spec §9.1)
   const blueFirst = (cfg.pBlueFormateur || 0) > 0 && Math.random() < cfg.pBlueFormateur;
 
   if (blueFirst) {
-    return tryBlue() || trySLed() || null;
+    return tryBlue() || trySLed() || tryMLed() || null;
   }
-  return trySLed() || tryBlue() || null;
+  return trySLed() || tryBlue() || tryMLed() || null;
 }
 
 // ============================================================================
@@ -983,6 +1019,7 @@ function runSim(userCfg, N) {
     mPmPref: userCfg.cfg?.mPmPref || "S",
     mDemandPM: userCfg.cfg?.mDemandPM || false,
     mDemandGov: userCfg.cfg?.mDemandGov || false,
+    sRelaxPM: userCfg.cfg?.sRelaxPM || false,
     sigmaBloc: userCfg.cfg?.sigmaBloc || 4.0,
     sigmaSub: userCfg.cfg?.sigmaSub || 1.5,
     sigmaParty: userCfg.cfg?.sigmaParty || 1.5,

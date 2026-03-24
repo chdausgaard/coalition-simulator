@@ -53,11 +53,21 @@ const SUBSTITUTION_PAIRS = {
 // Returns true if a party would vote FOR a mistillidsvotum (no-confidence)
 // against the given government.
 function wouldVoteNoConfidence(partyId, govSet, govLeader) {
-  const isRedLed = govLeader === "S";
-  const isBlueLed = !isRedLed;
-
   // Government members never vote no-confidence on themselves
   if (govSet.has(partyId)) return false;
+
+  // M-led governments (M+S+SF, M+S+RV): treated as center-led.
+  // Red parties abstain (S is in govt, they won't topple it).
+  // Blue parties vote FOR (they oppose this center-left govt).
+  if (govLeader === "M") {
+    if (partyId === "SF" || partyId === "EL" || partyId === "ALT" || partyId === "RV") return false;
+    if (partyId === "S") return false; // S tolerates M-led when sRelaxPM is on
+    const p = PARTIES.find(x => x.id === partyId);
+    if (p && p.bloc === "blue") return true;
+    return false;
+  }
+
+  const isRedLed = govLeader === "S";
 
   // Party-specific confidence behavior toward S-led govts (spec §4)
   if (isRedLed) {
@@ -71,14 +81,9 @@ function wouldVoteNoConfidence(partyId, govSet, govLeader) {
   }
 
   // Blue-led: red parties vote FOR mistillidsvotum, swing abstain
-  if (isBlueLed) {
-    const p = PARTIES.find(x => x.id === partyId);
-    if (p && p.bloc === "red") return true;
-    if (partyId === "M" || partyId === "RV" || partyId === "KF") return false; // swing abstains
-    // Remaining blue parties in opposition also abstain (they support blue)
-    return false;
-  }
-
+  const p = PARTIES.find(x => x.id === partyId);
+  if (p && p.bloc === "red") return true;
+  if (partyId === "M" || partyId === "RV" || partyId === "KF") return false; // swing abstains
   return false;
 }
 
