@@ -775,196 +775,196 @@ details .panel {
     <div class="panel">
 
       <div class="pipeline-stage">
-        <div class="pipeline-num">Stage 1</div>
-        <div class="pipeline-title">Draw an Election Night</div>
-        <p class="pipeline-desc">Correlated mandate draws: bloc-level shock + within-bloc substitution + per-party noise. Example: "Polls say S=38 &rarr; this iteration drew S=41, SF=21 (substitution: when S goes up, SF goes down within the red bloc)."</p>
+        <div class="pipeline-num">Trin 1</div>
+        <div class="pipeline-title">Tr&aelig;k en valgaften</div>
+        <p class="pipeline-desc">Korrelerede mandattr&aelig;kninger: blokchok + substitution inden for blokken + partist&oslash;j. Eksempel: &ldquo;M&aring;lingerne siger S=38 &rarr; denne iteration trak S=41, SF=21 (substitution: n&aring;r S stiger, falder SF inden for r&oslash;d blok).&rdquo;</p>
         <details class="pipeline-detail">
-          <summary>Technical detail</summary>
+          <summary>Tekniske detaljer</summary>
           <div class="detail-content">
-            <p><strong>Correlation structure.</strong> Three layers of noise are drawn independently each iteration and summed:</p>
+            <p><strong>Korrelationsstruktur.</strong> Tre lag af st&oslash;j tr&aelig;kkes uafh&aelig;ngigt i hver iteration og summeres:</p>
             <ol style="margin:0.4rem 0 0.4rem 1.2rem; font-size:0.8rem; line-height:1.6;">
-              <li><strong>Bloc-level shock</strong> (&sigma;<sub>bloc</sub> = 4.0 mandates): one draw per bloc (red, blue), applied equally to every party in that bloc. Captures correlated polling error.</li>
-              <li><strong>Within-bloc substitution pairs</strong> (&sigma;<sub>sub</sub> = 1.5): paired zero-sum noise between allied parties. Pairs: S &harr; SF, V &harr; LA, DF &harr; DD. When one gains, the partner loses the same amount.</li>
-              <li><strong>Per-party noise</strong> (&sigma;<sub>party</sub> = 1.5): independent Gaussian noise on each party. Captures idiosyncratic polling error.</li>
+              <li><strong>Blokchok</strong> (&sigma;<sub>bloc</sub> = 4,0 mandater): &eacute;n tr&aelig;kning per blok (r&oslash;d, bl&aring;), p&aring;f&oslash;rt alle partier i blokken ens. Fanger korreleret m&aring;lingsfejl.</li>
+              <li><strong>Substitutionspar inden for blokken</strong> (&sigma;<sub>sub</sub> = 1,5): parvis nulsums-st&oslash;j mellem allierede partier. Par: S &harr; SF, V &harr; LA, DF &harr; DD. N&aring;r det ene parti vinder, taber partneren tilsvarende.</li>
+              <li><strong>Partist&oslash;j</strong> (&sigma;<sub>party</sub> = 1,5): uafh&aelig;ngig gaussisk st&oslash;j p&aring; hvert parti. Fanger idiosynkratisk m&aring;lingsfejl.</li>
             </ol>
-            <p style="margin-top:0.5rem;"><strong>Swing party weights.</strong> Parties not firmly in either bloc are allocated probabilistically to red or blue each iteration:</p>
+            <p style="margin-top:0.5rem;"><strong>Svingpartiv&aelig;gte.</strong> Partier, der ikke er fast forankret i nogen blok, allokeres probabilistisk til r&oslash;d eller bl&aring; i hver iteration:</p>
             <ul style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
-              <li>M (Moderaterne): red = 0.40, blue = 0.40, independent = 0.20</li>
-              <li>RV (Radikale Venstre): red = 0.70, blue = 0.15, independent = 0.15</li>
-              <li>KF (Konservative): red = 0.15, blue = 0.70, independent = 0.15</li>
+              <li>M (Moderaterne): r&oslash;d = 0,40, bl&aring; = 0,40, uafh&aelig;ngig = 0,20</li>
+              <li>RV (Radikale Venstre): r&oslash;d = 0,70, bl&aring; = 0,15, uafh&aelig;ngig = 0,15</li>
+              <li>KF (Konservative): r&oslash;d = 0,15, bl&aring; = 0,70, uafh&aelig;ngig = 0,15</li>
             </ul>
-            <p style="margin-top:0.5rem;"><strong>Threshold parties.</strong> Parties near the 2% electoral threshold are modeled with a Bernoulli draw for clearing it:</p>
+            <p style="margin-top:0.5rem;"><strong>Sp&aelig;rrepartier.</strong> Partier t&aelig;t p&aring; sp&aelig;rrergr&aelig;nsen p&aring; 2% modelleres med en Bernoulli-tr&aelig;kning for at komme over:</p>
             <ul style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
-              <li>ALT (Alternativet): baseVoteShare = 2.1%, pClear = 0.60</li>
-              <li>BP (Borgelig Parti / Nye Borgerlige remnant): baseVoteShare = 2.8%, pClear = 0.75</li>
+              <li>ALT (Alternativet): baseVoteShare = 2,1%, pClear = 0,60</li>
+              <li>BP (Borgelig Parti / Nye Borgerlige-rest): baseVoteShare = 2,8%, pClear = 0,75</li>
             </ul>
-            <p style="margin-top:0.5rem;"><strong>North Atlantic (NA) seat alignment.</strong> The 4 NA seats (2 Greenland, 2 Faroe) are drawn independently each iteration:</p>
+            <p style="margin-top:0.5rem;"><strong>Nordatlantiske (NA) mandaters orientering.</strong> De 4 NA-mandater (2 Gr&oslash;nland, 2 F&aelig;r&oslash;erne) tr&aelig;kkes uafh&aelig;ngigt i hver iteration:</p>
             <ul style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
-              <li>GL1: pRed = 0.60, pFlex = 0.30, pBlue = 0.10</li>
-              <li>GL2: pRed = 0.25, pFlex = 0.45, pBlue = 0.30</li>
-              <li>FO1: pRed = 0.55, pFlex = 0.20, pBlue = 0.25</li>
-              <li>FO2: pRed = 0.10, pFlex = 0.15, pBlue = 0.75</li>
+              <li>GL1: pRed = 0,60, pFlex = 0,30, pBlue = 0,10</li>
+              <li>GL2: pRed = 0,25, pFlex = 0,45, pBlue = 0,30</li>
+              <li>FO1: pRed = 0,55, pFlex = 0,20, pBlue = 0,25</li>
+              <li>FO2: pRed = 0,10, pFlex = 0,15, pBlue = 0,75</li>
             </ul>
-            <p style="margin-top:0.5rem;"><strong>Normalization.</strong> After applying all noise, mandates are rounded and rescaled so the total always equals exactly 175 Danish seats + 4 NA seats = 179. Negative mandates are floored at 0.</p>
+            <p style="margin-top:0.5rem;"><strong>Normalisering.</strong> Efter al st&oslash;j er p&aring;f&oslash;rt, afrundes og reskaleres mandaterne, s&aring; totalen altid er pr&aelig;cis 175 danske mandater + 4 NA-mandater = 179. Negative mandater s&aelig;ttes til 0.</p>
           </div>
         </details>
       </div>
 
       <div class="pipeline-stage">
-        <div class="pipeline-num">Stage 2</div>
-        <div class="pipeline-title">Generate Policy Platforms</div>
-        <p class="pipeline-desc">5 policy dimensions &times; 2&ndash;3 options = 162 platform combinations. Grid: taxation (formueskat / substitute / none) &times; forst&aring;elsespapir (yes / no) &times; green investment (high / med / low) &times; immigration (restrictive / moderate / status quo) &times; fiscal stance (expansive / moderate / tight).</p>
+        <div class="pipeline-num">Trin 2</div>
+        <div class="pipeline-title">Gener&eacute;r politiske platforme</div>
+        <p class="pipeline-desc">5 politikdimensioner &times; 2&ndash;3 niveauer = 162 platformkombinationer. Gitter: beskatning (formueskat / alternativ / ingen) &times; forst&aring;elsespapir (ja / nej) &times; gr&oslash;n investering (h&oslash;j / mellem / lav) &times; udl&aelig;ndingepolitik (restriktiv / moderat / status quo) &times; finanspolitisk linje (ekspansiv / moderat / stram).</p>
         <details class="pipeline-detail">
-          <summary>Technical detail</summary>
+          <summary>Tekniske detaljer</summary>
           <div class="detail-content">
-            <p><strong>The full 5-dimensional grid:</strong></p>
+            <p><strong>Det fulde 5-dimensionelle gitter:</strong></p>
             <ol style="margin:0.4rem 0 0.4rem 1.2rem; font-size:0.8rem; line-height:1.6;">
-              <li><strong>Taxation</strong> (3 levels): <em>formueskat</em> (wealth tax &mdash; red signal), <em>substitute</em> (alternative revenue measure &mdash; midter signal), <em>none</em> (no new taxes &mdash; blue signal)</li>
-              <li><strong>Forst&aring;elsespapir</strong> (2 levels): <em>yes</em> (formal coalition agreement), <em>no</em> (informal support arrangement)</li>
-              <li><strong>Green investment</strong> (3 levels): <em>high</em>, <em>medium</em>, <em>low</em></li>
-              <li><strong>Immigration</strong> (3 levels): <em>restrictive</em>, <em>moderate</em>, <em>status_quo</em></li>
-              <li><strong>Fiscal stance</strong> (3 levels): <em>expansive</em>, <em>moderate</em>, <em>tight</em></li>
+              <li><strong>Beskatning</strong> (3 niveauer): <em>formueskat</em> (formueskat &mdash; r&oslash;dt signal), <em>substitute</em> (alternativt indtægtsgrundlag &mdash; midtersignal), <em>none</em> (ingen nye skatter &mdash; bl&aring;t signal)</li>
+              <li><strong>Forst&aring;elsespapir</strong> (2 niveauer): <em>yes</em> (formel koalitionsaftale), <em>no</em> (uformel st&oslash;tteaftale)</li>
+              <li><strong>Gr&oslash;n investering</strong> (3 niveauer): <em>high</em>, <em>medium</em>, <em>low</em></li>
+              <li><strong>Udl&aelig;ndingepolitik</strong> (3 niveauer): <em>restrictive</em>, <em>moderate</em>, <em>status_quo</em></li>
+              <li><strong>Finanspolitisk linje</strong> (3 niveauer): <em>expansive</em>, <em>moderate</em>, <em>tight</em></li>
             </ol>
-            <p style="margin-top:0.5rem;">Total: 3 &times; 2 &times; 3 &times; 3 &times; 3 = <strong>162 combinations</strong>.</p>
-            <p style="margin-top:0.5rem;"><strong>Coherence constraints</strong> prune impossible or incoherent combinations (from sim3-packages.js). For example, formueskat + tight fiscal is contradictory; none + expansive + status_quo immigration is incoherent for a red platform. After pruning, roughly 80&ndash;100 platforms survive per coalition type.</p>
-            <p style="margin-top:0.5rem;"><strong>Platform signal effects on party behavior:</strong></p>
+            <p style="margin-top:0.5rem;">Total: 3 &times; 2 &times; 3 &times; 3 &times; 3 = <strong>162 kombinationer</strong>.</p>
+            <p style="margin-top:0.5rem;"><strong>Koh&aelig;rensbegr&aelig;nsninger</strong> frasorterer umulige eller inkoh&aelig;rente kombinationer (fra sim3-packages.js). For eksempel er formueskat + stram finanspolitik selvmodsigende; ingen nye skatter + ekspansiv + status quo p&aring; udl&aelig;ndingepolitik er inkoh&aelig;rent for en r&oslash;d platform. Efter frasortering overlever ca. 80&ndash;100 platforme per koalitionstype.</p>
+            <p style="margin-top:0.5rem;"><strong>Platformsignalers effekt p&aring; partiadf&aelig;rd:</strong></p>
             <ul style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
-              <li><em>forst&aring;elsespapir = yes</em> &rarr; M (Moderaterne) incurs a penalty (they prefer informal arrangements)</li>
-              <li><em>immigration = restrictive</em> &rarr; EL and RV incur a penalty (ideologically opposed)</li>
-              <li><em>taxation = none + fiscal = tight</em> &rarr; SF and EL incur a &ldquo;right-tilt&rdquo; penalty (perceived as abandoning core commitments)</li>
-              <li><em>green = high</em> &rarr; small bonus for SF, EL; small penalty for DF, DD</li>
+              <li><em>forst&aring;elsespapir = yes</em> &rarr; M (Moderaterne) p&aring;f&oslash;res en straf (de foretr&aelig;kker uformelle aftaler)</li>
+              <li><em>immigration = restrictive</em> &rarr; EL og RV p&aring;f&oslash;res en straf (ideologisk modstand)</li>
+              <li><em>taxation = none + fiscal = tight</em> &rarr; SF og EL p&aring;f&oslash;res en &ldquo;h&oslash;jredrejnings&rdquo;-straf (opfattes som opgivelse af kerneindsatser)</li>
+              <li><em>green = high</em> &rarr; lille bonus til SF, EL; lille straf til DF, DD</li>
             </ul>
-            <p style="margin-top:0.5rem;"><strong>TOP_K = 8 heuristic pre-filter.</strong> For each candidate government, only the 8 highest-scoring platforms (by ideology fit) proceed to the full DP budget passage computation. This reduces computation from 162 &times; 11 DP calls to 8 &times; 11 per iteration without meaningfully affecting results, since low-fit platforms almost never produce the top score.</p>
+            <p style="margin-top:0.5rem;"><strong>TOP_K = 8 heuristisk forfilter.</strong> For hver kandidatregering g&aring;r kun de 8 h&oslash;jest scorende platforme (efter ideologisk pasform) videre til den fulde DP-finanslovsberegning. Dette reducerer beregningen fra 162 &times; 11 DP-kald til 8 &times; 11 per iteration uden m&aelig;rkbar effekt p&aring; resultaterne, da lavt scorende platforme n&aelig;sten aldrig giver topscore.</p>
           </div>
         </details>
       </div>
 
       <div class="pipeline-stage">
-        <div class="pipeline-num">Stage 3</div>
-        <div class="pipeline-title">Compute Budget Passage Probability</div>
-        <p class="pipeline-desc">A dynamic programming algorithm: for each non-government party, branch into FOR / AGAINST / ABSTAIN with drawn probabilities. Accumulate across all parties. Passage requires FOR &gt; AGAINST and FOR &ge; 70. Example: "With S+SF in government (61 mandates voting FOR), the DP checks whether enough other parties also vote FOR to beat the opposition."</p>
+        <div class="pipeline-num">Trin 3</div>
+        <div class="pipeline-title">Beregn sandsynlighed for finanslovsvedtagelse</div>
+        <p class="pipeline-desc">En dynamisk programmeringsalgoritme: for hvert ikke-regeringsparti forgrenes i FOR / IMOD / UNDLADER med trukne sandsynligheder. Akkumuleres p&aring; tv&aelig;rs af alle partier. Vedtagelse kr&aelig;ver FOR &gt; IMOD og FOR &ge; 70. Eksempel: &ldquo;Med S+SF i regering (61 mandater der stemmer FOR), tjekker DP&rsquo;en om tilstr&aelig;kkeligt mange andre partier ogs&aring; stemmer FOR til at overg&aring; oppositionen.&rdquo;</p>
         <details class="pipeline-detail">
-          <summary>Technical detail</summary>
+          <summary>Tekniske detaljer</summary>
           <div class="detail-content">
-            <p><strong>State space.</strong> The DP table is <code>dp[forVotes][againstVotes]</code>, where both dimensions run from 0 to total mandates (179). Each cell holds the probability of reaching that exact (FOR, AGAINST) count after processing all non-government parties.</p>
-            <p style="margin-top:0.5rem;"><strong>Per-party branching.</strong> For each non-government party with <em>m</em> mandates, the DP processes three branches weighted by (pFor, pAgainst, pAbstain):</p>
+            <p><strong>Tilstandsrum.</strong> DP-tabellen er <code>dp[forVotes][againstVotes]</code>, hvor begge dimensioner l&oslash;ber fra 0 til det samlede mandattal (179). Hver celle indeholder sandsynligheden for at n&aring; netop denne (FOR, IMOD)-t&aelig;lling efter behandling af alle ikke-regeringspartier.</p>
+            <p style="margin-top:0.5rem;"><strong>Forgrening per parti.</strong> For hvert ikke-regeringsparti med <em>m</em> mandater behandler DP&rsquo;en tre grene v&aelig;gtet med (pFor, pAgainst, pAbstain):</p>
             <ul style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
-              <li>FOR branch: shifts state by (+m, 0), weighted by pFor</li>
-              <li>AGAINST branch: shifts state by (0, +m), weighted by pAgainst</li>
-              <li>ABSTAIN branch: shifts state by (0, 0), weighted by pAbstain</li>
+              <li>FOR-gren: forskyder tilstanden med (+m, 0), v&aelig;gtet med pFor</li>
+              <li>IMOD-gren: forskyder tilstanden med (0, +m), v&aelig;gtet med pAgainst</li>
+              <li>UNDLADER-gren: forskyder tilstanden med (0, 0), v&aelig;gtet med pAbstain</li>
             </ul>
-            <p style="margin-top:0.5rem;"><strong>Passage condition:</strong> FOR &gt; AGAINST <em>and</em> FOR &ge; minForVotes (default 70). The final P(passage) is the sum of all dp[f][a] where f &gt; a and f &ge; 70.</p>
-            <p style="margin-top:0.5rem;"><strong>EL-M sequential conditioning.</strong> Enhedslisten (EL) and Moderaterne (M) have correlated budget behavior. The DP is run three times with different M probabilities, conditional on EL&rsquo;s stance:</p>
+            <p style="margin-top:0.5rem;"><strong>Vedtagelsesbetingelse:</strong> FOR &gt; IMOD <em>og</em> FOR &ge; minForVotes (standard 70). Den endelige P(vedtagelse) er summen af alle dp[f][a] hvor f &gt; a og f &ge; 70.</p>
+            <p style="margin-top:0.5rem;"><strong>EL-M sekventiel konditionering.</strong> Enhedslisten (EL) og Moderaterne (M) har korreleret finanslovsadf&aelig;rd. DP&rsquo;en k&oslash;res tre gange med forskellige M-sandsynligheder, betinget p&aring; EL&rsquo;s holdning:</p>
             <ul style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
-              <li>Branch 1: EL = FOR &rarr; M is penalized (lower pFor for M, higher pAgainst)</li>
-              <li>Branch 2: EL = ABSTAIN &rarr; M at baseline probabilities</li>
-              <li>Branch 3: EL = AGAINST &rarr; M is boosted (higher pFor for M, signaling centrist budget)</li>
+              <li>Gren 1: EL = FOR &rarr; M straffes (lavere pFor for M, h&oslash;jere pAgainst)</li>
+              <li>Gren 2: EL = UNDLADER &rarr; M p&aring; baseline-sandsynligheder</li>
+              <li>Gren 3: EL = IMOD &rarr; M f&aring;r bonus (h&oslash;jere pFor for M, signalerer centristisk finanslov)</li>
             </ul>
-            <p>Final P(passage) = weighted sum of the three branches, weighted by EL&rsquo;s (pFor, pAbstain, pAgainst).</p>
+            <p>Endelig P(vedtagelse) = v&aelig;gtet sum af de tre grene, v&aelig;gtet med EL&rsquo;s (pFor, pAbstain, pAgainst).</p>
             <p style="margin-top:0.5rem;"><strong>Tre L&oslash;kke-parametre.</strong></p>
             <ul style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
               <li><strong>mDemandGov</strong> (inklusionskrav): M stemmer imod enhver finanslov for en regering uden M. Modellerer L&oslash;kkes krav om regeringsdeltagelse. <em>N&aring;r aktivt dominerer dette L&oslash;kkes retningspr&aelig;ference (mPmPref) fuldst&aelig;ndigt &mdash; kravet foreg&aring;r i koden f&oslash;r orienteringen evalueres.</em></li>
               <li><strong>mDemandPM</strong> (SM-krav): M stemmer imod enhver finanslov hvor M ikke er statsminister. Da ingen M-ledet pakke eksisterer under standard (sRelaxPM=false), er dette selvdestruktivt &mdash; M ekskluderes fra alle koalitioner.</li>
               <li><strong>sRelaxPM</strong> (S accepterer ikke-S SM): N&aring;r aktivt kan M-ledede pakker (M+S+SF, M+S+RV) konkurrere med S-ledede pakker. S stemmer ikke l&aelig;ngere automatisk imod ikke-S statsministre. Prior: 5% baseret p&aring; Polymarket L&oslash;kke-SM pris (~4%).</li>
             </ul>
-            <p style="margin-top:0.5rem;"><strong>Key P(FOR) ranges by party</strong> (approximate, vary by platform):</p>
+            <p style="margin-top:0.5rem;"><strong>Centrale P(FOR)-intervaller per parti</strong> (omtrentlige, varierer med platform):</p>
             <ul style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
-              <li>SF: 0.60&ndash;0.85 (high for red platforms, lower if not in government but ideologically close)</li>
-              <li>EL: 0.30&ndash;0.65 (depends heavily on platform &mdash; formueskat boosts, restrictive immigration tanks)</li>
-              <li>M: 0.20&ndash;0.55 (depends on EL conditioning and platform signals)</li>
-              <li>RV: 0.45&ndash;0.75 (generally supportive of S-led budgets unless immigration is restrictive)</li>
-              <li>DF: 0.10&ndash;0.40 (rarely supports red budgets unless immigration is restrictive)</li>
-              <li>KF: 0.15&ndash;0.35 (rarely supports red budgets)</li>
+              <li>SF: 0,60&ndash;0,85 (h&oslash;j for r&oslash;de platforme, lavere hvis ikke i regering men ideologisk t&aelig;t p&aring;)</li>
+              <li>EL: 0,30&ndash;0,65 (afh&aelig;nger st&aelig;rkt af platform &mdash; formueskat &oslash;ger, restriktiv udl&aelig;ndingepolitik s&aelig;nker)</li>
+              <li>M: 0,20&ndash;0,55 (afh&aelig;nger af EL-konditionering og platformsignaler)</li>
+              <li>RV: 0,45&ndash;0,75 (generelt st&oslash;ttende over for S-ledede finanslove medmindre udl&aelig;ndingepolitikken er restriktiv)</li>
+              <li>DF: 0,10&ndash;0,40 (st&oslash;tter sj&aelig;ldent r&oslash;de finanslove medmindre udl&aelig;ndingepolitikken er restriktiv)</li>
+              <li>KF: 0,15&ndash;0,35 (st&oslash;tter sj&aelig;ldent r&oslash;de finanslove)</li>
             </ul>
-            <p style="margin-top:0.5rem;"><strong>Abstain/against split.</strong> When a party does not vote FOR, the remaining probability is split between AGAINST and ABSTAIN. The split ratio varies by party: EL has a higher abstain share (protest via abstention rather than active opposition), while blue parties lean more toward AGAINST.</p>
+            <p style="margin-top:0.5rem;"><strong>Fordeling mellem undlader/imod.</strong> N&aring;r et parti ikke stemmer FOR, fordeles den resterende sandsynlighed mellem IMOD og UNDLADER. Fordelingsforholdet varierer per parti: EL har en h&oslash;jere undlader-andel (protest via undladelse snarere end aktiv modstand), mens bl&aring; partier l&aelig;ner mere mod IMOD.</p>
           </div>
         </details>
       </div>
 
       <div class="pipeline-stage">
-        <div class="pipeline-num">Stage 4</div>
-        <div class="pipeline-title">Score and Rank Coalitions</div>
-        <p class="pipeline-desc">Score = P(passage) &times; preference weight &times; ideology fit &times; size bonus &times; MWCC bonus &times; historical precedent. The highest-scoring viable package wins. "The government with the best combination of legislative viability, ideological coherence, and Frederiksen's preference wins."</p>
+        <div class="pipeline-num">Trin 4</div>
+        <div class="pipeline-title">Scor og rangordne koalitioner</div>
+        <p class="pipeline-desc">Score = P(vedtagelse) &times; pr&aelig;ferencev&aelig;gt &times; ideologisk pasform &times; st&oslash;rrelsesbonus &times; MWCC-bonus &times; historisk pr&aelig;cedens. Den h&oslash;jest scorende levedygtige pakke vinder. &ldquo;Den regering der har den bedste kombination af lovgivningsm&aelig;ssig levedygtighed, ideologisk sammenh&aelig;ng og Frederiksens pr&aelig;ference, vinder.&rdquo;</p>
         <details class="pipeline-detail">
-          <summary>Technical detail</summary>
+          <summary>Tekniske detaljer</summary>
           <div class="detail-content">
-            <p><strong>Multiplicative scoring formula:</strong></p>
-            <p style="font-family:'IBM Plex Mono',monospace; font-size:0.78rem; margin:0.4rem 0; padding:0.5rem; background:#f0eeeb;">score = P(passage) &times; preferenceWeight &times; ideologyFit &times; sizeBonus &times; mwccBonus &times; historicalPrecedent</p>
-            <p style="margin-top:0.5rem;">Each component:</p>
+            <p><strong>Multiplikativ scoringsformel:</strong></p>
+            <p style="font-family:'IBM Plex Mono',monospace; font-size:0.78rem; margin:0.4rem 0; padding:0.5rem; background:#f0eeeb;">score = P(vedtagelse) &times; preferenceWeight &times; ideologyFit &times; sizeBonus &times; mwccBonus &times; historicalPrecedent</p>
+            <p style="margin-top:0.5rem;">Hver komponent:</p>
             <ul style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
-              <li><strong>P(passage)</strong>: the DP-computed budget passage probability from Stage 3.</li>
-              <li><strong>Preference weight</strong>: reflects Frederiksen&rsquo;s coalition preference. For S-led governments:
+              <li><strong>P(vedtagelse)</strong>: den DP-beregnede sandsynlighed for finanslovsvedtagelse fra trin 3.</li>
+              <li><strong>Pr&aelig;ferencev&aelig;gt</strong>: afspejler Frederiksens koalitionspr&aelig;ference. For S-ledede regeringer:
                 <ul style="margin:0.2rem 0 0.2rem 1rem;">
-                  <li>Pure red (S+SF, S+SF+RV): <code>1 + redPreference &times; 0.3</code></li>
-                  <li>Midter/broad (S+SF+RV+M, S+SF+M): <code>1 + (1 &minus; redPreference) &times; 0.3</code></li>
-                  <li>Lognormal noise with &sigma; = 0.1 is applied to introduce stochastic variation in preferences across iterations</li>
+                  <li>Ren r&oslash;d (S+SF, S+SF+RV): <code>1 + redPreference &times; 0,3</code></li>
+                  <li>Midter/bred (S+SF+RV+M, S+SF+M): <code>1 + (1 &minus; redPreference) &times; 0,3</code></li>
+                  <li>Lognormal st&oslash;j med &sigma; = 0,1 p&aring;f&oslash;res for at introducere stokastisk variation i pr&aelig;ferencer p&aring; tv&aelig;rs af iterationer</li>
                 </ul>
               </li>
-              <li><strong>Ideology fit</strong>: <code>exp(&minus;distPenalty &times; meanAbsoluteLRDistance)</code>, with a floor of 0.3. The LR distance is the average absolute left-right distance between the formateur and each coalition partner, weighted by mandates.</li>
-              <li><strong>Size bonus</strong>: <code>exp(&minus;sizePenalty &times; (nMembers &minus; 1))</code>, with a floor of 0.5. Rewards parsimony &mdash; fewer parties in government means fewer veto players.</li>
-              <li><strong>MWCC bonus</strong>:
+              <li><strong>Ideologisk pasform</strong>: <code>exp(&minus;distPenalty &times; meanAbsoluteLRDistance)</code>, med en bund p&aring; 0,3. LR-afstanden er den gennemsnitlige absolutte venstre-h&oslash;jre-afstand mellem formateur og hvert koalitionsmedlem, v&aelig;gtet med mandater.</li>
+              <li><strong>St&oslash;rrelsesbonus</strong>: <code>exp(&minus;sizePenalty &times; (nMembers &minus; 1))</code>, med en bund p&aring; 0,5. Belønner parsimoni &mdash; f&aelig;rre partier i regering betyder f&aelig;rre vetospillere.</li>
+              <li><strong>MWCC-bonus</strong>:
                 <ul style="margin:0.2rem 0 0.2rem 1rem;">
-                  <li>1.15 &mdash; full minimum winning connected coalition (MWCC): connected on LR spectrum + minimal winning</li>
-                  <li>1.08 &mdash; connected and small (connected on LR spectrum but not strictly minimal winning)</li>
-                  <li>1.05 &mdash; connected only</li>
-                  <li>1.00 &mdash; none of the above</li>
+                  <li>1,15 &mdash; fuld minimum winning connected coalition (MWCC): sammenh&aelig;ngende p&aring; VH-spektret + minimalt vindende</li>
+                  <li>1,08 &mdash; sammenh&aelig;ngende og lille (sammenh&aelig;ngende p&aring; VH-spektret men ikke strengt minimalt vindende)</li>
+                  <li>1,05 &mdash; kun sammenh&aelig;ngende</li>
+                  <li>1,00 &mdash; ingen af ovenst&aring;ende</li>
                 </ul>
               </li>
-              <li><strong>Historical precedent</strong>: <code>1 + score &times; 0.02</code> per precedent point. Coalitions resembling past Danish governments (e.g., S+RV has historical precedent from several governments) get a small multiplicative boost.</li>
+              <li><strong>Historisk pr&aelig;cedens</strong>: <code>1 + score &times; 0,02</code> per pr&aelig;cedenspoint. Koalitioner der minder om tidligere danske regeringer (f.eks. S+RV har historisk pr&aelig;cedens fra flere regeringer) f&aring;r et lille multiplikativt till&aelig;g.</li>
             </ul>
-            <p style="margin-top:0.5rem;"><strong>Formateur protocol.</strong> By default, S (Socialdemokratiet) evaluates first as formateur, reflecting the convention that the largest party gets the first attempt. With probability pBlueFormateur, the blue bloc evaluates first. When the parameter <code>sRelaxPM</code> = true, S accepts a non-S PM &mdash; enabling M-led packages (M+S+SF, M+S+RV) to compete alongside S-led packages on equal footing within the same evaluation round. The formateur evaluates all 13 candidate governments and picks the highest-scoring one. M-led governments only form when sRelaxPM = true <em>and</em> an M-led package scores higher than the best S-led alternative.</p>
+            <p style="margin-top:0.5rem;"><strong>Formateurprotokol.</strong> Som standard evaluerer S (Socialdemokratiet) f&oslash;rst som formateur, hvilket afspejler konventionen om at det st&oslash;rste parti f&aring;r f&oslash;rste fors&oslash;g. Med sandsynlighed pBlueFormateur evaluerer bl&aring; blok f&oslash;rst. N&aring;r parameteren <code>sRelaxPM</code> = true accepterer S en ikke-S statsminister &mdash; hvilket muligg&oslash;r at M-ledede pakker (M+S+SF, M+S+RV) konkurrerer p&aring; lige fod med S-ledede pakker inden for samme evalueringsrunde. Formateuren evaluerer alle 13 kandidatregeringer og v&aelig;lger den h&oslash;jest scorende. M-ledede regeringer dannes kun n&aring;r sRelaxPM = true <em>og</em> en M-ledet pakke scorer h&oslash;jere end det bedste S-ledede alternativ.</p>
           </div>
         </details>
       </div>
 
       <div class="pipeline-stage">
-        <div class="pipeline-num">Stage 5</div>
-        <div class="pipeline-title">Repeat 500 Times and Count</div>
-        <p class="pipeline-desc">Aggregation: PM probabilities, government type frequencies, top coalition rankings. "After 500 simulated election nights per configuration, we count: how often does each party leader become PM? What is the most common government type?"</p>
+        <div class="pipeline-num">Trin 5</div>
+        <div class="pipeline-title">Gentag 500 gange og opt&aelig;l</div>
+        <p class="pipeline-desc">Aggregering: SM-sandsynligheder, regeringstypefrekvenser, topkoalitionsrangeringer. &ldquo;Efter 500 simulerede valgaftener per konfiguration t&aelig;ller vi: hvor ofte bliver hver partileder statsminister? Hvad er den hyppigste regeringstype?&rdquo;</p>
         <details class="pipeline-detail">
-          <summary>Technical detail</summary>
+          <summary>Tekniske detaljer</summary>
           <div class="detail-content">
-            <p><strong>Outer loop.</strong> N = 500 iterations per configuration. Each iteration is independent. At N=500, the standard error for a 50% probability is 2.2 procentpoint &mdash; sufficient for detecting all substantive parameter effects (&ge;5pp). Additional iterations can be added later and merged without re-running existing simulations.</p>
-            <p style="margin-top:0.5rem;"><strong>Per-iteration pipeline:</strong></p>
+            <p><strong>Ydre l&oslash;kke.</strong> N = 500 iterationer per konfiguration. Hver iteration er uafh&aelig;ngig. Ved N=500 er standardfejlen for en sandsynlighed p&aring; 50% p&aring; 2,2 procentpoint &mdash; tilstr&aelig;kkeligt til at detektere alle substantielle parametereffekter (&ge;5pp). Yderligere iterationer kan tilf&oslash;jes senere og sammensmeltes uden at gek&oslash;re eksisterende simuleringer.</p>
+            <p style="margin-top:0.5rem;"><strong>Pipeline per iteration:</strong></p>
             <ol style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
-              <li>Draw mandates (Stage 1 correlation structure)</li>
-              <li>Draw budget basis probabilities (per-party pFor/pAgainst/pAbstain, with noise)</li>
-              <li>Draw NA seat alignment (4 independent trinomial draws)</li>
-              <li>Call <code>selectGovernment()</code>: evaluate all 13 candidate governments &times; top-K platforms, compute DP passage for each, score, pick winner</li>
-              <li>Record outcome: PM identity (S, M, V, or LA), government type, winning coalition, passage probability, platform</li>
+              <li>Tr&aelig;k mandater (trin 1-korrelationsstruktur)</li>
+              <li>Tr&aelig;k basis-budgetsandsynligheder (pFor/pAgainst/pAbstain per parti, med st&oslash;j)</li>
+              <li>Tr&aelig;k NA-mandatorientering (4 uafh&aelig;ngige trinomiale tr&aelig;kninger)</li>
+              <li>Kald <code>selectGovernment()</code>: evaluer alle 13 kandidatregeringer &times; top-K platforme, beregn DP-vedtagelse for hver, scor, v&aelig;lg vinder</li>
+              <li>Registr&eacute;r udfald: SM-identitet (S, M, V eller LA), regeringstype, vindende koalition, vedtagelsessandsynlighed, platform</li>
             </ol>
-            <p style="margin-top:0.5rem;"><strong>Aggregation.</strong> After all N iterations:</p>
+            <p style="margin-top:0.5rem;"><strong>Aggregering.</strong> Efter alle N iterationer:</p>
             <ul style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
-              <li>PM frequencies: count of iterations where each party leader becomes PM, as percentages</li>
-              <li>Government type frequencies: red, blue, cross-bloc, gridlock (none), S-alone, midter</li>
-              <li>Top coalition rankings: ordered by frequency, with average P(passage) for each</li>
-              <li>Best platform: the most common winning platform for each coalition type</li>
+              <li>SM-frekvenser: antal iterationer hvor hver partileder bliver statsminister, som procent</li>
+              <li>Regeringstypefrekvenser: r&oslash;d, bl&aring;, tv&aelig;rblok, d&oslash;dvande (ingen), S-alene, midter</li>
+              <li>Topkoalitionsrangeringer: ordnet efter frekvens, med gennemsnitlig P(vedtagelse) for hver</li>
+              <li>Bedste platform: den hyppigst vindende platform for hver koalitionstype</li>
             </ul>
-            <p style="margin-top:0.5rem;"><strong>Confidence check.</strong> Before accepting a government, a pre-filter checks that the opposition mandates voting FOR a <em>mistillidsvotum</em> (vote of no confidence) would be &lt; 90. This is a structural sanity check, not a binding constraint &mdash; it filters out arithmetically impossible governments.</p>
-            <p style="margin-top:0.5rem;"><strong>Sweep methodology.</strong> The sensitivity analysis combines two approaches:</p>
+            <p style="margin-top:0.5rem;"><strong>Konfidensetjek.</strong> F&oslash;r en regering accepteres, tjekker et forfilter at oppositionsmandater der stemmer FOR et <em>mistillidsvotum</em> vil v&aelig;re &lt; 90. Dette er et strukturelt sundhedstjek, ikke en bindende begr&aelig;nsning &mdash; det frasorterer aritmetisk umulige regeringer.</p>
+            <p style="margin-top:0.5rem;"><strong>Sweep-metodik.</strong> F&oslash;lsomhedsanalysen kombinerer to tilgange:</p>
             <ul style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
-              <li><strong>5D factorial grid</strong> (243+ celler): mandatscenarie &times; L&oslash;kkes forhandlingsposition &times; L&oslash;kkes retning &times; Frederiksens pr&aelig;ference &times; SFs forhandlingsstyrke. Hver celle k&oslash;res ved N=500. Giver brugeren mulighed for at kombinere antagelser interaktivt.</li>
-              <li><strong>One-at-a-time (OAT) parametric sweeps</strong> (~90 konfigurationer): &eacute;n parameter varieres ad gangen mens &oslash;vrige holdes p&aring; baseline. Bruges til tornadodiagrammer og f&oslash;lsomhedsanalyse.</li>
-              <li><strong>Interaction crosses</strong> (~80 konfigurationer): parvise kombinationer af de vigtigste parametre (mDemandGov &times; redPref, pBlueFormateur &times; mandater, elMPenalty &times; mPmPref, m.fl.).</li>
-              <li><strong>Phase transition probes</strong> (~50 konfigurationer): finkornede sweeps der kortl&aelig;gger hvor sm&aring; &aelig;ndringer udl&oslash;ser kvalitative skift (f.eks. "hvor meget skal m&aring;lingerne tage fejl f&oslash;r bl&aring; vinder?").</li>
-              <li><strong>Nye parametre</strong>: <code>sRelaxPM</code> (S accepterer ikke-S statsminister, standard: false, prior: 5%) og <code>sigmaBloc</code> sweeps (3.0&ndash;8.0) for at unders&oslash;ge effekten af bredere meningsm&aring;lingsusikkerhed.</li>
+              <li><strong>5D faktorielt gitter</strong> (243+ celler): mandatscenarie &times; L&oslash;kkes forhandlingsposition &times; L&oslash;kkes retning &times; Frederiksens pr&aelig;ference &times; SFs forhandlingsstyrke. Hver celle k&oslash;res ved N=500. Giver brugeren mulighed for at kombinere antagelser interaktivt.</li>
+              <li><strong>&Eacute;n-ad-gangen (OAT) parametriske sweeps</strong> (~90 konfigurationer): &eacute;n parameter varieres ad gangen mens &oslash;vrige holdes p&aring; baseline. Bruges til tornadodiagrammer og f&oslash;lsomhedsanalyse.</li>
+              <li><strong>Interaktionskrydsninger</strong> (~80 konfigurationer): parvise kombinationer af de vigtigste parametre (mDemandGov &times; redPref, pBlueFormateur &times; mandater, elMPenalty &times; mPmPref, m.fl.).</li>
+              <li><strong>Faseoverkgangs-prober</strong> (~50 konfigurationer): finkornede sweeps der kortl&aelig;gger hvor sm&aring; &aelig;ndringer udl&oslash;ser kvalitative skift (f.eks. &ldquo;hvor meget skal m&aring;lingerne tage fejl f&oslash;r bl&aring; vinder?&rdquo;).</li>
+              <li><strong>Nye parametre</strong>: <code>sRelaxPM</code> (S accepterer ikke-S statsminister, standard: false, prior: 5%) og <code>sigmaBloc</code> sweeps (3,0&ndash;8,0) for at unders&oslash;ge effekten af bredere meningsm&aring;lingsusikkerhed.</li>
             </ul>
           </div>
         </details>
       </div>
 
       <div class="pipeline-stage">
-        <div class="pipeline-num">Stage 6</div>
-        <div class="pipeline-title">Key Assumptions and Limitations</div>
-        <p class="pipeline-desc">The model makes structural simplifications that bound the interpretation of results. Understanding these is essential for using the outputs responsibly.</p>
+        <div class="pipeline-num">Trin 6</div>
+        <div class="pipeline-title">Centrale antagelser og begr&aelig;nsninger</div>
+        <p class="pipeline-desc">Modellen foretager strukturelle forenklinger, som afgrænser fortolkningen af resultaterne. Forst&aring;else af disse er afg&oslash;rende for ansvarlig brug af outputtet.</p>
         <details class="pipeline-detail">
-          <summary>Technical detail</summary>
+          <summary>Tekniske detaljer</summary>
           <div class="detail-content">
-            <p><strong>Parties as probability distributions, not strategic actors.</strong> Each party&rsquo;s budget voting behavior is drawn from a fixed probability distribution. Parties do not anticipate others&rsquo; moves, negotiate sequentially, or update beliefs. This means the model cannot capture strategic dynamics like &ldquo;EL threatens to vote against unless formueskat is included.&rdquo;</p>
-            <p style="margin-top:0.5rem;"><strong>Parallel evaluation, not sequential bargaining.</strong> The formateur evaluates all 11 candidate governments simultaneously and picks the best score. In reality, government formation is a sequential process with failed attempts, new mandates, and evolving negotiation positions. The model compresses this into a single optimization step.</p>
-            <p style="margin-top:0.5rem;"><strong>The &ldquo;substitute&rdquo; taxation level is a modeling construct.</strong> The three taxation levels (formueskat / substitute / none) are an abstraction. &ldquo;Substitute&rdquo; represents an alternative revenue measure that is less ideologically charged than a wealth tax but still generates revenue. It does not correspond to a specific real-world policy proposal.</p>
-            <p style="margin-top:0.5rem;"><strong>Fixed party positions within each iteration.</strong> Within a single iteration, party positions and preferences are fixed. There is no intra-iteration negotiation or position adjustment. Variation comes from across-iteration noise, not within-iteration dynamics.</p>
-            <p style="margin-top:0.5rem;"><strong>No <em>nyvalg</em> (snap re-election) threat modeling.</strong> The model does not include the possibility of a government calling a snap election as a bargaining tool. In practice, the threat of <em>nyvalg</em> can discipline coalition partners.</p>
+            <p><strong>Partier som sandsynlighedsfordelinger, ikke strategiske akt&oslash;rer.</strong> Hvert partis finanslovsadf&aelig;rd tr&aelig;kkes fra en fast sandsynlighedsfordeling. Partierne forudser ikke andres tr&aelig;k, forhandler sekventielt eller opdaterer overbevisninger. Det betyder, at modellen ikke kan fange strategiske dynamikker som &ldquo;EL truer med at stemme imod medmindre formueskat inkluderes.&rdquo;</p>
+            <p style="margin-top:0.5rem;"><strong>Parallel evaluering, ikke sekventiel forhandling.</strong> Formateuren evaluerer alle 11 kandidatregeringer simultant og v&aelig;lger den bedste score. I virkeligheden er regeringsdannelse en sekventiel proces med mislykkede fors&oslash;g, nye mandater og skiftende forhandlingspositioner. Modellen komprimerer dette til &eacute;t optimeringstrin.</p>
+            <p style="margin-top:0.5rem;"><strong>Beskatningsniveauet &ldquo;substitute&rdquo; er en modelleringskonstruktion.</strong> De tre beskatningsniveauer (formueskat / substitute / none) er en abstraktion. &ldquo;Substitute&rdquo; repr&aelig;senterer en alternativ indt&aelig;gtskilde der er mindre ideologisk ladet end en formueskat, men stadig genererer indt&aelig;gter. Det svarer ikke til et specifikt politikforslag i den virkelige verden.</p>
+            <p style="margin-top:0.5rem;"><strong>Faste partipositioner inden for hver iteration.</strong> Inden for en enkelt iteration er partipositioner og pr&aelig;ferencer faste. Der er ingen forhandling eller positionsjustering inden for iterationen. Variation kommer fra st&oslash;j p&aring; tv&aelig;rs af iterationer, ikke fra dynamik inden for iterationen.</p>
+            <p style="margin-top:0.5rem;"><strong>Ingen modellering af nyvalgstrussel.</strong> Modellen inkluderer ikke muligheden for at en regering udskriver nyvalg som forhandlingsredskab. I praksis kan truslen om <em>nyvalg</em> disciplinere koalitionspartnere.</p>
             <p style="margin-top:0.5rem;"><strong>De 13 optalte regeringspakker.</strong> Modellen evaluerer et fast s&aelig;t af kandidatregeringer:</p>
             <ul style="margin:0.3rem 0 0.3rem 1.2rem; font-size:0.8rem; line-height:1.6;">
               <li>S-ledet r&oslash;d: S-alene, S+SF, S+SF+RV, S+RV</li>
@@ -976,7 +976,7 @@ details .panel {
             <p><strong>M-ledede regeringer</strong> er en ny tilf&oslash;jelse. De modellerer scenariet hvor Frederiksen accepterer L&oslash;kke som statsminister &mdash; historisk pr&aelig;cedens fra 1968 (Baunsgaard fra det mindste koalitionsparti blev statsminister). Med <code>sRelaxPM</code> = true konkurrerer M-ledede pakker p&aring; lige vilk&aring;r med S-ledede pakker baseret p&aring; scoring. Prior: P(sRelaxPM = true) = 5%, baseret p&aring; Polymarkets pris p&aring; L&oslash;kke som SM (~4%) og ekspertvurderinger.</p>
             <p style="margin-top:0.5rem;"><strong>Eksklutioner:</strong> Ingen regeringer med EL (har aldrig siddet i regering), DF (strukturelle begr&aelig;nsninger + gensidig veto med M), eller ALT/BP (for sm&aring;, ikke regeringsduelige). Ingen bl&aring; midterregering (V+LA+KF+M) &mdash; aritmetisk d&oslash;d uden DF, og DF blokerer L&oslash;kke.</p>
             <p style="margin-top:0.5rem;"><strong>Kalibreringsproblemet.</strong> P(FOR)-intervallerne for hvert parti er baseret p&aring; ekspertvurderinger og historiske afstemningsm&oslash;nstre (finanslovsafstemninger 2002&ndash;2025), men de er ikke empirisk valideret mod et stort stikpr&oslash;veudvalg af faktiske budgetafstemninger for alle partier. EL-M-konditioneringsstrukturen er f.eks. baseret p&aring; kvalitativ observation af deres politiske interdependens snarere end et formelt statistisk estimat. Resultaterne b&oslash;r fortolkes som &rdquo;givet disse antagne sandsynlighedsintervaller, hvad f&oslash;lger strukturelt&rdquo; &mdash; ikke som &rdquo;dette er den sande sandsynlighed.&rdquo;</p>
-            <p style="margin-top:0.5rem;"><strong>Mandatgrundlaget.</strong> Basislinjefordelingen (S=38, SF=23, M=9, ...) stammer fra Altingets v&aelig;gtede snit af meningsm&aring;linger fra flere institutter. Mandaterne tr&aelig;kkes stokastisk med &sigma;<sub>bloc</sub> = 4.0 som standard, hvilket modellerer +/&minus;8 mandaters usikkerhed for hver blok. Parameteren <code>sigmaBloc</code> kan &oslash;ges for at unders&oslash;ge effekten af st&oslash;rre m&aring;lingsusikkerhed.</p>
+            <p style="margin-top:0.5rem;"><strong>Mandatgrundlaget.</strong> Basislinjefordelingen (S=38, SF=23, M=9, ...) stammer fra Altingets v&aelig;gtede snit af meningsm&aring;linger fra flere institutter. Mandaterne tr&aelig;kkes stokastisk med &sigma;<sub>bloc</sub> = 4,0 som standard, hvilket modellerer +/&minus;8 mandaters usikkerhed for hver blok. Parameteren <code>sigmaBloc</code> kan &oslash;ges for at unders&oslash;ge effekten af st&oslash;rre m&aring;lingsusikkerhed.</p>
           </div>
         </details>
       </div>
@@ -984,6 +984,7 @@ details .panel {
     </div>
   </details>
 </section>
+
 
 <!-- ===== SECTION 10: DATA TABLE ===== -->
 <section id="data-table-section">
