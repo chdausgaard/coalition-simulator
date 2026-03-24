@@ -17,7 +17,7 @@ const {
 const {
   PACKAGES, S_LED_PACKAGES, BLUE_LED_PACKAGES, M_LED_PACKAGES,
   getCoherentPlatforms, getPreferenceWeight,
-  platformToString, classifyGovType,
+  platformToString, classifyGovType, sfAcceptMDraw,
 } = require("./sim3-packages.js");
 
 // ============================================================================
@@ -316,6 +316,9 @@ function drawBudgetBases(params, cfg) {
 
     // V acceptance of S-led invitation
     v_accept_sled: uniformDraw(0.10, 0.40),
+
+    // SF acceptance of governing with M (default: always accept)
+    sf_accept_m: sfAcceptMDraw(params.sfAcceptM_lo || 1.0, params.sfAcceptM_hi || 1.0),
   };
 }
 
@@ -875,21 +878,43 @@ function evaluatePackage(pkg, formateur, mandates, bases, params, naAlignments, 
 // ============================================================================
 
 // Frederiksen preference bonus: redPreference ∈ [0,1] controls preference
-// for "pure red" (S+SF, S+SF+RV, S+RV, S-alone) vs "midter" packages
-// (those including M, V, or KF). Noise added per iteration.
+// across three tiers:
+//   redPreference → 1.0: prefers pure red (S+SF, S+SF+RV, S-alone)
+//   redPreference → 0.5: neutral across all coalition types
+//   redPreference → 0.0: prefers centrist without SF (S+M, S+RV)
+//
+// Three-tier classification:
+//   Pure red:  no M/V/KF (S+SF, S+SF+RV, S+RV, S-alone)
+//   Centrist:  has M/V/KF but no left party (S+M, S+RV+M, S+V, S+V+M)
+//   Broad:     has M/V/KF AND left party (S+SF+M, S+SF+RV+M)
+//
+// At low redPreference, centrist gets a stronger boost than broad,
+// reflecting Frederiksen's potential preference for governing without SF.
 function frederiksenBonus(pkg, redPreference) {
   const members = new Set(pkg.members);
   const hasBlueOrSwingPartner = members.has("M") || members.has("V") || members.has("KF");
+  const hasLeftParty = members.has("SF") || members.has("EL") || members.has("ALT");
 
   // Stochastic noise: exp(0.1 * N(0,1))
   const noise = Math.exp(0.1 * normDraw(0, 1));
 
+  // Base bonus for midter (any package with M/V/KF)
+  const midterBase = (1 - redPreference) * 0.3;
+  // Centrist split: only active below redPreference=0.5
+  // At 0.5: centrist = broad (old behavior). Below 0.5: centrist preferred.
+  const centristEdge = Math.max(0, 0.5 - redPreference);
+
   if (!hasBlueOrSwingPartner) {
     // Pure red: S-alone, S+SF, S+SF+RV, S+RV
     return (1.0 + redPreference * 0.3) * noise;
+  } else if (!hasLeftParty) {
+    // Centrist: S+M, S+V, S+V+M (no SF/EL/ALT)
+    // Progressive boost below neutral — Frederiksen prefers centrist over broad
+    return (1.0 + midterBase + centristEdge * 0.6) * noise;
   } else {
-    // Midter: S+M, S+SF+M, S+SF+RV+M, S+V, S+V+M
-    return (1.0 + (1 - redPreference) * 0.3) * noise;
+    // Broad: S+SF+M, S+SF+RV+M (has both swing and left)
+    // Progressive penalty below neutral — less preferred than pure centrist
+    return (1.0 + midterBase - centristEdge * 0.4) * noise;
   }
 }
 
@@ -907,6 +932,8 @@ function selectGovernment(mandates, naAlignments, bases, params, cfg) {
     for (const pkg of candidates) {
       if (!confidenceCheck(pkg.members, mandates).passes) continue;
       if (pkg.members.includes("V") && Math.random() > bases.v_accept_sled) continue;
+      // SF acceptance gate: SF may reject governing with M
+      if (pkg.members.includes("SF") && pkg.members.includes("M") && Math.random() > bases.sf_accept_m) continue;
       const pm = pkg.leader; // "S" for S-led packages, "M" for M-led
       const result = evaluatePackage(pkg, pm, mandates, bases, params, naAlignments, cfg);
       if (result && result.pPassage > viabilityThreshold) {
@@ -1043,6 +1070,8 @@ function runSim(userCfg, N) {
     sf_budget_abstain_sf: 0.75,
     m_substitute_pfor_lo: 0.15,
     m_substitute_pfor_hi: 0.45,
+    sfAcceptM_lo: 1.0,
+    sfAcceptM_hi: 1.0,
   };
 
   const sweepKeys = Object.keys(sweepParams);

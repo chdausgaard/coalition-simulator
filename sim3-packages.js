@@ -207,6 +207,16 @@ function vAcceptanceDraw() {
   return uniformDraw(0.10, 0.40);
 }
 
+// SF acceptance probability for governing WITH M (spec §8.1 extension)
+// Models SF's reluctance to sit in coalition with Moderaterne.
+// Olsen Dyhr disagrees with Løkke on 11/24 issues. SF wants government
+// but may reject a government that includes M.
+// Default: always accept (1.0). When sfAcceptM is enabled, draws from range.
+function sfAcceptMDraw(lo, hi) {
+  if (lo >= 1.0 && hi >= 1.0) return 1.0; // disabled
+  return uniformDraw(lo, hi);
+}
+
 function uniformDraw(lo, hi) {
   return lo + Math.random() * (hi - lo);
 }
@@ -224,4 +234,5 @@ module.exports = {
   platformToString,
   classifyGovType,
   vAcceptanceDraw,
+  sfAcceptMDraw,
 };
