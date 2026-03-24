@@ -747,7 +747,7 @@ haven't thought of.
 ### 9.1 Formateur order — Frederiksen's structural advantage
 
 **The sitting PM controls the process.** The constitutional handbook
-(research/DK_govt_constitutional_handbook.md) establishes: "the entire
+(research/formation_rules.md) establishes: "the entire
 process is on the outgoing PM's responsibility." Frederiksen doesn't
 just get a tiebreaker — she decides whether and when to call a
 kongerunde. She would resign only after determining she cannot form

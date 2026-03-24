@@ -80,7 +80,7 @@ const HISTORICAL_PRECEDENTS = {
 function historicalPrecedentBonus(govMembers, cfg) {
   const key = [...govMembers].sort().join("+");
   const score = HISTORICAL_PRECEDENTS[key] || 0;
-  const weight = cfg.precedentWeight || 0.02; // 2% per precedent point
+  const weight = cfg.precedentWeight != null ? cfg.precedentWeight : 0.02; // 2% per precedent point
   return 1.0 + score * weight;
 }
 
@@ -135,7 +135,7 @@ function drawMandates(overrides, cfg) {
     if (allDanish.every(id => overrides[id] != null)) {
       const mdt = {};
       for (const p of PARTIES) mdt[p.id] = overrides[p.id];
-      for (const s of NA_SEATS) mdt[s.id] = s.m;
+      for (const s of NA_SEATS) mdt[s.id] = overrides[s.id] != null ? overrides[s.id] : s.m;
       return mdt;
     }
   }
@@ -1008,15 +1008,33 @@ function runSim(userCfg, N) {
 }
 
 function runSweep(sweepKeys, sweepParams, defaults, mandateOverrides, cfg, N) {
-  const key = sweepKeys[0];
-  const values = sweepParams[key];
-  if (!Array.isArray(values)) {
-    return { results: [runSinglePoint(mandateOverrides, { ...defaults, [key]: values }, cfg, N)] };
+  // Apply all single-value params (scalars and single-element arrays) as fixed overrides
+  const fixedDefaults = { ...defaults };
+  for (const k of sweepKeys) {
+    const v = sweepParams[k];
+    if (Array.isArray(v) && v.length === 1) fixedDefaults[k] = v[0];
+    else if (!Array.isArray(v)) fixedDefaults[k] = v;
   }
+  // Find a multi-value array key to sweep over (if any)
+  const key = sweepKeys.find(k => Array.isArray(sweepParams[k]) && sweepParams[k].length > 1);
+  if (!key) {
+    // No multi-value sweep — run a single point with all overrides
+    return { results: [runSinglePoint(mandateOverrides, fixedDefaults, cfg, N)] };
+  }
+  const values = sweepParams[key];
 
   const results = [];
   for (const val of values) {
-    const params = { ...defaults, [key]: val };
+    const params = { ...fixedDefaults, [key]: val };
+    // Also propagate any sweep keys to cfg if they match cfg param names
+    for (const k of sweepKeys) {
+      if (k !== key && fixedDefaults[k] != null) {
+        const cfgKeys = ["redPreference","viabilityThreshold","minForVotes","taxWeight",
+          "elMPenalty","mPmPref","blocBiasRed","blocBiasBlue","distPenalty","sizePenalty",
+          "flexibility","precedentWeight"];
+        if (cfgKeys.includes(k)) cfgCopy[k] = fixedDefaults[k];
+      }
+    }
     const cfgCopy = { ...cfg };
     if (key === "redPreference") cfgCopy.redPreference = val;
     else if (key === "viabilityThreshold") cfgCopy.viabilityThreshold = val;
@@ -1148,11 +1166,14 @@ function main() {
   let userCfg = {};
   let N = 5000;
 
-  if (args[0] && args[0].startsWith("{")) {
-    userCfg = JSON.parse(args[0]);
-    if (args[1]) N = parseInt(args[1]);
-  } else if (args[0]) {
-    N = parseInt(args[0]);
+  if (args[0]) {
+    const arg0 = args[0].replace(/^['"]|['"]$/g, ''); // strip shell quotes if present
+    if (arg0.startsWith("{")) {
+      userCfg = JSON.parse(arg0);
+      if (args[1]) N = parseInt(args[1]);
+    } else {
+      N = parseInt(args[0]);
+    }
   }
 
   const t0 = Date.now();

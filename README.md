@@ -186,10 +186,14 @@ North Atlantic seats can also be overridden (`GL1`, `GL2`, `FO1`, `FO2` — each
 
 The `research/` directory contains background documents used during model calibration:
 
-- Danish government formation constitutional handbook
-- Expert commentary and analysis
-- Calibration notes against historical transitions
-- Transition probability matrices
+- `formation_rules.md` — Constitutional framework, kongerunde procedure, support-party norms
+- `election_2026.md` — 2026 party positions, polling, expert analysis, scenarios
+- `calibration.md` — Voting records, P(FOR) ranges, parameter recommendations
+- `transition_matrix.csv` — Voter flow data (2022→2026)
+
+## Acknowledgments
+
+The coalition scoring function (ideology fit, size bonus, MWCC bonus, historical precedent) adapts components from [Coalition Whisperer](https://coalition-whisperer.lovable.app) by its creators. sim3 extends these with legislative viability scoring via dynamic programming, correlated mandate draws, composition-signal externalities, and systematic sensitivity analysis.
 
 ## License
 
