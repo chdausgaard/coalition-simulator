@@ -235,7 +235,16 @@ function computeAbstainShare(party, coalition) {
   }
 
   const avgDist = count ? totalDist / count : 0.5;
-  return clamp01(0.85 - avgDist * 0.8);
+  let share = clamp01(0.85 - avgDist * 0.8);
+
+  // Parties that reject the PM vote against, not abstain. In Danish politics,
+  // opposition parties don't abstain on finansloven — they vote against.
+  if (coalition.leader) {
+    const pmAcceptance = relationshipValue(party, coalition.leader, "asPM", 1.0);
+    share *= Math.max(0.05, pmAcceptance);
+  }
+
+  return share;
 }
 
 function evalBudgetVote(partyId, coalition, platform, cfg) {
