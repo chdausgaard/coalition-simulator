@@ -1,0 +1,199 @@
+const EL = {
+  id: "EL",
+  name: "Enhedslisten",
+  mandates: 11, // "roughly 11" seats after the 24 Mar 2026 election. :contentReference[oaicite:0]{index=0}
+  bloc: "red",
+
+  // For 2026, cabinet entry is still "largely theoretical"; the realistic role is external support conditioned on a written agreement. :contentReference[oaicite:1]{index=1}
+  govEligible: false,
+  pmEligible: false,
+  pmDemand: false,
+
+  participationPref: {
+    government: 0.10,          // EL now says it wants government in principle, but the brief treats that as a long-run strategic evolution rather than a realistic 2026 outcome. :contentReference[oaicite:2]{index=2}
+    stoettepartiForst: 0.78,   // Core behavioral mode: external support WITH forståelsespapir. Budget support is binary on this. :contentReference[oaicite:3]{index=3}
+    stoettepartiLoose: 0.00,   // Structural hard switch: with paper they support budgets; without it they oppose budgets. :contentReference[oaicite:4]{index=4}
+    opposition: 0.12           // Opposition remains preferable to a "gray" or blue government. :contentReference[oaicite:5]{index=5}
+  },
+
+  // Hard rhetoric plus real grassroots constraints, but the brief also stresses underlying pragmatism.
+  globalHarshness: 0.64, // :contentReference[oaicite:6]{index=6}
+
+  positions: {
+    wealthTax:    { ideal: 0, floor: 3, ceiling: 0, weight: 0.62 }, // EL's headline demand is the 1%/35M wealth tax, but the brief says it is likely tradable for substitute inequality measures. :contentReference[oaicite:7]{index=7}
+    climateTgt:   { ideal: 1, floor: 2, ceiling: 0, weight: 0.56 }, // 90% by 2035; climate neutrality by 2040. :contentReference[oaicite:8]{index=8}
+    natureLaw:    { ideal: 0, floor: 1, ceiling: 0, weight: 0.68 }, // Joint demand for binding 30%/10% law, framed as part of support conditions. :contentReference[oaicite:9]{index=9}
+    pesticideBan: { ideal: 0, floor: 1, ceiling: 0, weight: 0.54 }, // Total ban in vulnerable groundwater areas. :contentReference[oaicite:10]{index=10}
+    immigration:  { ideal: 0, floor: 2, ceiling: 0, weight: 0.78 }, // Leadership is pragmatic, but the brief flags immigration as the deepest grassroots constraint and a real floor. :contentReference[oaicite:11]{index=11}
+    pension:      { ideal: 0, floor: 1, ceiling: 0, weight: 0.34 }, // Welfare-expansive profile; no evidence of reformist pension stance in the brief. Judgment call.
+    fiscal:       { ideal: 0, floor: 1, ceiling: 0, weight: 0.67 }, // Cost-of-living / welfare expansion is central to campaign identity. :contentReference[oaicite:12]{index=12}
+    nuclear:      { ideal: 2, floor: 1, ceiling: 2, weight: 0.18 }, // Brief discusses anti-nuclear-weapons / skeptical security turn, not civilian nuclear in detail; low-confidence proxy.
+    defense:      { ideal: 2, floor: 1, ceiling: 2, weight: 0.28 }, // EL accepted defense increases and NATO, but still opposes the hawkish end of the spectrum. :contentReference[oaicite:13]{index=13}
+    euConventions: { ideal: 0, floor: 1, ceiling: 0, weight: 0.72 }, // 2026 lessons: stronger "negative demands" and explicit commitment not to violate conventions. :contentReference[oaicite:14]{index=14}
+    forstaaelsespapir: { ideal: 0, floor: 0, ceiling: 0, weight: 1.00 }, // User note implemented literally: this is EL's hard structural switch, with essentially zero flexibility. Highest-weight issue in the dataset. :contentReference[oaicite:15]{index=15}
+    storeBededag: { ideal: 0, floor: 1, ceiling: 0, weight: 0.30 } // Dragsted repeatedly attacked the abolition, but it is not at the same level as EL's core bargaining demands. :contentReference[oaicite:16]{index=16}
+  },
+
+  concessionCurrency: [
+    "wealthTax",
+    "defense",
+    "nuclear",
+    "storeBededag"
+  ], // Brief explicitly suggests wealth tax is more tradable than opening rhetoric implies. :contentReference[oaicite:17]{index=17}
+
+  demandCurrency: [
+    "forstaaelsespapir",
+    "immigration",
+    "euConventions",
+    "natureLaw",
+    "fiscal"
+  ], // For 2026, the paper itself is non-negotiable; immigration/conventions are the real grassroots floor. :contentReference[oaicite:18]{index=18}
+
+  relationships: {
+    S: {
+      asPM: 0.68
+    }, // EL would only point to Frederiksen if she pursued a red government; this was leverage, not a permanent veto. :contentReference[oaicite:19]{index=19}
+
+    M: {
+      inGov: 0.08,
+      asSupport: 0.35,
+      tolerateInGov: 0.62,
+      asPM: 0.00
+    } // Important nuance from the brief and user note: pre-election EL ruled out governing WITH M, but post-election language shifted toward possibly tolerating M in a government EL supports from outside if the price is right. :contentReference[oaicite:20]{index=20}
+  }
+};
+
+const ALT = {
+  id: "ALT",
+  name: "Alternativet",
+  mandates: 5, // Won 5 seats / 2.6%. :contentReference[oaicite:21]{index=21}
+  bloc: "red",
+
+  // The brief treats ALT as a likely support party rather than a likely cabinet party in 2026.
+  govEligible: false,
+  pmEligible: false,
+  pmDemand: false,
+
+  participationPref: {
+    government: 0.14,          // ALT is not allergic to influence, but the expected role is still outside support. :contentReference[oaicite:22]{index=22}
+    stoettepartiForst: 0.18,   // ALT has not required a formal paper, but can work with structured support. :contentReference[oaicite:23]{index=23}
+    stoettepartiLoose: 0.48,   // Best fit: outside support to pull a red government greener, without EL-style structural paperwork demands. :contentReference[oaicite:24]{index=24}
+    opposition: 0.20           // If the alternative is an insufficiently red / too centrist deal, ALT can stay out. :contentReference[oaicite:25]{index=25}
+  },
+
+  // One absolute animal-welfare ultimatum, but otherwise the brief stresses pragmatism and issue-specific bargaining.
+  globalHarshness: 0.53, // :contentReference[oaicite:26]{index=26}
+
+  positions: {
+    wealthTax:    { ideal: 1, floor: 4, ceiling: 0, weight: 0.18 }, // ALT generally supports taxing wealth more, but the brief is explicit that wealth tax was not a major 2026 demand. :contentReference[oaicite:27]{index=27}
+    climateTgt:   { ideal: 0, floor: 1, ceiling: 0, weight: 0.76 }, // ALT is the most ambitious party here: 100% climate neutrality by 2035. :contentReference[oaicite:28]{index=28}
+    natureLaw:    { ideal: 0, floor: 1, ceiling: 0, weight: 0.66 }, // Binding 30%/10% law jointly demanded post-election as support condition. :contentReference[oaicite:29]{index=29}
+    pesticideBan: { ideal: 0, floor: 1, ceiling: 0, weight: 0.61 }, // Joint demand for total ban in drinking-water formation areas. :contentReference[oaicite:30]{index=30}
+    immigration:  { ideal: 0, floor: 2, ceiling: 0, weight: 0.34 }, // Strongly humanitarian profile, but the brief says immigration was not a primary 2026 focus. :contentReference[oaicite:31]{index=31}
+    pension:      { ideal: 1, floor: 2, ceiling: 0, weight: 0.10 }, // No strong pension signal in the brief; coded as secondary / weakly center-left.
+    fiscal:       { ideal: 0, floor: 1, ceiling: 0, weight: 0.38 }, // Triple-bottom-line, borgerløn vision, green investment; but financing detail is underdeveloped. :contentReference[oaicite:32]{index=32}
+    nuclear:      { ideal: 2, floor: 1, ceiling: 2, weight: 0.20 }, // Brief is silent on nuclear energy; inferred from green profile and anti-fossil/prestige-project stance. Low-confidence proxy.
+    defense:      { ideal: 2, floor: 1, ceiling: 2, weight: 0.18 }, // ALT sat outside the broad defense agreement and is clearly not hawkish. :contentReference[oaicite:33]{index=33}
+    euConventions: { ideal: 1, floor: 2, ceiling: 0, weight: 0.40 }, // Full compliance with conventions, but conventions are not the top bargaining focus in this brief. :contentReference[oaicite:34]{index=34}
+    forstaaelsespapir: { ideal: 2, floor: 3, ceiling: 0, weight: 0.12 }, // ALT explicitly has NOT made a formal forståelsespapir a requirement. :contentReference[oaicite:35]{index=35}
+    storeBededag: { ideal: 1, floor: 2, ceiling: 0, weight: 0.05 } // No meaningful signal in the brief; treated as low-salience.
+  },
+
+  concessionCurrency: [
+    "wealthTax",
+    "forstaaelsespapir",
+    "immigration",
+    "defense",
+    "storeBededag"
+  ], // ALT's leverage is focused elsewhere; these are the obvious tradeable dimensions from the brief. :contentReference[oaicite:36]{index=36}
+
+  demandCurrency: [
+    "climateTgt",
+    "natureLaw",
+    "pesticideBan"
+  ], // Core schema-mappable asks are green/agriculture/environment. :contentReference[oaicite:37]{index=37}
+  // Special gate for the engine: Svinepagt is ALT's single ultimative demand, but it does not map cleanly onto this schema and should be handled separately. :contentReference[oaicite:38]{index=38}
+
+  relationships: {
+    S: {
+      asPM: 0.58
+    }, // ALT did not directly point to Frederiksen; support is conditional on her pursuing a genuinely red government. :contentReference[oaicite:39]{index=39}
+
+    M: {
+      inGov: 0.18,
+      asSupport: 0.42,
+      tolerateInGov: 0.64,
+      asPM: 0.06
+    } // Briefs depict strong policy distance from M, but also the likely equilibrium where ALT supports an S+SF+M+RV government from outside if green concessions are sufficient. :contentReference[oaicite:40]{index=40}
+  }
+};
+
+const RV = {
+  id: "RV",
+  name: "Radikale Venstre",
+  mandates: 10, // "roughly 10 mandates" after the election. :contentReference[oaicite:41]{index=41}
+  bloc: "red",
+
+  govEligible: true, // RV is a near-certain component of the most widely predicted coalition formula and explicitly wants ministerial seats. :contentReference[oaicite:42]{index=42}
+  pmEligible: false,
+  pmDemand: false,
+
+  participationPref: {
+    government: 0.78,          // Lidegaard: RV wants to enter government, and should be judged on whether it does. :contentReference[oaicite:43]{index=43}
+    stoettepartiForst: 0.02,
+    stoettepartiLoose: 0.08,
+    opposition: 0.12           // Not the preferred mode, but still available if no acceptable government deal emerges. :contentReference[oaicite:44]{index=44}
+  },
+
+  // Brief stresses "no ultimatums," tactical ambiguity, and high willingness to compromise for office.
+  globalHarshness: 0.33, // :contentReference[oaicite:45]{index=45}
+
+  positions: {
+    wealthTax:    { ideal: 4, floor: 3, ceiling: 4, weight: 0.74 }, // Cross-cutting red-bloc position: RV is explicitly against the wealth tax and aligns with M on this. :contentReference[oaicite:46]{index=46}
+    climateTgt:   { ideal: 1, floor: 2, ceiling: 0, weight: 0.73 }, // One of RV's two main negotiation pillars: 90% by 2035, net-negative later. :contentReference[oaicite:47]{index=47}
+    natureLaw:    { ideal: 0, floor: 1, ceiling: 0, weight: 0.56 }, // RV joined the post-election binding nature-law demand as a condition for lending mandates. :contentReference[oaicite:48]{index=48}
+    pesticideBan: { ideal: 0, floor: 1, ceiling: 0, weight: 0.49 }, // Joint campaign demand with SF/EL/ALT. :contentReference[oaicite:49]{index=49}
+    immigration:  { ideal: 1, floor: 2, ceiling: 0, weight: 0.44 }, // Liberal tradition remains, but immigration has been deliberately downgraded as defining issue. :contentReference[oaicite:50]{index=50}
+    pension:      { ideal: 2, floor: 1, ceiling: 2, weight: 0.54 }, // Retirement is one of the areas where "something absolutely must happen"; KLAR reform profile points reformward. :contentReference[oaicite:51]{index=51}
+    fiscal:       { ideal: 1, floor: 0, ceiling: 2, weight: 0.42 }, // Centrist economic credentials: more children/education spending, but also reformist and cross-bloc on economics. :contentReference[oaicite:52]{index=52}
+    nuclear:      { ideal: 1, floor: 0, ceiling: 2, weight: 0.12 }, // Brief is silent on civilian nuclear; coded as open/low-salience rather than committed either way.
+    defense:      { ideal: 1, floor: 0, ceiling: 2, weight: 0.34 }, // European Defense Union / oversight stance fits the consensus middle better than either pole. :contentReference[oaicite:53]{index=53}
+    euConventions: { ideal: 1, floor: 2, ceiling: 0, weight: 0.46 }, // RV defends conventions and a liberal-EU asylum line, but without making this the central bargaining axis. :contentReference[oaicite:54]{index=54}
+    forstaaelsespapir: { ideal: 2, floor: 3, ceiling: 1, weight: 0.05 }, // RV wants cabinet participation, not EL-style support-party architecture. :contentReference[oaicite:55]{index=55}
+    storeBededag: { ideal: 2, floor: 1, ceiling: 2, weight: 0.35 } // RV was the only opposition party to back the abolition. :contentReference[oaicite:56]{index=56}
+  },
+
+  concessionCurrency: [
+    "immigration",
+    "fiscal",
+    "forstaaelsespapir",
+    "defense"
+  ], // No-ultimatum posture implies broad deal-making flexibility outside a few headline issues. :contentReference[oaicite:57]{index=57}
+
+  demandCurrency: [
+    "climateTgt",
+    "wealthTax",
+    "natureLaw",
+    "pension"
+  ], // Climate is the lead demand; anti-wealth-tax stance is the notable centrist veto; retirement reform is one of the explicit "must move" areas. :contentReference[oaicite:58]{index=58}
+
+  relationships: {
+    S: {
+      asPM: 0.76
+    }, // Frederiksen is "most likely" PM, but RV withheld support pending a commitment to a red / greener government. :contentReference[oaicite:59]{index=59}
+
+    V: {
+      inGov: 0.22,
+      asSupport: 0.36,
+      tolerateInGov: 0.50,
+      asPM: 0.18
+    }, // Troels Lund Poulsen explicitly vetoed RV, and RV's whole Plan B campaign rejected another SVM-style setup. :contentReference[oaicite:60]{index=60}
+
+    EL: {
+      inGov: 0.22,
+      asSupport: 0.78,
+      tolerateInGov: 0.84,
+      asPM: 0.02
+    } // The brief says RV is ideologically far from EL on economics, but the expected governing math still uses EL as external support. :contentReference[oaicite:61]{index=61}
+  }
+};

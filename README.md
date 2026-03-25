@@ -1,199 +1,130 @@
 # Danish Coalition Formation Simulator
 
-Monte Carlo sensitivity analysis for the 2026 Danish general election: which parameters are most decisive for PM identity and government composition?
+Interactive post-election coalition explorer for the 2026 Danish general election. Given the actual mandate distribution (where no bloc has a majority), which coalition governments are viable, what would it take to form them, and how likely is each?
+
+**Live dashboard:** [chdausgaard.github.io/coalition-simulator/coalition-builder.html](https://chdausgaard.github.io/coalition-simulator/coalition-builder.html)
+
+## What this does
+
+The simulator models government formation after the 24 March 2026 election. Users can adjust parties' negotiation positions, policy stances, and behavioral parameters to explore how different assumptions affect coalition probabilities.
+
+Key features:
+- **Interactive coalition explorer** — adjust parameters and see results in real time
+- **12-dimensional policy model** — parties have positions on wealth tax, climate, immigration, pensions, and 8 other policy areas
+- **Directed party relationships** — asymmetric acceptance probabilities between party pairs (e.g., SF accepts M at 65%, but SF→V is near-zero)
+- **Multi-round formateur protocol** — models the gradual broadening of coalition search across negotiation rounds
+- **Budget passage via dynamic programming** — computes exact P(finanslov) from all 175 seats' vote probabilities
+- **Bilateral conditioning** — EL and M's votes are strategically interdependent when both are outside government
+- **Governability profiles** — shows which policy areas each coalition can legislate on
+- **Daily parameter updates** during government formation, based on public reporting
+
+## Mandate distribution (2026 result)
+
+Red bloc: S(38) + SF(20) + EL(11) + ALT(5) + RV(10) = 84 seats
+Blue bloc: V(18) + LA(16) + KF(13) + DD(10) + DF(16) + BP(4) = 77 seats
+Swing: M(14)
+Neither bloc reaches 88 (majority of 175). M is the kingmaker.
 
 ## Quick start
 
 ```bash
 git clone https://github.com/chdausgaard/coalition-simulator.git
 cd coalition-simulator
-node sim3.js '{}' 1000          # baseline, 1000 iterations
-./sweep.sh 6 5000               # full 245-config sweep, 6 workers
+
+# Serve locally (needed for Web Worker)
+python3 -m http.server 8765
+# Open http://localhost:8765/coalition-builder.html
+
+# Or run from command line
+node sim5-engine.js    # not directly — use:
+node -e "const e = require('./sim5-engine.js'); console.log(JSON.stringify(e.simulate({}, 500)))"
 ```
 
-Requires Node.js (no external dependencies).
-
-## What this does
-
-The simulator models government formation after a Danish general election. It draws correlated mandate distributions via Box-Muller sampling, evaluates 11 enumerated government packages (9 S-led, 2 blue-led), and scores each on legislative viability. The binding constraint is whether a government can pass a budget (finanslov), computed analytically via dynamic programming over all 175 seats. Confidence survival is retained as a permissive pre-filter.
-
-The model sweeps behavioral and structural parameters -- M's directional orientation, blue bloc mandate levels, polling bias, policy flexibility, Frederiksen's coalition preferences -- across 245 configurations. The goal is not prediction but understanding: identifying which factors actually move the needle on PM identity versus those that merely reshape coalition composition.
-
-The formateur protocol gives Frederiksen (sitting PM) structural first-mover advantage: she evaluates all S-led packages before any blue candidate gets a turn. This mirrors Danish constitutional convention, where the sitting PM has the first attempt at forming a government.
-
-## Key findings
-
-1. **Baseline dominance.** Frederiksen's PM probability is approximately 97% under current polling. S-led governments form in the vast majority of iterations.
-
-2. **Two parameters crack the baseline.** Lokke demanding the PM post (mDemandPM) drops Frederiksen to ~83%. A blue mandate surge (V=22, LA=22, KF=14) drops her to ~87%. No other single parameter moves her below 90%.
-
-3. **Multiplicative interaction.** These factors interact: mDemandPM + blue mandate surge + contested formateur (pBlueFormateur=0.2) together drop Frederiksen to ~54%, far below any single effect.
-
-4. **M's direction reshapes coalitions, not PM identity.** Whether M leans red, blue, or demands the PM post for itself barely affects who becomes PM -- but it dramatically changes which coalition forms (S+SF vs. S+M vs. S+SF+M).
-
-5. **The prediction market price.** Polymarket's ~80% Frederiksen price is consistent with the interaction space, specifically scenarios where Lokke demands PM and blue parties outperform polls. The baseline model alone cannot produce this price.
-
-## Interactive dashboard
-
-A self-contained HTML dashboard is available at:
-
-```
-https://chdausgaard.github.io/coalition-simulator/results/
-```
-
-The dashboard visualizes sweep results, phase transitions, and interaction effects.
+Requires Node.js (no external dependencies). The dashboard is a self-contained HTML file with no build step.
 
 ## Project structure
 
 ```
-sim3.js              Main simulator
-sim3-parties.js      Party definitions, mandate parameters, budget-vote functions
-sim3-packages.js     Government packages, platform grid, coherence constraints
-sim3-spec.md         Full specification (~1400 lines)
-sweep.sh             Parallel parameter sweep (245 configurations)
-analyze.js           Sweep result analysis
-results/             Output: JSONL sweep data, HTML dashboards
-research/            Background documents (constitutional handbook,
-                     expert analysis, calibration notes, transition matrices)
+coalition-builder.html   Interactive dashboard (self-contained HTML)
+sim5-parties.js          Party data: positions, relationships, participation prefs
+sim5-coalitions.js       Coalition enumeration, platform negotiation
+sim5-engine.js           Simulation engine: DP budget passage, scoring, formateur
+sim5-sweep.js            Parameter sweep script for sensitivity analysis
+sweep-results.json       Pre-computed sweep data (397 simulation points)
+
+daily-update/            Daily calibration pipeline
+  research-prompt.md     Prompt template for research agent
+  apply-update.js        Script to apply parameter changes from research briefs
+  run-daily.sh           Full daily update orchestrator
+  historical/            Time series of daily simulation results
+
+research/                Background documents
+  party_briefs/          Per-party research briefs (13 parties + NA seats)
+  election_2026.md       Election context and mandate arithmetic
+  formation_rules.md     Constitutional framework, kongerunde procedure
+  calibration.md         Voting records, P(FOR) ranges
+
+sim4-*.js, sim3-*.js     Previous model generations (pre-election)
+index.html               Pre-election dashboard (sim3, still live)
+post-election.html       Election-night dashboard (sim4)
 ```
 
-## Configuration
+## Model architecture
 
-The simulator accepts a JSON configuration object as its first argument. The second argument is the number of Monte Carlo iterations.
+### Data layer (sim5-parties.js)
 
-```bash
-# Baseline (all defaults)
-node sim3.js '{}' 5000
+Each of the 12 Danish parties has:
+- **12 policy positions** with ideal point, floor (minimum acceptable), and weight (0-1 importance)
+- **Directed relationships** with every other party: acceptance for governing together, tolerating from outside, accepting as PM
+- **Participation preferences**: probability of preferring government, støtteparti (with/without forståelsespapir), or opposition
+- **Negotiation harshness** (0-1): overall rigidity in stochastic acceptance draws
 
-# M demands the PM post
-node sim3.js '{"cfg":{"mDemandPM":true}}' 5000
+### Coalition enumeration (sim5-coalitions.js)
 
-# Blue mandate surge
-node sim3.js '{"mandates":{"V":22,"LA":22,"KF":14}}' 5000
+All viable government subsets (1-4 parties, must include PM-eligible member) are enumerated via bitmask. For each, a **negotiated platform** is computed as a weighted centroid of members' ideal positions (mandate share × issue weight), with the formateur getting extra pull. Coalitions where no platform satisfies all members' floors are filtered out.
 
-# Combined: M demands PM + blue surge
-node sim3.js '{"cfg":{"mDemandPM":true},"mandates":{"V":22,"LA":22,"KF":14}}' 5000
-```
+### Simulation engine (sim5-engine.js)
 
-### Key configuration parameters
+Per Monte Carlo iteration:
+1. **Formateur order** determined endogenously from M's orientation and mandate distribution
+2. **Gradual search**: Round 1 tries 1-2 party coalitions, Round 2 up to 3, Round 3 up to 4
+3. **For each candidate coalition**: confidence check → dyad acceptance (stochastic) → determine support structure (forståelsespapir) → compute P(budget passage) via DP → score
+4. **Budget votes** computed generically from policy positions, PM acceptance, participation demand, and forståelsespapir structural override
+5. **Bilateral conditioning**: EL+ALT ↔ M votes are strategically interdependent under S-led governments
 
-The JSON object supports three top-level keys:
-
-| Key | Description |
-|---|---|
-| `cfg` | Behavioral and scoring parameters |
-| `mandates` | Override baseline mandate means for specific parties |
-| `sweep` | Sweepable ranges for stochastic parameters |
-
-Selected `cfg` options:
+### Key parameters
 
 | Parameter | Default | Description |
 |---|---|---|
-| `mPmPref` | `"S"` | M's preferred PM (`"S"`, `"V"`, or `"M"`) |
-| `mDemandPM` | `false` | M refuses coalitions where it is not the PM party |
-| `redPreference` | `0.5` | Frederiksen's preference weight for red vs. broad coalitions (0-1) |
-| `flexibility` | `0.0` | Shifts party budget-vote draws toward flexibility (+) or rigidity (-) |
-| `viabilityThreshold` | `0.5` | Minimum P(budget passage) for a package to be viable |
-| `blocBiasBlue` | `0.0` | Systematic polling bias added to blue bloc mandates |
-| `blocBiasRed` | `0.0` | Systematic polling bias added to red bloc mandates |
-| `pBlueFormateur` | `0.0` | Probability that a blue leader gets formateur rights directly |
-| `distPenalty` | `1.5` | Ideology distance penalty in package scoring |
-| `sizePenalty` | `0.08` | Penalty per excess seat beyond minimum winning |
+| `flexibility` | 0 | Global negotiation pressure (-0.3 to +0.5) |
+| `redPreference` | 0.5 | Frederiksen's preference for red vs. broad coalitions |
+| `mPmPref` | `"neutral"` | Løkke's preferred PM (S/neutral/V/M) |
+| `mDemandGov` | `true` | M insists on government participation |
+| `viabilityThreshold` | 0.70 | Minimum P(budget passage) for viability |
+| `maxFormationRounds` | 3 | Number of negotiation rounds |
+| `passageExponent` | 2.0 | Risk aversion in scoring (higher = prefer stable govts) |
 
-See `sim3-spec.md` for the full parameter list and behavioral model.
+All parameters are adjustable in the dashboard.
 
-## Running the sweep
+## Daily updates
 
-```bash
-./sweep.sh [WORKERS] [N]
-```
-
-- `WORKERS`: number of parallel processes (default: 6)
-- `N`: iterations per configuration (default: 5000)
-
-The sweep runs 245 configurations covering main effects, two-way interactions, three-way interactions, and phase transition probes. Output is a single JSONL file in `results/`.
-
-Analyze results with:
+During government formation, parameters are updated daily based on public reporting:
 
 ```bash
-node analyze.js results/sweep-TIMESTAMP.jsonl
+# Generate a research brief (via deep research agent or manually)
+# Save as daily-update/briefs/2026-03-26.json
+
+# Apply and re-run
+node daily-update/apply-update.js daily-update/briefs/2026-03-26.json
 ```
 
-This produces a summary table, flags configurations where Frederiksen's PM probability drops below threshold, detects interaction effects, and reports coalition composition shifts.
+The pipeline appends to `daily-update/historical/timeseries.json` for trendline tracking.
 
-## Using from R or Python
+## Previous model generations
 
-The simulator is a Node.js script with no dependencies. Call it from R or Python via system commands:
-
-### R
-
-```r
-library(jsonlite)
-
-# Baseline: 1000 iterations
-result <- fromJSON(system2("node", c("sim3.js", "'{}'", "1000"), stdout = TRUE))
-result$results[[1]]$pm            # PM probabilities
-result$results[[1]]$topCoalitions # top coalitions with passage probabilities
-
-# With configuration overrides
-cfg <- toJSON(list(cfg = list(mDemandPM = TRUE)), auto_unbox = TRUE)
-result <- fromJSON(system2("node", c("sim3.js", shQuote(cfg), "1000"), stdout = TRUE))
-```
-
-### Python
-
-```python
-import subprocess, json
-
-result = json.loads(subprocess.run(
-    ["node", "sim3.js", "{}", "1000"],
-    capture_output=True, text=True
-).stdout)
-print(result["results"][0]["pm"])
-print(result["results"][0]["topCoalitions"])
-```
-
-## Plugging in election results
-
-Once actual seat counts are known, plug them in directly:
-
-```r
-# Full mandate override with actual results
-cfg <- list(mandates = list(
-  S=40, SF=25, EL=11, ALT=4, RV=8,
-  M=10, KF=13, V=18, LA=20, DD=12, DF=13, BP=5
-))
-result <- fromJSON(system2("node",
-  c("sim3.js", shQuote(toJSON(cfg, auto_unbox=TRUE)), "3000"),
-  stdout = TRUE))
-result$results[[1]]$pm
-result$results[[1]]$topCoalitions
-```
-
-Partial overrides keep polling baselines for unspecified parties:
-
-```r
-# "What if S collapses to 32 seats?"
-cfg <- list(mandates = list(S = 32))
-result <- fromJSON(system2("node",
-  c("sim3.js", shQuote(toJSON(cfg, auto_unbox=TRUE)), "1000"),
-  stdout = TRUE))
-```
-
-North Atlantic seats can also be overridden (`GL1`, `GL2`, `FO1`, `FO2` — each 0 or 1).
-
-## Research
-
-The `research/` directory contains background documents used during model calibration:
-
-- `formation_rules.md` — Constitutional framework, kongerunde procedure, support-party norms
-- `election_2026.md` — 2026 party positions, polling, expert analysis, scenarios
-- `calibration.md` — Voting records, P(FOR) ranges, parameter recommendations
-- `transition_matrix.csv` — Voter flow data (2022→2026)
-
-## Acknowledgments
-
-The coalition scoring function (ideology fit, size bonus, MWCC bonus, historical precedent) adapts components from [Coalition Whisperer](https://coalition-whisperer.lovable.app) by its creators. sim3 extends these with legislative viability scoring via dynamic programming, correlated mandate draws, composition-signal externalities, and systematic sensitivity analysis.
+- **sim3** (pre-election): Swept over mandate uncertainty with stochastic seat draws. Dashboard at `index.html`.
+- **sim4** (election night): Fixed mandates, swept behavioral parameters. Dashboard at `post-election.html`.
+- **sim5** (current): Interactive explorer with rich party data, continuous platform negotiation, and live browser simulation.
 
 ## License
 

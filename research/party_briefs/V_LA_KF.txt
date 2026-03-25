@@ -1,0 +1,158 @@
+const V = {
+id: "V",
+name: "Venstre",
+mandates: 18, // Worst-ever result; TLP still emerged as largest blue leader and made the election-night "blue centre government or opposition" ultimatum. 
+bloc: "blue",
+
+govEligible: true,
+pmEligible: true, // TLP ran explicitly as blue-bloc PM candidate and remained the natural blue PM claimant after V edged LA 18-16. 
+pmDemand: false, // Strong PM preference, but the brief does not show an explicit "PM-or-nothing" condition separate from the broader government/opposition ultimatum. 
+
+participationPref: {
+government: 0.55,
+stoettepartiForst: 0.05,
+stoettepartiLoose: 0.05,
+opposition: 0.35
+}, // Judgment: V's revealed preference is cabinet power or opposition; support-party formats fit badly with the election-night binary. 
+
+globalHarshness: 0.72, // Judgment: fairly rigid after election night, but not absolute because the brief notes earlier hedging on S. 
+
+positions: {
+wealthTax:    { ideal: 4, floor: 3, ceiling: 4, weight: 0.90 }, // V was among the most vocal anti-formueskat parties. 
+climateTgt:   { ideal: 2, floor: 1, ceiling: 3, weight: 0.45 }, // Tech/incentive line rather than green escalation; not an explicit climate-target crusade. 
+natureLaw:    { ideal: 2, floor: 1, ceiling: 2, weight: 0.35 }, // V blocked stronger drinking-water/pesticide measures inside SVM. 
+pesticideBan: { ideal: 2, floor: 1, ceiling: 2, weight: 0.45 }, // Opposed the blanket ban line that SF attacked them over. 
+immigration:  { ideal: 3, floor: 2, ceiling: 4, weight: 0.75 }, // Stricter deportation + nationality-convention exit, but not fully DF-maximalist. 
+pension:      { ideal: 1, floor: 0, ceiling: 1, weight: 0.40 }, // Brief shows distance from S's welfare expansion, but no strong V push for abolishing Arne. 
+fiscal:       { ideal: 2, floor: 1, ceiling: 2, weight: 0.75 }, // Corporate-tax cuts, regulatory cuts, aid restraint. 
+nuclear:      { ideal: 1, floor: 2, ceiling: 0, weight: 0.55 }, // Joint blue pledge to lift the ban; V looks clearly pro-opening but not as identity-defining as LA/KF. 
+defense:      { ideal: 1, floor: 2, ceiling: 0, weight: 0.80 }, // Defense hawk, but the brief does not anchor V specifically at LA/KF's most maximal point. 
+euConventions: { ideal: 2, floor: 1, ceiling: 2, weight: 0.70 }, // Nationality-convention withdrawal is a clear weaken/withdraw signal. 
+forstaaelsespapir: { ideal: 2, floor: 1, ceiling: 3, weight: 0.20 }, // No sign this is a central institutional demand for V. 
+storeBededag: { ideal: 2, floor: 1, ceiling: 2, weight: 0.45 } // V owned the SVM abolition and never signaled reversal. 
+},
+
+concessionCurrency: ["climateTgt", "natureLaw", "pension", "forstaaelsespapir"],
+demandCurrency: ["wealthTax", "fiscal", "defense", "immigration"],
+
+relationships: {
+S: {
+inGov: 0.08,
+asSupport: 0.12,
+tolerateInGov: 0.10,
+asPM: 0.02
+}, // User-note adjustment: coded very low but non-zero. The brief says the election-night ultimatum "essentially slammed" the S door, but also notes earlier hedging and that the hard closure came late. 
+M: {
+inGov: 0.95,
+asSupport: 0.95,
+tolerateInGov: 1.00,
+asPM: 0.20
+} // V actively sought a blue-centre government with Moderaterne, but on V's terms and with TLP at the head, not Løkke as preferred PM. 
+}
+};
+
+const LA = {
+id: "LA",
+name: "Liberal Alliance",
+mandates: 16, // Record result, but still excluded by the most likely centrist-red scenarios. 
+bloc: "blue",
+
+govEligible: true,
+pmEligible: false, // Vanopslagh's PM claim was explicitly conditional on LA being the largest blue party, and he dropped it immediately once V finished ahead. 
+pmDemand: false, // The brief shows rapid abandonment of PM insistence once the count changed. 
+
+participationPref: {
+government: 0.55,
+stoettepartiForst: 0.05,
+stoettepartiLoose: 0.15,
+opposition: 0.25
+}, // Judgment: LA wants cabinet relevance, but its "indflydelsesparti" pragmatism makes looser parliamentary influence more plausible than for V. 
+
+globalHarshness: 0.63, // Judgment: rigid on coalition identity ("who"), noticeably more flexible on policy bargaining ("what"). 
+
+positions: {
+wealthTax:    { ideal: 4, floor: 3, ceiling: 4, weight: 1.00 }, // Firmest line in the brief; explicitly a dealbreaker. 
+climateTgt:   { ideal: 3, floor: 2, ceiling: 3, weight: 0.50 }, // Nuclear-first, wind-skeptical financing logic implies willingness to weaken the current green path. 
+natureLaw:    { ideal: 2, floor: 1, ceiling: 2, weight: 0.25 }, // Little evidence this is a core LA priority. 
+pesticideBan: { ideal: 2, floor: 1, ceiling: 2, weight: 0.30 }, // LA sat on the anti-ban side of the blue split noted in the KF brief.
+immigration:  { ideal: 3, floor: 2, ceiling: 4, weight: 0.80 }, // End spontaneous asylum, expel more aggressively, reform conventions; hard line but not quite DF's identity maximum. 
+pension:      { ideal: 1, floor: 0, ceiling: 2, weight: 0.35 }, // LA's welfare cuts are large, but the brief does not center pension reform as a defining line. 
+fiscal:       { ideal: 2, floor: 1, ceiling: 2, weight: 1.00 }, // 47.7bn DKK tax-cut package is the clearest substantive core. 
+nuclear:      { ideal: 0, floor: 1, ceiling: 0, weight: 0.85 }, // One of LA's most distinctive policies. 
+defense:      { ideal: 0, floor: 1, ceiling: 0, weight: 0.80 }, // Explicit 3.5% GDP line puts LA at the hawkish end of the scale. 
+euConventions: { ideal: 2, floor: 1, ceiling: 2, weight: 0.75 }, // LA openly accepts tension with ECHR and Refugee Convention and seeks reform. 
+forstaaelsespapir: { ideal: 2, floor: 1, ceiling: 3, weight: 0.15 }, // Brief explicitly notes no formal pre-election understanding paper. 
+storeBededag: { ideal: 0, floor: 1, ceiling: 0, weight: 0.65 } // LA opposed abolition on principle and used it as a key opposition marker. 
+},
+
+concessionCurrency: ["climateTgt", "natureLaw", "pesticideBan", "pension", "forstaaelsespapir"],
+demandCurrency: ["wealthTax", "fiscal", "nuclear", "defense", "immigration", "storeBededag"],
+
+relationships: {
+S: {
+inGov: 0.00,
+asSupport: 0.00,
+tolerateInGov: 0.00,
+asPM: 0.00
+}, // Hard identity-level veto: the brief treats this as genuine and electorally catastrophic to break. This is the sharp contrast with LA's otherwise pragmatic policy bargaining. 
+M: {
+inGov: 0.85,
+asSupport: 0.90,
+tolerateInGov: 0.95,
+asPM: 0.45
+} // LA actively courted Løkke post-election and even considered pointing to him as formateur, but still preferred a blue-led frame over openly conceding him the premiership. 
+}
+};
+
+const KF = {
+id: "KF",
+name: "Det Konservative Folkeparti",
+mandates: 13, // Strongest result in nearly two decades. 
+bloc: "blue",
+
+govEligible: true,
+pmEligible: false, // KF is pivotal and flexible, but the brief frames Juul as a bridge-builder, not a realistic PM claimant. 
+pmDemand: false,
+
+participationPref: {
+government: 0.70,
+stoettepartiForst: 0.10,
+stoettepartiLoose: 0.10,
+opposition: 0.10
+}, // Juul explicitly says real conservative policy happens "i regeringskontorerne"; support is possible but second-best. 
+
+globalHarshness: 0.40, // Judgment: low-to-mid rigidity overall; the brief repeatedly emphasizes pragmatic flexibility, deliberate ambiguity, and deal-oriented leadership. 
+
+positions: {
+wealthTax:    { ideal: 4, floor: 3, ceiling: 4, weight: 0.85 }, // Clear anti-formueskat line. 
+climateTgt:   { ideal: 1, floor: 2, ceiling: 0, weight: 0.65 }, // "Green voice in blue bloc" justifies placing KF distinctly greener than V/LA, though not at EL-level maximalism. 
+natureLaw:    { ideal: 1, floor: 2, ceiling: 0, weight: 0.55 }, // Environmental ambition is real, but groundwater/pesticides matter more than a sweeping new nature-law identity. 
+pesticideBan: { ideal: 1, floor: 2, ceiling: 0, weight: 0.70 }, // KF explicitly backed a national ban in vulnerable groundwater zones, breaking with the rest of blue bloc. 
+immigration:  { ideal: 4, floor: 3, ceiling: 4, weight: 0.80 }, // Brief says "almost on par with Dansk Folkeparti." 
+pension:      { ideal: 2, floor: 1, ceiling: 2, weight: 0.70 }, // KF explicitly proposed abolishing Arne-pension and efterløn from 2028. 
+fiscal:       { ideal: 2, floor: 1, ceiling: 2, weight: 0.80 }, // Large tax-cut package + corporate-tax cut to 17%. 
+nuclear:      { ideal: 0, floor: 1, ceiling: 0, weight: 0.70 }, // Reopen Risø / active research push puts KF at strong-support rather than mere openness. 
+defense:      { ideal: 0, floor: 1, ceiling: 0, weight: 0.90 }, // KF's self-image as Denmark's foremost defense party is unusually strong. 
+euConventions: { ideal: 2, floor: 1, ceiling: 2, weight: 0.75 }, // Exit from parts of ECHR Article 8 and citizenship convention. 
+forstaaelsespapir: { ideal: 2, floor: 1, ceiling: 3, weight: 0.15 }, // KF's coalition style is deliberately open and not centered on formal pre-commitment. 
+storeBededag: { ideal: 1, floor: 0, ceiling: 2, weight: 0.05 } // The brief gives no meaningful KF signal here; coded near-indifferent. 
+},
+
+concessionCurrency: ["climateTgt", "natureLaw", "forstaaelsespapir", "storeBededag"],
+demandCurrency: ["wealthTax", "immigration", "defense", "nuclear", "pesticideBan"],
+
+relationships: {
+S: {
+inGov: 0.38,
+asSupport: 0.60,
+tolerateInGov: 0.72,
+asPM: 0.22
+}, // Distinctive KF feature: strong blue-first rhetoric, but explicit refusal to issue a categorical veto on S or Frederiksen. This is deliberately much higher than V's and far above LA's zero. 
+M: {
+inGov: 0.92,
+asSupport: 0.95,
+tolerateInGov: 0.98,
+asPM: 0.60
+} // KF is notably accommodating toward Løkke, has not vetoed him personally, and may even accept him as compromise formateur/PM under the right arithmetic. 
+}
+};

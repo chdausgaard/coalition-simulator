@@ -1,0 +1,213 @@
+const S = {
+id: "S",
+name: "Socialdemokratiet",
+mandates: 38,
+bloc: "red",
+
+govEligible: true,
+pmEligible: true,
+pmDemand: true, // "she will not join any government she does not lead as statsminister" and this is treated as the "single binding constraint." 
+
+participationPref: {
+government: 0.95, // "aim to form a socialdemokratisk étpartiregering" and all meaningful scenarios in the brief are S-led; if not PM, S prefers opposition to serving under someone else. 
+stoettepartiForst: 0.00,
+stoettepartiLoose: 0.00,
+opposition: 0.05
+},
+
+globalHarshness: 0.72, // High because PM demand is ironclad and both immigration + sprøjteforbud are described as ultimative; lowered somewhat because formueskat is explicitly negotiable. 
+
+// Thinly evidenced dimensions are coded low-weight and close to status-quo-compatible positions rather than invented as hard demands.
+positions: {
+wealthTax:    { ideal: 2, floor: 4, ceiling: 2, weight: 0.35 }, // Own proposal is S's 0.5%/25M, but Frederiksen said it is "not a goal in itself" => clear bargaining chip. 
+climateTgt:   { ideal: 2, floor: 3, ceiling: 2, weight: 0.45 }, // SVM baseline is 82%; brief gives no S push beyond that, so current-law target is the anchor. 
+natureLaw:    { ideal: 1, floor: 2, ceiling: 1, weight: 0.20 }, // No explicit S nature-law plank in the brief; coded as mild/low-salience green compatibility rather than a walk-away demand. 
+pesticideBan: { ideal: 1, floor: 1, ceiling: 1, weight: 0.90 }, // Frederiksen made a ban over vulnerable aquifer zones an "ultimativt krav"; that maps to partial ban, not total nationwide ban. 
+immigration:  { ideal: 3, floor: 3, ceiling: 3, weight: 0.90 }, // S's strict line is explicitly "ultimativt"; proposals include administrative deportation and tighter labor immigration. 
+pension:      { ideal: 0, floor: 1, ceiling: 0, weight: 0.65 }, // Campaign proposal was to slow automatic pension-age increases; brief also says this will likely be scaled back against M. 
+fiscal:       { ideal: 0, floor: 1, ceiling: 0, weight: 0.60 }, // Campaign pivot was leftward/welfare-heavy ("Lilleskolen," ældrecheck), even after SVM centrism. 
+nuclear:      { ideal: 2, floor: 1, ceiling: 2, weight: 0.15 }, // Inference: the brief never adds pro-nuclear language to S's climate line, while M is singled out as backing nuclear; coded as low-salience scepticism.  
+defense:      { ideal: 1, floor: 1, ceiling: 1, weight: 0.70 }, // SVM pushed Denmark to 3.5% by 2030 and S is described as hard-line/hawkish on defense. 
+euConventions: { ideal: 2, floor: 1, ceiling: 2, weight: 0.55 }, // The brief highlights legally aggressive deportation proposals and ECHR criticism; that points to willingness to weaken convention constraints in practice. 
+forstaaelsespapir: { ideal: 2, floor: 1, ceiling: 2, weight: 0.15 }, // The brief stresses the maneuverability of an S-led minority government, not any requirement for a written support paper. 
+storeBededag: { ideal: 1, floor: 0, ceiling: 2, weight: 0.25 } // S helped abolish it, but the issue stayed toxic and "all parties eventually signaling willingness to revisit it" makes this non-binding for S. 
+},
+
+concessionCurrency: ["wealthTax", "storeBededag", "natureLaw", "forstaaelsespapir"], // Formueskat is explicitly negotiable; Bededag became toxic rather than cherished. 
+demandCurrency: ["immigration", "pesticideBan", "pension", "fiscal"],
+
+relationships: {
+SF: {
+inGov: 0.90,
+asSupport: 0.95,
+tolerateInGov: 0.00,
+asPM: 0.00
+}, // S+SF cooperation is foreshadowed repeatedly, but S will not accept an SF PM because Frederiksen's PM demand is absolute. 
+
+```
+M: {
+  inGov: 0.80,
+  asSupport: 0.95,
+  tolerateInGov: 0.00,
+  asPM: 0.00
+}, // "Most functional partnership available," but wealth tax + immigration create friction and Frederiksen publicly questioned Løkke's motives. :contentReference[oaicite:18]{index=18} :contentReference[oaicite:19]{index=19}
+
+V: {
+  inGov: 0.25,
+  asSupport: 0.60,
+  tolerateInGov: 0.00,
+  asPM: 0.00
+} // S kept broad options open, but the brief's preference hierarchy labels another SVM-style arrangement with V as the "Worst" outcome. :contentReference[oaicite:20]{index=20}
+```
+
+}
+};
+
+const SF = {
+id: "SF",
+name: "Socialistisk Folkeparti",
+mandates: 20,
+bloc: "red",
+
+govEligible: true,
+pmEligible: false, // Signe Munk: "Jeg har svært ved at se for mig, at det ender der, hvor det er SF, der skal sidde for bordenden som statsministerparti." 
+pmDemand: false,
+
+participationPref: {
+government: 0.92, // "Enten er SF i regering, eller også er vi i opposition" and "SF will not accept a støtteparti role. It demands cabinet seats." 
+stoettepartiForst: 0.00,
+stoettepartiLoose: 0.00,
+opposition: 0.08
+},
+
+globalHarshness: 0.68, // High because participation format is a binary ultimatum and "never again" bourgeois economic policy matters for party identity; lower than S because Dyhr explicitly rejects ultimative issue-demands like on formueskat and has opened the door to M. 
+
+positions: {
+wealthTax:    { ideal: 1, floor: 4, ceiling: 1, weight: 0.45 }, // Signature policy, but Dyhr: "det er ikke ultimativt," and the brief says the proposal looks "stendød." SF can clearly give this away to get into government. 
+climateTgt:   { ideal: 1, floor: 2, ceiling: 1, weight: 0.75 }, // Explicit demand for 90% by 2035 versus SVM's 82%; the brief predicts any deal lands somewhere between 82 and 90. 
+natureLaw:    { ideal: 0, floor: 1, ceiling: 0, weight: 0.80 }, // Binding 30%/10% law is named as a "joint red bloc demand" and one of SF's strongest negotiating cards. 
+pesticideBan: { ideal: 0, floor: 1, ceiling: 0, weight: 0.70 }, // SF demanded a "total ban on pesticides in vulnerable groundwater areas." 
+immigration:  { ideal: 1, floor: 2, ceiling: 1, weight: 0.45 }, // "More humane than S" but still firm on criminal foreigners and parallel societies => liberal, not humanitarian-maximalist. 
+pension:      { ideal: 1, floor: 2, ceiling: 1, weight: 0.20 }, // The brief gives no standalone SF retirement-age demand; coded as low-salience/status-quo-compatible rather than invented. 
+fiscal:       { ideal: 0, floor: 1, ceiling: 0, weight: 0.80 }, // "Vi kommer aldrig — aldrig — igen til at sige ja til at føre borgerlig økonomisk politik" plus welfare-first platform. 
+nuclear:      { ideal: 2, floor: 1, ceiling: 2, weight: 0.45 }, // Inference from SF's green identity plus the M brief flagging nuclear power as a salient M↔SF disagreement.  
+defense:      { ideal: 1, floor: 2, ceiling: 1, weight: 0.45 }, // SF abandoned pacifism and endorsed 3.5% by 2030, but defense is not its main identity axis anymore. 
+euConventions: { ideal: 1, floor: 1, ceiling: 0, weight: 0.25 }, // More humane refugee stance implies defense of the current rights framework, with mild pull toward stronger protection rather than restriction. 
+forstaaelsespapir: { ideal: 0, floor: 0, ceiling: 1, weight: 0.35 }, // Because SF rejects loose support entirely, any hypothetical outside-support role would need to be formalized; but this is secondary because gov/opposition is the real binary. 
+storeBededag: { ideal: 0, floor: 2, ceiling: 0, weight: 0.55 } // Reinstatement was framed as "the first act of a new red government," but the brief also treats it as a plausible concession in final talks. 
+},
+
+concessionCurrency: ["wealthTax", "climateTgt", "storeBededag", "immigration"], // The brief explicitly says wealth tax is not ultimative and predicts climate ambition will be watered down. 
+demandCurrency: ["fiscal", "natureLaw", "pesticideBan", "storeBededag"],
+
+relationships: {
+M: {
+inGov: 0.65,
+asSupport: 0.80,
+tolerateInGov: 0.00,
+asPM: 0.20
+}, // Dyhr has actively opened the door to M ("det kan sagtens være med Moderaterne"), but grassroots distrust is deep and candidate-test distance is high.  
+
+```
+V: {
+  inGov: 0.00,
+  asSupport: 0.00,
+  tolerateInGov: 0.00,
+  asPM: 0.00
+}, // "SF kommer ikke i regering med Venstre" and Dyhr frames the choice as "Troels eller mig." :contentReference[oaicite:40]{index=40}
+
+KF: {
+  inGov: 0.00,
+  asSupport: 0.00,
+  tolerateInGov: 0.00,
+  asPM: 0.00
+} // "SF kommer ikke i regering med ... De Konservative." :contentReference[oaicite:41]{index=41}
+```
+
+}
+};
+
+const M = {
+id: "M",
+name: "Moderaterne",
+mandates: 14,
+bloc: "swing",
+
+govEligible: true,
+pmEligible: true, // Løkke says he is not a PM candidate, but the brief still calls a later-round Løkke-PM outcome a "wild card scenario" and says the denial is "soft for later rounds." 
+pmDemand: false, // "Jeg er ikke statsministerkandidat... jeg skal ikke være statsminister." 
+
+participationPref: {
+government: 0.85, // "Every signal indicates M wants ministerial seats, not merely a support party role." 
+stoettepartiForst: 0.03,
+stoettepartiLoose: 0.07, // Small residual because Løkke keeps cards hidden and has historically used ambiguity tactically. 
+opposition: 0.05
+},
+
+globalHarshness: 0.42, // Mid-low: M has real red lines, but the brief repeatedly stresses strategic ambiguity, weak grassroots constraints, and that these red lines are "negotiating positions, not binding commitments." 
+
+positions: {
+wealthTax:    { ideal: 3, floor: 4, ceiling: 3, weight: 0.85 }, // Own preferred outcome is the M-style substitute/restructure; worst acceptable fallback is simply "no wealth tax." Løkke called S's wealth tax a "red line." 
+climateTgt:   { ideal: 2, floor: 3, ceiling: 2, weight: 0.45 }, // M "supported existing targets" and claimed credit for Green Tripartite. 
+natureLaw:    { ideal: 1, floor: 2, ceiling: 1, weight: 0.25 }, // No explicit M push for a binding biodiversity law; coded as softer/voluntary-leaning and low-salience. 
+pesticideBan: { ideal: 1, floor: 2, ceiling: 1, weight: 0.20 }, // The brief gives no M pesticide red line; low-weight partial-regulation compatibility fits its pragmatic green profile. 
+immigration:  { ideal: 1, floor: 2, ceiling: 1, weight: 0.55 }, // M is "notably more liberal" than S and V, supports EU pact participation, more foreign workers, and an "open to all who can and will" philosophy. 
+pension:      { ideal: 2, floor: 1, ceiling: 2, weight: 0.65 }, // M upheld automatic pension-age increases and proposed replacing Arne-pension with a unified system. 
+fiscal:       { ideal: 1, floor: 0, ceiling: 2, weight: 0.55 }, // The brief places M "between Socialdemokratiet's redistributive instincts and Venstre's supply-side orthodoxy" — moderate, but movable. 
+nuclear:      { ideal: 0, floor: 1, ceiling: 0, weight: 0.50 }, // M explicitly backs "nuclear power as part of Denmark's energy mix." 
+defense:      { ideal: 1, floor: 2, ceiling: 1, weight: 0.50 }, // M owns part of SVM's defense buildup and Store Bededag/defense linkage, but the brief does not portray M as more hawkish than the 3.5% consensus. 
+euConventions: { ideal: 1, floor: 2, ceiling: 1, weight: 0.30 }, // EU migration-pact support points to conventional pro-EU/legalist positioning rather than convention-breaking politics. 
+forstaaelsespapir: { ideal: 3, floor: 2, ceiling: 3, weight: 0.20 }, // M wants to shape government from inside; nothing in the brief suggests affection for a formal støtteparti-understanding-paper role. 
+storeBededag: { ideal: 2, floor: 1, ceiling: 2, weight: 0.35 } // The abolition is listed among SVM achievements bearing M's fingerprints. 
+},
+
+concessionCurrency: ["climateTgt", "natureLaw", "pesticideBan", "forstaaelsespapir"], // The brief explicitly frames M as pragmatic and its red lines as tools for extracting concessions, not immutable doctrine. 
+demandCurrency: ["wealthTax", "pension", "immigration", "fiscal", "nuclear"],
+
+relationships: {
+S: {
+inGov: 0.80,
+asSupport: 0.90,
+tolerateInGov: 0.85,
+asPM: 0.75
+}, // "Probably the most functional partnership available," but wealth tax, immigration, and mutual suspicion create real friction. Arithmetic also pulls M toward Frederiksen. 
+
+```
+SF: {
+  inGov: 0.60,
+  asSupport: 0.75,
+  tolerateInGov: 0.80,
+  asPM: 0.20
+}, // The brief calls this the highest policy distance among plausible partners, but still a viable governing path because Dyhr stayed pragmatic. :contentReference[oaicite:61]{index=61}
+
+V: {
+  inGov: 0.75,
+  asSupport: 0.85,
+  tolerateInGov: 0.85,
+  asPM: 0.75
+}, // Personal bond and blue-centre logic keep this open, but Venstre's refusal to repeat SVM caps compatibility. :contentReference[oaicite:62]{index=62}
+
+DF: {
+  inGov: 0.00,
+  asSupport: 0.00,
+  tolerateInGov: 0.00,
+  asPM: 0.00
+}, // "Toxic and mutual"; Løkke rejects DF dependency and Messerschmidt threatened to "devour" M. :contentReference[oaicite:63]{index=63}
+
+EL: {
+  inGov: 0.00,
+  asSupport: 0.10,
+  tolerateInGov: 0.00,
+  asPM: 0.00
+}, // Løkke's stated red line is no government dependent on EL, but the brief also says he may "swallow the camel" later; hence near-zero, not absolute impossibility, for EL as external support. :contentReference[oaicite:64]{index=64}
+
+ALT: {
+  inGov: 0.00,
+  asSupport: 0.10,
+  tolerateInGov: 0.00,
+  asPM: 0.00
+} // Same far-left-dependency logic as EL; explicit red line, but the brief treats it as potentially swallowable under pressure. :contentReference[oaicite:65]{index=65}
+```
+
+}
+};

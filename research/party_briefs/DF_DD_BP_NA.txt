@@ -1,0 +1,201 @@
+const DF = {
+id: "DF",
+name: "Dansk Folkeparti",
+mandates: 16, // 2026 comeback to 16 seats. 
+bloc: "blue",
+
+govEligible: true, // Wants the step from support party to government party, even if current arithmetic makes it hard. 
+pmEligible: false, // Messerschmidt floated himself tactically, but not realistically.
+pmDemand: false, // The real ultimatum is policy/Løkke-Frederiksen exclusion, not the PM post itself. 
+
+participationPref: {
+government: 0.40,
+stoettepartiForst: 0.35,
+stoettepartiLoose: 0.05,
+opposition: 0.20
+},
+
+globalHarshness: 0.86, // Very rigid posture, especially on immigration and the Løkke veto. 
+
+positions: {
+wealthTax:    { ideal: 4, floor: 3, ceiling: 4, weight: 0.45 }, // Opposes formueskat, but not its top identity issue. 
+climateTgt:   { ideal: 3, floor: 2, ceiling: 3, weight: 0.75 }, // "End climate fanaticism"; left 2019 climate deal. 
+natureLaw:    { ideal: 2, floor: 1, ceiling: 2, weight: 0.35 },
+pesticideBan: { ideal: 2, floor: 1, ceiling: 2, weight: 0.25 },
+immigration:  { ideal: 4, floor: 3, ceiling: 4, weight: 1.00 }, // Net emigration of Muslims is the flagship ultimatum. 
+pension:      { ideal: 0, floor: 1, ceiling: 0, weight: 0.75 }, // Rejects higher pension age; welfare-nationalist profile. 
+fiscal:       { ideal: 0, floor: 1, ceiling: 0, weight: 0.75 }, // Big welfare outlays funded by aid/bureaucracy cuts. 
+nuclear:      { ideal: 0, floor: 1, ceiling: 0, weight: 0.45 }, // Supports lifting the ban. 
+defense:      { ideal: 1, floor: 2, ceiling: 0, weight: 0.35 },
+euConventions: { ideal: 2, floor: 1, ceiling: 2, weight: 0.55 }, // No Dexit now, but still wants to weaken EU reach inside Denmark. 
+forstaaelsespapir: { ideal: 1, floor: 2, ceiling: 0, weight: 0.30 }, // Support-party DNA, but not absolutely formalist.
+storeBededag: { ideal: 2, floor: 1, ceiling: 2, weight: 0.15 }
+},
+
+concessionCurrency: ["forstaaelsespapir", "nuclear", "defense", "natureLaw"],
+demandCurrency: ["immigration", "pension", "fiscal", "climateTgt"],
+
+relationships: {
+M: {
+inGov: 0.00,        // "Lars Løkke Rasmussen will not become a minister on my mandates." 
+asSupport: 0.15,    // Narrow opening if M stays outside cabinet.
+tolerateInGov: 0.10, // User-requested proxy: slightly above zero, but still very hostile.
+asPM: 0.00          // Explicit Løkke veto. 
+},
+S: {
+inGov: 0.00,
+asSupport: 0.00,
+tolerateInGov: 0.00,
+asPM: 0.00          // Frederiksen explicitly excluded alongside Løkke. 
+}
+}
+};
+
+const DD = {
+id: "DD",
+name: "Danmarksdemokraterne",
+mandates: 10, // Brief says "approximately 10 mandates" after losing four seats. 
+bloc: "blue",
+
+govEligible: true, // Pragmatic enough to govern under the right blue-led arrangement. 
+pmEligible: false,
+pmDemand: false, // The stated ultimate demand is a blue PM, not DD getting it. 
+
+participationPref: {
+government: 0.42,
+stoettepartiForst: 0.33,
+stoettepartiLoose: 0.10,
+opposition: 0.15
+},
+
+globalHarshness: 0.58, // Hard rhetoric, but the brief shows repeated cross-party pragmatism. 
+
+positions: {
+wealthTax:    { ideal: 4, floor: 3, ceiling: 4, weight: 0.55 }, // Firmly against formueskat. 
+climateTgt:   { ideal: 3, floor: 2, ceiling: 3, weight: 0.80 }, // Wants 2030 target delayed to 2032; anti-CO2-tax-on-farming is core. 
+natureLaw:    { ideal: 2, floor: 1, ceiling: 2, weight: 0.50 }, // Rural land-use skepticism implies low appetite for binding nature constraints.
+pesticideBan: { ideal: 2, floor: 1, ceiling: 2, weight: 0.35 },
+immigration:  { ideal: 3, floor: 2, ceiling: 4, weight: 0.90 }, // Very strict, but usually short of DF's outright maximalism. 
+pension:      { ideal: 1, floor: 0, ceiling: 2, weight: 0.35 },
+fiscal:       { ideal: 1, floor: 0, ceiling: 2, weight: 0.70 }, // Mix of rural spending and tax/levy relief.
+nuclear:      { ideal: 0, floor: 1, ceiling: 0, weight: 0.60 }, // Signed onto lifting the ban. 
+defense:      { ideal: 1, floor: 2, ceiling: 0, weight: 0.35 }, // Deal-making track record on defense, but not especially hawkish in the brief.
+euConventions: { ideal: 1, floor: 0, ceiling: 2, weight: 0.30 },
+forstaaelsespapir: { ideal: 1, floor: 2, ceiling: 0, weight: 0.25 },
+storeBededag: { ideal: 1, floor: 0, ceiling: 2, weight: 0.10 }
+},
+
+concessionCurrency: ["nuclear", "defense", "forstaaelsespapir", "pension"],
+demandCurrency: ["immigration", "climateTgt", "wealthTax", "fiscal"],
+
+relationships: {
+M: {
+inGov: 0.30,        // "Almost certainly" would not make Løkke minister on DD's mandates. 
+asSupport: 0.65,    // Much softer than DF if M stays outside cabinet / supports externally.
+tolerateInGov: 0.50, // Could live with M participating on its own mandates in a broader blue setup. 
+asPM: 0.00          // Will not point to Løkke as PM. 
+},
+S: {
+inGov: 0.00,
+asSupport: 0.00,
+tolerateInGov: 0.00,
+asPM: 0.00          // Refusal to support Frederiksen as PM is genuinely binding. 
+}
+}
+};
+
+const BP = {
+id: "BP",
+name: "Borgernes Parti",
+mandates: 4, // Cleared the threshold with 4 seats. 
+bloc: "blue", // Arithmetic counts BP blue even if Mathiesen calls it a "midterparti." 
+
+govEligible: false, // Explicitly excluded by mainstream blue parties from cabinet participation. 
+pmEligible: false,
+pmDemand: false, // Self-nomination for PM reads as leverage-maximizing posture, not a credible coalition condition. 
+
+participationPref: {
+government: 0.00,
+stoettepartiForst: 0.12,
+stoettepartiLoose: 0.58,
+opposition: 0.30
+},
+
+globalHarshness: 0.90, // Highly transactional, outsider style, low trust, weak institutional discipline. 
+
+positions: {
+wealthTax:    { ideal: 4, floor: 3, ceiling: 4, weight: 0.70 }, // Strong anti-tax / anti-wealth-tax posture. 
+climateTgt:   { ideal: 3, floor: 2, ceiling: 3, weight: 0.80 }, // "Climate hysteria" language and anti-CO2-tax line. 
+natureLaw:    { ideal: 2, floor: 1, ceiling: 2, weight: 0.55 }, // Anti-rewilding / anti-new-restrictions posture.
+pesticideBan: { ideal: 2, floor: 1, ceiling: 2, weight: 0.45 },
+immigration:  { ideal: 4, floor: 3, ceiling: 4, weight: 1.00 }, // MENAPT stop, remigration, MENA levy. 
+pension:      { ideal: 2, floor: 1, ceiling: 2, weight: 0.55 }, // Small-state tilt, optional ATP, likely comfortable scrapping Arne.
+fiscal:       { ideal: 2, floor: 1, ceiling: 2, weight: 0.95 }, // Most economically libertarian of the three. 
+nuclear:      { ideal: 0, floor: 1, ceiling: 0, weight: 0.75 }, // Strongly pro-nuclear. 
+defense:      { ideal: 0, floor: 1, ceiling: 0, weight: 0.80 }, // Explicit 5% of GDP target. 
+euConventions: { ideal: 2, floor: 1, ceiling: 2, weight: 0.55 }, // EU-skeptic but not anti-NATO. 
+forstaaelsespapir: { ideal: 3, floor: 2, ceiling: 3, weight: 0.60 }, // Prefers unbound transactional leverage over written lock-in.
+storeBededag: { ideal: 2, floor: 1, ceiling: 2, weight: 0.15 }
+},
+
+concessionCurrency: ["forstaaelsespapir", "natureLaw", "pesticideBan", "storeBededag", "pension"],
+demandCurrency: ["immigration", "fiscal", "defense", "nuclear"],
+
+relationships: {
+M: {
+inGov: 0.35,        // Tense and transactional, but not a categorical veto. "We only go to the buffet once." 
+asSupport: 0.55,    // Budget/support channel is BP's real leverage.
+tolerateInGov: 0.50,
+asPM: 0.10
+},
+S: {
+inGov: 0.00,
+asSupport: 0.00,
+tolerateInGov: 0.00,
+asPM: 0.00          // Mathiesen has called for impeaching Frederiksen. 
+}
+}
+};
+
+const NA_SEATS = [
+{
+id: "FO-JF",
+name: "Sjúrður Skaale (Javnaðarflokkurin)",
+mandates: 1,
+bloc: "na",
+pRed: 0.95,
+pFlexible: 0.05,
+pBlue: 0.00,
+notes: "Predictable Faroese red seat; Javnaðarflokkurin cooperates with Socialdemokratiet. Leverage is limited compared with Greenlandic seats." // 
+},
+{
+id: "FO-SB",
+name: "Anna Falkenberg (Sambandsflokkurin)",
+mandates: 1,
+bloc: "na",
+pRed: 0.00,
+pFlexible: 0.05,
+pBlue: 0.95,
+notes: "Predictable Faroese blue seat; Venstre sister-party link and unionist profile make this the stable blue North Atlantic mandate." // 
+},
+{
+id: "GL-NAL",
+name: "Qarsoq Høegh-Dam (Naleraq)",
+mandates: 1,
+bloc: "na",
+pRed: 0.50,
+pFlexible: 0.40,
+pBlue: 0.10,
+notes: "Formally neither red nor blue; wants major Danish investment under the Self-Government Act while fully preserving Greenland's right to independence. DF's proposal for a Danish referendum on Greenlandic independence is a near-absolute blocker." //
+},
+{
+id: "GL-IA",
+name: "Naaja Hjelholt Nathanielsen (Inuit Ataqatigiit)",
+mandates: 1,
+bloc: "na",
+pRed: 0.65,
+pFlexible: 0.30,
+pBlue: 0.05,
+notes: "Historically red-leaning via IA/SF ties, but refused to pre-commit. Wants Self-Government Act revision, constitutional reinterpretation, and equal status inside the Realm; the same anti-DF structural constraint applies." //
+}
+];
