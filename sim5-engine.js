@@ -302,6 +302,16 @@ function evalBudgetVote(partyId, coalition, platform, cfg) {
       pFor = flexDraw(0.02, 0.10, flexibility);
     }
 
+    // Apply relationship modifiers: even with a forståelsespapir, a support
+    // party's willingness to vote for the budget is tempered by who is actually
+    // in the government. EL won't blindly support a government containing
+    // parties it deeply opposes (e.g. M) at full strength.
+    pFor *= relationshipValue(party, coalition.leader, "asPM", 1.0);
+    for (const member of coalition.government) {
+      if (member === coalition.leader) continue;
+      pFor *= relationshipValue(party, member, "tolerateInGov", 1.0);
+    }
+
     return splitVote(pFor, computeAbstainShare(party, coalition));
   }
 
