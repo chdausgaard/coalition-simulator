@@ -152,11 +152,19 @@ function runDP(govMandates, parties, minForVotes, initAgainst) {
     aMax = newAMax;
   }
 
+  // Danish negative parliamentarism: a government survives as long as a
+  // majority (90 of 179) does NOT vote against. The passage condition is:
+  // 1. forVotes >= minForVotes (default 70): minimum base of support
+  // 2. againstVotes < 90: no absolute majority actively opposes
+  // This replaces the old forVotes > againstVotes check, which made it
+  // nearly impossible for minority governments to survive when opposition
+  // parties vote against (as they should) rather than abstain.
+  const mistillidLimit = 90;
   let pPassage = 0;
   const startF = Math.max(fMin, minForVotes);
   for (let f = startF; f <= fMax; f++) {
     const row = f * DP_MAX;
-    const aLimit = Math.min(f - 1, aMax);
+    const aLimit = Math.min(mistillidLimit - 1, aMax);
     for (let a = aMin; a <= aLimit; a++) {
       pPassage += dp[row + a];
     }
@@ -237,11 +245,12 @@ function computeAbstainShare(party, coalition) {
   const avgDist = count ? totalDist / count : 0.5;
   let share = clamp01(0.85 - avgDist * 0.8);
 
-  // Parties that reject the PM vote against, not abstain. In Danish politics,
-  // opposition parties don't abstain on finansloven — they vote against.
+  // Parties that reject the PM lean toward voting against rather than
+  // abstaining, but with a moderate floor — the original raw pmAcceptance
+  // multiplier was too harsh and made minority governments impossible.
   if (coalition.leader) {
     const pmAcceptance = relationshipValue(party, coalition.leader, "asPM", 1.0);
-    share *= Math.max(0.05, pmAcceptance);
+    share *= Math.max(0.30, pmAcceptance);
   }
 
   return share;
