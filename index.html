@@ -584,7 +584,8 @@ details .panel {
 <header>
   <h1>Regeringsdannelse 2026: Koalitionssimulator</h1>
   <p class="subtitle">Scenarieanalyse &mdash; Valgdag, 24. marts 2026</p>
-  <p class="methodology">Monte Carlo-simulation &middot; 500 iterationer pr. konfiguration &middot; 668 scenarier &middot; Mandatfordeling: gennemsnit af 3 prognoser, valgaften (opdateres l&oslash;bende)</p>
+  <p class="methodology">Monte Carlo-simulation &middot; 500 iterationer pr. konfiguration &middot; 668 scenarier &middot; Mandatfordeling: gennemsnit af 3 prognoser</p>
+  <p style="margin-top:0.5rem;font-size:0.9rem;color:#c0392b;font-weight:600;">Opdateres l&oslash;bende &middot; Senest opdateret: 24. marts kl. 23</p>
 </header>
 
 <!-- ===== SECTION 1: EXECUTIVE SUMMARY ===== -->
@@ -594,8 +595,6 @@ details .panel {
     <p class="methodology" style="margin-bottom:0.75rem;">Alle scenarier bygger p&aring; et f&aelig;lles s&aelig;t af standardantagelser. Baselinev&aelig;rdierne er baseret p&aring; gennemsnit af 3 prognoser fra valgaften (opdateres l&oslash;bende).</p>
     <h3 style="margin-top:1rem;">Mandatfordeling (175 danske mandater)</h3>
     <p class="methodology">S=38, SF=20, EL=11, ALT=4, RV=10, M=14, KF=13, V=18, LA=17, DD=10, DF=16, BP=4. R&oslash;d blok: 83. Bl&aring; blok: 78. M (swing): 14. Bl&aring;+M=92.</p>
-    <h3 style="margin-top:1rem;">Nordatlantiske mandater (4 s&aelig;der)</h3>
-    <p class="methodology">GL1 (Gr&oslash;nland): 60% r&oslash;d, 30% fleksibel, 10% bl&aring;. GL2: 25% r&oslash;d, 45% fleksibel, 30% bl&aring;. FO1 (F&aelig;r&oslash;erne): 55% r&oslash;d, 20% fleksibel, 25% bl&aring;. FO2: 10% r&oslash;d, 15% fleksibel, 75% bl&aring;. Mere uforudsigelige end normalt pga. Siumut-krise og Demokraatits fremgang.</p>
     <h3 style="margin-top:1rem;">Sp&aelig;rrepartier</h3>
     <p class="methodology">ALT: 65% sandsynlighed for at klare 2%-gr&aelig;nsen (2,3% i prognose). BP: 65% (2,3%). Hvis de falder under, mistes mandater fra blokken.</p>
     <h3 style="margin-top:1rem;">Adf&aelig;rdsparametre (standardv&aelig;rdier)</h3>
@@ -622,12 +621,6 @@ details .panel {
     <!-- Populated dynamically from DATA after sweep -->
   </div>
 
-  <div class="scenario-toggle">
-    <h3>&hellip;med L&oslash;kkes inklusionskrav</h3>
-    <div class="scenario-cards" id="scenario-cards-demandgov">
-      <!-- Populated dynamically from DATA after sweep -->
-    </div>
-  </div>
 </section>
 
 <!-- ===== SECTION: PARAMETER COMBINER ===== -->
@@ -741,26 +734,8 @@ details .panel {
 
 <!-- ===== SECTION 5: PHASE TRANSITION CURVES ===== -->
 <section id="transitions">
-  <h2>Faseskift</h2>
-  <p class="small muted" style="margin-bottom:1rem;">Disse kurver viser hvordan koalitionssammens&aelig;tningen skifter n&aring;r mandatfordelingen forskydes. Y-aksen viser andelen af simulationer, s&aring; man kan se hvorn&aring;r Moderaterne glider ind og ud af regeringen, og hvorn&aring;r en bl&aring; regering bliver realistisk.</p>
-  <div class="chart-container">
-    <div class="chart-box">
-      <div class="chart-title">Koalitionstype ved stigende bl&aring; styrke</div>
-      <div id="chart-blue-steps"></div>
-    </div>
-    <div class="chart-box">
-      <div class="chart-title">Hvad hvis m&aring;lingerne undervurderer bl&aring; blok?</div>
-      <div id="chart-poll-error"></div>
-    </div>
-  </div>
 </section>
 
-<!-- ===== NA MANDATES SECTION ===== -->
-<section id="na-mandates">
-  <h2>Nordatlantiske mandater: hvorn&aring;r afg&oslash;r de?</h2>
-  <p class="methodology" style="margin-bottom:1rem;">De 4 nordatlantiske mandater (2 Gr&oslash;nland, 2 F&aelig;r&oslash;erne) diskuteres intenst af kommentatorer &mdash; men modellen viser at effekten afh&aelig;nger af &eacute;n n&oslash;glebetingelse: <strong>samarbejder M?</strong> N&aring;r r&oslash;d+M=95 (standardscenariet) er NA-mandaterne marginale (&lt;2pp effekt). Men n&aring;r L&oslash;kke blokerer alle koalitioner (kr&aelig;ver statsministerposten), st&aring;r r&oslash;d blok alene med ~86 mandater &mdash; og NA-mandaterne kan svinge Frederiksens sandsynlighed med op til 8 procentpoint.</p>
-  <div id="na-table" style="overflow-x:auto;"></div>
-</section>
 
 <!-- ===== SECTION 6: COALITION COMPOSITION ===== -->
 <section id="composition">
@@ -1691,47 +1666,6 @@ function recolorExtraLineSeries(containerId, color) {
     });
   }
 
-  buildLineChart('chart-blue-steps',
-    [
-      { name: 'S+SF+RV+M', points: steps.map(s => ({ x: s.step, y: s.ssfrvm })) },
-      { name: 'S+SF', points: steps.map(s => ({ x: s.step, y: s.ssf })) },
-      { name: 'Bl\u00e5 regering', points: steps.map(s => ({ x: s.step, y: s.blueGov })) }
-    ],
-    'V + LA + KF mandater',
-    'Andel af simulationer (%)',
-    steps.map(s => ({ v: s.step, label: '' + s.totalBlue }))
-  );
-  recolorExtraLineSeries('chart-blue-steps', '#64b5f6');
-})();
-
-// Chart C: Poll error
-(function() {
-  const biases = [0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0];
-  const mandateEquivalentLabels = biases.map(b => '+' + Math.round((b / 3) * 7));
-  const mSeries = biases.map(b => {
-    const d = getScenario('pollError:blue+' + b.toFixed(1));
-    return { x: b, y: mInGovPct(d) };
-  });
-  const sSfSeries = biases.map(b => {
-    const d = getScenario('pollError:blue+' + b.toFixed(1));
-    return { x: b, y: coalPct(d, 'S+SF') };
-  });
-  const blueGovSeries = biases.map(b => {
-    const d = getScenario('pollError:blue+' + b.toFixed(1));
-    return { x: b, y: d ? (d.govType.blue || 0) : 0 };
-  });
-
-  buildLineChart('chart-poll-error',
-    [
-      { name: 'M i regering', points: mSeries },
-      { name: 'S+SF (smal r\u00f8d)', points: sSfSeries },
-      { name: 'Bl\u00e5 regering', points: blueGovSeries }
-    ],
-    'Bl\u00e5 blok ekstra mandater (ca.)',
-    'Andel af simulationer (%)',
-    biases.map((b, i) => ({ v: b, label: mandateEquivalentLabels[i] }))
-  );
-  recolorExtraLineSeries('chart-poll-error', '#64b5f6');
 })();
 
 // ===== STACKED BARS =====
@@ -2170,15 +2104,6 @@ function buildImplications() {
     });
   }
 
-  // 2. Coalition landscape
-  if (dg && bl) {
-    callouts.push({
-      title: 'L\u00f8kkes inklusionskrav omformer koalitionslandskabet',
-      text: 'N\u00e5r L\u00f8kke kr\u00e6ver regeringsdeltagelse stiger M-inkluderende koalitioner fra ' + fmt(mInGov(bl)) + ' til ' + fmt(mInGov(dg)) + '. Under inklusionskravet har L\u00f8kkes retningspr\u00e6ference (mod S vs. mod V) <em>ingen m\u00e5lbar effekt</em> \u2014 kravet dominerer. Den hyppigste koalition er S+SF+RV+M (' + fmt(dg.topCoalitions?.[0]?.pct||0) + ').',
-      evidence: 'Uden krav \u2192 M i regering: ' + fmt(mInGov(bl)) + ' | Med inklusionskrav \u2192 ' + fmt(mInGov(dg))
-    });
-  }
-
   // 3. Blue majority conditional
   if (bs && bsdg) {
     callouts.push({
@@ -2248,10 +2173,9 @@ function buildImplications() {
 }
 buildImplications();
 
-// ===== NA MANDATES TABLE =====
+// ===== NA MANDATES TABLE (removed — section deleted) =====
 (function() {
-  const el = document.getElementById('na-table');
-  if (!el) return;
+  return; // section removed
   const scenarios = [
     { name: 'Aktuelle m\u00e5linger (r\u00f8d+M=95)', prefix: 'NA:baseline', highlight: false },
     { name: 'L\u00f8kke kr\u00e6ver SM (r\u00f8d alene=86)', prefix: 'NA:demandPM', highlight: true },
@@ -2381,14 +2305,6 @@ if (scenarioCardsEl) {
   ].join('');
 }
 
-const scenarioCardsDG = document.getElementById('scenario-cards-demandgov');
-if (scenarioCardsDG) {
-  scenarioCardsDG.innerHTML = [
-    buildScenarioCard('mDemandGov+red-majority', 'R\u00f8dt flertal + inklusionskrav', 'R\u00f8d kan regere uden M alligevel'),
-    buildScenarioCard('mDemandGov+current-polls', 'Aktuelle m\u00e5linger + inklusionskrav', 'M-koalitioner dominerer'),
-    buildScenarioCard('mDemandGov+blue-surge', 'Bl\u00e5t flertal + inklusionskrav', 'Bl\u00e5 kan regere uden M alligevel'),
-  ].join('');
-}
 </script>
 </body>
 </html>
