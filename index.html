@@ -1468,10 +1468,10 @@ onmessage = function(e) {
 
             <div class="field">
               <div class="field-header">
-                <span class="field-label">Forhandlingsrunder</span>
+                <span class="field-label">Forhandlingsforsøg (S-formatør)</span>
                 <span class="value-pill" id="control-maxFormationRounds-value">3</span>
               </div>
-              <p class="field-desc">Antal forsøg S-formatøren gør inden mandatet gives videre til en blå formatør. Fleksibiliteten stiger med 0,05 pr. runde — partierne bliver mere pragmatiske når forhandlingerne trækker ud.</p>
+              <p class="field-desc">Antal forsøg inden for Frederiksens formatørmandat. Hvert forsøg stiger fleksibiliteten lidt — partierne bliver mere pragmatiske efterhånden. Hvis alle forsøg fejler, overgår mandatet til en blå formatør med lavere viabilitetstærskel (0,10).</p>
               <input type="range" id="control-maxFormationRounds" data-control="maxFormationRounds" min="1" max="5" step="1" value="3">
             </div>
 
@@ -1480,7 +1480,7 @@ onmessage = function(e) {
                 <span class="field-label">Viabilitetstærskel</span>
                 <span class="value-pill" id="control-viabilityThreshold-value">0,50</span>
               </div>
-              <p class="field-desc">Minimum sandsynlighed for at formatøren kan forhandle en budgetaftale med tilstrækkeligt mange støttepartier. Høj tærskel = formatøren kræver sikre aftaler. Lav = formatøren tager chancer med usikre konstellationer.</p>
+              <p class="field-desc">Minimum sandsynlighed for at S-formatøren kan forhandle en budgetaftale med tilstrækkeligt mange støttepartier. Høj tærskel = kræver sikre aftaler. Lav = tager chancer. Blå formatøren (runde 2) bruger altid en lavere tærskel (0,10) da situationen er mere desperat.</p>
               <input type="range" id="control-viabilityThreshold" data-control="viabilityThreshold" min="0.3" max="0.9" step="0.05" value="0.7">
             </div>
 
@@ -3043,7 +3043,7 @@ onmessage = function(e) {
             formateurPull: "Formateurtiltrækning",
             floorThreshold: "\"Gulvtærskel\"",
             flexIncrement: "Fleksibilitetstilvækst",
-            maxFormationRounds: "Forhandlingsrunder",
+            maxFormationRounds: "Forhandlingsforsøg",
             precedentWeight: "Præcedensvægt",
             elMPenalty: "EL-M straf",
             elMBoost: "EL-M boost"
