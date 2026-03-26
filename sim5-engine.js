@@ -743,16 +743,29 @@ function simulate(userParams, N) {
     noGovCount: 0
   };
 
+  // Determine which parameters the user explicitly changed from defaults.
+  // When a user moves a slider, they're expressing a view — the CI should
+  // not override it. CI only applies to parameters left at their defaults.
+  const CI_DEFAULTS = { mElTolerate: 0.35, viabilityThreshold: 0.70 };
+  const userSet = {
+    mElTolerate: cfg.mElTolerate != null && Math.abs(cfg.mElTolerate - CI_DEFAULTS.mElTolerate) > 0.001,
+    viabilityThreshold: Math.abs(cfg.viabilityThreshold - CI_DEFAULTS.viabilityThreshold) > 0.001
+  };
+
   for (let i = 0; i < iterations; i++) {
     // Per-iteration confidence-interval variation
+    // CI only applies to parameters the user hasn't explicitly set.
+    // When a user moves a slider, they're expressing a view — respect it exactly.
     const _savedSFM = PARTIES_MAP.SF.relationships.M.inGov;
     const _savedMSF = PARTIES_MAP.M.relationships.SF.inGov;
     PARTIES_MAP.SF.relationships.M.inGov = clamp01(normDraw(_savedSFM, 0.06));
     PARTIES_MAP.M.relationships.SF.inGov = clamp01(normDraw(_savedMSF, 0.06));
 
-    // M→EL tolerateInGov CI: central unknown — will Løkke accept EL as external support?
+    // M→EL tolerateInGov CI: skip if user set the slider
     const _savedMEL = PARTIES_MAP.M.relationships.EL.tolerateInGov;
-    PARTIES_MAP.M.relationships.EL.tolerateInGov = clamp01(normDraw(_savedMEL, 0.10));
+    if (!userSet.mElTolerate) {
+      PARTIES_MAP.M.relationships.EL.tolerateInGov = clamp01(normDraw(_savedMEL, 0.10));
+    }
 
     // M↔DF stochastic relaxation (12% of draws)
     let _dfRelaxed = false;
@@ -773,8 +786,10 @@ function simulate(userParams, N) {
       PARTIES_MAP.DF.relationships.M.inGov = 0.08;
     }
 
-    // Viability threshold CI
-    const _iterViability = Math.max(0.50, Math.min(0.85, normDraw(0.70, 0.06)));
+    // Viability threshold CI: skip if user set the slider
+    const _iterViability = userSet.viabilityThreshold
+      ? cfg.viabilityThreshold
+      : Math.max(0.50, Math.min(0.85, normDraw(0.70, 0.06)));
 
     try {
       const naAlignments = drawNAAlignments(cfg);
