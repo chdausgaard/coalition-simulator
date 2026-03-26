@@ -59,7 +59,10 @@ const HISTORICAL_PRECEDENTS = {
   "LA": 0
 };
 
-const SIZE_PENALTIES = [1.0, 0.96, 0.88, 0.72];
+// Flattened: the old [1.0, 0.96, 0.88, 0.72] heavily penalized 4-party
+// coalitions, making S+M+RV+SF nearly impossible vs S+M+SF despite
+// similar viability. Real-world formateurs weigh viability more than size.
+const SIZE_PENALTIES = [1.0, 0.97, 0.93, 0.87];
 const DP_MAX = 180;
 const DP_SIZE = DP_MAX * DP_MAX;
 
