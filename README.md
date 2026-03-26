@@ -12,9 +12,9 @@ Key features:
 - **Interactive coalition explorer** — adjust parameters and see results in real time
 - **12-dimensional policy model** — parties have positions on wealth tax, climate, immigration, pensions, and 8 other policy areas
 - **Directed party relationships** — asymmetric acceptance probabilities between party pairs (e.g., SF accepts M at 65%, but SF→V is near-zero)
-- **Multi-round formateur protocol** — models the gradual broadening of coalition search across negotiation rounds
-- **Budget passage via dynamic programming** — computes exact P(finanslov) from all 175 seats' vote probabilities
-- **Bilateral conditioning** — EL and M's votes are strategically interdependent when both are outside government
+- **Two-round formateur protocol** — Round 1: S formateur (certain post-election), Round 2: blue formateur (desperation fallback with lower viability threshold)
+- **Bloc voting model** — parties vote as single units (party discipline), representing negotiation outcomes not random per-mandate coin flips
+- **Strategic opposition** — blue parties oppose harder when M is excluded from government, to support M's inclusion leverage
 - **Governability profiles** — shows which policy areas each coalition can legislate on
 - **Daily parameter updates** during government formation, based on public reporting
 
@@ -86,11 +86,11 @@ All viable government subsets (1-4 parties, must include PM-eligible member) are
 ### Simulation engine (sim5-engine.js)
 
 Per Monte Carlo iteration:
-1. **Formateur order** determined endogenously from M's orientation and mandate distribution
-2. **Gradual search**: Round 1 tries 1-2 party coalitions, Round 2 up to 3, Round 3 up to 4
-3. **For each candidate coalition**: confidence check → dyad acceptance (stochastic) → determine support structure (forståelsespapir) → compute P(budget passage) via DP → score
-4. **Budget votes** computed generically from policy positions, PM acceptance, participation demand, and forståelsespapir structural override
-5. **Bilateral conditioning**: EL+ALT ↔ M votes are strategically interdependent under S-led governments
+1. **Per-iteration CI variation**: key uncertain parameters (SF↔M relationship, M↔DF relaxation, M's PM preference, viability threshold) are drawn from confidence intervals
+2. **Two-round formateur protocol**: Round 1 is S formateur (certain); if S-led formation fails, Round 2 is blue formateur with lower viability threshold (Hartling precedent: governments can form and function via changing majorities even with marginal budget passage odds)
+3. **For each candidate coalition**: confidence check → per-party-minimum dyad acceptance → determine support structure (forståelsespapir) → compute P(passage) via bloc voting Monte Carlo → score
+4. **Bloc voting**: each non-government party makes a single bloc decision (all mandates FOR, ABSTAIN, or AGAINST) based on bloc alignment, PM acceptance, toleration of government members, participation demand, and strategic opposition
+5. **Strategic opposition**: when M demands government but is excluded, blue parties actively oppose to support M's inclusion leverage (they prefer a government WITH M to one without)
 
 ### Key parameters
 
@@ -98,13 +98,12 @@ Per Monte Carlo iteration:
 |---|---|---|
 | `flexibility` | 0 | Global negotiation pressure (-0.3 to +0.5) |
 | `redPreference` | 0.5 | Frederiksen's preference for red vs. broad coalitions |
-| `mPmPref` | `"neutral"` | Løkke's preferred PM (S/neutral/V/M) |
 | `mDemandGov` | `true` | M insists on government participation |
-| `viabilityThreshold` | 0.70 | Minimum P(budget passage) for viability |
-| `maxFormationRounds` | 3 | Number of negotiation rounds |
+| `viabilityThreshold` | 0.60 | Minimum P(negotiation success) for S formateur |
+| `blueViabilityThreshold` | 0.10 | Minimum P(negotiation success) for blue formateur (desperation round) |
 | `passageExponent` | 2.0 | Risk aversion in scoring (higher = prefer stable govts) |
 
-All parameters are adjustable in the dashboard.
+Most parameters are adjustable in the dashboard. Per-iteration CI variation on M's orientation (40% neutral, 30% S-leaning, 30% V-leaning) and SF↔M relationship strength runs automatically.
 
 ## Daily updates
 

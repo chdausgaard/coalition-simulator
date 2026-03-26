@@ -73,7 +73,7 @@ const S = {
     },
     // ADDED: S→RV red-bloc partner. Historical coalition partner, though tensions exist.
     RV: {
-      inGov: 0.72,
+      inGov: 0.88,
       asSupport: 0.85,
       tolerateInGov: 0.00,
       asPM: 0.00
@@ -156,9 +156,9 @@ const SF = {
 
   relationships: {
     M: {
-      inGov: 0.65,
+      inGov: 0.72,
       asSupport: 0.80,
-      tolerateInGov: 0.00,
+      tolerateInGov: 0.65,
       asPM: 0.20
     },
     // FIXED: replaced hard zeros with tiny non-zero exploration values. The brief is categorical — "SF kommer ikke i regering med Venstre" — but the simulator prompt explicitly asked not to lock unlikely scenarios to literal zero unless the source really compels it (SF.md).
@@ -205,7 +205,7 @@ const SF = {
     },
     // ADDED: SF→RV red-bloc partner, though some policy tension on economics.
     RV: {
-      inGov: 0.58,
+      inGov: 0.78,
       asSupport: 0.72,
       tolerateInGov: 0.75,
       asPM: 0.10
@@ -281,7 +281,7 @@ const M = {
       asPM: 0.75
     },
     SF: {
-      inGov: 0.60,
+      inGov: 0.68,
       asSupport: 0.75,
       tolerateInGov: 0.80,
       asPM: 0.20
@@ -634,7 +634,7 @@ const RV = {
     },
     // ADDED: RV→SF red-bloc allies. RV and SF cooperate on climate/green issues despite economic differences.
     SF: {
-      inGov: 0.65,
+      inGov: 0.78,
       asSupport: 0.80,
       tolerateInGov: 0.82,
       asPM: 0.15
