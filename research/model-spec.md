@@ -223,42 +223,19 @@ These values were changed from their initial extraction based on cross-referenci
 
 ---
 
-## Legacy functions (retained for API compatibility)
+## Previous model (replaced March 2026)
 
-These functions exist in `sim5-engine.js` but are NOT called by the live simulation path (`simulate` → `selectGovernment` → `computePpassage`). They are retained because the dashboard or external callers may reference them, and they serve as documentation of the previous approach.
+The sim5 engine originally used a per-mandate dynamic programming (DP) model for budget passage. This was replaced with bloc voting after a calibration audit revealed structural flaws. The legacy functions have been removed from the codebase. For reference:
 
-### Dead budget vote path
+| Old function | What it did | Replaced by |
+|-------------|-------------|-------------|
+| `runDP()` | DP over 175 mandates, each voting independently | Monte Carlo bloc voting in `computePpassage` |
+| `evalBudgetVote()` | Per-mandate vote probability from 12-dimension position matching | `blocBudgetVote()` |
+| `computePositionBasedPFor()` | Logistic function over 12 policy dimensions | Bloc alignment base rate |
+| `identifyConditioningPair()` | EL↔M Bayesian conditioning | Strategic opposition multiplier |
+| `determineFormateurOrder()` | Stochastic formateur draw | Hard-coded two-round protocol |
 
-| Function | What it did | Replaced by |
-|----------|-------------|-------------|
-| `runDP()` | Dynamic programming over all 175 mandates, each voting independently as a Bernoulli trial | Monte Carlo bloc voting in `computePpassage` |
-| `evalBudgetVote()` | Per-mandate vote probability from 12-dimension position matching, participation demand, PM acceptance, forståelsespapir override | `blocBudgetVote()` |
-| `computePositionBasedPFor()` | Logistic function: `1/(1+exp(-sensitivity × normalizedScore))` over all 12 policy dimensions with same-bloc bonus (1.15) and cross-bloc penalty (0.70) | Bloc alignment base rate in `blocBudgetVote` |
-| `computeAbstainShare()` | Abstention rate from policy distance: `clamp(0.85 - avgDist × 0.8)` | Fixed ratio in `blocBudgetVote`: pAgainst = (1-pFor)×0.7 |
-| `splitVote()` | Split pFor into {pFor, pAbstain, pAgainst} given abstainShare | Computed directly in `blocBudgetVote` |
-| `identifyConditioningPair()` | EL↔M Bayesian conditioning: when EL votes FOR, M's support penalized; when EL votes against, M boosted | Strategic opposition multiplier in `blocBudgetVote` |
-| `adjustVoteEntry()` | Adjusted vote entries for conditioning pair logic | Not needed |
-
-**Why these were replaced:** The per-mandate DP model treated each of a party's mandates as an independent coin flip. With DF at P(FOR)=0.04 per mandate, getting all 16 DF seats to vote FOR was vanishingly unlikely. But Danish parties vote as blocs — either all 16 vote FOR or all 16 vote AGAINST. The DP model made minority governments structurally unviable and blue governments arithmetically impossible.
-
-### Dead formateur path
-
-| Function | What it did | Replaced by |
-|----------|-------------|-------------|
-| `determineFormateurOrder()` | Stochastic formateur draw from M orientation and mandate distribution | Hard-coded two-round protocol (S first, blue second) |
-| `flexDraw()`, `partyFlexDraw()`, `uniformDraw()` | Harshness-biased stochastic draws for the old dyad acceptance and budget vote | `Math.random()` in new dyad acceptance; not needed for bloc voting |
-
-### Dead dashboard controls
-
-These controls feed into parameters consumed only by legacy functions:
-
-| Control | Parameter | Used by (dead) |
-|---------|-----------|----------------|
-| — | `voteSensitivity` | `computePositionBasedPFor` (logistic steepness) |
-| — | `elMPenalty`, `elMBoost` | `identifyConditioningPair` (EL-M conditioning) |
-| — | `dfMPenalty`, `dfMBoost` | `identifyConditioningPair` (DF-M conditioning) |
-
-These parameters are accepted by `buildConfig` and passed through but never read by the live simulation path.
+**Why replaced:** The per-mandate DP model treated each of a party's mandates as an independent coin flip. With DF at P(FOR)=0.04 per mandate, getting all 16 DF seats to vote FOR was vanishingly unlikely. But Danish parties vote as blocs — either all 16 vote FOR or all 16 vote AGAINST. The DP model made minority governments structurally unviable and blue governments arithmetically impossible.
 
 ---
 
@@ -294,17 +271,10 @@ NA seats vote in budgets via `evalNABudgetVote` (still live — not replaced by 
 | Forhandlingsforsøg | `maxFormationRounds` | 1 | Attempts within S formateur's mandate. Each attempt: fresh dyad draw, slightly higher flexibility. |
 | Første formateur | `formateurOverride` | "red" | "Red" = S first (standard). "Blue" = counterfactual blue-first scenario. |
 | Iterationer | `N` | 500 | Monte Carlo iterations. More = more precise, slower. |
-| Parti-harshness sliders | `globalHarshness` | per-party | Affects old `partyFlexDraw` (now only used indirectly). |
-
-### Controls feeding legacy path (no effect on live simulation)
-
-| Control | Parameter | Was used by |
-|---------|-----------|-------------|
-| Stabilitetseksponent | `passageExponent` | `scoreCoalition` — STILL LIVE, affects scoring |
-| Afstandsstraff | `distPenalty` | `scoreCoalition` — STILL LIVE, affects scoring |
-| Formatørtræk | `formateurPull` | `negotiatePlatform` in sim5-coalitions.js — STILL LIVE, affects platform computation |
-| Gulvtærskel | `floorThreshold` | `negotiatePlatform` — STILL LIVE, affects which positions enforce floors |
-| Votesensitivitet | `voteSensitivity` | `computePositionBasedPFor` — DEAD, not used by bloc voting |
+| Stabilitetseksponent | `passageExponent` | 2.0 | Risk aversion in scoring: P(passage)^exponent. Higher = prefer stable governments. |
+| Afstandsstraff | `distPenalty` | 1.5 | How much ideological distance penalizes coalition scores. |
+| Formatørtræk | `formateurPull` | 0.3 | Extra weight the formateur gets in platform negotiation. |
+| Gulvtærskel | `floorThreshold` | 0.7 | Minimum position weight for floor enforcement in platform negotiation. |
 
 ### Presets
 
