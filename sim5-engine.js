@@ -427,12 +427,18 @@ function determineForstaaelsespapir(government, outsideParties, platform, cfg) {
       continue;
     }
 
-    // Average tolerateInGov across all government parties
+    // Veto check: any government party with tolerateInGov < 0.05 blocks the deal.
+    // Then P(deal) = average tolerateInGov across all government parties.
+    let vetoed = false;
     let tolerateSum = 0;
     for (const govId of government) {
       const govParty = PARTIES_MAP[govId];
-      tolerateSum += relationshipValue(govParty, partyId, "tolerateInGov", 0);
+      const t = relationshipValue(govParty, partyId, "tolerateInGov", 0);
+      if (t < 0.05) { vetoed = true; break; }
+      tolerateSum += t;
     }
+    if (vetoed) continue;
+
     const avgTolerate = government.length > 0 ? tolerateSum / government.length : 0;
 
     // Probabilistic: must exceed minimum AND pass stochastic draw
