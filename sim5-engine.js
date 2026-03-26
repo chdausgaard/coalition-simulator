@@ -317,10 +317,14 @@ function computePpassage(coalition, platform, mandates, cfg) {
   const isMinority = govMandates < 90;
   const govSide = getGovSide(coalition);
 
-  // Pre-compute per-party rescue probabilities for opposite-bloc / swing
-  // parties (only used when the initial vote fails).
-  const rescueProbs = {};
+  // Pre-compute package-deal rescue probability for cross-bloc budget pivot.
+  // Historical pattern: rescue was a package deal (government negotiates with
+  // V and KF together, not independently). Single draw using the best
+  // available partner's tolerance, rather than independent per-party draws
+  // that inflate compound probability.
   const rescueBase = cfg.rescueBase != null ? cfg.rescueBase : 0.10;
+  let rescueProb = 0;
+  const rescueCandidates = [];
   if (isMinority) {
     for (const vp of votingParties) {
       const party = PARTIES_MAP[vp.id];
@@ -330,7 +334,6 @@ function computePpassage(coalition, platform, mandates, cfg) {
       const isSwing = party.bloc === "swing";
       if (!isOppBloc && !isSwing) continue;
 
-      // Average tolerateInGov toward each government member
       let tolSum = 0;
       let tolCount = 0;
       for (const memberId of government) {
@@ -339,18 +342,19 @@ function computePpassage(coalition, platform, mandates, cfg) {
         tolCount++;
       }
       const avgTol = tolCount > 0 ? tolSum / tolCount : 0.5;
-
-      // Rescue probability: configurable base * avgTolerance, floored at 0.05.
-      // Historically, cross-bloc budget rescue was rare and costly: ~2-3
-      // genuine pivots across ~50 budget cycles (Thorning FL 2014, Nyrup
-      // efterløn). Schlüter chose dissolution over rescue in 1984. The
-      // per-party independence assumption already inflates compound
-      // probability vs the historical package-deal pattern, so the base
-      // rate is conservative to compensate.
-      rescueProbs[vp.id] = Math.min(0.30, Math.max(0.05, rescueBase * avgTol));
+      const partyRescueProb = Math.min(0.30, Math.max(0.05, rescueBase * avgTol));
+      rescueCandidates.push({ id: vp.id, m: vp.m, prob: partyRescueProb });
+    }
+    // Package-deal probability: use the best available partner's rate.
+    // Historically, governments recruited the most willing cross-bloc
+    // partner(s) as a bundle — Thorning went to V+KF together, not
+    // independently. The single draw avoids the compound-probability
+    // inflation of independent per-party draws.
+    if (rescueCandidates.length > 0) {
+      rescueProb = Math.max(...rescueCandidates.map(c => c.prob));
     }
   }
-  const hasRescueCandidates = isMinority && Object.keys(rescueProbs).length > 0;
+  const hasRescueCandidates = isMinority && rescueCandidates.length > 0;
   // ── End pivot setup ────────────────────────────────────────────
 
   for (let i = 0; i < MC_DRAWS; i++) {
@@ -376,28 +380,25 @@ function computePpassage(coalition, platform, mandates, cfg) {
     if (forVotes >= minForVotes && forVotes > againstVotes) {
       passes++;
     } else if (hasRescueCandidates) {
-      // ── Cross-bloc budget pivot rescue ───────────────────────
-      // The initial vote failed. The government attempts to recruit
-      // alternative budget partners from the opposite bloc / swing
-      // parties — mirroring the historical pattern of vekslende
-      // flertal (changing majorities per issue).
-      let rescueFor = forVotes;
-      let rescueAgainst = againstVotes;
-
-      for (const po of partyOutcomes) {
-        if (po.vote !== "against") continue;
-        const rp = rescueProbs[po.id];
-        if (rp == null) continue; // not a rescue candidate
-
-        if (Math.random() < rp) {
-          // Recruited: switch from AGAINST to FOR
-          rescueFor += po.m;
-          rescueAgainst -= po.m;
+      // ── Cross-bloc budget pivot rescue (package deal) ──────
+      // The initial vote failed. The government attempts a single
+      // package deal with cross-bloc partners — mirroring historical
+      // pattern (Thorning FL 2014: negotiated with V+KF as a package).
+      // Single draw at the best partner's probability; if it succeeds,
+      // ALL willing cross-bloc parties switch together.
+      if (Math.random() < rescueProb) {
+        let rescueFor = forVotes;
+        let rescueAgainst = againstVotes;
+        const candidateIds = new Set(rescueCandidates.map(c => c.id));
+        for (const po of partyOutcomes) {
+          if (po.vote === "against" && candidateIds.has(po.id)) {
+            rescueFor += po.m;
+            rescueAgainst -= po.m;
+          }
         }
-      }
-
-      if (rescueFor >= minForVotes && rescueFor > rescueAgainst) {
-        passes++;
+        if (rescueFor >= minForVotes && rescueFor > rescueAgainst) {
+          passes++;
+        }
       }
     }
   }
@@ -1024,17 +1025,12 @@ function simulate(userParams, N) {
           const govSeats = govIds.reduce((s, id) => s + (mandates[id] || 0), 0);
           const govSide = getGovSide(result);
 
-          // 1. Forståelsespapir parties (EL)
-          const forstPartier = (result.support || []).map(s => s.party);
-
-          // 2. Loose mainland støttepartier: same-bloc, not in govt, not forst
-          // Exclude parties whose support is binary on forståelsespapir (EL):
-          // without a formal agreement their support is negligible (~3%)
+          // Loose mainland støttepartier: same-bloc, not in govt,
+          // not forståelsespapir-dependent. These are stable across
+          // iterations (bloc membership doesn't change).
           const looseSupport = [];
-          const forstSet = new Set(forstPartier);
           for (const party of PARTIES_LIST) {
-            if (govSet.has(party.id) || forstSet.has(party.id)) continue;
-            // Skip forståelsespapir-dependent parties that didn't get one
+            if (govSet.has(party.id)) continue;
             const forstPos = party.positions.forstaaelsespapir;
             if (forstPos && forstPos.weight >= 0.95 && forstPos.ideal === 0) continue;
             if (party.bloc === govSide && party.participationPref) {
@@ -1043,12 +1039,10 @@ function simulate(userParams, N) {
             }
           }
 
-          // 3. NA seats — only when they help reach 90
+          // NA seats — only when they help reach 90
           const naSupport = [];
-          const forstSeats = forstPartier.reduce((s, id) => s + ((PARTIES_MAP[id] || {}).mandates || 0), 0);
           const looseSeats = looseSupport.reduce((s, id) => s + ((PARTIES_MAP[id] || {}).mandates || 0), 0);
-          const withMainland = govSeats + forstSeats + looseSeats;
-          if (withMainland < 90) {
+          if (govSeats + looseSeats < 90) {
             for (const seat of NA_SEATS) {
               const pAligned = govSide === "red" ? seat.pRed : govSide === "blue" ? seat.pBlue : 0;
               if (pAligned + seat.pFlexible >= 0.50) {
@@ -1062,14 +1056,18 @@ function simulate(userParams, N) {
             pPassageSum: 0,
             platform: result.platform,
             govProfile: result.govProfile,
-            support: forstPartier,
+            forstCount: 0,  // track forståelsespapir frequency across iterations
             looseSupport,
             naSupport
           };
         }
 
-        agg.coalitionCounts[result.coalition].count++;
-        agg.coalitionCounts[result.coalition].pPassageSum += result.pPassage;
+        // Aggregate per-iteration data (not frozen from first encounter)
+        const entry = agg.coalitionCounts[result.coalition];
+        entry.count++;
+        entry.pPassageSum += result.pPassage;
+        const forstPartier = (result.support || []).map(s => s.party);
+        if (forstPartier.length > 0) entry.forstCount++;
         agg.formationRounds.total += result.formationRound;
         agg.formationRounds.distribution[result.formationRound] =
           (agg.formationRounds.distribution[result.formationRound] || 0) + 1;
@@ -1109,7 +1107,11 @@ function simulate(userParams, N) {
       avgPPassage: +(data.pPassageSum / data.count).toFixed(3),
       platform: data.platform,
       govProfile: data.govProfile,
-      support: data.support || [],
+      // Show forståelsespapir parties when they appear in >40% of
+      // iterations for this coalition (not frozen from first encounter)
+      support: data.forstCount > 0 && (data.forstCount / data.count) > 0.40
+        ? ["EL"] : [],
+      forstRate: data.count > 0 ? +(data.forstCount / data.count).toFixed(2) : 0,
       looseSupport: data.looseSupport || [],
       naSupport: data.naSupport || []
     }));
