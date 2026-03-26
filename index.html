@@ -314,6 +314,33 @@
       margin: 2px 0 4px;
       line-height: 1.3;
     }
+    .control-tier-divider {
+      margin-top: 8px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(42, 36, 32, 0.12);
+    }
+    .control-tier-divider-label {
+      display: block;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-variant-caps: all-small-caps;
+      letter-spacing: 0.08em;
+    }
+    .control-tier-details summary {
+      cursor: pointer;
+      margin: 4px 0 0;
+      user-select: none;
+    }
+    .field-endpoints {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: -2px;
+      color: var(--muted);
+      font-size: 0.68rem;
+      line-height: 1.2;
+    }
     .run-button {
       width: 100%;
       padding: 10px;
@@ -769,6 +796,51 @@
     #methodologyCard strong {
       color: var(--ink);
     }
+    #methodologyCard .methodology-section {
+      margin-bottom: 1.3rem;
+    }
+    #methodologyCard .methodology-heading {
+      display: block;
+      margin: 0 0 0.35rem;
+      font-size: 0.98rem;
+    }
+    #methodologyCard .methodology-copy {
+      margin: 0;
+      color: #555;
+    }
+    #methodologyCard .methodology-equation {
+      margin: 0.9rem auto 1rem;
+      padding: 14px 18px;
+      max-width: 34rem;
+      border: 1px solid #e6ddd2;
+      border-radius: 14px;
+      background: #faf6ef;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 1.02rem;
+      line-height: 1.5;
+      color: var(--ink);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    }
+    #methodologyCard .methodology-list {
+      margin: 0.2rem 0 0;
+      padding-left: 1.2rem;
+      color: #555;
+    }
+    #methodologyCard .methodology-list li {
+      margin-bottom: 0.45rem;
+      line-height: 1.6;
+    }
+    #methodologyCard details.advanced-section {
+      margin-top: 0.2rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid rgba(42, 36, 32, 0.12);
+    }
+    #methodologyCard details.advanced-section summary {
+      cursor: pointer;
+      user-select: none;
+      margin-bottom: 0.75rem;
+    }
 
     h2, h3 { font-family: 'DM Sans', sans-serif; font-weight: 600; }
     h2 { font-size: 1.2rem; margin-bottom: 0.75rem; }
@@ -1000,7 +1072,7 @@
       </section>
 
       <aside class="panel panel-right">
-        <h2 class="panel-title">Scenariestyring</h2>
+        <h2 class="panel-title">Scenariokontrol</h2>
         <div class="card controls-card" id="scenarioControls"></div>
       </aside>
     </main>
@@ -1468,29 +1540,85 @@ onmessage = function(e) {
 
             <div class="field">
               <div class="field-header">
-                <span class="field-label">Forhandlingsforsøg (S-formatør)</span>
-                <span class="value-pill" id="control-maxFormationRounds-value">3</span>
-              </div>
-              <p class="field-desc">Antal forsøg inden for Frederiksens formatørmandat. Hvert forsøg stiger fleksibiliteten lidt — partierne bliver mere pragmatiske efterhånden. Hvis alle forsøg fejler, overgår mandatet til en blå formatør med lavere viabilitetstærskel (0,10).</p>
-              <input type="range" id="control-maxFormationRounds" data-control="maxFormationRounds" min="1" max="5" step="1" value="1">
-            </div>
-
-            <div class="field">
-              <div class="field-header">
                 <span class="field-label">Viabilitetstærskel</span>
-                <span class="value-pill" id="control-viabilityThreshold-value">0,50</span>
+                <span class="value-pill" id="control-viabilityThreshold-value">0,70</span>
               </div>
               <p class="field-desc">Minimum sandsynlighed for at S-formatøren kan forhandle en budgetaftale med tilstrækkeligt mange støttepartier. Høj tærskel = kræver sikre aftaler. Lav = tager chancer. Blå formatøren (runde 2) bruger altid en lavere tærskel (0,10) da situationen er mere desperat.</p>
               <input type="range" id="control-viabilityThreshold" data-control="viabilityThreshold" min="0.3" max="0.9" step="0.05" value="0.7">
             </div>
 
+            <button type="button" id="run-button" class="run-button dirty">Kør simulering ▶</button>
+          </div>
+
+          <div class="control-tier-divider">
+            <span class="control-tier-divider-label">Modelantagelser</span>
+          </div>
+
+          <div class="field-group">
             <div class="field">
               <div class="field-header">
                 <span class="field-label">M–EL forståelsespapir</span>
                 <span class="value-pill" id="control-mElTolerate-value">0,35</span>
               </div>
               <p class="field-desc">Sandsynlighed for at M accepterer EL som ekstern støtteparti via forståelsespapir. Løkkes "ingen venstrefløjsafhængighed"-linje er den centrale ubekendte i regeringsdannelsen. Ved 0 nedlægger M veto; ved 0,5+ er aftalen sandsynlig.</p>
-              <input type="range" id="control-mElTolerate" min="0" max="0.7" step="0.05" value="0.35">
+              <input type="range" id="control-mElTolerate" data-control="mElTolerate" min="0" max="0.7" step="0.05" value="0.35">
+            </div>
+
+            <div class="field">
+              <div class="field-header">
+                <span class="field-label">Vægt på budgetsikkerhed vs. politisk kvalitet</span>
+                <span class="value-pill" id="control-passageWeight-value">0,65</span>
+              </div>
+              <p class="field-desc">Hvor meget vægter formatøren budgetafstemningens sandsynlighed vs. koalitionens politiske kvalitet?</p>
+              <input type="range" id="control-passageWeight" data-control="passageWeight" min="0.3" max="0.9" step="0.05" value="0.65">
+              <div class="field-endpoints">
+                <span>Politisk kvalitet</span>
+                <span>Budgetsikkerhed</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-header">
+                <span class="field-label">Ideologisk afstand mellem partier</span>
+                <span class="value-pill" id="control-distPenalty-value">1,50</span>
+              </div>
+              <p class="field-desc">Hvor meget straffes ideologisk afstand mellem regeringspartier? Højere = mere homogene koalitioner foretrækkes.</p>
+              <input type="range" id="control-distPenalty" data-control="distPenalty" min="0.5" max="3" step="0.1" value="1.5">
+            </div>
+
+            <div class="field">
+              <div class="field-header">
+                <span class="field-label">Oppositionens tilbageholdenhed</span>
+                <span class="value-pill" id="control-oppositionAbstention-value">0,30</span>
+              </div>
+              <p class="field-desc">Hvor tilbageholdende er det største oppositionsparti ved finanslovsafstemningen? (dansk norm: oppositionen stemmer sjældent imod)</p>
+              <input type="range" id="control-oppositionAbstention" data-control="oppositionAbstention" min="0.1" max="0.7" step="0.05" value="0.3">
+              <div class="field-endpoints">
+                <span>Fuld tilbageholdenhed</span>
+                <span>Aktiv modstand</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-header">
+                <span class="field-label">Finanslovsredning på tværs af blokke</span>
+                <span class="value-pill" id="control-rescueBase-value">0,10</span>
+              </div>
+              <p class="field-desc">Sandsynligheden for at et oppositionsparti støtter finansloven når den ellers ville falde (historisk sjældent: ~2-3 gange på 50 år)</p>
+              <input type="range" id="control-rescueBase" data-control="rescueBase" min="0.05" max="0.3" step="0.05" value="0.1">
+            </div>
+          </div>
+
+          <details class="advanced-section control-tier-details">
+            <summary class="field-label">Kalibrering</summary>
+
+            <div class="field">
+              <div class="field-header">
+                <span class="field-label">Forhandlingsforsøg / S-formatør</span>
+                <span class="value-pill" id="control-maxFormationRounds-value">1</span>
+              </div>
+              <p class="field-desc">Antal forsøg inden for Frederiksens formatørmandat. Hvert forsøg stiger fleksibiliteten lidt — partierne bliver mere pragmatiske efterhånden. Hvis alle forsøg fejler, overgår mandatet til en blå formatør med lavere viabilitetstærskel (0,10).</p>
+              <input type="range" id="control-maxFormationRounds" data-control="maxFormationRounds" min="1" max="5" step="1" value="1">
             </div>
 
             <div class="field">
@@ -1506,84 +1634,6 @@ onmessage = function(e) {
               </select>
             </div>
 
-            <button type="button" id="run-button" class="run-button dirty">Kør simulering ▶</button>
-          </div>
-
-          <details id="howItWorksOriginal" class="advanced-section" style="padding:0; margin-bottom:10px;">
-            <summary class="field-label" style="cursor:pointer; user-select:none;">Sådan virker simulatoren</summary>
-            <div style="margin-top:6px;">
-              <p class="field-desc" style="color:#555;">
-                <strong style="color:#333;">Datagrundlag:</strong> Modellens standardparametre — partiernes politiske positioner, forhandlingshårdhed, indbyrdes relationer og deltagelsespræferencer — er baseret på partiernes offentlige udmeldinger, valgaftensudtalelser, politisk kommentariat og mediedækning fra dagene efter valget. Hver parameter er kalibreret mod konkrete udsagn og positioner. Parametrene opdateres løbende under regeringsforhandlingerne efterhånden som nye udviklinger finder sted.
-              </p>
-              <p class="field-desc" style="color:#555;">
-                <strong style="color:#333;">Gradvis forhandling (endogen, kan ændres):</strong> Simulatoren bruger en flerrundeprotokol. I runde 1 forsøges kun smalle koalitioner (1-2 partier). I runde 2 udvides til 3 partier. I runde 3+ tillades 4-partiregeringer. Inden for hver runde forsøger enten rød blok (S-ledet) eller blå blok (V-ledet) først. Rækkefølgen beregnes som standard endogent ud fra Løkkes orientering og mandatfordelingen, men kan overstyres manuelt via "Første formateur"-kontrollen. Fleksibiliteten stiger med hver runde.
-              </p>
-              <p class="field-desc" style="color:#555;">
-                <strong style="color:#333;">Platformforhandling (endogen):</strong> For hver koalition beregnes en politisk platform som et vægtet kompromis. Hvert parti trækker mod sin idealposition, vægtet med mandattal × issue-vigtighed. Statsministerkandidaten har ekstra indflydelse (formateurtiltrækning). Koalitioner hvor ingen platform kan opfylde alle partiers minimumskrav filtreres fra.
-              </p>
-              <p class="field-desc" style="color:#555;">
-                <strong style="color:#333;">Finanslovsafstemning (endogen):</strong> Hvert partis stemmeadfærd beregnes fra dets politiske positioner, relationer til regeringspartierne, evt. forståelsespapir, og partiets deltagelsespræference (partier der kræver kabinetsplads men er udelukket, reducerer deres støtte). Sandsynlighederne fødes ind i en dynamisk programmerings-motor der beregner P(finanslov).
-              </p>
-              <p class="field-desc" style="color:#555;">
-                <strong style="color:#333;">Støttepartier:</strong> For mindretalsregeringer vises forståelsespapir-partier (EL) og sandsynligt alliererede nordatlantiske mandater. Baseret på blokalliance og basisalliancesandsynligheder.
-              </p>
-              <p class="field-desc" style="color:#555;">
-                <strong style="color:#333;">Forståelsespapir og EL:</strong> Modellen skelner mellem <em>toleration</em> (afståelse fra at stemme imod — reducerer modstandsmandater) og <em>aktiv støtte</em> (stemmer for — øger formandater). Et forståelsespapir konverterer et parti fra positionsbaseret afstemning til nær-sikker FOR-stemme. Denne mekanisme er generisk (udløses af parameteren forstaaelsespapir.weight ≥ 0.95), men kun Enhedslisten opfylder tærsklen i de nuværende data. Det er ikke en ad hoc-modellering: EL's finanslovsafstemninger har empirisk været binære siden 2011 — MED forståelsespapir: FOR i 100% af afstemninger (2019-2022); UDEN: IMOD i 100%. Ingen andre partier har dette mønster. Mekanismen ville automatisk gælde for ethvert parti der fik weight ≥ 0.95.
-              </p>
-              <p class="field-desc" style="color:#555;">
-                <strong style="color:#333;">Bilateral konditionering (endogen):</strong> Når EL+ALT og M alle er uden for en S-ledet regering, modelleres deres strategiske afhængighed: Hvis venstrefløjen stemmer for, mindskes M's incitament (pengene er allerede hjemme). Hvis den stemmer imod, stiger M's "white knight"-incitament (M kan redde finansloven og maksimere sin forhandlingsposition). Forståelsespapir dæmper straffen (aftalen gør EL's stemme mere forudsigelig). Samme logik gælder DF↔M under blå regeringer.
-              </p>
-              <p class="field-desc" style="color:#555;">
-                <strong style="color:#333;">Eksogene parametre (bruger-bestemt):</strong> Alle sliders og kontroller er eksogene — de sættes af brugeren. Det inkluderer: fleksibilitet, Frederiksens præference for rød regering, Løkkes orientering, partiernes forhandlingshårdhed, politiske idealpositioner, og alle avancerede parametre. Ændringer i disse påvirker de endogene beregninger.
-              </p>
-              <p class="field-desc" style="color:#555;">
-                <strong style="color:#333;">Stokastiske elementer:</strong> Partiernes accept af hinanden som koalitionspartnere, finanslovsafstemninger, formateur-rækkefølge og nordatlantiske mandaters blokvalg trækkes stokastisk i hver iteration. N iterationer (Monte Carlo) giver sandsynlighedsfordelinger.
-              </p>
-              <p class="field-desc" style="color:#555;">
-                <strong style="color:#333;">Mindretalsregeringer:</strong> De fleste danske regeringer er mindretalsregeringer — det er normalt, ikke en fejl. Modellen viser hvilke støttepartier der sandsynligvis sikrer finansloven. Mindretalsregeringer med færre partier har en fleksibilitetsfordel (kan forhandle med forskellige partnere ad hoc).
-              </p>
-              <p class="field-desc" style="color:#555;">
-                <strong style="color:#333;">Gridlock:</strong> "Ingen regering" opstår når S-formatøren ikke kan danne regering (alle koalitioner fejler dyadacceptance) og den blå formatør heller ikke lykkes. Hæv viabilitetstærsklen for at udforske gridlock.
-              </p>
-              <p class="field-desc" style="color:#555;">
-                <strong style="color:#333;">Transparens:</strong> Al kode, partidata og modelparametre er open source og kan inspiceres på <a href="https://github.com/chdausgaard/coalition-simulator" target="_blank" style="color:var(--accent);">GitHub</a>. Parternes positioner og relationer er dokumenteret i <code>sim5-parties.js</code>, simuleringsmotoren i <code>sim5-engine.js</code>.
-              </p>
-            </div>
-          </details>
-
-          <div class="field-group">
-            <div class="field-header">
-              <span class="field-label">Forudindstillinger</span>
-            </div>
-            <div class="preset-grid" id="presetGrid">
-              ${Object.keys(PRESETS).map(name => `
-                <button type="button" class="preset-button" data-preset="${escapeHtml(name)}" title="${escapeHtml(PRESET_DESCRIPTIONS[name] || "")}">${escapeHtml(name)}</button>
-              `).join("")}
-            </div>
-            <p class="field-desc" id="preset-desc-text">Hold musen over en forudindstilling for at se beskrivelse — eller klik for at anvende.</p>
-          </div>
-
-          <details class="advanced-section">
-            <summary class="field-label" style="cursor:pointer; margin: 12px 0 6px; user-select:none;">Avancerede parametre</summary>
-
-            <div class="field">
-              <div class="field-header">
-                <span class="field-label">Stabilitetseksponent</span>
-                <span class="value-pill" id="control-passageExponent-value">2,00</span>
-              </div>
-              <p class="field-desc">Hvor risikoavers er forhandleren? Højere = stærkt foretrækker høj P(finanslov). Kontrollerer om brede men stabile koalitioner vinder over smalle men risikable.</p>
-              <input type="range" id="control-passageExponent" data-control="passageExponent" min="1" max="3" step="0.1" value="2.0">
-            </div>
-
-            <div class="field">
-              <div class="field-header">
-                <span class="field-label">Afstandsstraf</span>
-                <span class="value-pill" id="control-distPenalty-value">1,50</span>
-              </div>
-              <p class="field-desc">Hvor meget straffes ideologisk afstand mellem regeringspartier? Højere = mere homogene koalitioner foretrækkes.</p>
-              <input type="range" id="control-distPenalty" data-control="distPenalty" min="0.5" max="3" step="0.1" value="1.5">
-            </div>
-
             <div class="field">
               <div class="field-header">
                 <span class="field-label">Fleksibilitetstilvækst</span>
@@ -1591,33 +1641,6 @@ onmessage = function(e) {
               </div>
               <p class="field-desc">Hvor meget stiger fleksibiliteten pr. forhandlingsrunde. Højere = partierne giver sig hurtigere efter.</p>
               <input type="range" id="control-flexIncrement" data-control="flexIncrement" min="0" max="0.15" step="0.01" value="0.05">
-            </div>
-
-            <div class="field">
-              <div class="field-header">
-                <span class="field-label">Præcedensvægt</span>
-                <span class="value-pill" id="control-precedentWeight-value">0,00</span>
-              </div>
-              <p class="field-desc">Bonus for historisk precedens (0 = slukket). Højere = modellen favoriserer koalitionstyper der ligner tidligere danske regeringer.</p>
-              <input type="range" id="control-precedentWeight" data-control="precedentWeight" min="0" max="0.05" step="0.005" value="0">
-            </div>
-
-            <div class="field">
-              <div class="field-header">
-                <span class="field-label">EL-M konditionering (straf)</span>
-                <span class="value-pill" id="control-elMPenalty-value">0,70</span>
-              </div>
-              <p class="field-desc">Når EL stemmer for finansloven, reduceres M's incitament til at samarbejde. Lavere = stærkere straf.</p>
-              <input type="range" id="control-elMPenalty" data-control="elMPenalty" min="0.3" max="1" step="0.05" value="0.7">
-            </div>
-
-            <div class="field">
-              <div class="field-header">
-                <span class="field-label">EL-M konditionering (boost)</span>
-                <span class="value-pill" id="control-elMBoost-value">1,10</span>
-              </div>
-              <p class="field-desc">Når EL stemmer imod, bliver M mere tilbøjelig til at redde finansloven. Højere = stærkere "white knight"-effekt.</p>
-              <input type="range" id="control-elMBoost" data-control="elMBoost" min="1" max="1.5" step="0.05" value="1.1">
             </div>
 
             <div class="field">
@@ -1636,6 +1659,98 @@ onmessage = function(e) {
               </div>
               <p class="field-desc">Issues med vægt over denne tærskel udløser "gulv"-tjek: partiet accepterer ikke en platform der krydser deres bundgrænse.</p>
               <input type="range" id="control-floorThreshold" data-control="floorThreshold" min="0.3" max="0.95" step="0.05" value="0.7">
+            </div>
+          </details>
+
+          <div class="field-group">
+            <div class="field-header">
+              <span class="field-label">Forudindstillinger</span>
+            </div>
+            <div class="preset-grid" id="presetGrid">
+              ${Object.keys(PRESETS).map(name => `
+                <button type="button" class="preset-button" data-preset="${escapeHtml(name)}" title="${escapeHtml(PRESET_DESCRIPTIONS[name] || "")}">${escapeHtml(name)}</button>
+              `).join("")}
+            </div>
+            <p class="field-desc" id="preset-desc-text">Hold musen over en forudindstilling for at se beskrivelse — eller klik for at anvende.</p>
+          </div>
+
+          <details id="howItWorksOriginal" class="advanced-section" style="padding:0; margin-bottom:10px;">
+            <summary class="field-label" style="cursor:pointer; user-select:none;">Sådan virker simulatoren</summary>
+            <div style="margin-top:6px;">
+              <section class="field-group methodology-section">
+                <p class="field-label methodology-heading"><strong>Hvad modellen gør</strong></p>
+                <p class="field-desc methodology-copy">
+                  Simulatoren stiller to spørgsmål om hver mulig koalition. Først: kan den vedtage lovgivning? Det afhænger af, om koalitionen plus eventuelle støttepartier kan samle et flertal, og om partierne er politisk kompatible nok til at opretholde lovgivningsaftaler. Dernæst: er det en naturlig koalition at danne? Mindre koalitioner foretrækkes frem for større, og nogle partikombinationer har lettere ved at samarbejde end andre. Modellen scorer hver mulig kombination på begge dimensioner og rapporterer de mest sandsynlige udfald.
+                </p>
+              </section>
+
+              <section class="field-group methodology-section">
+                <p class="field-label methodology-heading"><strong>Sådan scores en koalition</strong></p>
+                <p class="field-desc methodology-copy">
+                  Hver mulig kombination af partier modtager en score. Den højest scorende levedygtige koalition vinder.
+                </p>
+                <div class="methodology-equation">
+                  Score = Budgetpassage<sup>w</sup> &times; Koalitionskvalitet<sup>(1-w)</sup>
+                </div>
+                <p class="field-desc methodology-copy">
+                  <strong>Budgetpassage:</strong> Kan koalitionen plus støttepartier vedtage en finanslov? Modellen simulerer afstemningen med blokstemning, hvor hvert parti stemmer samlet for, imod eller undlader at stemme. Sandsynligheden for vedtagelse er den vigtigste faktor i scoren.
+                </p>
+                <p class="field-desc methodology-copy">
+                  <strong>Koalitionskvalitet:</strong> Er koalitionen politisk sammenhængende og håndterbar? Kvaliteten afhænger af fire faktorer: ideologisk afstand mellem partierne (tættere = bedre), koalitionens størrelse (færre partier = lettere at regere), om koalitionen er forbundet og minimal vindende (koalitionsteori), og hvor let det er at finde flertal på tværs af politikområder (regeringsevne).
+                </p>
+                <p class="field-desc methodology-copy">
+                  <strong>Vægtningen w:</strong> Parameteren <span class="mono">w</span> styrer balancen. Høj <span class="mono">w</span> betyder, at formatøren prioriterer budgetsikkerhed. Lav <span class="mono">w</span> betyder, at formatøren prioriterer politisk kvalitet. Vi kender ikke den sande værdi, så modellen varierer <span class="mono">w</span> mellem simuleringerne, normalt omkring 0,65, for at afspejle denne usikkerhed. Du kan justere <span class="mono">w</span> under Modelantagelser i kontrolpanelet.
+                </p>
+              </section>
+
+              <section class="field-group methodology-section">
+                <p class="field-label methodology-heading"><strong>Usikkerhed og konfidensintervaller</strong></p>
+                <p class="field-desc methodology-copy">
+                  Flere af modellens parametre er genuint usikre, f.eks. SFs og Ms villighed til at regere sammen, Ms tolerance for EL som støtteparti og formatørens risikovillighed. I stedet for at vælge én fast værdi trækker modellen disse parametre fra sandsynlighedsfordelinger i hver simuleringsrunde. Det betyder, at outputtet afspejler reel usikkerhed snarere end falsk præcision. Resultaternes spredning viser, hvor følsom konklusionen er over for antagelser, vi ikke kan fastslå med sikkerhed.
+                </p>
+              </section>
+
+              <section class="field-group methodology-section">
+                <p class="field-label methodology-heading"><strong>Hvad du kan justere</strong></p>
+                <p class="field-desc methodology-copy">
+                  Scenariokontrol-panelet lader dig ændre de vigtigste politiske antagelser, som fleksibilitet, rød præference og formatørvalg. Under Modelantagelser kan du justere modellens strukturelle valg, f.eks. hvor meget budgetpassage dominerer, og hvor tilbageholdende oppositionen er. Under Kalibrering finder du tekniske parametre til finindstilling.
+                </p>
+              </section>
+
+              <details class="advanced-section">
+                <summary class="field-label">Tekniske detaljer</summary>
+
+                <section class="field-group methodology-section">
+                  <p class="field-label methodology-heading"><strong>Scoringsfunktionens komponenter</strong></p>
+                  <p class="field-desc methodology-copy">
+                    Koalitionskvalitet = ideoFit &times; parsimony &times; mwcc &times; govEase, hvor ideoFit måler den gennemsnitlige parvise politiske afstand, parsimony belønner færre regeringspartier ([1.15, 1.10, 0.95, 0.85] for 1-4 partier), mwcc giver bonus til minimum vindende forbundne koalitioner (1.15), og govEase måler evnen til at finde lovgivningsflertal på tværs af politikområder (0.5 + 1.0 &times; gennemsnitlig gennemførlighed).
+                  </p>
+                </section>
+
+                <section class="field-group methodology-section">
+                  <p class="field-label methodology-heading"><strong>Støttepartilogik</strong></p>
+                  <p class="field-desc methodology-copy">
+                    EL har tre støtteniveauer: (1) Med forståelsespapir: ca. 85-93% stemmer for, lavere med centrumpartier i regeringen. (2) Uden forståelsespapir, rød regering: ca. 45% stemmer for via uformel forhandling, som under Thorning. (3) Blå eller centrum-regering uden aftale: ca. 3% stemmer for. Forståelsespapiret forhandles probabilistisk: det kræver, at alle regeringspartier tolererer EL, og sandsynligheden er gennemsnittet af deres toleranceværdier.
+                  </p>
+                </section>
+
+                <section class="field-group methodology-section">
+                  <p class="field-label methodology-heading"><strong>Formationsprotokol</strong></p>
+                  <p class="field-desc methodology-copy">
+                    S-formatøren forsøger først i 1-5 runder med stigende fleksibilitet. Hvis alle S-forsøg fejler, får en blå formatør chancen med lavere viabilitetstærskel (0.10 - desperation, jf. Hartlings 22-mandatregering). Hvis også det fejler, følger en sidste desperationsrunde med tærskel 0.05. Historisk er der altid dannet en regering.
+                  </p>
+                </section>
+
+                <section class="field-group methodology-section" style="margin-bottom:0;">
+                  <p class="field-label methodology-heading"><strong>Kendte begrænsninger</strong></p>
+                  <ul class="field-desc methodology-list">
+                    <li>Modellen fanger ikke personlige relationer, kampagnedynamik eller forhandlingssekvensering.</li>
+                    <li>Budgetafstemningen er en enkelt op-eller-ned-begivenhed; i virkeligheden er danske finanslove sammensatte aftaler.</li>
+                    <li>Redning på tværs af blokke modelleres som uafhængige per-parti-træk, men historisk var det ofte pakkeaftaler.</li>
+                    <li>Absolutte sandsynligheder afspejler kalibreringsvalg; komparative ændringer, altså hvad der sker når en parameter ændres, er mere robuste end niveauerne.</li>
+                  </ul>
+                </section>
+              </details>
             </div>
           </details>
         `;
@@ -1730,17 +1845,15 @@ onmessage = function(e) {
           N: Number(document.getElementById("control-N").value),
           mDemandGov: document.getElementById("party-M-demandgov").checked,
           mElTolerate: Number(document.getElementById("control-mElTolerate").value),
+          passageWeight: num("control-passageWeight"),
+          distPenalty: num("control-distPenalty"),
+          oppositionAbstention: num("control-oppositionAbstention"),
+          rescueBase: num("control-rescueBase"),
           sDemandGov: document.getElementById("party-S-demandgov").checked,
           mDemandPM: document.getElementById("party-M-demandpm").checked,
           formateurOverride: document.getElementById("control-formateurOverride").value,
-          // Advanced parameters
-          passageExponent: num("control-passageExponent"),
-          distPenalty: num("control-distPenalty"),
+          // Calibration parameters
           flexIncrement: num("control-flexIncrement"),
-          voteSensitivity: num("control-voteSensitivity"),
-          precedentWeight: num("control-precedentWeight"),
-          elMPenalty: num("control-elMPenalty"),
-          elMBoost: num("control-elMBoost"),
           formateurPull: num("control-formateurPull"),
           floorThreshold: num("control-floorThreshold"),
           partySettings
@@ -1752,6 +1865,7 @@ onmessage = function(e) {
           flexibility: DEFAULTS.flexibility,
           redPreference: DEFAULTS.redPreference,
           mPmPref: DEFAULTS.mPmPref,
+          formateurOverride: DEFAULTS.formateurOverride,
           maxFormationRounds: DEFAULTS.maxFormationRounds,
           viabilityThreshold: DEFAULTS.viabilityThreshold,
           N: DEFAULTS.N,
@@ -1773,11 +1887,11 @@ onmessage = function(e) {
         document.getElementById("control-flexibility").value = params.flexibility;
         document.getElementById("control-redPreference").value = params.redPreference;
         document.getElementById("control-mPmPref").value = params.mPmPref;
+        document.getElementById("control-formateurOverride").value = params.formateurOverride != null ? params.formateurOverride : DEFAULTS.formateurOverride;
         document.getElementById("control-maxFormationRounds").value = params.maxFormationRounds;
         document.getElementById("control-viabilityThreshold").value = params.viabilityThreshold;
         document.getElementById("control-N").value = params.N;
         document.getElementById("party-M-demandgov").checked = params.mDemandGov;
-        if (params.mElTolerate != null) document.getElementById("control-mElTolerate").value = params.mElTolerate;
         document.getElementById("party-S-pmdemand").checked = params.pmDemand;
         const sDemandGovEl = document.getElementById("party-S-demandgov");
         if (sDemandGovEl) sDemandGovEl.checked = params.sDemandGov != null ? params.sDemandGov : true;
@@ -1795,11 +1909,19 @@ onmessage = function(e) {
           });
         });
 
-        // Reset advanced controls to defaults if they exist
-        const advancedDefaults = { passageExponent: 2.0, distPenalty: 1.5, flexIncrement: 0.05, voteSensitivity: 4, precedentWeight: 0, elMPenalty: 0.7, elMBoost: 1.1, formateurPull: 0.3, floorThreshold: 0.7 };
-        for (const [key, val] of Object.entries(advancedDefaults)) {
+        const controlDefaults = {
+          mElTolerate: 0.35,
+          passageWeight: 0.65,
+          distPenalty: 1.5,
+          oppositionAbstention: 0.3,
+          rescueBase: 0.1,
+          flexIncrement: 0.05,
+          formateurPull: 0.3,
+          floorThreshold: 0.7
+        };
+        for (const [key, defaultValue] of Object.entries(controlDefaults)) {
           const el = document.getElementById("control-" + key);
-          if (el) el.value = val;
+          if (el) el.value = params[key] != null ? params[key] : defaultValue;
         }
 
         state.suppressControlEvents = false;

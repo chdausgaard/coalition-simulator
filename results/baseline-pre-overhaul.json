@@ -1,0 +1,1140 @@
+{
+  "N": 10000,
+  "pm": {
+    "S": 97.63,
+    "V": 2.37
+  },
+  "govType": {
+    "center-left": 69.98,
+    "red": 27.19,
+    "center-right": 2.37,
+    "cross": 0.46
+  },
+  "topCoalitions": [
+    {
+      "govt": "S+M+RV+SF",
+      "pct": 43.81,
+      "avgPPassage": 0.992,
+      "platform": {
+        "wealthTax": 3,
+        "climateTgt": 2,
+        "natureLaw": 0,
+        "pesticideBan": 1,
+        "immigration": 3,
+        "pension": 1,
+        "fiscal": 0,
+        "nuclear": 1,
+        "defense": 1,
+        "euConventions": 2,
+        "forstaaelsespapir": 1,
+        "storeBededag": 1
+      },
+      "govProfile": {
+        "wealthTax": {
+          "feasibility": 1,
+          "support": 46.2175,
+          "opposition": 0
+        },
+        "climateTgt": {
+          "feasibility": 0.9104618284637135,
+          "support": 38.64,
+          "opposition": 3.8
+        },
+        "natureLaw": {
+          "feasibility": 0.26273458445040215,
+          "support": 10.780000000000001,
+          "opposition": 30.250000000000004
+        },
+        "pesticideBan": {
+          "feasibility": 1,
+          "support": 24.695,
+          "opposition": 0
+        },
+        "immigration": {
+          "feasibility": 0.8551704705550859,
+          "support": 60.7,
+          "opposition": 10.280000000000001
+        },
+        "pension": {
+          "feasibility": 1,
+          "support": 30.32,
+          "opposition": 0
+        },
+        "fiscal": {
+          "feasibility": 0.361764276325398,
+          "support": 24.77,
+          "opposition": 43.699999999999996
+        },
+        "nuclear": {
+          "feasibility": 1,
+          "support": 30.840000000000003,
+          "opposition": 0
+        },
+        "defense": {
+          "feasibility": 1,
+          "support": 39.34,
+          "opposition": 0
+        },
+        "euConventions": {
+          "feasibility": 0.8093242535358827,
+          "support": 46.35000000000001,
+          "opposition": 10.92
+        },
+        "storeBededag": {
+          "feasibility": 1,
+          "support": 14.299999999999999,
+          "opposition": 0
+        }
+      },
+      "support": [
+        "EL"
+      ],
+      "looseSupport": [
+        "ALT"
+      ],
+      "naSupport": []
+    },
+    {
+      "govt": "S+RV+SF",
+      "pct": 26.47,
+      "avgPPassage": 0.879,
+      "platform": {
+        "wealthTax": 3,
+        "climateTgt": 1,
+        "natureLaw": 0,
+        "pesticideBan": 1,
+        "immigration": 3,
+        "pension": 0,
+        "fiscal": 0,
+        "nuclear": 2,
+        "defense": 1,
+        "euConventions": 2,
+        "forstaaelsespapir": 1,
+        "storeBededag": 1
+      },
+      "govProfile": {
+        "wealthTax": {
+          "feasibility": 1,
+          "support": 55.1425,
+          "opposition": 0
+        },
+        "climateTgt": {
+          "feasibility": 0.37545106312107923,
+          "support": 22.543333333333337,
+          "opposition": 37.5
+        },
+        "natureLaw": {
+          "feasibility": 0.2420839883224792,
+          "support": 10.780000000000001,
+          "opposition": 33.75000000000001
+        },
+        "pesticideBan": {
+          "feasibility": 1,
+          "support": 27.494999999999997,
+          "opposition": 0
+        },
+        "immigration": {
+          "feasibility": 0.7714794102694458,
+          "support": 60.7,
+          "opposition": 17.98
+        },
+        "pension": {
+          "feasibility": 0.5333779861576244,
+          "support": 23.89,
+          "opposition": 20.9
+        },
+        "fiscal": {
+          "feasibility": 0.39574115044247793,
+          "support": 28.62,
+          "opposition": 43.699999999999996
+        },
+        "nuclear": {
+          "feasibility": 0.14731562325840608,
+          "support": 7.93,
+          "opposition": 45.900000000000006
+        },
+        "defense": {
+          "feasibility": 1,
+          "support": 46.34,
+          "opposition": 0
+        },
+        "euConventions": {
+          "feasibility": 0.8160687215765537,
+          "support": 48.45,
+          "opposition": 10.92
+        },
+        "storeBededag": {
+          "feasibility": 1,
+          "support": 16.749999999999996,
+          "opposition": 0
+        }
+      },
+      "support": [
+        "EL"
+      ],
+      "looseSupport": [
+        "ALT"
+      ],
+      "naSupport": [
+        "FO-JF",
+        "GL-NAL",
+        "GL-IA"
+      ]
+    },
+    {
+      "govt": "S+M+SF",
+      "pct": 19.18,
+      "avgPPassage": 0.941,
+      "platform": {
+        "wealthTax": 3,
+        "climateTgt": 2,
+        "natureLaw": 0,
+        "pesticideBan": 1,
+        "immigration": 3,
+        "pension": 0,
+        "fiscal": 0,
+        "nuclear": 1,
+        "defense": 1,
+        "euConventions": 2,
+        "forstaaelsespapir": 1,
+        "storeBededag": 1
+      },
+      "govProfile": {
+        "wealthTax": {
+          "feasibility": 1,
+          "support": 51.7675,
+          "opposition": 0
+        },
+        "climateTgt": {
+          "feasibility": 0.9196730552423902,
+          "support": 43.50666666666667,
+          "opposition": 3.8
+        },
+        "natureLaw": {
+          "feasibility": 0.35127600257345054,
+          "support": 16.380000000000003,
+          "opposition": 30.250000000000004
+        },
+        "pesticideBan": {
+          "feasibility": 1,
+          "support": 27.145,
+          "opposition": 0
+        },
+        "immigration": {
+          "feasibility": 0.805253382860175,
+          "support": 60.7,
+          "opposition": 14.680000000000001
+        },
+        "pension": {
+          "feasibility": 0.5814066682891214,
+          "support": 23.89,
+          "opposition": 17.2
+        },
+        "fiscal": {
+          "feasibility": 0.38075669547966556,
+          "support": 26.869999999999997,
+          "opposition": 43.699999999999996
+        },
+        "nuclear": {
+          "feasibility": 1,
+          "support": 32.040000000000006,
+          "opposition": 0
+        },
+        "defense": {
+          "feasibility": 1,
+          "support": 42.74,
+          "opposition": 0
+        },
+        "euConventions": {
+          "feasibility": 0.8166862514688602,
+          "support": 48.650000000000006,
+          "opposition": 10.92
+        },
+        "storeBededag": {
+          "feasibility": 1,
+          "support": 16.049999999999997,
+          "opposition": 0
+        }
+      },
+      "support": [
+        "EL"
+      ],
+      "looseSupport": [
+        "ALT"
+      ],
+      "naSupport": [
+        "FO-JF",
+        "GL-NAL",
+        "GL-IA"
+      ]
+    },
+    {
+      "govt": "S+M+RV",
+      "pct": 6.99,
+      "avgPPassage": 0.741,
+      "platform": {
+        "wealthTax": 3,
+        "climateTgt": 2,
+        "natureLaw": 1,
+        "pesticideBan": 1,
+        "immigration": 3,
+        "pension": 1,
+        "fiscal": 0,
+        "nuclear": 1,
+        "defense": 1,
+        "euConventions": 2,
+        "forstaaelsespapir": 2,
+        "storeBededag": 1
+      },
+      "govProfile": {
+        "wealthTax": {
+          "feasibility": 1,
+          "support": 50.7175,
+          "opposition": 0
+        },
+        "climateTgt": {
+          "feasibility": 0.927536231884058,
+          "support": 48.64000000000001,
+          "opposition": 3.8
+        },
+        "natureLaw": {
+          "feasibility": 1,
+          "support": 32.089999999999996,
+          "opposition": 0
+        },
+        "pesticideBan": {
+          "feasibility": 1,
+          "support": 31.695,
+          "opposition": 0
+        },
+        "immigration": {
+          "feasibility": 0.7589397349337335,
+          "support": 60.7,
+          "opposition": 19.279999999999998
+        },
+        "pension": {
+          "feasibility": 1,
+          "support": 34.32,
+          "opposition": 0
+        },
+        "fiscal": {
+          "feasibility": 0.4826565644607553,
+          "support": 40.769999999999996,
+          "opposition": 43.699999999999996
+        },
+        "nuclear": {
+          "feasibility": 1,
+          "support": 35.34,
+          "opposition": 0
+        },
+        "defense": {
+          "feasibility": 1,
+          "support": 48.34,
+          "opposition": 0
+        },
+        "euConventions": {
+          "feasibility": 0.7443391681387506,
+          "support": 46.35000000000001,
+          "opposition": 15.92
+        },
+        "storeBededag": {
+          "feasibility": 1,
+          "support": 19.799999999999997,
+          "opposition": 0
+        }
+      },
+      "support": [
+        "EL"
+      ],
+      "looseSupport": [
+        "ALT"
+      ],
+      "naSupport": [
+        "FO-JF",
+        "GL-NAL",
+        "GL-IA"
+      ]
+    },
+    {
+      "govt": "V+KF+LA+M",
+      "pct": 2.28,
+      "avgPPassage": 0.133,
+      "platform": {
+        "wealthTax": 4,
+        "climateTgt": 2,
+        "natureLaw": 2,
+        "pesticideBan": 2,
+        "immigration": 3,
+        "pension": 2,
+        "fiscal": 2,
+        "nuclear": 0,
+        "defense": 1,
+        "euConventions": 2,
+        "forstaaelsespapir": 2,
+        "storeBededag": 1
+      },
+      "govProfile": {
+        "wealthTax": {
+          "feasibility": 0.8244304286265929,
+          "support": 32.025,
+          "opposition": 6.82
+        },
+        "climateTgt": {
+          "feasibility": 0.9313335742681605,
+          "support": 51.540000000000006,
+          "opposition": 3.8
+        },
+        "natureLaw": {
+          "feasibility": 0.3389138423846468,
+          "support": 16.6,
+          "opposition": 32.38
+        },
+        "pesticideBan": {
+          "feasibility": 0.1302703459868329,
+          "support": 9.3,
+          "opposition": 62.089999999999996
+        },
+        "immigration": {
+          "feasibility": 0.7107962872496337,
+          "support": 58.2,
+          "opposition": 23.68
+        },
+        "pension": {
+          "feasibility": 0.18311953894775984,
+          "support": 9.850000000000001,
+          "opposition": 43.94
+        },
+        "fiscal": {
+          "feasibility": 0.05061942187291861,
+          "support": 3.8,
+          "opposition": 71.27
+        },
+        "nuclear": {
+          "feasibility": 0.4872389791183294,
+          "support": 16.8,
+          "opposition": 17.68
+        },
+        "defense": {
+          "feasibility": 1,
+          "support": 51.69,
+          "opposition": 0
+        },
+        "euConventions": {
+          "feasibility": 0.6885758998435054,
+          "support": 35.2,
+          "opposition": 15.92
+        },
+        "storeBededag": {
+          "feasibility": 1,
+          "support": 21.15,
+          "opposition": 0
+        }
+      },
+      "support": [],
+      "looseSupport": [
+        "DF",
+        "DD",
+        "BP"
+      ],
+      "naSupport": []
+    },
+    {
+      "govt": "S+SF",
+      "pct": 0.72,
+      "avgPPassage": 0.652,
+      "platform": {
+        "wealthTax": 2,
+        "climateTgt": 2,
+        "natureLaw": 0,
+        "pesticideBan": 1,
+        "immigration": 3,
+        "pension": 0,
+        "fiscal": 0,
+        "nuclear": 2,
+        "defense": 1,
+        "euConventions": 2,
+        "forstaaelsespapir": 1,
+        "storeBededag": 1
+      },
+      "govProfile": {
+        "wealthTax": {
+          "feasibility": 0.0497351920618494,
+          "support": 4.085,
+          "opposition": 78.05
+        },
+        "climateTgt": {
+          "feasibility": 0.9291132943663724,
+          "support": 49.80666666666667,
+          "opposition": 3.8
+        },
+        "natureLaw": {
+          "feasibility": 0.3267504488330341,
+          "support": 16.380000000000003,
+          "opposition": 33.75000000000001
+        },
+        "pesticideBan": {
+          "feasibility": 1,
+          "support": 29.945,
+          "opposition": 0
+        },
+        "immigration": {
+          "feasibility": 0.7306210881078478,
+          "support": 60.7,
+          "opposition": 22.380000000000003
+        },
+        "pension": {
+          "feasibility": 0.4759912333134091,
+          "support": 23.89,
+          "opposition": 26.3
+        },
+        "fiscal": {
+          "feasibility": 0.4127922601451223,
+          "support": 30.72,
+          "opposition": 43.699999999999996
+        },
+        "nuclear": {
+          "feasibility": 0.14410321642740323,
+          "support": 7.93,
+          "opposition": 47.1
+        },
+        "defense": {
+          "feasibility": 1,
+          "support": 49.74,
+          "opposition": 0
+        },
+        "euConventions": {
+          "feasibility": 0.8229284903518729,
+          "support": 50.75,
+          "opposition": 10.92
+        },
+        "storeBededag": {
+          "feasibility": 1,
+          "support": 18.5,
+          "opposition": 0
+        }
+      },
+      "support": [
+        "EL"
+      ],
+      "looseSupport": [
+        "ALT"
+      ],
+      "naSupport": [
+        "FO-JF",
+        "GL-NAL",
+        "GL-IA"
+      ]
+    },
+    {
+      "govt": "S+KF+M+V",
+      "pct": 0.24,
+      "avgPPassage": 0.976,
+      "platform": {
+        "wealthTax": 3,
+        "climateTgt": 2,
+        "natureLaw": 1,
+        "pesticideBan": 1,
+        "immigration": 3,
+        "pension": 1,
+        "fiscal": 1,
+        "nuclear": 1,
+        "defense": 1,
+        "euConventions": 2,
+        "forstaaelsespapir": 2,
+        "storeBededag": 2
+      },
+      "govProfile": {
+        "wealthTax": {
+          "feasibility": 1,
+          "support": 35.830000000000005,
+          "opposition": 0
+        },
+        "climateTgt": {
+          "feasibility": 0.9127906976744187,
+          "support": 39.77333333333334,
+          "opposition": 3.8
+        },
+        "natureLaw": {
+          "feasibility": 1,
+          "support": 24.590000000000003,
+          "opposition": 0
+        },
+        "pesticideBan": {
+          "feasibility": 1,
+          "support": 20.994999999999997,
+          "opposition": 0
+        },
+        "immigration": {
+          "feasibility": 0.6084656084656085,
+          "support": 36.8,
+          "opposition": 23.68
+        },
+        "pension": {
+          "feasibility": 1,
+          "support": 25.270000000000003,
+          "opposition": 0
+        },
+        "fiscal": {
+          "feasibility": 1,
+          "support": 39.735,
+          "opposition": 0
+        },
+        "nuclear": {
+          "feasibility": 1,
+          "support": 22.09,
+          "opposition": 0
+        },
+        "defense": {
+          "feasibility": 1,
+          "support": 31.490000000000002,
+          "opposition": 0
+        },
+        "euConventions": {
+          "feasibility": 0.6229275225011843,
+          "support": 26.3,
+          "opposition": 15.92
+        },
+        "storeBededag": {
+          "feasibility": 0.3106682297772568,
+          "support": 6.625,
+          "opposition": 14.7
+        }
+      },
+      "support": [],
+      "looseSupport": [
+        "ALT"
+      ],
+      "naSupport": [
+        "FO-JF",
+        "GL-NAL",
+        "GL-IA"
+      ]
+    },
+    {
+      "govt": "S+M+RV+V",
+      "pct": 0.09,
+      "avgPPassage": 0.955,
+      "platform": {
+        "wealthTax": 3,
+        "climateTgt": 2,
+        "natureLaw": 1,
+        "pesticideBan": 1,
+        "immigration": 3,
+        "pension": 1,
+        "fiscal": 1,
+        "nuclear": 1,
+        "defense": 1,
+        "euConventions": 2,
+        "forstaaelsespapir": 2,
+        "storeBededag": 2
+      },
+      "govProfile": {
+        "wealthTax": {
+          "feasibility": 1,
+          "support": 38.5675,
+          "opposition": 0
+        },
+        "climateTgt": {
+          "feasibility": 0.914298601714028,
+          "support": 40.540000000000006,
+          "opposition": 3.8
+        },
+        "natureLaw": {
+          "feasibility": 1,
+          "support": 28.94,
+          "opposition": 0
+        },
+        "pesticideBan": {
+          "feasibility": 1,
+          "support": 27.645,
+          "opposition": 0
+        },
+        "immigration": {
+          "feasibility": 0.7099879663056559,
+          "support": 47.2,
+          "opposition": 19.279999999999998
+        },
+        "pension": {
+          "feasibility": 1,
+          "support": 27.12,
+          "opposition": 0
+        },
+        "fiscal": {
+          "feasibility": 1,
+          "support": 40.73499999999999,
+          "opposition": 0
+        },
+        "nuclear": {
+          "feasibility": 1,
+          "support": 25.44,
+          "opposition": 0
+        },
+        "defense": {
+          "feasibility": 1,
+          "support": 33.940000000000005,
+          "opposition": 0
+        },
+        "euConventions": {
+          "feasibility": 0.679484598349104,
+          "support": 33.75,
+          "opposition": 15.92
+        },
+        "storeBededag": {
+          "feasibility": 0.16914749661705006,
+          "support": 3.125,
+          "opposition": 15.35
+        }
+      },
+      "support": [],
+      "looseSupport": [
+        "ALT"
+      ],
+      "naSupport": [
+        "FO-JF",
+        "GL-NAL",
+        "GL-IA"
+      ]
+    },
+    {
+      "govt": "V+LA+M",
+      "pct": 0.08,
+      "avgPPassage": 0.111,
+      "platform": {
+        "wealthTax": 4,
+        "climateTgt": 2,
+        "natureLaw": 2,
+        "pesticideBan": 2,
+        "immigration": 3,
+        "pension": 1,
+        "fiscal": 2,
+        "nuclear": 0,
+        "defense": 1,
+        "euConventions": 2,
+        "forstaaelsespapir": 2,
+        "storeBededag": 1
+      },
+      "govProfile": {
+        "wealthTax": {
+          "feasibility": 0.8633129572101412,
+          "support": 43.074999999999996,
+          "opposition": 6.82
+        },
+        "climateTgt": {
+          "feasibility": 0.9376776732998032,
+          "support": 57.17333333333334,
+          "opposition": 3.8
+        },
+        "natureLaw": {
+          "feasibility": 0.3838835505660736,
+          "support": 20.175,
+          "opposition": 32.38
+        },
+        "pesticideBan": {
+          "feasibility": 0.18238082696865948,
+          "support": 13.850000000000001,
+          "opposition": 62.089999999999996
+        },
+        "immigration": {
+          "feasibility": 0.7433896835717381,
+          "support": 68.6,
+          "opposition": 23.68
+        },
+        "pension": {
+          "feasibility": 1,
+          "support": 36.57,
+          "opposition": 0
+        },
+        "fiscal": {
+          "feasibility": 0.16614016614016613,
+          "support": 14.2,
+          "opposition": 71.27
+        },
+        "nuclear": {
+          "feasibility": 0.5943093162000918,
+          "support": 25.9,
+          "opposition": 17.68
+        },
+        "defense": {
+          "feasibility": 1,
+          "support": 57.54,
+          "opposition": 0
+        },
+        "euConventions": {
+          "feasibility": 0.7384590110070642,
+          "support": 44.95,
+          "opposition": 15.92
+        },
+        "storeBededag": {
+          "feasibility": 1,
+          "support": 21.799999999999997,
+          "opposition": 0
+        }
+      },
+      "support": [],
+      "looseSupport": [
+        "DF",
+        "DD",
+        "BP"
+      ],
+      "naSupport": [
+        "FO-SB",
+        "GL-NAL"
+      ]
+    },
+    {
+      "govt": "S+M+V",
+      "pct": 0.07,
+      "avgPPassage": 0.783,
+      "platform": {
+        "wealthTax": 3,
+        "climateTgt": 2,
+        "natureLaw": 1,
+        "pesticideBan": 1,
+        "immigration": 3,
+        "pension": 1,
+        "fiscal": 1,
+        "nuclear": 1,
+        "defense": 1,
+        "euConventions": 2,
+        "forstaaelsespapir": 2,
+        "storeBededag": 2
+      },
+      "govProfile": {
+        "wealthTax": {
+          "feasibility": 1,
+          "support": 44.1175,
+          "opposition": 0
+        },
+        "climateTgt": {
+          "feasibility": 0.9227746917761821,
+          "support": 45.40666666666667,
+          "opposition": 3.8
+        },
+        "natureLaw": {
+          "feasibility": 1,
+          "support": 31.740000000000006,
+          "opposition": 0
+        },
+        "pesticideBan": {
+          "feasibility": 1,
+          "support": 30.095,
+          "opposition": 0
+        },
+        "immigration": {
+          "feasibility": 0.6659142212189617,
+          "support": 47.2,
+          "opposition": 23.68
+        },
+        "pension": {
+          "feasibility": 1,
+          "support": 29.82,
+          "opposition": 0
+        },
+        "fiscal": {
+          "feasibility": 1,
+          "support": 44.934999999999995,
+          "opposition": 0
+        },
+        "nuclear": {
+          "feasibility": 1,
+          "support": 26.64,
+          "opposition": 0
+        },
+        "defense": {
+          "feasibility": 1,
+          "support": 37.34,
+          "opposition": 0
+        },
+        "euConventions": {
+          "feasibility": 0.6936694246680778,
+          "support": 36.050000000000004,
+          "opposition": 15.92
+        },
+        "storeBededag": {
+          "feasibility": 0.30147895335608643,
+          "support": 6.625,
+          "opposition": 15.35
+        }
+      },
+      "support": [],
+      "looseSupport": [
+        "ALT"
+      ],
+      "naSupport": [
+        "FO-JF",
+        "GL-NAL",
+        "GL-IA"
+      ]
+    },
+    {
+      "govt": "S+KF+M+RV",
+      "pct": 0.05,
+      "avgPPassage": 0.842,
+      "platform": {
+        "wealthTax": 3,
+        "climateTgt": 2,
+        "natureLaw": 1,
+        "pesticideBan": 1,
+        "immigration": 3,
+        "pension": 1,
+        "fiscal": 1,
+        "nuclear": 1,
+        "defense": 1,
+        "euConventions": 2,
+        "forstaaelsespapir": 2,
+        "storeBededag": 1
+      },
+      "govProfile": {
+        "wealthTax": {
+          "feasibility": 1,
+          "support": 42.43,
+          "opposition": 0
+        },
+        "climateTgt": {
+          "feasibility": 0.9188149836205669,
+          "support": 43.006666666666675,
+          "opposition": 3.8
+        },
+        "natureLaw": {
+          "feasibility": 1,
+          "support": 24.94,
+          "opposition": 0
+        },
+        "pesticideBan": {
+          "feasibility": 1,
+          "support": 22.595,
+          "opposition": 0
+        },
+        "immigration": {
+          "feasibility": 0.7229088818626042,
+          "support": 50.3,
+          "opposition": 19.279999999999998
+        },
+        "pension": {
+          "feasibility": 1,
+          "support": 29.770000000000003,
+          "opposition": 0
+        },
+        "fiscal": {
+          "feasibility": 1,
+          "support": 42.285,
+          "opposition": 0
+        },
+        "nuclear": {
+          "feasibility": 1,
+          "support": 30.790000000000003,
+          "opposition": 0
+        },
+        "defense": {
+          "feasibility": 1,
+          "support": 42.49,
+          "opposition": 0
+        },
+        "euConventions": {
+          "feasibility": 0.6968773800456969,
+          "support": 36.60000000000001,
+          "opposition": 15.92
+        },
+        "storeBededag": {
+          "feasibility": 1,
+          "support": 19.15,
+          "opposition": 0
+        }
+      },
+      "support": [],
+      "looseSupport": [
+        "ALT"
+      ],
+      "naSupport": [
+        "FO-JF",
+        "GL-NAL",
+        "GL-IA"
+      ]
+    },
+    {
+      "govt": "V+KF+M",
+      "pct": 0.01,
+      "avgPPassage": 0.105,
+      "platform": {
+        "wealthTax": 4,
+        "climateTgt": 2,
+        "natureLaw": 1,
+        "pesticideBan": 1,
+        "immigration": 3,
+        "pension": 2,
+        "fiscal": 2,
+        "nuclear": 0,
+        "defense": 1,
+        "euConventions": 2,
+        "forstaaelsespapir": 2,
+        "storeBededag": 2
+      },
+      "govProfile": {
+        "wealthTax": {
+          "feasibility": 0.8756495578448354,
+          "support": 48.025,
+          "opposition": 6.82
+        },
+        "climateTgt": {
+          "feasibility": 0.9373695198329854,
+          "support": 56.87333333333334,
+          "opposition": 3.8
+        },
+        "natureLaw": {
+          "feasibility": 1,
+          "support": 32.190000000000005,
+          "opposition": 0
+        },
+        "pesticideBan": {
+          "feasibility": 1,
+          "support": 55.195,
+          "opposition": 0
+        },
+        "immigration": {
+          "feasibility": 0.7498943810730883,
+          "support": 71,
+          "opposition": 23.68
+        },
+        "pension": {
+          "feasibility": 0.1658528371779761,
+          "support": 9.850000000000001,
+          "opposition": 49.54
+        },
+        "fiscal": {
+          "feasibility": 0.21741517514000222,
+          "support": 19.8,
+          "opposition": 71.27
+        },
+        "nuclear": {
+          "feasibility": 0.632279534109817,
+          "support": 30.4,
+          "opposition": 17.68
+        },
+        "defense": {
+          "feasibility": 1,
+          "support": 58.089999999999996,
+          "opposition": 0
+        },
+        "euConventions": {
+          "feasibility": 0.7477820025348543,
+          "support": 47.2,
+          "opposition": 15.92
+        },
+        "storeBededag": {
+          "feasibility": 0.2149229521492295,
+          "support": 6.625,
+          "opposition": 24.200000000000003
+        }
+      },
+      "support": [],
+      "looseSupport": [
+        "DF",
+        "DD",
+        "BP"
+      ],
+      "naSupport": [
+        "FO-SB",
+        "GL-NAL"
+      ]
+    },
+    {
+      "govt": "S+KF+V",
+      "pct": 0.01,
+      "avgPPassage": 0.675,
+      "platform": {
+        "wealthTax": 3,
+        "climateTgt": 2,
+        "natureLaw": 1,
+        "pesticideBan": 1,
+        "immigration": 3,
+        "pension": 1,
+        "fiscal": 1,
+        "nuclear": 1,
+        "defense": 1,
+        "euConventions": 2,
+        "forstaaelsespapir": 2,
+        "storeBededag": 1
+      },
+      "govProfile": {
+        "wealthTax": {
+          "feasibility": 1,
+          "support": 44.755,
+          "opposition": 0
+        },
+        "climateTgt": {
+          "feasibility": 0.9238069776767812,
+          "support": 46.07333333333334,
+          "opposition": 3.8
+        },
+        "natureLaw": {
+          "feasibility": 1,
+          "support": 28.090000000000003,
+          "opposition": 0
+        },
+        "pesticideBan": {
+          "feasibility": 1,
+          "support": 23.794999999999998,
+          "opposition": 0
+        },
+        "immigration": {
+          "feasibility": 0.5397477266060428,
+          "support": 36.8,
+          "opposition": 31.380000000000003
+        },
+        "pension": {
+          "feasibility": 1,
+          "support": 29.82,
+          "opposition": 0
+        },
+        "fiscal": {
+          "feasibility": 1,
+          "support": 47.434999999999995,
+          "opposition": 0
+        },
+        "nuclear": {
+          "feasibility": 1,
+          "support": 25.59,
+          "opposition": 0
+        },
+        "defense": {
+          "feasibility": 1,
+          "support": 38.49,
+          "opposition": 0
+        },
+        "euConventions": {
+          "feasibility": 0.6407942238267148,
+          "support": 28.4,
+          "opposition": 15.92
+        },
+        "storeBededag": {
+          "feasibility": 1,
+          "support": 19.3,
+          "opposition": 0
+        }
+      },
+      "support": [],
+      "looseSupport": [
+        "ALT"
+      ],
+      "naSupport": [
+        "FO-JF",
+        "GL-NAL",
+        "GL-IA"
+      ]
+    }
+  ],
+  "formationRounds": {
+    "avg": 1.04,
+    "distribution": {
+      "1": 96.6,
+      "2": 2.4,
+      "3": 1
+    }
+  },
+  "formateurOrder": {
+    "rød først": 96.63,
+    "blå først": 2.37,
+    "desperation": 1
+  },
+  "noGovPct": 0
+}

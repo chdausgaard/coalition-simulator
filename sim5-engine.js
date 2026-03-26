@@ -33,32 +33,6 @@ const {
   getGovSide
 } = sim5Coalitions;
 
-const HISTORICAL_PRECEDENTS = {
-  "S": 7,
-  "S+RV": 5,
-  "S+SF": 0,
-  "RV+S+SF": 1,
-  "V": 4,
-  "KF+V": 5,
-  "KF+LA+V": 1,
-  "M+S+V": 2,
-  "EL+RV+S+SF": 1,
-  "M+S": 1,
-  "M+S+SF": 0,
-  "M+RV+S+SF": 0,
-  "S+V": 1,
-  "KF+M": 0,
-  "DD+KF+LA+V": 0,
-  "KF+S": 0,
-  "LA+M": 0,
-  "DD+V": 0,
-  "DD+LA": 0,
-  "KF+LA+M+V": 0,
-  "M": 0,
-  "LA": 0
-};
-
-const SIZE_PENALTIES = [1.0, 0.96, 0.90, 0.82];
 
 function clamp01(v) {
   return Math.max(0, Math.min(1, v));
@@ -119,14 +93,18 @@ function blocBudgetVote(partyId, coalition, cfg) {
     }).length;
 
     if (hasForst) {
-      const elForstRate = Math.max(0.50, 0.93 - centristCount * 0.08);
+      const centristPenalty = cfg.elCentristPenalty != null ? cfg.elCentristPenalty : 0.08;
+      const elForstBase = cfg.elForstBase != null ? cfg.elForstBase : 0.93;
+      const elForstRate = Math.max(0.50, elForstBase - centristCount * centristPenalty);
       return { pFor: elForstRate, pAbstain: (1 - elForstRate) * 0.71, pAgainst: (1 - elForstRate) * 0.29 };
     }
     // 1B: Informal EL support tier — without forståelsespapir, EL still
     // negotiated case-by-case under Thorning (voted FOR 2012, 2013, 2015).
     // Red-side governments get an intermediate ~45% FOR rate; non-red get 3%.
     if (govSide === "red") {
-      const informalRate = Math.max(0.15, 0.45 - centristCount * 0.08);
+      const centristPenalty = cfg.elCentristPenalty != null ? cfg.elCentristPenalty : 0.08;
+      const elInformalRate = cfg.elInformalRate != null ? cfg.elInformalRate : 0.45;
+      const informalRate = Math.max(0.15, elInformalRate - centristCount * centristPenalty);
       return { pFor: informalRate, pAbstain: (1 - informalRate) * 0.40, pAgainst: (1 - informalRate) * 0.60 };
     }
     return { pFor: 0.03, pAbstain: 0.07, pAgainst: 0.90 };
@@ -209,7 +187,9 @@ function blocBudgetVote(partyId, coalition, cfg) {
     isMainOpposition = (partyId === largestId);
   }
 
-  const againstShare = isMainOpposition ? 0.3 : 0.7;
+  const againstShare = isMainOpposition
+    ? (cfg.oppositionAbstention != null ? cfg.oppositionAbstention : 0.3)
+    : 0.7;
   const pAgainst = Math.max(0.02, (1 - pFor) * againstShare);
   const pAbstain = Math.max(0, 1 - pFor - pAgainst);
   return { pFor, pAbstain, pAgainst };
@@ -319,18 +299,107 @@ function computePpassage(coalition, platform, mandates, cfg) {
   // Monte Carlo bloc voting: each party votes as a single unit
   const MC_DRAWS = 800;
   let passes = 0;
+
+  // ── Cross-bloc budget pivot setup ──────────────────────────────
+  // Historical rationale: no sitting Danish government has failed to pass
+  // a budget. When natural støtteparti defect, the government pivots to
+  // the opposite bloc:
+  //   - Thorning FL 2014: EL refused → government negotiated with V and KF
+  //   - Nyrup efterløn 1998: bypassed SF/EL, negotiated with blue bloc
+  //   - Schlüter era: routine compartmentalized majorities across blocs
+  //
+  // When the initial vote fails for a minority government, we simulate a
+  // rescue attempt: parties that voted AGAINST may be recruited as
+  // alternative budget partners if they are from the opposite bloc or are
+  // swing parties. Rescue probability is moderate (~0.25 base) and
+  // modulated by the party's tolerateInGov toward government members —
+  // higher tolerance makes recruitment easier.
+  const isMinority = govMandates < 90;
+  const govSide = getGovSide(coalition);
+
+  // Pre-compute per-party rescue probabilities for opposite-bloc / swing
+  // parties (only used when the initial vote fails).
+  const rescueProbs = {};
+  const rescueBase = cfg.rescueBase != null ? cfg.rescueBase : 0.10;
+  if (isMinority) {
+    for (const vp of votingParties) {
+      const party = PARTIES_MAP[vp.id];
+      if (!party) continue;
+      const isOppBloc = (govSide === "red" && party.bloc === "blue")
+                     || (govSide === "blue" && party.bloc === "red");
+      const isSwing = party.bloc === "swing";
+      if (!isOppBloc && !isSwing) continue;
+
+      // Average tolerateInGov toward each government member
+      let tolSum = 0;
+      let tolCount = 0;
+      for (const memberId of government) {
+        const tol = relationshipValue(party, memberId, "tolerateInGov", 0.5);
+        tolSum += tol;
+        tolCount++;
+      }
+      const avgTol = tolCount > 0 ? tolSum / tolCount : 0.5;
+
+      // Rescue probability: configurable base * avgTolerance, floored at 0.05.
+      // Historically, cross-bloc budget rescue was rare and costly: ~2-3
+      // genuine pivots across ~50 budget cycles (Thorning FL 2014, Nyrup
+      // efterløn). Schlüter chose dissolution over rescue in 1984. The
+      // per-party independence assumption already inflates compound
+      // probability vs the historical package-deal pattern, so the base
+      // rate is conservative to compensate.
+      rescueProbs[vp.id] = Math.min(0.30, Math.max(0.05, rescueBase * avgTol));
+    }
+  }
+  const hasRescueCandidates = isMinority && Object.keys(rescueProbs).length > 0;
+  // ── End pivot setup ────────────────────────────────────────────
+
   for (let i = 0; i < MC_DRAWS; i++) {
     let forVotes = govMandates;
     let againstVotes = 0;
+
+    // Track per-party outcomes for potential rescue attempt
+    const partyOutcomes = hasRescueCandidates ? [] : null;
+
     for (const vp of votingParties) {
       const r = Math.random();
       if (r < vp.pFor) {
         forVotes += vp.m;
+        if (partyOutcomes) partyOutcomes.push({ id: vp.id, m: vp.m, vote: "for" });
       } else if (r >= vp.pFor + vp.pAbstain) {
         againstVotes += vp.m;
+        if (partyOutcomes) partyOutcomes.push({ id: vp.id, m: vp.m, vote: "against" });
+      } else {
+        if (partyOutcomes) partyOutcomes.push({ id: vp.id, m: vp.m, vote: "abstain" });
       }
     }
-    if (forVotes >= minForVotes && forVotes > againstVotes) passes++;
+
+    if (forVotes >= minForVotes && forVotes > againstVotes) {
+      passes++;
+    } else if (hasRescueCandidates) {
+      // ── Cross-bloc budget pivot rescue ───────────────────────
+      // The initial vote failed. The government attempts to recruit
+      // alternative budget partners from the opposite bloc / swing
+      // parties — mirroring the historical pattern of vekslende
+      // flertal (changing majorities per issue).
+      let rescueFor = forVotes;
+      let rescueAgainst = againstVotes;
+
+      for (const po of partyOutcomes) {
+        if (po.vote !== "against") continue;
+        const rp = rescueProbs[po.id];
+        if (rp == null) continue; // not a rescue candidate
+
+        if (Math.random() < rp) {
+          // Recruited: switch from AGAINST to FOR
+          rescueFor += po.m;
+          rescueAgainst -= po.m;
+        }
+      }
+
+      if (rescueFor >= minForVotes && rescueFor > rescueAgainst) {
+        passes++;
+      }
+    }
   }
   return passes / MC_DRAWS;
 }
@@ -387,12 +456,6 @@ function mwccBonus(government, mandates, cfg) {
   return 1.0;
 }
 
-function historicalPrecedentBonus(government, cfg) {
-  const key = government.slice().sort().join("+");
-  const score = HISTORICAL_PRECEDENTS[key] || 0;
-  const weight = cfg.precedentWeight != null ? cfg.precedentWeight : 0;
-  return 1 + score * weight;
-}
 
 function scoreCoalition(coalition, mandates, pPassage, cfg) {
   const government = coalition.government || [];
@@ -400,46 +463,46 @@ function scoreCoalition(coalition, mandates, pPassage, cfg) {
   const nGov = government.length;
   const avgDist = avgPairwisePolicyDistance(government);
   const ideoFit = Math.max(0.3, 1 - avgDist * (cfg.distPenalty || 1.5));
-  const sizePenalty = SIZE_PENALTIES[Math.max(0, Math.min(nGov, SIZE_PENALTIES.length) - 1)] || SIZE_PENALTIES[SIZE_PENALTIES.length - 1];
   const mwcc = mwccBonus(government, mandates, cfg);
 
-  let flexBonus = 1.0;
-  if (seats < 90) {
-    if (nGov <= 2) flexBonus = 1.12;
-    else if (nGov === 3) flexBonus = 1.0;
-    else flexBonus = 0.90;
-  }
-
-  let hasRed = false;
-  let hasBlue = false;
-  for (const id of government) {
-    const bloc = PARTIES_MAP[id] ? PARTIES_MAP[id].bloc : null;
-    if (bloc === "red") hasRed = true;
-    if (bloc === "blue") hasBlue = true;
-  }
-
-  const crossBloc = hasRed && hasBlue && seats < 90 ? 0.65 : 1.0;
-  const precedent = historicalPrecedentBonus(government, cfg);
-  // Nonlinear passage: formateurs strongly prefer high P(passage) over marginal viability.
-  // Exponent > 1 amplifies the gap: P=0.99 vs P=0.86 matters more than their ratio suggests.
-  const passageExp = cfg.passageExponent != null ? cfg.passageExponent : 2.0;
-  const passageScore = Math.pow(pPassage, passageExp);
+  // Parsimony: formateurs prefer smaller coalitions (fewer veto players,
+  // more PM autonomy). Single term replaces the old sizePenalty + flexBonus
+  // to avoid triple-counting smallness.
+  // Range: ~1.15 for 1-2 parties down to ~0.85 for 4 parties in minority.
+  // parsimonySpread controls the strength of size preference.
+  // At spread=1.0 (default): values are [1.15, 1.10, 0.95, 0.85].
+  // At spread=0.0: all 1.0 (no size preference). CI-varied per iteration.
+  const pSpread = cfg.parsimonySpread != null ? cfg.parsimonySpread : 1.0;
+  const parsimonyBase = [0.15, 0.10, -0.05, -0.15];
+  const parsimonyValues = parsimonyBase.map(b => 1.0 + b * pSpread);
+  const parsimony = seats < 90
+    ? (parsimonyValues[Math.min(nGov, parsimonyValues.length) - 1] || parsimonyValues[parsimonyValues.length - 1])
+    : 1.0;  // majority governments: no parsimony preference
 
   // Governing ease: formateurs prefer coalitions that can build
   // majorities across policy dimensions (vekslende flertal).
   // Uses existing governabilityProfile computation.
+  // Wider range than before to make govEase a meaningful counterweight
+  // to parsimony: a 58-seat government with avgFeasibility=0.3 gets 0.8,
+  // while an 82-seat coalition with avgFeasibility=0.9 gets 1.4.
   let govEase = 1.0;
   if (coalition.platform) {
     const profile = governabilityProfile(coalition, coalition.platform, mandates);
     const dims = Object.keys(profile);
     if (dims.length > 0) {
       const avgFeasibility = dims.reduce((sum, d) => sum + profile[d].feasibility, 0) / dims.length;
-      // Scale: avgFeasibility of 0.5 = neutral (1.0), higher = bonus, lower = penalty
-      govEase = 0.7 + 0.6 * avgFeasibility;  // range: ~0.7 to ~1.3
+      govEase = 0.5 + 1.0 * avgFeasibility;  // range: ~0.5 to ~1.5
     }
   }
 
-  return passageScore * ideoFit * sizePenalty * mwcc * flexBonus * crossBloc * precedent * govEase;
+  // Two-factor scoring: passage feasibility vs coalition quality.
+  // w (passageWeight) controls the tradeoff. CI-varied per iteration
+  // to express structural uncertainty about how formateurs decide.
+  const w = cfg.passageWeight != null ? cfg.passageWeight : 0.65;
+  const passage = pPassage;  // no exponent — w controls influence
+  const quality = ideoFit * parsimony * mwcc * govEase;
+  const score = Math.pow(passage, w) * Math.pow(Math.max(0.01, quality), 1 - w);
+  return score;
 }
 
 function frederiksenBonus(coalition, redPreference) {
@@ -766,7 +829,9 @@ function buildConfig(userParams) {
     blueViabilityThreshold: 0.10,
     minForVotes: 70,
     distPenalty: 1.5,
-    precedentWeight: 0,
+    passageWeight: 0.65,
+    oppositionAbstention: 0.3,
+    rescueBase: 0.10,
     mDemandGov: true,
     sDemandGov: true,
     // Frederiksen appointed as kongelig undersøger (March 2026): red forms first.
@@ -796,7 +861,14 @@ function buildConfig(userParams) {
     "formateurOverride",
     "sDemandGov",
     "mDemandPM",
-    "mElTolerate"
+    "mElTolerate",
+    "passageWeight",
+    "oppositionAbstention",
+    "rescueBase",
+    "elInformalRate",
+    "elCentristPenalty",
+    "elForstBase",
+    "parsimonySpread"
   ];
 
   for (const key of passthroughKeys) {
@@ -857,10 +929,13 @@ function simulate(userParams, N) {
       PARTIES_MAP.M.relationships.EL.tolerateInGov = clamp01(normDraw(_savedMEL, 0.10));
     }
 
-    // M↔DF stochastic relaxation (12% of draws)
+    // M↔DF cooperation probability: continuous draw replacing the old
+    // discrete 12% switch. Genuine uncertainty about whether pragmatic
+    // M-DF cooperation is possible in any given negotiation.
+    const _dfRelaxProb = Math.max(0, Math.min(0.30, normDraw(0.12, 0.04)));
     let _dfRelaxed = false;
     const _savedMDF = {};
-    if (Math.random() < 0.12) {
+    if (Math.random() < _dfRelaxProb) {
       _dfRelaxed = true;
       _savedMDF.mdf_t = PARTIES_MAP.M.relationships.DF.tolerateInGov;
       _savedMDF.dfm_t = PARTIES_MAP.DF.relationships.M.tolerateInGov;
@@ -881,9 +956,56 @@ function simulate(userParams, N) {
       ? cfg.viabilityThreshold
       : Math.max(0.50, Math.min(0.85, normDraw(0.70, 0.06)));
 
+    // Passage-quality tradeoff CI: how much does budget passage
+    // dominate formateur choice vs coalition quality?
+    // Structural uncertainty — we don't know how formateurs weigh this.
+    const _iterPassageWeight = Math.max(0.50, Math.min(0.90, normDraw(0.65, 0.08)));
+
+    // EL informal support rate CI: genuine uncertainty about EL's
+    // willingness to support red governments without forståelsespapir.
+    // ~linear effect on red-bloc viability calculations.
+    const _iterElInformal = Math.max(0.20, Math.min(0.70, normDraw(0.45, 0.08)));
+
+    // EL centrist penalty CI: how much EL's support drops per non-red
+    // government partner. ~linear over the small integer range (1-3 partners).
+    const _iterElCentrist = Math.max(0.02, Math.min(0.16, normDraw(0.08, 0.02)));
+
+    // EL forståelsespapir base rate CI: calibrated from 3/3 votes under
+    // Frederiksen I, but tiny sample. Narrow CI reflects high confidence
+    // in direction, moderate uncertainty in precise level.
+    const _iterElForstBase = Math.max(0.80, Math.min(0.98, normDraw(0.93, 0.03)));
+
+    // Cross-bloc rescue base CI: ~2-3 historical pivots in 50 years.
+    // Narrow CI — we're fairly sure it's low, less sure how low.
+    const _iterRescueBase = Math.max(0.03, Math.min(0.25, normDraw(0.10, 0.03)));
+
+    // Opposition abstention CI: the norm exists (S abstained on FL 1989)
+    // but the precise ratio is uncertain.
+    const _iterAbstention = Math.max(0.10, Math.min(0.60, normDraw(0.30, 0.05)));
+
+    // Ideological distance penalty CI: structural choice, no calibration
+    // target. Wide CI reflects genuine uncertainty about how much formateurs
+    // weigh ideological coherence.
+    const _iterDistPenalty = Math.max(0.5, Math.min(2.5, normDraw(1.50, 0.15)));
+
+    // Parsimony spread CI: how strongly do formateurs prefer fewer parties?
+    // Moderate CI — direction is clear, magnitude uncertain.
+    const _iterParsimony = Math.max(0.3, Math.min(1.5, normDraw(1.0, 0.15)));
+
     try {
       const naAlignments = drawNAAlignments(cfg);
-      const iterCfg = { ...cfg, viabilityThreshold: _iterViability };
+      const iterCfg = {
+        ...cfg,
+        viabilityThreshold: _iterViability,
+        passageWeight: _iterPassageWeight,
+        elInformalRate: _iterElInformal,
+        elCentristPenalty: _iterElCentrist,
+        elForstBase: _iterElForstBase,
+        rescueBase: _iterRescueBase,
+        oppositionAbstention: _iterAbstention,
+        distPenalty: _iterDistPenalty,
+        parsimonySpread: _iterParsimony
+      };
       const result = selectGovernment(mandates, naAlignments, iterCfg, coalitions);
 
       if (!result) {

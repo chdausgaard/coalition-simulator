@@ -1,0 +1,2476 @@
+{
+  "N": 3000,
+  "baseline": [
+    {
+      "name": "S+M+RV+SF",
+      "pct": 32.5
+    },
+    {
+      "name": "S+RV+SF",
+      "pct": 28.4
+    },
+    {
+      "name": "S+M+RV",
+      "pct": 15.57
+    },
+    {
+      "name": "S+SF",
+      "pct": 11.57
+    },
+    {
+      "name": "S+M+SF",
+      "pct": 11
+    },
+    {
+      "name": "V+KF+LA+M",
+      "pct": 0.6
+    }
+  ],
+  "parameters": [
+    {
+      "name": "viabilityThreshold",
+      "default": 0.7,
+      "maxDeviation": 53.4,
+      "avgDeviation": 19.81,
+      "runs": [
+        {
+          "value": 0.55,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 29.9
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.77
+            },
+            {
+              "name": "S+SF",
+              "pct": 16.37
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.77
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 10.03
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.07
+            }
+          ],
+          "deviation": 9.73
+        },
+        {
+          "value": 0.63,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 32.5
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 25.37
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.67
+            },
+            {
+              "name": "S+SF",
+              "pct": 15.13
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 10.63
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.33
+            }
+          ],
+          "deviation": 7.33
+        },
+        {
+          "value": 0.7,
+          "isDefault": true,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 32.43
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 26.17
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.27
+            },
+            {
+              "name": "S+SF",
+              "pct": 13.87
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.33
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.53
+            }
+          ],
+          "deviation": 0
+        },
+        {
+          "value": 0.77,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 30.4
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.8
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 17.6
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 12.97
+            },
+            {
+              "name": "S+SF",
+              "pct": 9.8
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.9
+            }
+          ],
+          "deviation": 8.77
+        },
+        {
+          "value": 0.85,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 37.8
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 34.03
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 20.5
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 4.77
+            },
+            {
+              "name": "V+LA+M",
+              "pct": 0.93
+            },
+            {
+              "name": "V+KF+M",
+              "pct": 0.73
+            }
+          ],
+          "deviation": 53.4
+        }
+      ]
+    },
+    {
+      "name": "redPreference",
+      "default": 0.5,
+      "maxDeviation": 43.73,
+      "avgDeviation": 33.27,
+      "runs": [
+        {
+          "value": 0.2,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV",
+              "pct": 35.17
+            },
+            {
+              "name": "S+M+RV+SF",
+              "pct": 26.4
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 16.7
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.57
+            },
+            {
+              "name": "S+SF",
+              "pct": 8.3
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.5
+            }
+          ],
+          "deviation": 41.34
+        },
+        {
+          "value": 0.35,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 29.77
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 27
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 20.93
+            },
+            {
+              "name": "S+SF",
+              "pct": 10.67
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 10.3
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.6
+            }
+          ],
+          "deviation": 23.23
+        },
+        {
+          "value": 0.5,
+          "isDefault": true,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 30.43
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.77
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.97
+            },
+            {
+              "name": "S+SF",
+              "pct": 12.6
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 12.13
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.5
+            }
+          ],
+          "deviation": 0
+        },
+        {
+          "value": 0.65,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+RV+SF",
+              "pct": 32.4
+            },
+            {
+              "name": "S+M+RV+SF",
+              "pct": 25.93
+            },
+            {
+              "name": "S+SF",
+              "pct": 19.87
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 12.7
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 8.03
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.53
+            }
+          ],
+          "deviation": 24.78
+        },
+        {
+          "value": 0.8,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+RV+SF",
+              "pct": 38.63
+            },
+            {
+              "name": "S+SF",
+              "pct": 23.13
+            },
+            {
+              "name": "S+M+RV+SF",
+              "pct": 21.23
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 8.97
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 7.03
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.7
+            }
+          ],
+          "deviation": 43.73
+        }
+      ]
+    },
+    {
+      "name": "distPenalty",
+      "default": 1.5,
+      "maxDeviation": 43,
+      "avgDeviation": 34.94,
+      "runs": [
+        {
+          "value": 0.5,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+SF",
+              "pct": 28.33
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.53
+            },
+            {
+              "name": "S+M+RV+SF",
+              "pct": 26.3
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 9.7
+            },
+            {
+              "name": "S+SF",
+              "pct": 6.93
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.53
+            }
+          ],
+          "deviation": 34.98
+        },
+        {
+          "value": 1,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 28.73
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 28.27
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 21.43
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 11.93
+            },
+            {
+              "name": "S+SF",
+              "pct": 8.97
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.37
+            }
+          ],
+          "deviation": 20.8
+        },
+        {
+          "value": 1.5,
+          "isDefault": true,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 31.13
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.57
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.43
+            },
+            {
+              "name": "S+SF",
+              "pct": 13.4
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.4
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.73
+            }
+          ],
+          "deviation": 0
+        },
+        {
+          "value": 2,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+SF",
+              "pct": 32.13
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 25
+            },
+            {
+              "name": "S+M+RV+SF",
+              "pct": 24.8
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 8.97
+            },
+            {
+              "name": "S+SF",
+              "pct": 7.63
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.83
+            }
+          ],
+          "deviation": 43
+        },
+        {
+          "value": 2.5,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+SF",
+              "pct": 31.4
+            },
+            {
+              "name": "S+M+RV+SF",
+              "pct": 26.9
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 25.73
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 8.27
+            },
+            {
+              "name": "S+SF",
+              "pct": 6.6
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.63
+            }
+          ],
+          "deviation": 40.97
+        }
+      ]
+    },
+    {
+      "name": "cross-bloc rescue base probability",
+      "default": 0.25,
+      "maxDeviation": 28.86,
+      "avgDeviation": 18.36,
+      "runs": [
+        {
+          "value": 0.1,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 37.87
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.93
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 14.1
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 11.47
+            },
+            {
+              "name": "S+SF",
+              "pct": 6.57
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 1.37
+            }
+          ],
+          "deviation": 18.81
+        },
+        {
+          "value": 0.18,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 35.67
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 26.3
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 13.6
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 13.53
+            },
+            {
+              "name": "S+SF",
+              "pct": 9.3
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.7
+            }
+          ],
+          "deviation": 12.14
+        },
+        {
+          "value": 0.25,
+          "isDefault": true,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 32.5
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 28.4
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.57
+            },
+            {
+              "name": "S+SF",
+              "pct": 11.57
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.6
+            }
+          ],
+          "deviation": 0
+        },
+        {
+          "value": 0.32,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 29.53
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 25.33
+            },
+            {
+              "name": "S+SF",
+              "pct": 17.1
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 16.73
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 10.3
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.4
+            }
+          ],
+          "deviation": 13.63
+        },
+        {
+          "value": 0.4,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 25.9
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 23.43
+            },
+            {
+              "name": "S+SF",
+              "pct": 23.33
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 18.17
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 8.37
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.3
+            }
+          ],
+          "deviation": 28.86
+        }
+      ]
+    },
+    {
+      "name": "SIZE_PENALTIES[3] (4-party)",
+      "default": 0.82,
+      "maxDeviation": 28.32,
+      "avgDeviation": 21.08,
+      "runs": [
+        {
+          "value": 0.72,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+RV+SF",
+              "pct": 31
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 18.3
+            },
+            {
+              "name": "S+M+RV+SF",
+              "pct": 18.27
+            },
+            {
+              "name": "S+SF",
+              "pct": 17.23
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 14
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.7
+            }
+          ],
+          "deviation": 28.32
+        },
+        {
+          "value": 0.78,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+RV+SF",
+              "pct": 30.2
+            },
+            {
+              "name": "S+M+RV+SF",
+              "pct": 24.5
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 16.63
+            },
+            {
+              "name": "S+SF",
+              "pct": 14.2
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 13
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.7
+            }
+          ],
+          "deviation": 15.59
+        },
+        {
+          "value": 0.82,
+          "isDefault": true,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 32.5
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 28.4
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.57
+            },
+            {
+              "name": "S+SF",
+              "pct": 11.57
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.6
+            }
+          ],
+          "deviation": 0
+        },
+        {
+          "value": 0.88,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 39.17
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 23.67
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 13.3
+            },
+            {
+              "name": "S+SF",
+              "pct": 13
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 9.77
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.5
+            }
+          ],
+          "deviation": 16.43
+        },
+        {
+          "value": 0.95,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 44.23
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 21.27
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 11.8
+            },
+            {
+              "name": "S+SF",
+              "pct": 11.6
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 9.77
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.5
+            }
+          ],
+          "deviation": 23.99
+        }
+      ]
+    },
+    {
+      "name": "mwccFullBonus",
+      "default": 1.15,
+      "maxDeviation": 26.5,
+      "avgDeviation": 15.24,
+      "runs": [
+        {
+          "value": 1,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 26
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 24.83
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 24.13
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 13
+            },
+            {
+              "name": "S+SF",
+              "pct": 10.97
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.47
+            }
+          ],
+          "deviation": 26.5
+        },
+        {
+          "value": 1.08,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 30.37
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 23.97
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 16.2
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 14.4
+            },
+            {
+              "name": "S+SF",
+              "pct": 13.83
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.7
+            }
+          ],
+          "deviation": 15.29
+        },
+        {
+          "value": 1.15,
+          "isDefault": true,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 31.97
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 26.33
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.07
+            },
+            {
+              "name": "S+SF",
+              "pct": 13.3
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 12.1
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.73
+            }
+          ],
+          "deviation": 0
+        },
+        {
+          "value": 1.22,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 33.5
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.5
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 16.53
+            },
+            {
+              "name": "S+SF",
+              "pct": 14.2
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 7.23
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.47
+            }
+          ],
+          "deviation": 9.39
+        },
+        {
+          "value": 1.3,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 33.6
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 28.73
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.63
+            },
+            {
+              "name": "S+SF",
+              "pct": 14.7
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 5.9
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.67
+            }
+          ],
+          "deviation": 9.79
+        }
+      ]
+    },
+    {
+      "name": "opposition abstention ratio",
+      "default": 0.3,
+      "maxDeviation": 22.12,
+      "avgDeviation": 17.24,
+      "runs": [
+        {
+          "value": 0.5,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 38.1
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 25.17
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 15.37
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 12.57
+            },
+            {
+              "name": "S+SF",
+              "pct": 7.1
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.97
+            }
+          ],
+          "deviation": 21.04
+        },
+        {
+          "value": 0.4,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 34.9
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 25.03
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 13.87
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 13.5
+            },
+            {
+              "name": "S+SF",
+              "pct": 11.3
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.8
+            }
+          ],
+          "deviation": 10.44
+        },
+        {
+          "value": 0.3,
+          "isDefault": true,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 32.5
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 28.4
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.57
+            },
+            {
+              "name": "S+SF",
+              "pct": 11.57
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.6
+            }
+          ],
+          "deviation": 0
+        },
+        {
+          "value": 0.2,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+RV+SF",
+              "pct": 27.6
+            },
+            {
+              "name": "S+M+RV+SF",
+              "pct": 27.33
+            },
+            {
+              "name": "S+SF",
+              "pct": 19.23
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.6
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 9.53
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.37
+            }
+          ],
+          "deviation": 15.36
+        },
+        {
+          "value": 0.1,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+RV+SF",
+              "pct": 30.2
+            },
+            {
+              "name": "S+M+RV+SF",
+              "pct": 24.3
+            },
+            {
+              "name": "S+SF",
+              "pct": 19.63
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 16.6
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 8.07
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.7
+            }
+          ],
+          "deviation": 22.12
+        }
+      ]
+    },
+    {
+      "name": "flexBonus (<=2 parties)",
+      "default": 1.12,
+      "maxDeviation": 21.93,
+      "avgDeviation": 14.13,
+      "runs": [
+        {
+          "value": 1,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 33.23
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 29.07
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 17.13
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 13.2
+            },
+            {
+              "name": "S+SF",
+              "pct": 5.87
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.9
+            }
+          ],
+          "deviation": 11.16
+        },
+        {
+          "value": 1.06,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 34.27
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 26.37
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 14.93
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 13.27
+            },
+            {
+              "name": "S+SF",
+              "pct": 9.53
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.8
+            }
+          ],
+          "deviation": 8.95
+        },
+        {
+          "value": 1.12,
+          "isDefault": true,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 32.5
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 28.4
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.57
+            },
+            {
+              "name": "S+SF",
+              "pct": 11.57
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.6
+            }
+          ],
+          "deviation": 0
+        },
+        {
+          "value": 1.18,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 30.03
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 25.07
+            },
+            {
+              "name": "S+SF",
+              "pct": 18.67
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 14.23
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 10.87
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.7
+            }
+          ],
+          "deviation": 14.47
+        },
+        {
+          "value": 1.24,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 28.1
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 24.6
+            },
+            {
+              "name": "S+SF",
+              "pct": 22.4
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 13.7
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 10
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.57
+            }
+          ],
+          "deviation": 21.93
+        }
+      ]
+    },
+    {
+      "name": "bloc same-side base rate",
+      "default": 0.65,
+      "maxDeviation": 15.76,
+      "avgDeviation": 9.83,
+      "runs": [
+        {
+          "value": 0.55,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 32.4
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 26.83
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 16.87
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.73
+            },
+            {
+              "name": "S+SF",
+              "pct": 10.83
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.4
+            }
+          ],
+          "deviation": 4.64
+        },
+        {
+          "value": 0.6,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 30.5
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 26.23
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 17.73
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 12.5
+            },
+            {
+              "name": "S+SF",
+              "pct": 11.87
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.63
+            }
+          ],
+          "deviation": 8.16
+        },
+        {
+          "value": 0.65,
+          "isDefault": true,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 32.5
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 28.4
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.57
+            },
+            {
+              "name": "S+SF",
+              "pct": 11.57
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.6
+            }
+          ],
+          "deviation": 0
+        },
+        {
+          "value": 0.7,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 29.7
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 25.57
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 18.37
+            },
+            {
+              "name": "S+SF",
+              "pct": 13.87
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.03
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.6
+            }
+          ],
+          "deviation": 10.76
+        },
+        {
+          "value": 0.75,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 28.93
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 24.57
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 18.4
+            },
+            {
+              "name": "S+SF",
+              "pct": 16.57
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 10.57
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.5
+            }
+          ],
+          "deviation": 15.76
+        }
+      ]
+    },
+    {
+      "name": "EL centrist penalty per partner",
+      "default": 0.08,
+      "maxDeviation": 10.32,
+      "avgDeviation": 8.55,
+      "runs": [
+        {
+          "value": 0.04,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 30.47
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 25.6
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 18.13
+            },
+            {
+              "name": "S+SF",
+              "pct": 12.53
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.73
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.77
+            }
+          ],
+          "deviation": 9.25
+        },
+        {
+          "value": 0.06,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 29.97
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 25.7
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 17.1
+            },
+            {
+              "name": "S+SF",
+              "pct": 14.03
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 12.03
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.67
+            }
+          ],
+          "deviation": 10.32
+        },
+        {
+          "value": 0.08,
+          "isDefault": true,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 32.5
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 28.4
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.57
+            },
+            {
+              "name": "S+SF",
+              "pct": 11.57
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.6
+            }
+          ],
+          "deviation": 0
+        },
+        {
+          "value": 0.1,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 33.67
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.5
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 14.47
+            },
+            {
+              "name": "S+SF",
+              "pct": 12.87
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 9.97
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.57
+            }
+          ],
+          "deviation": 5.53
+        },
+        {
+          "value": 0.12,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 31.93
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.47
+            },
+            {
+              "name": "S+SF",
+              "pct": 14.67
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 12.33
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 12.13
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.73
+            }
+          ],
+          "deviation": 9.1
+        }
+      ]
+    },
+    {
+      "name": "passageExponent",
+      "default": 2,
+      "maxDeviation": 8.52,
+      "avgDeviation": 5.67,
+      "runs": [
+        {
+          "value": 1,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 30.5
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 26.17
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 16.5
+            },
+            {
+              "name": "S+SF",
+              "pct": 13.17
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 12.73
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.63
+            }
+          ],
+          "deviation": 8.52
+        },
+        {
+          "value": 1.5,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 31.5
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 26.37
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.13
+            },
+            {
+              "name": "S+SF",
+              "pct": 14.33
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.67
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.6
+            }
+          ],
+          "deviation": 6.9
+        },
+        {
+          "value": 2,
+          "isDefault": true,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 30.13
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.57
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 14.97
+            },
+            {
+              "name": "S+SF",
+              "pct": 14.5
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.4
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.63
+            }
+          ],
+          "deviation": 0
+        },
+        {
+          "value": 2.5,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 31.77
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 28.4
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.23
+            },
+            {
+              "name": "S+SF",
+              "pct": 12.17
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.6
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.4
+            }
+          ],
+          "deviation": 2.47
+        },
+        {
+          "value": 3,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 31.17
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.87
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.7
+            },
+            {
+              "name": "S+SF",
+              "pct": 13.73
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 10.43
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.67
+            }
+          ],
+          "deviation": 4.79
+        }
+      ]
+    },
+    {
+      "name": "mElTolerate",
+      "default": 0.35,
+      "maxDeviation": 7.7,
+      "avgDeviation": 5.95,
+      "runs": [
+        {
+          "value": 0.1,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 32.63
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 28.17
+            },
+            {
+              "name": "S+SF",
+              "pct": 13.1
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 12.63
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.7
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.73
+            }
+          ],
+          "deviation": 5.66
+        },
+        {
+          "value": 0.23,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 32.27
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.8
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 14.53
+            },
+            {
+              "name": "S+SF",
+              "pct": 12.73
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.43
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.57
+            }
+          ],
+          "deviation": 3.49
+        },
+        {
+          "value": 0.35,
+          "isDefault": true,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 31.3
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 26.9
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15
+            },
+            {
+              "name": "S+SF",
+              "pct": 13.77
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.77
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.63
+            }
+          ],
+          "deviation": 0
+        },
+        {
+          "value": 0.47,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 29.87
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.6
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 16.5
+            },
+            {
+              "name": "S+SF",
+              "pct": 13.43
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.67
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.67
+            }
+          ],
+          "deviation": 6.96
+        },
+        {
+          "value": 0.6,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 29.73
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.17
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 16.47
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 12.8
+            },
+            {
+              "name": "S+SF",
+              "pct": 12.37
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.8
+            }
+          ],
+          "deviation": 7.7
+        }
+      ]
+    },
+    {
+      "name": "EL informal rate",
+      "default": 0.45,
+      "maxDeviation": 7.2,
+      "avgDeviation": 4.96,
+      "runs": [
+        {
+          "value": 0.3,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 31.57
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.2
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.97
+            },
+            {
+              "name": "S+SF",
+              "pct": 13.33
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 10.87
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.4
+            }
+          ],
+          "deviation": 4.62
+        },
+        {
+          "value": 0.38,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 31.47
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.7
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 14.63
+            },
+            {
+              "name": "S+SF",
+              "pct": 13.33
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.6
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.53
+            }
+          ],
+          "deviation": 5.1
+        },
+        {
+          "value": 0.45,
+          "isDefault": true,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 32.5
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 28.4
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.57
+            },
+            {
+              "name": "S+SF",
+              "pct": 11.57
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.6
+            }
+          ],
+          "deviation": 0
+        },
+        {
+          "value": 0.52,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+RV+SF",
+              "pct": 29.67
+            },
+            {
+              "name": "S+M+RV+SF",
+              "pct": 28.83
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.63
+            },
+            {
+              "name": "S+SF",
+              "pct": 12.77
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.83
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.77
+            }
+          ],
+          "deviation": 7.2
+        },
+        {
+          "value": 0.6,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 31.87
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 28.23
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.17
+            },
+            {
+              "name": "S+SF",
+              "pct": 12.9
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 10.73
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.47
+            }
+          ],
+          "deviation": 2.93
+        }
+      ]
+    },
+    {
+      "name": "blueViabilityThreshold",
+      "default": 0.1,
+      "maxDeviation": 6.58,
+      "avgDeviation": 6.34,
+      "runs": [
+        {
+          "value": 0.05,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 30.43
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.7
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 14.97
+            },
+            {
+              "name": "S+SF",
+              "pct": 14.27
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.4
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.67
+            }
+          ],
+          "deviation": 6.54
+        },
+        {
+          "value": 0.08,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 31.33
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 26.47
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.93
+            },
+            {
+              "name": "S+SF",
+              "pct": 13.5
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.57
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.6
+            }
+          ],
+          "deviation": 5.96
+        },
+        {
+          "value": 0.1,
+          "isDefault": true,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 31.9
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 26.43
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.3
+            },
+            {
+              "name": "S+SF",
+              "pct": 13.03
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.87
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.73
+            }
+          ],
+          "deviation": 0
+        },
+        {
+          "value": 0.15,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 30.33
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.23
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.43
+            },
+            {
+              "name": "S+SF",
+              "pct": 14.13
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.47
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.67
+            }
+          ],
+          "deviation": 6.58
+        },
+        {
+          "value": 0.2,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 31.17
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.77
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 14.53
+            },
+            {
+              "name": "S+SF",
+              "pct": 13.47
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 12.17
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.8
+            }
+          ],
+          "deviation": 6.27
+        }
+      ]
+    },
+    {
+      "name": "crossBlocPenalty",
+      "default": 0.65,
+      "maxDeviation": 5.99,
+      "avgDeviation": 4.95,
+      "runs": [
+        {
+          "value": 0.45,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 30.83
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 28.3
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.63
+            },
+            {
+              "name": "S+SF",
+              "pct": 12.17
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 12.13
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.5
+            }
+          ],
+          "deviation": 3.66
+        },
+        {
+          "value": 0.55,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 31.77
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 26.1
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.67
+            },
+            {
+              "name": "S+SF",
+              "pct": 13.27
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 12.13
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.63
+            }
+          ],
+          "deviation": 5.99
+        },
+        {
+          "value": 0.65,
+          "isDefault": true,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 32.5
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 28.4
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.57
+            },
+            {
+              "name": "S+SF",
+              "pct": 11.57
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.6
+            }
+          ],
+          "deviation": 0
+        },
+        {
+          "value": 0.75,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 30.93
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.47
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.2
+            },
+            {
+              "name": "S+SF",
+              "pct": 13.53
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 11.43
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.67
+            }
+          ],
+          "deviation": 5.33
+        },
+        {
+          "value": 0.85,
+          "isDefault": false,
+          "top6": [
+            {
+              "name": "S+M+RV+SF",
+              "pct": 31.13
+            },
+            {
+              "name": "S+RV+SF",
+              "pct": 27.73
+            },
+            {
+              "name": "S+M+RV",
+              "pct": 15.07
+            },
+            {
+              "name": "S+SF",
+              "pct": 13.27
+            },
+            {
+              "name": "S+M+SF",
+              "pct": 10.47
+            },
+            {
+              "name": "V+KF+LA+M",
+              "pct": 0.63
+            }
+          ],
+          "deviation": 4.8
+        }
+      ]
+    }
+  ]
+}
