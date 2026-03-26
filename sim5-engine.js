@@ -328,6 +328,26 @@ function blocBudgetVote(partyId, coalition, cfg) {
     base *= 0.3;
   }
 
+  // Policy-distance modifier: bloc loyalty is the default driver, but
+  // floor violations on high-weight issues create friction. A same-bloc
+  // party that agrees on everything gets the full base rate; one where
+  // the platform crosses key red lines gets penalized.
+  if (coalition.platform) {
+    let violations = 0;
+    for (const dimension of DIMENSIONS) {
+      if (dimension === "forstaaelsespapir") continue;
+      const position = party.positions[dimension];
+      if (position.weight >= 0.60 && !isWithinRange(coalition.platform[dimension], position)) {
+        violations++;
+      }
+    }
+    // Each violation: 0.88 multiplier (moderate — bloc loyalty dominates
+    // but 3+ violations create real friction)
+    if (violations > 0) {
+      base *= Math.pow(0.88, Math.min(violations, 4));
+    }
+  }
+
   const pFor = Math.min(0.95, Math.max(0.01, base));
   const pAgainst = Math.max(0.02, (1 - pFor) * 0.7);
   const pAbstain = Math.max(0, 1 - pFor - pAgainst);
