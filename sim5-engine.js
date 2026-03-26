@@ -789,9 +789,11 @@ function withLeaderFirst(government, leader) {
 }
 
 function selectGovernment(mandates, naAlignments, cfg, coalitions) {
-  const viabilityThreshold = cfg.viabilityThreshold != null ? cfg.viabilityThreshold : 0.60;
+  const viabilityThreshold = cfg.viabilityThreshold != null ? cfg.viabilityThreshold : 0.70;
   const blueViabilityThreshold = cfg.blueViabilityThreshold != null ? cfg.blueViabilityThreshold : 0.10;
   const redPreference = cfg.redPreference != null ? cfg.redPreference : 0.5;
+  const maxRedRounds = cfg.maxFormationRounds != null ? cfg.maxFormationRounds : 3;
+  const flexIncrement = cfg.flexIncrement || 0.05;
   const maxParties = 4;
 
   const sLed = coalitions.filter(coalition => coalition.leader === "S");
@@ -843,8 +845,6 @@ function selectGovernment(mandates, naAlignments, cfg, coalitions) {
     return best;
   }
 
-  const roundCfg = { ...cfg, _naAlignments: naAlignments };
-
   const sLedBonus = coalition => frederiksenBonus(coalition, redPreference);
   const blueBonus = coalition => {
     const bluePM = (mandates.LA || 0) > (mandates.V || 0) ? "LA" : "V";
@@ -853,19 +853,51 @@ function selectGovernment(mandates, naAlignments, cfg, coalitions) {
   };
   const mLedBonus = () => Math.exp(0.15 * normDraw(0, 1));
 
-  // Round 1: S formateur (certain post-election)
-  let result = tryGroup(sLed, sLedBonus, roundCfg, viabilityThreshold);
-  if (result) {
-    result.formationRound = 1;
-    result.formateurOrder = "rød først";
-    return result;
+  // Counterfactual: blue formateur first (if user overrides)
+  const blueFirst = cfg.formateurOverride === "blue";
+
+  if (blueFirst) {
+    // Blue formateur rounds with increasing flexibility
+    for (let round = 0; round < maxRedRounds; round++) {
+      const roundFlex = Math.min(0.5, (cfg.flexibility || 0) + round * flexIncrement);
+      const roundCfg = { ...cfg, flexibility: roundFlex, _naAlignments: naAlignments };
+      const result = tryGroup(blueLed, blueBonus, roundCfg, viabilityThreshold)
+        || tryGroup(mLed, mLedBonus, roundCfg, viabilityThreshold);
+      if (result) {
+        result.formationRound = round + 1;
+        result.formateurOrder = "blå først";
+        return result;
+      }
+    }
+    // Fallback: S formateur with lower threshold
+    const fallbackCfg = { ...cfg, flexibility: (cfg.flexibility || 0) + maxRedRounds * flexIncrement, _naAlignments: naAlignments };
+    const result = tryGroup(sLed, sLedBonus, fallbackCfg, blueViabilityThreshold);
+    if (result) {
+      result.formationRound = maxRedRounds + 1;
+      result.formateurOrder = "rød først";
+      return result;
+    }
+    return null;
   }
 
-  // Round 2: Blue formateur (desperation round — lower threshold)
-  result = tryGroup(blueLed, blueBonus, { ...roundCfg, flexibility: 0.05 }, blueViabilityThreshold)
-    || tryGroup(mLed, mLedBonus, { ...roundCfg, flexibility: 0.05 }, blueViabilityThreshold);
+  // S formateur rounds: Frederiksen tries with increasing flexibility
+  for (let round = 0; round < maxRedRounds; round++) {
+    const roundFlex = Math.min(0.5, (cfg.flexibility || 0) + round * flexIncrement);
+    const roundCfg = { ...cfg, flexibility: roundFlex, _naAlignments: naAlignments };
+    const result = tryGroup(sLed, sLedBonus, roundCfg, viabilityThreshold);
+    if (result) {
+      result.formationRound = round + 1;
+      result.formateurOrder = "rød først";
+      return result;
+    }
+  }
+
+  // Blue formateur round: desperation fallback with lower threshold
+  const blueCfg = { ...cfg, flexibility: (cfg.flexibility || 0) + maxRedRounds * flexIncrement, _naAlignments: naAlignments };
+  const result = tryGroup(blueLed, blueBonus, blueCfg, blueViabilityThreshold)
+    || tryGroup(mLed, mLedBonus, blueCfg, blueViabilityThreshold);
   if (result) {
-    result.formationRound = 2;
+    result.formationRound = maxRedRounds + 1;
     result.formateurOrder = "blå først";
     return result;
   }
@@ -954,7 +986,7 @@ function buildMandates(userParams) {
 function buildConfig(userParams) {
   const defaults = {
     flexibility: 0,
-    viabilityThreshold: 0.60,
+    viabilityThreshold: 0.70,
     blueViabilityThreshold: 0.10,
     minForVotes: 70,
     distPenalty: 1.5,
@@ -965,6 +997,7 @@ function buildConfig(userParams) {
     // Frederiksen appointed as kongelig undersøger (March 2026): red forms first.
     formateurOverride: "red",
     redPreference: 0.5,
+    maxFormationRounds: 3,
     flexIncrement: 0.05,
     voteSensitivity: 4.0,
     formateurPull: 0.3,
@@ -1061,7 +1094,7 @@ function simulate(userParams, N) {
     const _iterMPmPref = _mRoll < 0.40 ? "neutral" : _mRoll < 0.70 ? "S" : "V";
 
     // Viability threshold CI
-    const _iterViability = Math.max(0.45, Math.min(0.75, normDraw(0.60, 0.05)));
+    const _iterViability = Math.max(0.50, Math.min(0.85, normDraw(0.70, 0.06)));
 
     try {
       const naAlignments = drawNAAlignments(cfg);
