@@ -717,12 +717,12 @@
     .sensitivity-shell {
       display: flex;
       flex-direction: column;
-      gap: 0;
+      gap: 18px;
     }
 
     .sensitivity-intro {
-      max-width: 680px;
-      margin: 0 auto 1.5rem;
+      max-width: 72ch;
+      margin: 0 auto;
       font-size: 0.92rem;
       line-height: 1.6;
       color: #4a443d;
@@ -731,10 +731,20 @@
     .sensitivity-section {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       width: 100%;
-      max-width: 680px;
-      margin: 0 auto 2rem;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .sensitivity-section-card {
+      padding: 18px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(250, 249, 247, 0.9), #fff);
+    }
+
+    .sensitivity-shell > .sensitivity-section {
+      margin-bottom: 0;
     }
 
     .sensitivity-chart-title {
@@ -750,7 +760,8 @@
       max-width: 680px;
     }
 
-    .sensitivity-chart svg {
+    .sensitivity-chart svg,
+    .sensitivity-sparkline svg {
       display: block;
       width: 100%;
       height: auto;
@@ -761,7 +772,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px 12px;
-      margin-bottom: 10px;
+      margin-bottom: 2px;
     }
 
     .sensitivity-legend-item {
@@ -786,6 +797,142 @@
       margin: 0;
     }
 
+    .sensitivity-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sensitivity-bar-row {
+      display: grid;
+      grid-template-columns: minmax(150px, 1.15fr) minmax(220px, 1.8fr) minmax(180px, 1.25fr);
+      gap: 14px;
+      align-items: center;
+    }
+
+    .sensitivity-bar-meta,
+    .sensitivity-bar-graphic {
+      min-width: 0;
+    }
+
+    .sensitivity-bar-meta .field-label {
+      display: block;
+      margin: 0;
+    }
+
+    .sensitivity-bar-category {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 4px;
+      font-size: 0.74rem;
+      line-height: 1.3;
+      color: var(--muted);
+    }
+
+    .sensitivity-bar-category::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--bar-color, var(--accent));
+      flex: none;
+    }
+
+    .sensitivity-bar-graphic {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sensitivity-bar-track {
+      position: relative;
+      flex: 1 1 auto;
+      height: 14px;
+      border-radius: 999px;
+      background: #ede6db;
+      overflow: hidden;
+    }
+
+    .sensitivity-bar-fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      height: 100%;
+      border-radius: 999px;
+      min-width: 10px;
+    }
+
+    .sensitivity-bar-score {
+      flex: none;
+      min-width: 36px;
+      text-align: right;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .sensitivity-bar-note {
+      margin: 0;
+      font-size: 0.86rem;
+      line-height: 1.45;
+      color: #4a443d;
+    }
+
+    .sensitivity-curves {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .sensitivity-curve-card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid rgba(42, 36, 32, 0.12);
+      background: #fff;
+    }
+
+    .sensitivity-curve-card.featured {
+      grid-column: span 2;
+      border-color: rgba(47, 133, 90, 0.28);
+      background: linear-gradient(180deg, rgba(47, 133, 90, 0.08), #fff);
+    }
+
+    .sensitivity-curve-label {
+      margin: 0;
+    }
+
+    .sensitivity-curve-meta {
+      margin: 0;
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .sensitivity-interaction-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .sensitivity-interaction-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 12px 14px;
+      border: 1px solid rgba(42, 36, 32, 0.12);
+      background: #fff;
+    }
+
+    .sensitivity-interaction-value {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.45rem;
+      line-height: 1;
+      color: var(--accent);
+    }
+
     #methodologyCard .field-desc,
     #sensitivityCard .field-desc {
       font-size: 0.92rem;
@@ -793,18 +940,22 @@
       color: #4a443d;
       margin-bottom: 0.8rem;
     }
-    #methodologyCard strong {
+    #methodologyCard strong,
+    #sensitivityCard strong {
       color: var(--ink);
     }
-    #methodologyCard .methodology-section {
+    #methodologyCard .methodology-section,
+    #sensitivityCard .methodology-section {
       margin-bottom: 1.3rem;
     }
-    #methodologyCard .methodology-heading {
+    #methodologyCard .methodology-heading,
+    #sensitivityCard .methodology-heading {
       display: block;
       margin: 0 0 0.35rem;
       font-size: 0.98rem;
     }
-    #methodologyCard .methodology-copy {
+    #methodologyCard .methodology-copy,
+    #sensitivityCard .methodology-copy {
       margin: 0;
       color: #555;
     }
@@ -1004,6 +1155,16 @@
         grid-template-columns: 1fr;
       }
 
+      .sensitivity-bar-row,
+      .sensitivity-curves,
+      .sensitivity-interaction-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sensitivity-curve-card.featured {
+        grid-column: auto;
+      }
+
       .summary-card {
         margin-left: 16px;
         margin-right: 16px;
@@ -1019,6 +1180,14 @@
 
       .preset-grid {
         grid-template-columns: 1fr;
+      }
+
+      .sensitivity-section-card {
+        padding: 16px;
+      }
+
+      .sensitivity-bar-graphic {
+        gap: 8px;
       }
 
       th,
@@ -1197,8 +1366,6 @@
         workerUrl: null,
         worker: null,
         suppressControlEvents: false,
-        sweepData: null,
-        sweepDataPromise: null,
         sensitivityRendered: false
       };
 
@@ -3057,251 +3224,195 @@ onmessage = function(e) {
         return "#e67e22";
       }
 
-      function renderSensitivitySection(title, svg, interpretation, legend = "") {
+      function buildSensitivityBarRows(rows, categoryMeta) {
+        const maxValue = rows.reduce((currentMax, row) => Math.max(currentMax, row.value || 0), 0) || 1;
         return `
-          <section class="sensitivity-section">
-            <h3 class="sensitivity-chart-title">${escapeHtml(title)}</h3>
-            <div class="sensitivity-chart">
-              ${legend}
-              ${svg}
-            </div>
-            <p class="field-desc">${escapeHtml(interpretation)}</p>
-          </section>
+          <div class="sensitivity-bars">
+            ${rows.map(row => {
+              const category = categoryMeta[row.category] || {};
+              const color = category.color || "#1e3a5f";
+              const width = clamp(((row.value || 0) / maxValue) * 100, 0, 100);
+              return `
+                <div class="sensitivity-bar-row">
+                  <div class="sensitivity-bar-meta">
+                    <p class="field-label">${escapeHtml(row.label)}</p>
+                    <p class="sensitivity-bar-category" style="--bar-color:${color};">${escapeHtml(category.label || row.category)}</p>
+                  </div>
+                  <div class="sensitivity-bar-graphic" aria-label="${escapeHtml(row.label)}: samlet total-order ${formatDecimal(row.value || 0, 2)}">
+                    <div class="sensitivity-bar-track">
+                      <div class="sensitivity-bar-fill" style="width:${width.toFixed(1)}%; background:${color};"></div>
+                    </div>
+                    <span class="sensitivity-bar-score">${formatDecimal(row.value || 0, 2)}</span>
+                  </div>
+                  <p class="sensitivity-bar-note">${escapeHtml(row.note)}</p>
+                </div>
+              `;
+            }).join("")}
+          </div>
         `;
       }
 
-      async function renderSensitivity() {
-        if (!els.sensitivityCard) {
+      function buildSensitivitySparklineSvg(curve) {
+        const width = curve.featured ? 248 : 220;
+        const height = curve.featured ? 82 : 68;
+        const plotLeft = 12;
+        const plotRight = width - 12;
+        const plotTop = 10;
+        const plotBottom = height - 12;
+        const plotWidth = plotRight - plotLeft;
+        const plotHeight = plotBottom - plotTop;
+        const middleY = plotTop + plotHeight / 2;
+        const yMax = 40;
+        const values = curve.values || [];
+        const steps = Math.max(values.length - 1, 1);
+        const points = values.map((value, index) => ({
+          x: plotLeft + (index / steps) * plotWidth,
+          y: plotBottom - (clamp(value, 0, yMax) / yMax) * plotHeight
+        }));
+        const linePath = points.length ? buildLinePath(points) : "";
+        const areaPath = points.length
+          ? `${buildLinePath(points.concat([
+              { x: plotRight, y: plotBottom },
+              { x: plotLeft, y: plotBottom }
+            ]))} Z`
+          : "";
+        const accent = curve.color || "#2f855a";
+        const start = values[0] || 0;
+        const end = values[values.length - 1] || 0;
+        return `
+          <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${escapeHtml(curve.label)}: ${formatPctShort(start)} til ${formatPctShort(end)} procent">
+            <rect x="0.5" y="0.5" width="${width - 1}" height="${height - 1}" fill="#faf9f7" stroke="${curve.featured ? "#bfd2c5" : "#d7d0c6"}" stroke-width="1" />
+            <line x1="${plotLeft}" y1="${plotBottom}" x2="${plotRight}" y2="${plotBottom}" stroke="#ddd4c9" stroke-width="1" />
+            <line x1="${plotLeft}" y1="${middleY}" x2="${plotRight}" y2="${middleY}" stroke="#ece5dc" stroke-width="1" stroke-dasharray="4 4" />
+            ${areaPath ? `<path d="${areaPath}" fill="${accent}" fill-opacity="${curve.featured ? 0.16 : 0.1}" />` : ""}
+            ${linePath ? `<path d="${linePath}" fill="none" stroke="${accent}" stroke-width="${curve.featured ? 3 : 2.4}" stroke-linecap="round" stroke-linejoin="round" />` : ""}
+            ${points.length ? `<circle cx="${points[0].x}" cy="${points[0].y}" r="${curve.featured ? 3.5 : 3}" fill="${accent}" />` : ""}
+            ${points.length ? `<circle cx="${points[points.length - 1].x}" cy="${points[points.length - 1].y}" r="${curve.featured ? 3.5 : 3}" fill="${accent}" />` : ""}
+          </svg>
+        `;
+      }
+
+      function buildSensitivityCurveCards(curves) {
+        return `
+          <div class="sensitivity-curves">
+            ${curves.map(curve => {
+              const start = (curve.values || [0])[0] || 0;
+              const end = (curve.values || [0])[curve.values.length - 1] || 0;
+              const delta = Math.round(end - start);
+              const rangeLabel = `${formatDecimal(curve.range[0], 2)}-${formatDecimal(curve.range[1], 2)}`;
+              return `
+                <article class="sensitivity-curve-card${curve.featured ? " featured" : ""}">
+                  <p class="field-label sensitivity-curve-label">${escapeHtml(curve.label)}</p>
+                  <div class="sensitivity-sparkline">
+                    ${buildSensitivitySparklineSvg(curve)}
+                  </div>
+                  <p class="field-desc sensitivity-curve-meta">${rangeLabel} · ${formatPctShort(start)} %→${formatPctShort(end)} %, Δ${delta} pp</p>
+                </article>
+              `;
+            }).join("")}
+          </div>
+        `;
+      }
+
+      function renderSensitivity() {
+        if (!els.sensitivityCard || state.sensitivityRendered) {
           return;
         }
 
-        if (state.sensitivityRendered && state.sweepData) {
-          return;
-        }
+        const categoryMeta = {
+          scenario: { label: "Scenarie", color: "#1e3a5f" },
+          model: { label: "Modelantagelse", color: "#d97706" },
+          party: { label: "Partispecifik", color: "#2f855a" }
+        };
 
-        if (!state.sweepDataPromise) {
-          els.sensitivityCard.innerHTML = `
-            <div class="card-body">
-              <p class="sensitivity-intro">Indlæser overnight sweep-data...</p>
-            </div>
-          `;
+        const importanceRows = [
+          { label: "Viabilitetstærskel", value: 2.31, note: "Hvor risikovillig er formatøren?", category: "scenario" },
+          { label: "Rød præference", value: 2.01, note: "Foretrækker Frederiksen rød eller bred?", category: "scenario" },
+          { label: "Fleksibilitet", value: 1.28, note: "Forhandlingspres og kompromisvillighed", category: "scenario" },
+          { label: "Oppositionens tilbageholdenhed", value: 0.90, note: "Oppositionens tilbageholdenhed ved finanslov", category: "model" },
+          { label: "Budgetpassage vs kvalitet (w)", value: 0.73, note: "Budgetsikkerhed vs. politisk kvalitet", category: "model" },
+          { label: "M kræver regering", value: 0.71, note: "Kræver M at deltage i regeringen?", category: "scenario" },
+          { label: "Forhandlingsforsøg", value: 0.68, note: "Antal forhandlingsforsøg", category: "scenario" },
+          { label: "Finanslovsredning", value: 0.66, note: "Tværblok-redning af finansloven", category: "model" },
+          { label: "Formatørtiltrækning", value: 0.58, note: "Formatørens forhandlingsstyrke", category: "model" },
+          { label: "M→SF i regering", value: 0.50, note: "Ms villighed til SF som koalitionspartner", category: "party" }
+        ];
 
-          const embeddedData = typeof OVERNIGHT_SWEEP !== "undefined"
-            ? OVERNIGHT_SWEEP
-            : typeof SWEEP_DATA !== "undefined"
-              ? SWEEP_DATA
-              : null;
-
-          const fallbackPromise = Promise.all([
-            fetch("sweep-results/1d-sweeps.json").then(response => {
-              if (!response.ok) throw new Error("HTTP " + response.status);
-              return response.json();
-            }),
-            fetch("sweep-results/2d-heatmaps.json").then(response => {
-              if (!response.ok) throw new Error("HTTP " + response.status);
-              return response.json();
-            }),
-            fetch("sweep-results/scenarios.json").then(response => {
-              if (!response.ok) throw new Error("HTTP " + response.status);
-              return response.json();
-            })
-          ]).then(([oneD, twoD, scenarios]) => ({
-            sweeps1D: oneD.sweeps || {},
-            heatmaps: twoD.heatmaps || {},
-            scenarios: scenarios.scenarios || {}
-          }));
-
-          state.sweepDataPromise = (embeddedData ? Promise.resolve(embeddedData) : fallbackPromise)
-            .then(normalizeSweepDataset)
-            .then(data => {
-              state.sweepData = data;
-              return data;
-            });
-        }
-
-        try {
-          const sweepData = state.sweepData || await state.sweepDataPromise;
-          if (state.sensitivityRendered && state.sweepData) {
-            return;
+        const curves = [
+          {
+            label: "SF→M i regering",
+            values: [9, 12, 16, 20, 24, 28, 32, 35, 37],
+            range: [0.2, 0.98],
+            color: "#24704a",
+            featured: true
+          },
+          {
+            label: "M→SF i regering",
+            values: [11, 14, 18, 22, 26, 30, 34, 37, 38],
+            range: [0.2, 0.95],
+            color: "#2f855a"
+          },
+          {
+            label: "RV→M i regering",
+            values: [14, 16, 18, 20, 22, 24, 26, 27, 28],
+            range: [0.3, 0.98],
+            color: "#3f9366"
+          },
+          {
+            label: "M→RV i regering",
+            values: [21, 24, 26, 28, 30, 32, 33, 34, 34],
+            range: [0.4, 0.98],
+            color: "#5aa57a"
+          },
+          {
+            label: "S→RV i regering",
+            values: [24, 26, 28, 29, 30, 31, 31, 31, 31],
+            range: [0.4, 1.0],
+            color: "#76b78f"
           }
+        ];
 
-          const coalitionPalette = ["#1e3a5f", "#c0392b", "#e67e22", "#6a1b9a", "#00897b"];
-          const noGovColor = "#90a4ae";
-          const viabilityRows = sweepPoints(sweepData, "viabilityThreshold");
-          const redPreferenceRows = sweepPoints(sweepData, "redPreference");
-          const floorRows = sweepPoints(sweepData, "floorThreshold");
-          const gridlockHeatmap = sweepHeatmap(sweepData, "flexibility_x_viabilityThreshold");
-          const coalitionHeatmap = sweepHeatmap(sweepData, "flexibility_x_redPreference");
-          const scenarioRows = sweepScenarios(sweepData)
-            .sort((a, b) => b.pmS - a.pmS);
+        els.sensitivityCard.innerHTML = `
+          <div class="card-body">
+            <div class="sensitivity-shell">
+              <p class="sensitivity-intro">Sensitivitetsanalysen viser, hvilke antagelser der faktisk flytter koalitionsfordelingen. Først kommer formatørens egne valg, derefter modellens spilleregler og til sidst de partiforhold, der afgør, hvilken regering der vinder inden for de rammer.</p>
 
-          const viabilityCoalitions = selectTopCoalitions(viabilityRows, 5);
-          const viabilitySeries = viabilityCoalitions.map((coalition, index) => ({
-            label: coalition,
-            color: coalitionPalette[index] || coalitionPalette[coalitionPalette.length - 1],
-            values: viabilityRows.map(row => coalitionPct(row, coalition))
-          }));
+              <section class="field-group methodology-section sensitivity-section sensitivity-section-card">
+                <p class="field-label methodology-heading"><strong>De vigtigste knapper</strong></p>
+                <p class="field-desc methodology-copy">Samlet total-order-indeks på tværs af koalitioner. Jo længere bjælke, desto mere flytter parameteren den samlede koalitionsfordeling.</p>
+                ${buildLegendHtml([
+                  { label: "Scenarie", color: categoryMeta.scenario.color },
+                  { label: "Modelantagelse", color: categoryMeta.model.color },
+                  { label: "Partispecifik", color: categoryMeta.party.color }
+                ])}
+                ${buildSensitivityBarRows(importanceRows, categoryMeta)}
+              </section>
 
-          const redSeries = [
-            {
-              label: "S+RV+SF",
-              color: "#1e3a5f",
-              values: redPreferenceRows.map(row => coalitionPct(row, "S+RV+SF"))
-            },
-            {
-              label: "S+M+RV",
-              color: "#c0392b",
-              values: redPreferenceRows.map(row => coalitionPct(row, "S+M+RV"))
-            }
-          ];
+              <section class="field-group methodology-section sensitivity-section sensitivity-section-card">
+                <p class="field-label methodology-heading"><strong>Partirelationer der afgør det</strong></p>
+                <p class="field-desc methodology-copy">SF og Ms gensidige villighed til at regere sammen er den enkeltfaktor, der påvirker koalitionsfordelingen mest: mere end nogen strukturel parameter. Kurverne herunder viser, hvordan sandsynligheden for S+M+RV+SF ændrer sig, når én relation ændres ad gangen.</p>
+                ${buildSensitivityCurveCards(curves)}
+              </section>
 
-          const PARAM_LABELS_DA = {
-            flexibility: "Fleksibilitet",
-            redPreference: "Frederiksens rødpræference",
-            viabilityThreshold: "Viabilitetstærskel",
-            passageExponent: "Stabilitetseksponent",
-            voteSensitivity: "Afstemningsfølsomhed",
-            distPenalty: "Afstandsstraf",
-            formateurPull: "Formateurtiltrækning",
-            floorThreshold: "\"Gulvtærskel\"",
-            flexIncrement: "Fleksibilitetstilvækst",
-            maxFormationRounds: "Forhandlingsforsøg",
-            precedentWeight: "Præcedensvægt",
-            elMPenalty: "EL-M straf",
-            elMBoost: "EL-M boost"
-          };
-          const tornadoRows = Object.keys((sweepData || {}).sweeps1D || {})
-            .map(name => {
-              const points = sweepPoints(sweepData, name);
-              const pmSValues = points.map(point => point.pmS || 0);
-              return {
-                label: PARAM_LABELS_DA[name] || name,
-                value: pmSValues.length ? Math.max.apply(null, pmSValues) - Math.min.apply(null, pmSValues) : 0
-              };
-            })
-            .sort((a, b) => b.value - a.value);
-
-          const crossover = findCrossoverValue(redPreferenceRows, "S+RV+SF", "S+M+RV");
-
-          els.sensitivityCard.innerHTML = `
-            <div class="card-body">
-              <div class="sensitivity-shell">
-                <p class="sensitivity-intro">Baseret på 1.953 simuleringspunkter fra den udvidede sensitivitetsanalyse. Alle parametre holdes på baseline undtagen den/de viste.</p>
-                ${renderSensitivitySection(
-                  "Viabilitetstærsklen: fra smal til bred",
-                  buildStackedAreaChartSvg({
-                    title: "Viabilitetstærsklen: fra smal til bred",
-                    xValues: viabilityRows.map(row => row.value),
-                    xTicks: [0.3, 0.45, 0.6, 0.75, 0.95],
-                    xAxisTitle: "viability threshold",
-                    series: viabilitySeries,
-                    topBandValues: viabilityRows.map(row => row.noGov || 0),
-                    topBandColor: noGovColor
-                  }),
-                  "Viabilitetstærsklen er den mest konsekvensrige parameter. Ved lav tærskel dominerer blå V+KF; ved høj tærskel tvinges bredere koalitioner som S+M+SF og S+M+RV+SF frem — og gridlock opstår.",
-                  buildLegendHtml(viabilitySeries.map(item => ({ label: item.label, color: item.color })).concat([{ label: "Ingen regering", color: noGovColor }]))
-                )}
-                ${renderSensitivitySection(
-                  "Frederiksens valg: SF eller Løkke?",
-                  buildLineChartSvg({
-                    title: "Frederiksens valg: SF eller Løkke?",
-                    xValues: redPreferenceRows.map(row => row.value),
-                    xTicks: [0, 0.25, 0.5, 0.75, 1],
-                    xAxisTitle: "Bred midte ← → Ren rød",
-                    annotationX: crossover,
-                    annotationLabel: crossover != null ? "~" + formatSweepValue(crossover) : "",
-                    series: redSeries
-                  }),
-                  "Ved lav præference (bred midte) dominerer S+M+RV — Løkke kommer med, SF udelukkes. Over ~0.1 skifter det: SF kommer med, Løkke holdes ude. Det er det centrale politiske valg."
-                )}
-                ${renderSensitivitySection(
-                  "Tornado: hvad betyder mest?",
-                  buildTornadoChartSvg({
-                    title: "Tornado: hvad betyder mest?",
-                    rows: tornadoRows
-                  }),
-                  "Viser spændet i PM(S)-sandsynlighed for hver parameter. floorThreshold og viabilityThreshold er langt de mest konsekvensrige."
-                )}
-                ${renderSensitivitySection(
-                  "Hvornår opstår gridlock?",
-                  buildHeatmapSvg({
-                    title: "Hvornår opstår gridlock?",
-                    xValues: gridlockHeatmap.xValues || [],
-                    yValues: gridlockHeatmap.yValues || [],
-                    data: gridlockHeatmap.data || [],
-                    xAxisTitle: "flexibility",
-                    yAxisTitle: "viability threshold",
-                    xTickStep: 2,
-                    yTickStep: 2,
-                    fill: cell => buildNoGovColor(cell.noGov || 0),
-                    text: cell => formatPctShort(cell.noGov || 0),
-                    textFill: cell => (cell.noGov || 0) >= 20 ? "#ffffff" : (cell.noGov || 0) > 0 ? "#8b1e1e" : "#c4bdb5",
-                    cellFontSize: 8.5
-                  }),
-                  "Gridlock kræver en kombination af høj viabilitetstærskel og lav fleksibilitet. Ved baseline-parametre er gridlock praktisk talt umuligt."
-                )}
-                ${renderSensitivitySection(
-                  "Scenariesammenligning",
-                  buildScenarioBarsSvg({
-                    title: "Scenariesammenligning",
-                    rows: scenarioRows
-                  }),
-                  "Sammenligning af foruddefinerede scenarier. 'Blå overraskelse' giver V 37% PM-sandsynlighed. M bliver aldrig PM i noget scenarie.",
-                  buildLegendHtml([
-                    { label: "PM(S)", color: "#c0392b" },
-                    { label: "PM(V)", color: "#1e3a5f" },
-                    { label: "Ingen regering", color: "#90a4ae" }
-                  ])
-                )}
-                ${renderSensitivitySection(
-                  "\"Gulvtærsklen\": den skjulte parameter",
-                  buildLineChartSvg({
-                    title: "\"Gulvtærsklen\": den skjulte parameter",
-                    xValues: floorRows.map(row => row.value),
-                    xTicks: [0.2, 0.4, 0.6, 0.8, 1],
-                    xAxisTitle: "\"gulvtærskel\"",
-                    highlightBand: { from: 0.45, to: 0.48, label: "~0,45-0,48", color: "#f6efe5" },
-                    series: [
-                      { label: "PM(S)", color: "#1e3a5f", values: floorRows.map(row => row.pmS || 0) },
-                      { label: "Ingen regering", color: "#90a4ae", values: floorRows.map(row => row.noGov || 0) },
-                      { label: "Topkoalition", color: "#e67e22", values: floorRows.map(row => row.topPct || 0) }
-                    ]
-                  }),
-                  "\"Gulvtærsklen\" bestemmer hvor vigtig en politisk dimension skal være (weight ≥ tærskel) før partiet insisterer på at platformen respekterer partiets bundgrænse. Ved lav tærskel udløses gulvtjek på næsten alle dimensioner — det gør de fleste koalitioner 'inkoherente' (ingen platform kan tilfredsstille alle parters mange krav), og kun usædvanlige konfigurationer overlever. Ved ~0,45 åbnes pludselig for de fleste koalitioner — et dramatisk spring i PM(S) på 74 procentpoint."
-                )}
-                ${renderSensitivitySection(
-                  "Fleksibilitet × Frederiksens præference",
-                  buildHeatmapSvg({
-                    title: "Fleksibilitet × Frederiksens præference",
-                    xValues: coalitionHeatmap.xValues || [],
-                    yValues: coalitionHeatmap.yValues || [],
-                    data: coalitionHeatmap.data || [],
-                    xAxisTitle: "flexibility",
-                    yAxisTitle: "redPreference",
-                    xTickStep: 2,
-                    yTickStep: 2,
-                    fill: cell => coalitionHeatmapColor(cell.topCoalition || ""),
-                    text: cell => cell.topCoalition || "",
-                    textFill: () => "#ffffff",
-                    cellFontSize: 6.6
-                  }),
-                  "To-regime-struktur: S+M+RV dominerer i det lave hjørne (centristisk, lav rødpræference), S+RV+SF dominerer overalt ellers."
-                )}
-              </div>
+              <section class="field-group methodology-section sensitivity-section sensitivity-section-card" style="margin-bottom:0;">
+                <p class="field-label methodology-heading"><strong>Samspil mellem parametre</strong></p>
+                <p class="field-desc methodology-copy">Mange parametre virker ikke alene men i samspil med andre. Oppositionens tilbageholdenhed har f.eks. lille direkte effekt men forstærker andre parametre markant. SF→M og M→SF forstærker hinanden: når begge er høje, stiger S+M+RV+SF til 38 %; når begge er lave, falder den til 6 %. De fleste partirelationer virker primært gennem samspil snarere end isoleret.</p>
+                <div class="sensitivity-interaction-grid">
+                  <div class="sensitivity-interaction-stat">
+                    <span class="sensitivity-interaction-value">38 %</span>
+                    <p class="field-desc">S+M+RV+SF når SF→M og M→SF begge ligger højt.</p>
+                  </div>
+                  <div class="sensitivity-interaction-stat">
+                    <span class="sensitivity-interaction-value">6 %</span>
+                    <p class="field-desc">S+M+RV+SF når begge relationer ligger lavt.</p>
+                  </div>
+                </div>
+              </section>
             </div>
-          `;
+          </div>
+        `;
 
-          state.sensitivityRendered = true;
-        } catch (error) {
-          state.sweepData = null;
-          state.sweepDataPromise = null;
-          state.sensitivityRendered = false;
-          els.sensitivityCard.innerHTML = `
-            <div class="card-body">
-              <p class="sensitivity-intro">Kunne ikke indlæse sensitivitetsanalysen. ${(error && error.message) ? escapeHtml(error.message) : "Ukendt fejl."}</p>
-            </div>
-          `;
-        }
+        state.sensitivityRendered = true;
       }
 
       function bindControlEvents() {
