@@ -2700,12 +2700,12 @@ onmessage = function(e) {
       }
 
       function buildSensitivitySparklineSvg(curve) {
-        const width = curve.featured ? 248 : 220;
-        const height = curve.featured ? 92 : 78;
-        const plotLeft = 28;
-        const plotRight = width - 8;
-        const plotTop = 10;
-        const plotBottom = height - 22;
+        const width = 220;
+        const height = 78;
+        const plotLeft = 24;
+        const plotRight = width - 6;
+        const plotTop = 8;
+        const plotBottom = height - 18;
         const plotWidth = plotRight - plotLeft;
         const plotHeight = plotBottom - plotTop;
         const middleY = plotTop + plotHeight / 2;
@@ -2716,12 +2716,9 @@ onmessage = function(e) {
           x: plotLeft + (index / steps) * plotWidth,
           y: plotBottom - (clamp(value, 0, yMax) / yMax) * plotHeight
         }));
-        const linePath = points.length ? buildLinePath(points) : "";
+        const linePath = points.length ? buildSmoothPath(points) : "";
         const areaPath = points.length
-          ? `${buildLinePath(points.concat([
-              { x: plotRight, y: plotBottom },
-              { x: plotLeft, y: plotBottom }
-            ]))} Z`
+          ? `${buildSmoothPath(points)} L${plotRight.toFixed(1)} ${plotBottom.toFixed(1)} L${plotLeft.toFixed(1)} ${plotBottom.toFixed(1)} Z`
           : "";
         const accent = curve.color || "#2f855a";
         const start = values[0] || 0;
@@ -2733,10 +2730,10 @@ onmessage = function(e) {
             <rect x="0.5" y="0.5" width="${width - 1}" height="${height - 1}" fill="#faf9f7" stroke="${curve.featured ? "#bfd2c5" : "#d7d0c6"}" stroke-width="1" />
             <line x1="${plotLeft}" y1="${plotBottom}" x2="${plotRight}" y2="${plotBottom}" stroke="#ddd4c9" stroke-width="1" />
             <line x1="${plotLeft}" y1="${middleY}" x2="${plotRight}" y2="${middleY}" stroke="#ece5dc" stroke-width="1" stroke-dasharray="4 4" />
-            ${areaPath ? `<path d="${areaPath}" fill="${accent}" fill-opacity="${curve.featured ? 0.16 : 0.1}" />` : ""}
-            ${linePath ? `<path d="${linePath}" fill="none" stroke="${accent}" stroke-width="${curve.featured ? 3 : 2.4}" stroke-linecap="round" stroke-linejoin="round" />` : ""}
-            ${points.length ? `<circle cx="${points[0].x}" cy="${points[0].y}" r="${curve.featured ? 3.5 : 3}" fill="${accent}" />` : ""}
-            ${points.length ? `<circle cx="${points[points.length - 1].x}" cy="${points[points.length - 1].y}" r="${curve.featured ? 3.5 : 3}" fill="${accent}" />` : ""}
+            ${areaPath ? `<path d="${areaPath}" fill="${accent}" fill-opacity="0.10" />` : ""}
+            ${linePath ? `<path d="${linePath}" fill="none" stroke="${accent}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />` : ""}
+            ${points.length ? `<circle cx="${points[0].x}" cy="${points[0].y}" r="2.5" fill="${accent}" />` : ""}
+            ${points.length ? `<circle cx="${points[points.length - 1].x}" cy="${points[points.length - 1].y}" r="2.5" fill="${accent}" />` : ""}
             <!-- X-axis labels (parameter range) -->
             <text x="${plotLeft}" y="${height - 4}" style="${axisFont}" text-anchor="start">${formatDecimal(range[0], 2)}</text>
             <text x="${plotRight}" y="${height - 4}" style="${axisFont}" text-anchor="end">${formatDecimal(range[1], 2)}</text>
@@ -2747,13 +2744,31 @@ onmessage = function(e) {
         `;
       }
 
+      // Attempt smooth cubic spline through points; falls back to polyline
+      function buildSmoothPath(points) {
+        if (!points || points.length < 3) return buildLinePath(points);
+        let d = "M" + points[0].x.toFixed(1) + " " + points[0].y.toFixed(1);
+        for (let i = 0; i < points.length - 1; i++) {
+          const p0 = points[Math.max(i - 1, 0)];
+          const p1 = points[i];
+          const p2 = points[i + 1];
+          const p3 = points[Math.min(i + 2, points.length - 1)];
+          const cp1x = p1.x + (p2.x - p0.x) / 6;
+          const cp1y = p1.y + (p2.y - p0.y) / 6;
+          const cp2x = p2.x - (p3.x - p1.x) / 6;
+          const cp2y = p2.y - (p3.y - p1.y) / 6;
+          d += " C" + cp1x.toFixed(1) + " " + cp1y.toFixed(1) + "," + cp2x.toFixed(1) + " " + cp2y.toFixed(1) + "," + p2.x.toFixed(1) + " " + p2.y.toFixed(1);
+        }
+        return d;
+      }
+
       function buildMultiCoalitionChart(config) {
-        const width = 520;
-        const height = 180;
-        const plotLeft = 32;
-        const plotRight = width - 12;
-        const plotTop = 14;
-        const plotBottom = height - 28;
+        const width = 680;
+        const height = 220;
+        const plotLeft = 30;
+        const plotRight = width - 10;
+        const plotTop = 12;
+        const plotBottom = height - 22;
         const plotWidth = plotRight - plotLeft;
         const plotHeight = plotBottom - plotTop;
         const yMax = 50;
@@ -2766,24 +2781,24 @@ onmessage = function(e) {
             x: plotLeft + (i / steps) * plotWidth,
             y: plotBottom - (clamp(v, 0, yMax) / yMax) * plotHeight
           }));
-          return `<path d="${buildLinePath(points)}" fill="none" stroke="${s.color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />`;
+          return `<path d="${buildSmoothPath(points)}" fill="none" stroke="${s.color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />`;
         }).join("\n            ");
 
         const legendItems = config.series.map(s =>
-          `<span style="display:inline-flex;align-items:center;gap:3px;margin-right:10px;font-size:11px;color:#5a5247;"><span style="display:inline-block;width:10px;height:3px;background:${s.color};border-radius:1px;"></span>${escapeHtml(s.label)}</span>`
+          `<span style="display:inline-flex;align-items:center;gap:3px;margin-right:10px;font-size:11px;color:#5a5247;"><span style="display:inline-block;width:10px;height:2px;background:${s.color};border-radius:1px;"></span>${escapeHtml(s.label)}</span>`
         ).join("");
 
         return `
           <div class="sensitivity-multi-chart" style="margin:12px 0;">
             <p class="field-label" style="margin-bottom:4px;">${escapeHtml(config.title)}</p>
             <div style="margin-bottom:4px;">${legendItems}</div>
-            <svg viewBox="0 0 ${width} ${height}" role="img" style="width:100%;max-width:${width}px;">
+            <svg viewBox="0 0 ${width} ${height}" role="img" style="width:100%;">
               <rect x="0.5" y="0.5" width="${width - 1}" height="${height - 1}" fill="#faf9f7" stroke="#d7d0c6" stroke-width="1" rx="3" />
               <line x1="${plotLeft}" y1="${plotBottom}" x2="${plotRight}" y2="${plotBottom}" stroke="#ddd4c9" stroke-width="1" />
               <line x1="${plotLeft}" y1="${plotTop + plotHeight * 0.5}" x2="${plotRight}" y2="${plotTop + plotHeight * 0.5}" stroke="#ece5dc" stroke-width="1" stroke-dasharray="4 4" />
               ${seriesPaths}
-              <text x="${plotLeft}" y="${height - 6}" style="${axisFont}" text-anchor="start">${formatDecimal(range[0], 2)}</text>
-              <text x="${plotRight}" y="${height - 6}" style="${axisFont}" text-anchor="end">${formatDecimal(range[1], 2)}</text>
+              <text x="${plotLeft}" y="${height - 5}" style="${axisFont}" text-anchor="start">${formatDecimal(range[0], 2)}</text>
+              <text x="${plotRight}" y="${height - 5}" style="${axisFont}" text-anchor="end">${formatDecimal(range[1], 2)}</text>
               <text x="${plotLeft - 4}" y="${plotTop + 4}" style="${axisFont}" text-anchor="end">${yMax}%</text>
               <text x="${plotLeft - 4}" y="${plotBottom + 1}" style="${axisFont}" text-anchor="end">0%</text>
             </svg>
