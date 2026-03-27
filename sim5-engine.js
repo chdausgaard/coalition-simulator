@@ -68,6 +68,10 @@ function blocBudgetVote(partyId, coalition, cfg) {
   if (partyId === "M" && cfg.mDemandGov && !govIds.includes("M")) {
     return { pFor: 0.01, pAbstain: 0.04, pAgainst: 0.95 };
   }
+  // Strategic orientation: when M pursues blue, M actively opposes S-led budgets
+  if (partyId === "M" && cfg._mPursuesBlue && !govIds.includes("M") && govSide === "red") {
+    return { pFor: 0.02, pAbstain: 0.08, pAgainst: 0.90 };
+  }
   if (party.pmDemand && coalition.leader !== partyId) {
     return { pFor: 0.01, pAbstain: 0.04, pAgainst: 0.95 };
   }
@@ -659,6 +663,45 @@ function selectGovernment(mandates, naAlignments, cfg, coalitions) {
   };
   const mLedBonus = () => Math.exp(0.15 * normDraw(0, 1));
 
+  // Simultaneous mode: all coalitions compete in one pool, best score wins.
+  // No sequential formateur advantage — the scoring function decides.
+  const simultaneous = cfg.formateurOverride === "simultaneous";
+
+  if (simultaneous) {
+    const roundCfg = { ...cfg, flexibility: cfg.flexibility || 0, _naAlignments: naAlignments };
+    // Evaluate all groups with the same threshold, pick overall best
+    const candidates = [
+      tryGroup(sLed, sLedBonus, roundCfg, viabilityThreshold),
+      tryGroup(blueLed, blueBonus, roundCfg, viabilityThreshold),
+      tryGroup(mLed, mLedBonus, roundCfg, viabilityThreshold)
+    ].filter(Boolean);
+    // Pick highest score
+    let best = null;
+    for (const c of candidates) {
+      if (!best || c.score > best.score) best = c;
+    }
+    if (best) {
+      best.formationRound = 1;
+      best.formateurOrder = best.government[0] === "S" ? "rød først" : "blå først";
+      return best;
+    }
+    // Desperation fallback with lower threshold
+    const despCfg = { ...cfg, flexibility: Math.min(0.5, (cfg.flexibility || 0) + flexIncrement), _naAlignments: naAlignments };
+    const despCandidates = [
+      tryGroup(sLed, sLedBonus, despCfg, 0.05),
+      tryGroup(blueLed, blueBonus, despCfg, 0.05),
+      tryGroup(mLed, mLedBonus, despCfg, 0.05)
+    ].filter(Boolean);
+    let despBest = null;
+    for (const c of despCandidates) { if (!despBest || c.score > despBest.score) despBest = c; }
+    if (despBest) {
+      despBest.formationRound = 2;
+      despBest.formateurOrder = "desperation";
+      return despBest;
+    }
+    return null;
+  }
+
   // Counterfactual: blue formateur first (if user overrides)
   const blueFirst = cfg.formateurOverride === "blue";
 
@@ -708,7 +751,7 @@ function selectGovernment(mandates, naAlignments, cfg, coalitions) {
   // Default: SF + RV (from King Frederik's statement: "government with
   // participation of SF and Radikale Venstre"). If mandateParties is null
   // or empty, round 1 is unconstrained (pre-kongerunde or counterfactual).
-  const mandateParties = cfg.mandateParties !== undefined ? cfg.mandateParties : ["SF", "RV"];
+  const mandateParties = cfg.mandateParties !== undefined ? cfg.mandateParties : null;
   const hasMandateConstraint = mandateParties && mandateParties.length > 0;
 
   if (hasMandateConstraint) {
@@ -1047,6 +1090,25 @@ function simulate(userParams, N) {
       ? cfg.parsimonySpread
       : Math.max(0.3, Math.min(1.5, normDraw(1.0, 0.15)));
 
+    // M strategic orientation draw: Løkke simultaneously negotiates with both
+    // blocs. Each iteration, M draws a strategic posture — pursue red (cooperate
+    // with S-led coalitions) or pursue blue (block S-led, support blue).
+    // This captures the outside-option effect from bargaining theory: M's
+    // behavior in red negotiations depends on M's assessment of blue alternatives.
+    const _mBlueProb = cfg.mBlueOrientation != null ? cfg.mBlueOrientation : 0.50;
+    const _mPursuesBlue = Math.random() < _mBlueProb;
+
+    // When M pursues blue: temporarily make M hostile to S-led coalitions
+    const _savedMtoS_inGov = PARTIES_MAP.M.relationships.S.inGov;
+    const _savedMtoS_tolerate = PARTIES_MAP.M.relationships.S.tolerateInGov;
+    const _savedMtoS_asPM = PARTIES_MAP.M.relationships.S.asPM;
+    if (_mPursuesBlue) {
+      // M refuses to join or support S-led governments
+      PARTIES_MAP.M.relationships.S.inGov = 0.01;
+      PARTIES_MAP.M.relationships.S.tolerateInGov = 0.05;
+      PARTIES_MAP.M.relationships.S.asPM = 0.01;
+    }
+
     try {
       const naAlignments = drawNAAlignments(cfg);
       const iterCfg = {
@@ -1059,7 +1121,8 @@ function simulate(userParams, N) {
         rescueBase: _iterRescueBase,
         oppositionAbstention: _iterAbstention,
         distPenalty: _iterDistPenalty,
-        parsimonySpread: _iterParsimony
+        parsimonySpread: _iterParsimony,
+        _mPursuesBlue
       };
       const result = selectGovernment(mandates, naAlignments, iterCfg, coalitions);
 
@@ -1139,6 +1202,11 @@ function simulate(userParams, N) {
       PARTIES_MAP.SF.relationships.M.inGov = _savedSFM;
       PARTIES_MAP.M.relationships.SF.inGov = _savedMSF;
       PARTIES_MAP.M.relationships.EL.tolerateInGov = _savedMEL;
+      if (_mPursuesBlue) {
+        PARTIES_MAP.M.relationships.S.inGov = _savedMtoS_inGov;
+        PARTIES_MAP.M.relationships.S.tolerateInGov = _savedMtoS_tolerate;
+        PARTIES_MAP.M.relationships.S.asPM = _savedMtoS_asPM;
+      }
       if (_dfRelaxed) {
         PARTIES_MAP.M.relationships.DF.tolerateInGov = _savedMDF.mdf_t;
         PARTIES_MAP.DF.relationships.M.tolerateInGov = _savedMDF.dfm_t;
