@@ -18,17 +18,21 @@ The simulator asks two questions about each possible coalition. First, can it pa
 
 ## Current baseline output (N=10,000)
 
-| Coalition | Pct | Support |
-|-----------|-----|---------|
-| S+M+RV+SF | ~34% | [EL] forst, ALT loose |
-| S+RV+SF | ~23% | [EL] forst, ALT loose |
-| S+M+SF | ~19% | [EL] forst, ALT loose |
-| S+M+RV | ~13% | [EL] forst, ALT loose |
-| S+SF | ~5% | [EL] forst, ALT loose |
-| V+KF+LA+M | ~1% | DF, DD, BP loose |
-| NoGov | 0% | |
+| Coalition | Pct | Support | Seats |
+|-----------|-----|---------|-------|
+| S+M+RV+SF | ~24% | [EL] forst, ALT loose | 98 |
+| S+RV+SF | ~22% | [EL] forst, ALT loose, NA | 87 |
+| S+M+SF | ~13% | [EL] forst, ALT loose, NA | 93 |
+| S+M+RV | ~13% | [EL] forst, ALT loose, NA | 81 |
+| S+M+RV+SF | ~10% | ALT loose, NA | 90 + afhold |
+| S+M+SF | ~6% | ALT loose, NA | 82 + afhold |
+| S+SF | ~5% | [EL] forst, ALT loose, NA | 77 + afhold |
+| V+KF+LA+M | ~1% | DF, DD, BP loose | 61 + afhold |
+| NoGov | 0% | | |
 
-Five viable red-led coalitions span 34%--5%, with S+M+RV+SF as the clear leader. The distribution reflects genuine uncertainty about the SF--M relationship, M--EL tolerance, and how formateurs trade off budget arithmetic against coalition quality. The platform negotiation model includes coalition essentiality (kingmaker parties get disproportionate bargaining power) and soft floor enforcement (weighted compromise between conflicting party floors).
+Coalitions are now split by forståelsespapir status: S+M+RV+SF with EL forst (24%, 98 seats) is a different political configuration from S+M+RV+SF without it (10%, relying on ALT+NA+opposition abstention). When the total including support is below 90, the coalition survives through opposition abstention ("afhold") — the Danish norm that the main opposition party abstains rather than votes against the budget.
+
+The distribution reflects genuine uncertainty about the SF--M relationship, M--EL tolerance, and how formateurs trade off budget arithmetic against coalition quality.
 
 ---
 
@@ -350,13 +354,17 @@ NA seats vote individually (not as party blocs, since each is a single MF). Stro
 
 ---
 
-## 12. Support party display
+## 12. Support party display and coalition splitting
 
-The dashboard shows three tiers of support, each with a "+" separator:
+**Coalition splitting by forståelsespapir status:** The same government composition (e.g., S+M+RV+SF) appears as separate entries depending on whether EL obtained a forståelsespapir. S+M+RV+SF with EL forst (98 seats, very secure) is a politically different configuration from S+M+RV+SF without it (relying on ALT+NA+opposition abstention). The aggregation key includes the forst status.
 
-1. **Forstaelsespapir** (e.g., [EL]): formal agreement, shown in brackets. Only appears if the probabilistic negotiation succeeded.
-2. **Loose stottepartier** (e.g., ALT, or DF/DD/BP for blue): same-bloc parties without formal agreement but likely to vote FOR. Must have govPref < 0.50 (not demanding government). Parties whose support is binary on forstaelsespapir (EL) are excluded from loose display if they didn't get one -- their ~3% FOR rate doesn't qualify as meaningful support.
-3. **NA seats** (flag-colored dots): only shown when the coalition + mainland support < 90 mandates.
+**Support tiers:** The dashboard shows three tiers of support, each with a "+" separator:
+
+1. **Forstaelsespapir** (e.g., [EL]): formal agreement, shown in brackets. Only appears if the probabilistic negotiation succeeded for that coalition variant.
+2. **Loose stottepartier** (e.g., ALT, or DF/DD/BP for blue): same-bloc parties without formal agreement but likely to vote FOR.
+3. **NA seats** (flag-colored dots): only shown when the coalition genuinely depends on them to reach 90 -- "tungen på vægtskålen." If government + forst + loose support already reaches 90, NA flags are omitted. NA seat count includes forståelsespapir parties in the threshold check.
+
+**Mandate display:** When the total including all support is below 90, the parenthetical shows "(N + afhold)" indicating the coalition relies on opposition abstention to survive -- the Danish norm that the main opposition abstains rather than votes against.
 
 ---
 
