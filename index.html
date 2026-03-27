@@ -1866,6 +1866,9 @@ onmessage = function(e) {
                   <strong>Koalitionskvalitet:</strong> Er koalitionen politisk sammenhængende og håndterbar? Kvaliteten afhænger af fire faktorer: ideologisk afstand mellem partierne (tættere = bedre), koalitionens størrelse (færre partier = lettere at regere), om koalitionen er forbundet og minimal vindende (koalitionsteori), og hvor let det er at finde flertal på tværs af politikområder (regeringsevne).
                 </p>
                 <p class="field-desc methodology-copy">
+                  <strong>Platformforhandling:</strong> Hver koalitions politiske platform forhandles som et vægtet kompromis. Hvert partis indflydelse afhænger af dets mandattal, hvor vigtigt emnet er for partiet, og hvor essentielt partiet er for koalitionen (et lille parti, der er afgørende for flertallet, har forhandlingsstyrke ud over sine mandater). Hvis platformen tvinger et parti ud over dets acceptable grænse, trækker en blød gulvmekanisme platformen mod et kompromis, vægtet efter alle partiers indsats — ikke et binært enten-eller.
+                </p>
+                <p class="field-desc methodology-copy">
                   <strong>Vægtningen w:</strong> Parameteren <span class="mono">w</span> styrer balancen. Høj <span class="mono">w</span> betyder, at formatøren prioriterer budgetsikkerhed. Lav <span class="mono">w</span> betyder, at formatøren prioriterer politisk kvalitet. Vi kender ikke den sande værdi, så modellen varierer <span class="mono">w</span> mellem simuleringerne, normalt omkring 0,65, for at afspejle denne usikkerhed. Du kan justere <span class="mono">w</span> under Modelantagelser i kontrolpanelet.
                 </p>
               </section>
@@ -1902,6 +1905,13 @@ onmessage = function(e) {
                 </section>
 
                 <section class="field-group methodology-section">
+                  <p class="field-label methodology-heading"><strong>Platformforhandling</strong></p>
+                  <p class="field-desc methodology-copy">
+                    Platformen beregnes som et vægtet gennemsnit af partiernes idealer, hvor hvert partis indflydelse = mandater &times; emnevægt &times; koalitionsessentialitet. Essentialiteten (totalMandater / (totalMandater &minus; partiMandater)) giver afgørende små partier som M forhandlingsstyrke ud over deres mandattal. Derefter trækker en blød gulvmekanisme platformen mod et kompromis, hvis partier presses ud over deres acceptable grænser &mdash; alle partier &quot;stemmer&quot; vægtet efter emneinteresse &times; essentialitet.
+                  </p>
+                </section>
+
+                <section class="field-group methodology-section">
                   <p class="field-label methodology-heading"><strong>Formationsprotokol</strong></p>
                   <p class="field-desc methodology-copy">
                     S-formatøren forsøger først i 1-5 runder med stigende fleksibilitet. Hvis alle S-forsøg fejler, får en blå formatør chancen med lavere viabilitetstærskel (0.10 - desperation, jf. Hartlings 22-mandatregering). Hvis også det fejler, følger en sidste desperationsrunde med tærskel 0.05. Historisk er der altid dannet en regering.
@@ -1913,7 +1923,7 @@ onmessage = function(e) {
                   <ul class="field-desc methodology-list">
                     <li>Modellen fanger ikke personlige relationer, kampagnedynamik eller forhandlingssekvensering.</li>
                     <li>Budgetafstemningen er en enkelt op-eller-ned-begivenhed; i virkeligheden er danske finanslove sammensatte aftaler.</li>
-                    <li>Redning på tværs af blokke modelleres som uafhængige per-parti-træk, men historisk var det ofte pakkeaftaler.</li>
+                    <li>Finanslovsredning modelleres som en enkelt pakkeaftale pr. afstemningsrunde; i virkeligheden kan forhandlingsforløbet være mere komplekst.</li>
                     <li>Absolutte sandsynligheder afspejler kalibreringsvalg; komparative ændringer, altså hvad der sker når en parameter ændres, er mere robuste end niveauerne.</li>
                   </ul>
                 </section>

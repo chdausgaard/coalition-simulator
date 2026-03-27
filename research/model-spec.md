@@ -18,17 +18,17 @@ The simulator asks two questions about each possible coalition. First, can it pa
 
 ## Current baseline output (N=10,000)
 
-| Coalition | Pct | Avg P(passage) | Support |
-|-----------|-----|----------------|---------|
-| S+M+RV+SF | ~29% | high | [EL] forst, ALT loose |
-| S+RV+SF | ~24% | high | [EL] forst, ALT loose |
-| S+M+SF | ~18% | high | [EL] forst, ALT, NA |
-| S+M+RV | ~14% | moderate | ALT, NA |
-| S+SF | ~10% | moderate | [EL] forst, ALT loose |
-| V+KF+LA+M | ~1% | low | DF, DD, BP loose |
-| NoGov | 0% | -- | |
+| Coalition | Pct | Support |
+|-----------|-----|---------|
+| S+M+RV+SF | ~34% | [EL] forst, ALT loose |
+| S+RV+SF | ~23% | [EL] forst, ALT loose |
+| S+M+SF | ~19% | [EL] forst, ALT loose |
+| S+M+RV | ~13% | [EL] forst, ALT loose |
+| S+SF | ~5% | [EL] forst, ALT loose |
+| V+KF+LA+M | ~1% | DF, DD, BP loose |
+| NoGov | 0% | |
 
-Five viable red-led coalitions span 29%--10%, with a clear but non-dominant leader. The distribution reflects genuine uncertainty about the SF--M relationship, M--EL tolerance, and how formateurs trade off budget arithmetic against coalition quality.
+Five viable red-led coalitions span 34%--5%, with S+M+RV+SF as the clear leader. The distribution reflects genuine uncertainty about the SF--M relationship, M--EL tolerance, and how formateurs trade off budget arithmetic against coalition quality. The platform negotiation model includes coalition essentiality (kingmaker parties get disproportionate bargaining power) and soft floor enforcement (weighted compromise between conflicting party floors).
 
 ---
 
@@ -157,7 +157,57 @@ Within each formateur's stage, all qualifying coalitions are scored by `scoreCoa
 
 ---
 
-## 5. Forstaelsespapir negotiation
+## 5. Platform negotiation
+
+Before a coalition is scored, its policy platform is negotiated via `negotiatePlatform()` in `sim5-coalitions.js`. The platform determines the government's position on each policy dimension, which feeds into ideological fit scoring (ideoFit), policy-distance modifiers in budget votes, and the governability profile (govEase).
+
+### Step 1: Weighted centroid
+
+For each policy dimension, the platform is the weighted average of all government parties' ideal positions:
+
+```
+pull_i = mandates_i × issue_weight_i × essentiality_i
+platform = Σ(pull_i × ideal_i) / Σ(pull_i) + formateur bonus
+```
+
+**Coalition essentiality:** each party's pull includes an essentiality factor = `totalCoalitionSeats / (totalCoalitionSeats - partySeats)`. This gives kingmaker parties (e.g., M at 14 seats in an 82-seat coalition) bargaining power disproportionate to their seats, reflecting that their threat to walk away is credible. Essentiality is parameter-free — derived entirely from the coalition composition.
+
+| Party in S+M+RV+SF | Seats | Essentiality |
+|---------------------|-------|-------------|
+| S | 38 | 1.86 |
+| SF | 20 | 1.32 |
+| M | 14 | 1.21 |
+| RV | 9 | 1.12 |
+
+**Formateur pull:** the coalition leader (first party) gets an additional 30% weight bonus (adjustable via `formateurPull`), reflecting the PM's agenda-setting power.
+
+### Step 2: Soft floor enforcement
+
+After the centroid is computed, the platform may violate some parties' acceptable ranges (the interval between their ideal and floor positions). The soft floor enforcement pulls the platform toward a compromise:
+
+1. For each dimension, ALL parties "vote" — parties whose floor is violated vote for their floor position; parties within range vote for the current platform.
+2. Each vote is weighted by `issue_weight × essentiality`.
+3. Parties with strength below 0.3 are excluded (negligible-stake parties don't get floor protection).
+4. If total voting strength ≥ 0.8, the weighted compromise replaces the centroid.
+
+This replaces the old binary `floorThreshold` at 0.70, which either fully enforced a party's floor or fully ignored it. The soft system produces compromises between conflicting floors (e.g., S wanting immigration=3 vs M/RV/SF wanting immigration≤2) instead of rejecting the coalition entirely.
+
+**Example for S+M+RV+SF on immigration:**
+- S (ideal=3, floor=3, w=0.90, ess=1.86): votes for platform=3, strength=1.68
+- M (ideal=1, floor=2, w=0.55, ess=1.21): votes for floor=2, strength=0.66
+- RV (ideal=1, floor=2, w=0.44, ess=1.12): votes for floor=2, strength=0.50
+- SF (ideal=1, floor=2, w=0.45, ess=1.32): votes for floor=2, strength=0.60
+- Compromise: (3×1.68 + 2×0.66 + 2×0.50 + 2×0.60) / (1.68+0.66+0.50+0.60) = 2.49 → rounds to 2
+
+S's dominant weight is partially offset by three partners' combined strength. Result: immigration=2 (status quo), not 3 (S strict).
+
+### Concessions (diagnostic)
+
+After the platform is set, `computeConcessions()` measures each party's weighted distance from its ideal. This is diagnostic only — it does not feed back into the negotiation but is available for dashboard display.
+
+---
+
+## 6. Forstaelsespapir negotiation
 
 The forstaelsespapir is probabilistic, not automatic. For a party that demands one (currently only EL, identified by forstaaelsespapir weight >= 0.95 and ideal = 0):
 
@@ -176,7 +226,7 @@ The M-EL slider is the central unknown. At 0: M vetoes, no EL forstaelsespapir w
 
 ---
 
-## 6. Dyad acceptance
+## 7. Dyad acceptance
 
 Before a coalition is evaluated for budget passage, each party must accept being in government with the others.
 
@@ -189,13 +239,13 @@ Before a coalition is evaluated for budget passage, each party must accept being
 
 ---
 
-## 7. Confidence check
+## 8. Confidence check
 
 Before formation, a confidence check verifies the proposed government wouldn't face an immediate vote of no confidence. For each non-government party: if `asPM < mistillidThreshold` (default 0.10), that party's mandates count as opposition. NA seats aligned against the government side also count. If opposition >= 90, the government fails.
 
 ---
 
-## 8. Scoring: two-factor model
+## 9. Scoring: two-factor model
 
 Once a coalition passes all gates and has a P(passage), it is scored:
 
@@ -240,7 +290,7 @@ Majority governments (>= 90 seats) get no parsimony adjustment -- if you have a 
 
 ---
 
-## 9. CI variation — full-width framework
+## 10. CI variation — full-width framework
 
 Every uncertain parameter is drawn from a normal distribution per Monte Carlo iteration. The width (sigma) encodes confidence: narrow for well-calibrated values, wide for genuinely uncertain ones. This propagates all identified uncertainty through the model rather than committing to point estimates.
 
@@ -277,7 +327,7 @@ Rationale: DF→M is "devour him and his people every single day" (Messerschmidt
 
 ---
 
-## 10. NA seats
+## 11. NA seats
 
 Four North Atlantic mandates (2 Faroese, 2 Greenlandic). Each drawn per iteration:
 
@@ -300,7 +350,7 @@ NA seats vote individually (not as party blocs, since each is a single MF). Stro
 
 ---
 
-## 11. Support party display
+## 12. Support party display
 
 The dashboard shows three tiers of support, each with a "+" separator:
 
