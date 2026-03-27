@@ -30,11 +30,9 @@ const OUTPUT_DIR = path.join(ROOT, "sweep-results");
 
 function readJSONL(filePath) {
   if (!fs.existsSync(filePath)) return [];
-  return fs
-    .readFileSync(filePath, "utf8")
-    .trim()
-    .split("\n")
-    .map((line) => JSON.parse(line));
+  const content = fs.readFileSync(filePath, "utf8").trim();
+  if (!content) return [];  // gracefully handle zero-byte files
+  return content.split("\n").filter(Boolean).map((line) => JSON.parse(line));
 }
 
 const RESERVED_KEYS = new Set(["param", "value", "pair", "valA", "valB", "noGov"]);

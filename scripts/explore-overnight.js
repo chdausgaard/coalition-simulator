@@ -416,8 +416,8 @@ async function exploreExtremes(pool) {
     const overrides = [];
     // SF→M inGov
     overrides.push({ party: "SF", target: "M", key: "inGov", value: +(0.2 + Math.random() * 0.78).toFixed(3) });
-    // M→EL tolerateInGov
-    overrides.push({ party: "M", target: "EL", key: "tolerateInGov", value: +(Math.random() * 0.8).toFixed(3) });
+    // M→EL tolerateInGov — handled via cfg.mElTolerate above (not as partyOverride,
+    // since simulate() applies cfg.mElTolerate to PARTIES_MAP before running)
     // EL→M tolerateInGov
     overrides.push({ party: "EL", target: "M", key: "tolerateInGov", value: +(0.1 + Math.random() * 0.8).toFixed(3) });
     // SF harshness
