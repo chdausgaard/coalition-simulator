@@ -262,10 +262,10 @@ const M = {
     pesticideBan: { ideal: 1, floor: 2, ceiling: 1, weight: 0.20 },
     immigration: { ideal: 1, floor: 2, ceiling: 1, weight: 0.55 },
     pension: { ideal: 2, floor: 1, ceiling: 2, weight: 0.65 },
-    fiscal: { ideal: 1, floor: 0, ceiling: 2, weight: 0.55 },
+    fiscal: { ideal: 1, floor: 2, ceiling: 2, weight: 0.55 },
     nuclear: { ideal: 0, floor: 1, ceiling: 0, weight: 0.50 },
     defense: { ideal: 1, floor: 2, ceiling: 1, weight: 0.50 },
-    euConventions: { ideal: 1, floor: 2, ceiling: 1, weight: 0.30 },
+    euConventions: { ideal: 1, floor: 0, ceiling: 1, weight: 0.30 },
     forstaaelsespapir: { ideal: 3, floor: 2, ceiling: 3, weight: 0.20 },
     storeBededag: { ideal: 2, floor: 1, ceiling: 2, weight: 0.35 }
   },
@@ -486,7 +486,7 @@ const ALT = {
     fiscal: { ideal: 0, floor: 1, ceiling: 0, weight: 0.38 },
     nuclear: { ideal: 2, floor: 1, ceiling: 2, weight: 0.20 },
     defense: { ideal: 2, floor: 1, ceiling: 2, weight: 0.18 },
-    euConventions: { ideal: 1, floor: 2, ceiling: 0, weight: 0.40 },
+    euConventions: { ideal: 1, floor: 0, ceiling: 0, weight: 0.40 },
     // FIXED: changed from 2/3/0 to 3/2/3. ALT's brief explicitly says "ALT has not made this a formal requirement" in contrast to EL's forståelsespapir demand, so the old coding leaned too far toward a paper requirement ALT does not actually have (ALT.md).
     forstaaelsespapir: { ideal: 3, floor: 2, ceiling: 3, weight: 0.12 },
     storeBededag: { ideal: 1, floor: 2, ceiling: 0, weight: 0.05 }
@@ -597,10 +597,10 @@ const RV = {
     pesticideBan: { ideal: 0, floor: 1, ceiling: 0, weight: 0.49 },
     immigration: { ideal: 1, floor: 2, ceiling: 0, weight: 0.44 },
     pension: { ideal: 2, floor: 1, ceiling: 2, weight: 0.54 },
-    fiscal: { ideal: 1, floor: 0, ceiling: 2, weight: 0.42 },
+    fiscal: { ideal: 1, floor: 1, ceiling: 2, weight: 0.42 },
     nuclear: { ideal: 1, floor: 0, ceiling: 2, weight: 0.12 },
     defense: { ideal: 1, floor: 0, ceiling: 2, weight: 0.34 },
-    euConventions: { ideal: 1, floor: 2, ceiling: 0, weight: 0.46 },
+    euConventions: { ideal: 1, floor: 0, ceiling: 0, weight: 0.46 },
     // FIXED: changed from 2/3/1 to 3/2/3. RV's brief says the party wants to enter government and explicitly rejects ultimative demands; a written support-paper architecture is not a meaningful RV demand (RV.md).
     forstaaelsespapir: { ideal: 3, floor: 2, ceiling: 3, weight: 0.05 },
     storeBededag: { ideal: 2, floor: 1, ceiling: 2, weight: 0.35 }

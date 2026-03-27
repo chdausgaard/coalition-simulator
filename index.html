@@ -1295,12 +1295,12 @@
         natureLaw:    ["Bindende 30%/10%", "Frivillige mål", "Ingen ny lov"],
         pesticideBan: ["Fuldt forbud", "Delvist forbud", "Intet forbud"],
         immigration:  ["Humanitær", "Liberal", "Status quo", "S' stramme linje", "DF-maximalistisk"],
-        pension:      ["Bremse (S)", "Status quo", "Afskaf Arne-pension"],
+        pension:      ["Fasthold Arne-pension", "Status quo", "Afskaf Arne-pension"],
         fiscal:       ["Ekspansiv/velfærd", "Moderat", "Stram/skattelettelser"],
         nuclear:      ["Stærk støtte", "Åben", "Imod"],
         defense:      ["3,5%+ (høg)", "3,5% (konsensus)", "Lavere"],
         euConventions:["Styrk", "Fasthold", "Svæk/udtræd"],
-        storeBededag: ["Genindføres", "Ligegyldigt", "Behold afskaffet"]
+        storeBededag: ["Genindføres", "Ikke prioriteret", "Behold afskaffet"]
       };
 
       const GOV_TYPE_LABELS = {
@@ -2186,7 +2186,7 @@ onmessage = function(e) {
           return [];
         }
 
-        return results.topCoalitions.slice(0, 5).map(item => {
+        return results.topCoalitions.slice(0, 10).map(item => {
           const members = item.govt.split("+");
           const concessions = Sim5Coalitions.computeConcessions(members, item.platform);
           const govType = Sim5Coalitions.classifyGovType(members);
@@ -2291,9 +2291,9 @@ onmessage = function(e) {
               <div
                 class="stacked-segment ${segment.muted ? "muted" : ""}"
                 style="width:${segment.pct}%; background:${segment.muted ? segment.color : segment.color}"
-                title="${segment.label}: ${formatPct(segment.pct)}"
+                title="${segment.label}: ${formatPct(segment.pct, 0)}"
               >
-                ${segment.pct >= 7 ? escapeHtml(segment.label) + " " + formatPct(segment.pct) : escapeHtml(segment.label)}
+                ${segment.pct >= 7 ? escapeHtml(segment.label) + " " + formatPct(segment.pct, 0) : escapeHtml(segment.label)}
               </div>
             `).join("")}
           </div>
@@ -2301,7 +2301,7 @@ onmessage = function(e) {
             ${segments.map(segment => `
               <span class="legend-pill">
                 <span class="legend-dot" style="background:${segment.color}"></span>
-                ${escapeHtml(segment.label)} ${formatPct(segment.pct)}
+                ${escapeHtml(segment.label)} ${formatPct(segment.pct, 0)}
               </span>
             `).join("")}
           </div>
@@ -2314,23 +2314,27 @@ onmessage = function(e) {
       }
 
       function coalitionRowMarkup(item, selected) {
-        const supportDots = item.supportParties && item.supportParties.length > 0
-          ? `<span style="color:#aaa; margin:0 2px; font-size:0.65rem;">+</span>` +
-            item.supportParties.map(s => `
+        const hasAnySupportDots = (item.supportParties && item.supportParties.length > 0) || (item.naParties && item.naParties.length > 0);
+        const supportDotsInner = (item.supportParties || []).map(s => `
               <span class="party-dot" style="background:${partyColor(s.id)}; opacity:${Math.max(0.3, Math.min(0.9, s.pFor))}; width:10px; height:10px;" title="${escapeHtml(partyName(s.id))}"></span>
-            `).join("")
-          : "";
-        const naDots = item.naParties && item.naParties.length > 0
-          ? `<span style="color:#aaa; margin:0 2px; font-size:0.65rem;">+</span>` +
-            item.naParties.map(s => `
+            `).join("");
+        const naDotsInner = (item.naParties || []).map(s => `
               <span class="party-dot" style="background:${naColor(s.id)}; width:10px; height:10px; border:1px solid #ccc;" title="${escapeHtml(s.id)}"></span>
-            `).join("")
+            `).join("");
+        const supportDots = hasAnySupportDots
+          ? `<span style="color:#aaa; margin:0 1px; font-size:0.65rem;">(</span>${supportDotsInner}${naDotsInner}<span style="color:#aaa; margin:0 1px; font-size:0.65rem;">)</span>`
           : "";
+        const naDots = "";
         const allSupport = [...(item.supportParties || []), ...(item.naParties || [])];
-        const supportLabel = allSupport.length > 0
-          ? ` + ${item.supportParties.map(s => s.id).join(", ")}` +
-            (item.naParties && item.naParties.length > 0 ? ` + ${item.naParties.map(s => s.id.replace("GL-","🇬🇱").replace("FO-","🇫🇴").replace("NAL","").replace("IA","").replace("JF","").replace("SB","")).join("")}` : "")
-          : "";
+        const supportLabel = (() => {
+          if (allSupport.length === 0) return "";
+          const parts = [];
+          if (item.supportParties && item.supportParties.length > 0)
+            parts.push(item.supportParties.map(s => s.id).join(", "));
+          if (item.naParties && item.naParties.length > 0)
+            parts.push(item.naParties.map(s => s.id.replace("GL-","🇬🇱").replace("FO-","🇫🇴").replace("NAL","").replace("IA","").replace("JF","").replace("SB","")).join(""));
+          return ` (${parts.join(", ")})`;
+        })();
         return `
           <tr class="coalition-row ${selected ? "selected" : ""}" data-coalition="${escapeHtml(item.id)}">
             <td>
@@ -2350,11 +2354,11 @@ onmessage = function(e) {
                 <div style="flex:1; height:8px; background:#edf1f7; border-radius:4px; overflow:hidden;">
                   <div style="width:${Math.min(100, item.pct)}%; height:100%; background:#254264; border-radius:4px;"></div>
                 </div>
-                <span style="min-width:40px; text-align:right;">${formatPct(item.pct)}</span>
+                <span style="min-width:40px; text-align:right;">${formatPct(item.pct, 0)}</span>
               </div>
             </td>
-            <td class="mono">${formatPct(item.pPassage)}</td>
-            <td class="mono">${item.seats}${item.seats < 90 && allSupport.length > 0 ? (() => { const totalWithSupport = item.seats + allSupport.reduce((s, p) => s + p.mandates, 0); return totalWithSupport >= 90 ? `<span style="color:var(--muted); font-size:0.72rem;" title="Regeringsmandater (samlet med støttepartier)"> (${totalWithSupport})</span>` : `<span style="color:var(--muted); font-size:0.72rem;" title="Inkl. støttepartier, men stadig afhængig af oppositionens afholdenhed"> (${totalWithSupport} + afhold)</span>`; })() : ""}</td>
+            <td class="mono">${formatPct(item.pPassage, 0)}</td>
+            <td class="mono">${item.seats}${item.seats < 90 && allSupport.length > 0 ? (() => { const totalWithSupport = item.seats + allSupport.reduce((s, p) => s + p.mandates, 0); return totalWithSupport >= 90 ? `<span style="color:var(--muted); font-size:0.72rem;" title="Regeringsmandater (samlet med støttepartier)"> (${totalWithSupport})</span>` : `<span style="color:var(--muted); font-size:0.72rem;" title="Inkl. støttepartier, men stadig afhængig af oppositionens afholdenhed"> (${totalWithSupport} + skift. flertal)</span>`; })() : ""}</td>
             <td>${escapeHtml(item.typeLabel)}</td>
           </tr>
         `;
@@ -2515,7 +2519,7 @@ onmessage = function(e) {
                 <div class="metric-strip">
                   <div class="metric-card">
                     <small>Ingen regering</small>
-                    <strong class="mono">${formatPct(results.noGovPct || 0)}</strong>
+                    <strong class="mono">${formatPct(results.noGovPct || 0, 0)}</strong>
                   </div>
                   <div class="metric-card">
                     <small>Formateur</small>
@@ -2523,8 +2527,8 @@ onmessage = function(e) {
                       const fo = results.formateurOrder || {};
                       const redPct = fo["rød først"] || 0;
                       const bluePct = fo["blå først"] || 0;
-                      if (bluePct > 0) return "S " + formatPct(redPct) + " · V " + formatPct(bluePct);
-                      return "S " + formatPct(redPct);
+                      if (bluePct > 0) return "S " + formatPct(redPct, 0) + " · V " + formatPct(bluePct, 0);
+                      return "S " + formatPct(redPct, 0);
                     })()}</strong>
                   </div>
                   <div class="metric-card">
@@ -2535,7 +2539,7 @@ onmessage = function(e) {
 
                 <div class="card table-card">
                   <div class="card-header">
-                    <strong>Top 5 koalitioner</strong>
+                    <strong>Top 10 koalitioner</strong>
                     <span class="field-note">Klik på en række for detaljer</span>
                   </div>
                   <div class="card-body">
