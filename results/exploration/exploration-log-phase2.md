@@ -39,3 +39,18 @@ Focus: policy positions, un-swept bilaterals, cross-interactions, participation 
 [06:20:24]   SF wealth tax position × SF→M acceptance
 [06:22:12]     S+M+RV+SF: (0,0.23)=9% → (3,0.95)=35%
 [06:22:12]   M pension position × M→SF acceptance
+[06:23:59]     S+M+RV+SF: (0,0.23)=12% → (4,0.92)=29%
+[06:23:59]   M nuclear position × SF→M acceptance
+[06:25:51]     S+M+RV+SF: (0,0.23)=11% → (3,0.95)=28%
+[06:25:51] Saved to policy-bilateral-interactions.jsonl
+
+[06:25:51] === Module D: Participation preference sweeps ===
+[06:26:07]   SF government preference               Δ=3.4pp (30%→33%)
+[06:26:23]   V government preference                Δ=1.0pp (29%→30%)
+[06:26:39]   EL støtteparti (forst) preference      Δ=3.0pp (29%→32%)
+[06:26:55]   M government preference                Δ=1.8pp (35%→33%)
+[06:27:11]   RV government preference               Δ=5.2pp (29%→34%)
+[06:27:11] Saved to participation-prefs.jsonl
+
+[06:27:11] 
+Phase 2 exploration complete at 2026-03-27T06:27:11.328Z
