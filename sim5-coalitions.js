@@ -89,8 +89,19 @@ function negotiatePlatform(govMembers, cfg) {
 
   const leader = parties[0];
   const formateurPull = cfg && typeof cfg.formateurPull === "number" ? cfg.formateurPull : 0.3;
-  const floorThreshold = cfg && typeof cfg.floorThreshold === "number" ? cfg.floorThreshold : 0.7;
   const platform = {};
+
+  // Coalition essentiality: a party's bargaining power reflects not just
+  // its seats × issue weight, but how essential it is to the coalition.
+  // M (14 seats) is the kingmaker — without M, S+RV+SF has only 68 seats.
+  // Essentiality = totalSeats / (totalSeats - partySeats). Ranges from
+  // ~1.2 for small essential partners to ~1.9 for the formateur.
+  const totalSeats = parties.reduce((s, p) => s + (p.mandates || 0), 0);
+  const essentiality = {};
+  for (const party of parties) {
+    const seats = party.mandates || 0;
+    essentiality[party.id] = totalSeats / Math.max(1, totalSeats - seats);
+  }
 
   for (const dimension of DIMENSIONS) {
     let weightedIdealSum = 0;
@@ -98,7 +109,8 @@ function negotiatePlatform(govMembers, cfg) {
 
     for (const party of parties) {
       const position = party.positions[dimension];
-      const pull = (party.mandates || 0) * position.weight;
+      // Pull = mandates × issue_weight × essentiality
+      const pull = (party.mandates || 0) * position.weight * essentiality[party.id];
 
       weightedIdealSum += pull * position.ideal;
       weightSum += pull;
@@ -113,32 +125,50 @@ function negotiatePlatform(govMembers, cfg) {
     platform[dimension] = clampToScale(Math.round(centroid), dimension);
   }
 
-  for (const party of parties) {
-    for (const dimension of DIMENSIONS) {
+  // Soft floor enforcement: instead of a binary threshold, the platform
+  // is pulled toward each party's floor proportional to floorStrength =
+  // weight × essentiality. When multiple parties have conflicting floors,
+  // the strongest pull wins — no null returns from floor conflicts.
+  // This replaces the old binary floorThreshold at 0.70.
+  for (const dimension of DIMENSIONS) {
+    // Collect all floor violations for this dimension
+    const violations = [];
+    for (const party of parties) {
       const position = party.positions[dimension];
-      if (position.weight < floorThreshold || isWithinRange(platform[dimension], position)) {
-        continue;
+      if (isWithinRange(platform[dimension], position)) continue;
+
+      const strength = position.weight * (essentiality[party.id] || 1);
+      if (strength < 0.3) continue;  // very low-stake parties don't pull
+
+      const floorVal = clampToScale(position.floor, dimension);
+      violations.push({ party: party.id, floor: floorVal, strength });
+    }
+
+    if (violations.length === 0) continue;
+
+    // Collect ALL parties' floor preferences on this dimension (even
+    // those in range) to compute the full picture. Parties in range
+    // implicitly "vote" for the current platform value.
+    let floorSum = 0;
+    let strengthSum = 0;
+    for (const party of parties) {
+      const position = party.positions[dimension];
+      const strength = position.weight * (essentiality[party.id] || 1);
+      if (strength < 0.3) continue;
+
+      if (isWithinRange(platform[dimension], position)) {
+        // Party is satisfied with current platform — votes for it
+        floorSum += platform[dimension] * strength;
+      } else {
+        // Party violated — votes for their floor
+        floorSum += clampToScale(position.floor, dimension) * strength;
       }
+      strengthSum += strength;
+    }
 
-      const candidateValue = clampToScale(position.floor, dimension);
-      const violatesOtherFloor = parties.some(otherParty => {
-        if (otherParty.id === party.id) {
-          return false;
-        }
-
-        const otherPosition = otherParty.positions[dimension];
-        if (otherPosition.weight < floorThreshold) {
-          return false;
-        }
-
-        return distancePastFloor(candidateValue, otherPosition, dimension) > 0;
-      });
-
-      if (violatesOtherFloor) {
-        return null;
-      }
-
-      platform[dimension] = candidateValue;
+    if (strengthSum >= 0.8) {
+      const compromise = clampToScale(Math.round(floorSum / strengthSum), dimension);
+      platform[dimension] = compromise;
     }
   }
 
