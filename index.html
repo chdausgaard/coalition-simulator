@@ -1592,18 +1592,8 @@ onmessage = function(e) {
                   ${party.id === "M" ? `
                     <div class="field inline">
                       <div>
-                        <div class="field-label">Kræver regeringsdeltagelse</div>
-                        <div class="field-note">M stemmer imod enhver finanslov for en regering M ikke sidder i.</div>
-                      </div>
-                      <label class="toggle">
-                        <input type="checkbox" id="${demandGovId}" data-control="mDemandGov" checked>
-                        <span class="toggle-track"></span>
-                      </label>
-                    </div>
-                    <div class="field inline">
-                      <div>
                         <div class="field-label">Kræver statsministerpost</div>
-                        <div class="field-note">M stemmer imod enhver finanslov hvor Løkke ikke er statsminister — hårdt veto. Sættes automatisk af "Vil selv være statsminister" under Løkkes orientering, men kan justeres separat (for at modellere "foretrækker men insisterer ikke").</div>
+                        <div class="field-note">M stemmer imod enhver finanslov hvor Løkke ikke er statsminister.</div>
                       </div>
                       <label class="toggle">
                         <input type="checkbox" id="party-M-demandpm" data-control="mDemandPM">
@@ -1622,13 +1612,15 @@ onmessage = function(e) {
                         <span class="toggle-track"></span>
                       </label>
                     </div>
+                  ` : ""}
+                  ${["S", "M", "SF", "RV", "V", "KF", "LA"].includes(party.id) ? `
                     <div class="field inline">
                       <div>
                         <div class="field-label">Kræver at være i regering</div>
-                        <div class="field-note">S stemmer imod enhver finanslov for en regering S ikke selv sidder i.</div>
+                        <div class="field-note">${party.id} stemmer imod enhver finanslov for en regering ${party.id} ikke sidder i.</div>
                       </div>
                       <label class="toggle">
-                        <input type="checkbox" id="party-S-demandgov" data-control="sDemandGov" checked>
+                        <input type="checkbox" id="${demandGovId}" data-control="demandGov-${party.id}" ${party.id === "S" || party.id === "M" ? "checked" : ""}>
                         <span class="toggle-track"></span>
                       </label>
                     </div>
@@ -2024,13 +2016,18 @@ onmessage = function(e) {
           maxFormationRounds: Number(document.getElementById("control-maxFormationRounds").value),
           viabilityThreshold: Number(document.getElementById("control-viabilityThreshold").value),
           N: Number(document.getElementById("control-N").value),
-          mDemandGov: document.getElementById("party-M-demandgov").checked,
+          mDemandGov: document.getElementById("party-M-demandgov")?.checked || false,
+          sDemandGov: document.getElementById("party-S-demandgov")?.checked || false,
+          demandGov: ["SF", "RV", "V", "KF", "LA"].reduce((acc, id) => {
+            const el = document.getElementById(`party-${id}-demandgov`);
+            if (el && el.checked) acc[id] = true;
+            return acc;
+          }, {}),
           mElTolerate: Number(document.getElementById("control-mElTolerate").value),
           passageWeight: num("control-passageWeight"),
           distPenalty: num("control-distPenalty"),
           oppositionAbstention: num("control-oppositionAbstention"),
           rescueBase: num("control-rescueBase"),
-          sDemandGov: document.getElementById("party-S-demandgov").checked,
           mDemandPM: document.getElementById("party-M-demandpm").checked,
           formateurOverride: document.getElementById("control-formateurOverride").value,
           // Calibration parameters

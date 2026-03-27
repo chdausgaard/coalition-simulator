@@ -72,6 +72,10 @@ function blocBudgetVote(partyId, coalition, cfg) {
   if (partyId === "M" && cfg._mPursuesBlue && !govIds.includes("M") && govSide === "red") {
     return { pFor: 0.02, pAbstain: 0.08, pAgainst: 0.90 };
   }
+  // General "demands government" gate for other parties (SF, RV, V, KF, LA)
+  if (cfg.demandGov && cfg.demandGov[partyId] && !govIds.includes(partyId)) {
+    return { pFor: 0.01, pAbstain: 0.04, pAgainst: 0.95 };
+  }
   if (party.pmDemand && coalition.leader !== partyId) {
     return { pFor: 0.01, pAbstain: 0.04, pAgainst: 0.95 };
   }
@@ -1164,7 +1168,10 @@ function simulate(userParams, N) {
           const forstEligible = PARTIES_LIST.filter(p => {
             if (govSet.has(p.id)) return false;
             const fp = p.positions.forstaaelsespapir;
-            return fp && fp.weight >= 0.95 && fp.ideal === 0;
+            if (!fp || fp.weight < 0.95 || fp.ideal !== 0) return false;
+            // Forst parties only support same-side governments
+            const isRedGov = govSide === "red" || govSide === "center-left";
+            return (p.bloc === "red" && isRedGov) || (p.bloc !== "red" && !isRedGov);
           });
           const forstSeats = forstPartier.length > 0
             ? forstPartier.reduce((s, id) => s + ((PARTIES_MAP[id] || {}).mandates || 0), 0)
