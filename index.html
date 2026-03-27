@@ -2651,6 +2651,13 @@ onmessage = function(e) {
         return interpolateColor("#d6c76c", "#4b8a61", (t - 0.5) / 0.5);
       }
 
+      function buildLinePath(points) {
+        if (!points || points.length === 0) return "";
+        return points.map((p, i) =>
+          (i === 0 ? "M" : "L") + p.x.toFixed(1) + " " + p.y.toFixed(1)
+        ).join(" ");
+      }
+
       function buildLegendHtml(items) {
         return `
           <div class="sensitivity-legend">
