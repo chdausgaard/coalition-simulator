@@ -2217,7 +2217,7 @@ onmessage = function(e) {
           const leader = pmEligible.sort((a, b) => (Sim5Parties.PARTIES_MAP[b]?.mandates || 0) - (Sim5Parties.PARTIES_MAP[a]?.mandates || 0))[0] || members[0];
 
           return {
-            id: item.govt,
+            id: item.govt + (forstIds.length > 0 ? "|forst:" + forstIds.sort().join(",") : ""),
             label: coalitionLabel(members),
             leader,
             members,
@@ -2354,7 +2354,7 @@ onmessage = function(e) {
               </div>
             </td>
             <td class="mono">${formatPct(item.pPassage)}</td>
-            <td class="mono">${item.seats}${item.seats < 90 && allSupport.length > 0 ? `<span style="color:var(--muted); font-size:0.72rem;" title="Regeringsmandater (samlet med støttepartier)"> (${item.seats + allSupport.reduce((s, p) => s + p.mandates, 0)})</span>` : ""}</td>
+            <td class="mono">${item.seats}${item.seats < 90 && allSupport.length > 0 ? (() => { const totalWithSupport = item.seats + allSupport.reduce((s, p) => s + p.mandates, 0); return totalWithSupport >= 90 ? `<span style="color:var(--muted); font-size:0.72rem;" title="Regeringsmandater (samlet med støttepartier)"> (${totalWithSupport})</span>` : `<span style="color:var(--muted); font-size:0.72rem;" title="Inkl. støttepartier, men stadig afhængig af oppositionens afholdenhed"> (${totalWithSupport} + afhold)</span>`; })() : ""}</td>
             <td>${escapeHtml(item.typeLabel)}</td>
           </tr>
         `;

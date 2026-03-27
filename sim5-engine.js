@@ -1018,15 +1018,18 @@ function simulate(userParams, N) {
         }
         agg.govTypeCounts[result.govType] = (agg.govTypeCounts[result.govType] || 0) + 1;
 
-        if (!agg.coalitionCounts[result.coalition]) {
+        // Aggregate per-iteration data
+        // Key includes forståelsespapir status so e.g. "S+M+RV+SF" with and
+        // without EL forst are separate entries (politically distinct configs)
+        const forstPartier = (result.support || []).map(s => s.party);
+        const coalKey = result.coalition + (forstPartier.length > 0 ? "|forst:" + forstPartier.sort().join(",") : "");
+
+        if (!agg.coalitionCounts[coalKey]) {
           const govIds = result.government;
           const govSet = new Set(govIds);
           const govSeats = govIds.reduce((s, id) => s + (mandates[id] || 0), 0);
           const govSide = getGovSide(result);
 
-          // Loose mainland støttepartier: same-bloc, not in govt,
-          // not forståelsespapir-dependent. These are stable across
-          // iterations (bloc membership doesn't change).
           const looseSupport = [];
           for (const party of PARTIES_LIST) {
             if (govSet.has(party.id)) continue;
@@ -1038,19 +1041,16 @@ function simulate(userParams, N) {
             }
           }
 
-          // NA seats — only shown when they are genuinely decisive
-          // (tungen på vægtskålen): the coalition needs them to reach 90
-          // even after counting forståelsespapir and loose støttepartier.
           const naSupport = [];
           const looseSeats = looseSupport.reduce((s, id) => s + ((PARTIES_MAP[id] || {}).mandates || 0), 0);
-          // Count forståelsespapir parties' seats (EL etc.)
-          // Use all forst-eligible parties that get deals >40% of the time
           const forstEligible = PARTIES_LIST.filter(p => {
             if (govSet.has(p.id)) return false;
             const fp = p.positions.forstaaelsespapir;
             return fp && fp.weight >= 0.95 && fp.ideal === 0;
           });
-          const forstSeats = forstEligible.reduce((s, p) => s + (p.mandates || 0), 0);
+          const forstSeats = forstPartier.length > 0
+            ? forstPartier.reduce((s, id) => s + ((PARTIES_MAP[id] || {}).mandates || 0), 0)
+            : 0;
           const withMainlandSupport = govSeats + forstSeats + looseSeats;
           if (withMainlandSupport < 90) {
             for (const seat of NA_SEATS) {
@@ -1061,23 +1061,20 @@ function simulate(userParams, N) {
             }
           }
 
-          agg.coalitionCounts[result.coalition] = {
+          agg.coalitionCounts[coalKey] = {
             count: 0,
             pPassageSum: 0,
             platform: result.platform,
             govProfile: result.govProfile,
-            forstCount: 0,  // track forståelsespapir frequency across iterations
+            forstPartier: forstPartier,
             looseSupport,
             naSupport
           };
         }
 
-        // Aggregate per-iteration data (not frozen from first encounter)
-        const entry = agg.coalitionCounts[result.coalition];
+        const entry = agg.coalitionCounts[coalKey];
         entry.count++;
         entry.pPassageSum += result.pPassage;
-        const forstPartier = (result.support || []).map(s => s.party);
-        if (forstPartier.length > 0) entry.forstCount++;
         agg.formationRounds.total += result.formationRound;
         agg.formationRounds.distribution[result.formationRound] =
           (agg.formationRounds.distribution[result.formationRound] || 0) + 1;
@@ -1111,20 +1108,20 @@ function simulate(userParams, N) {
   const topCoalitions = Object.entries(agg.coalitionCounts)
     .sort((a, b) => b[1].count - a[1].count)
     .slice(0, 15)
-    .map(([govt, data]) => ({
-      govt,
-      pct: roundPct(data.count, iterations),
-      avgPPassage: +(data.pPassageSum / data.count).toFixed(3),
-      platform: data.platform,
-      govProfile: data.govProfile,
-      // Show forståelsespapir parties when they appear in >40% of
-      // iterations for this coalition (not frozen from first encounter)
-      support: data.forstCount > 0 && (data.forstCount / data.count) > 0.40
-        ? ["EL"] : [],
-      forstRate: data.count > 0 ? +(data.forstCount / data.count).toFixed(2) : 0,
-      looseSupport: data.looseSupport || [],
-      naSupport: data.naSupport || []
-    }));
+    .map(([coalKey, data]) => {
+      // Strip the "|forst:..." suffix to get the clean government name
+      const govt = coalKey.includes("|forst:") ? coalKey.split("|forst:")[0] : coalKey;
+      return {
+        govt,
+        pct: roundPct(data.count, iterations),
+        avgPPassage: +(data.pPassageSum / data.count).toFixed(3),
+        platform: data.platform,
+        govProfile: data.govProfile,
+        support: data.forstPartier || [],
+        looseSupport: data.looseSupport || [],
+        naSupport: data.naSupport || []
+      };
+    });
 
   const formed = iterations - agg.noGovCount;
   const formationRounds = {
