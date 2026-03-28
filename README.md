@@ -106,17 +106,13 @@ Most parameters are adjustable in the dashboard. Per-iteration CI variation on S
 
 ## Daily updates
 
-During government formation, parameters are updated daily based on public reporting:
+During government formation, parameters are updated daily. Two-step workflow:
 
-```bash
-# Generate a research brief (via deep research agent or manually)
-# Save as daily-update/briefs/2026-03-26.json
+1. **Research brief** — run `daily-update/research-prompt.md` through a deep research agent. It produces a narrative report with source citations and coalition impact analysis.
 
-# Apply and re-run
-node daily-update/apply-update.js daily-update/briefs/2026-03-26.json
-```
+2. **Parameter calibration** — bring the report to Claude Code, which reads it alongside the current model state and proposes specific parameter changes. Review and apply.
 
-The pipeline appends to `daily-update/historical/timeseries.json` for trendline tracking.
+Timeline data lives in `daily-update/historical/timeseries.json` (also embedded inline in `index.html` for the Tidslinje tab).
 
 ## Previous model generations
 
