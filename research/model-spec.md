@@ -16,19 +16,17 @@ The simulator asks two questions about each possible coalition. First, can it pa
 
 ---
 
-## Current baseline output (N=5,000, post 2026-03-26 update)
+## Current baseline output (N=5,000, post 2026-03-28 update)
 
-| Coalition | Pct (aggregated) | Support | Seats |
-|-----------|-----------------|---------|-------|
-| S+M+RV+SF | ~34% | [EL] forst, ALT loose | 98 |
-| S+RV+SF | ~24% | [EL] forst, ALT loose, NA | 87 |
-| S+M+SF | ~19% | [EL] forst, ALT loose, NA | 93 |
-| S+M+RV | ~14% | [EL] forst, ALT loose, NA | 81 |
-| S+SF | ~5% | [EL] forst, ALT loose, NA | 77 + skift. flertal |
-| V+KF+LA+M | ~1% | DF, DD, BP loose | 61 + skift. flertal |
-| NoGov | 0% | | |
+| Coalition | Pct (aggregated) |
+|-----------|-----------------|
+| S+M+RV+SF | ~44% |
+| Blue coalitions (V+KF+LA+M etc.) | ~25% |
+| S+RV+SF | ~12% |
 
-Coalitions are split by forståelsespapir status in the dashboard (e.g., S+M+RV+SF with EL forst vs. without). When the total including support is below 90, the coalition survives through shifting majorities ("skift. flertal") -- the Danish norm of opposition abstention and cross-bloc budget negotiation.
+The 90-vote viability gate, SF demandGov, and lower opposition abstention (0.10) shift probability toward larger coalitions that clear the gate without relying on skiftende flertal. Blue coalitions gain share because the gate penalizes sub-90 red combinations more than blue alternatives.
+
+Coalitions are split by forståelsespapir status in the dashboard (e.g., S+M+RV+SF with EL forst vs. without).
 
 The distribution reflects genuine uncertainty about the SF--M relationship, M--EL tolerance, and how formateurs trade off budget arithmetic against coalition quality.
 
@@ -73,6 +71,7 @@ For each non-government party, a support probability is computed through a seque
 |-----------|--------|
 | S excluded, `sDemandGov=true` | 1% FOR, 4% abstain, 95% against |
 | M excluded, `mDemandGov=true` | 1% FOR, 4% abstain, 95% against |
+| Party excluded, `demandGov[party]=true` (SF, etc.) | 1% FOR, 4% abstain, 95% against |
 | Party demands PM but isn't PM | 1% FOR, 4% abstain, 95% against |
 | Party IS in government | 97% FOR, 2% abstain, 1% against |
 
@@ -156,6 +155,22 @@ Within each formateur's stage, all qualifying coalitions are scored by `scoreCoa
 - **S formateur:** `frederiksenBonus` based on `redPreference` slider. Higher red preference boosts pure-red coalitions; lower boosts broad-centre coalitions. Includes stochastic noise.
 - **Blue formateur:** larger-party leader (V or LA by seats) gets a 1.15 bonus. Includes stochastic noise.
 - **M formateur:** stochastic noise only.
+
+### 90-vote viability gate
+
+In all formation rounds except the final desperation round, the formateur only considers coalitions that can plausibly assemble 90 FOR votes. "Friendly seats" = government members + same-bloc or swing parties whose minimum `tolerateInGov` toward all government members is >= 0.30, excluding any party with `demandGov` that is not in the coalition. Coalitions that fall short of 90 friendly seats -- i.e., those that would rely on *skiftende flertal* -- are filtered out before scoring. Sub-90 coalitions are only reconsidered in the final desperation round.
+
+### SF demandGov
+
+SF's explicit no-confidence threat (Tulle's "SF stemmer imod enhver regering, vi ikke selv sidder i") is encoded as `demandGov=true`. When SF is excluded from a government, it votes ~95% against the budget (1% FOR, 4% abstain), identical to the M and S demand gates. This is checked by default in the dashboard.
+
+### Opposition abstention recalibration
+
+The `oppositionAbstention` parameter (controlling the largest opposition party's abstention-to-against ratio) now defaults to 0.10, down from 0.30. Budget votes are not neutral: the historical norm of opposition abstention applies to no-confidence votes more than to annual budget negotiations. The CI variation draws from N(0.10, 0.05), clamped to [0.10, 0.60].
+
+### Bilateral CI variation
+
+All bilateral relationship parameters (tolerateInGov, asPM, asSupport) are drawn per iteration from N(mean, sigma) with default sigma 0.05. Key uncertain bilaterals use higher sigma: SF<->M inGov (sigma 0.06), M->EL tolerance (sigma 0.10). This propagates relationship uncertainty through the model rather than committing to point estimates. See Section 10 for the full parameter table.
 
 ---
 
@@ -314,7 +329,7 @@ Every uncertain parameter is drawn from a normal distribution per Monte Carlo it
 | EL centrist penalty | 0.08 | 0.02 | [0.02, 0.16] | Behavioral | Small sample; narrow integer range (1-3 partners) |
 | EL forst base rate | 0.93 | 0.03 | [0.80, 0.98] | Empirical | Calibrated from 3/3 votes; tiny N but high confidence in direction |
 | Rescue base | 0.10 | 0.03 | [0.03, 0.25] | Historical | 2-3 pivots in 50 years; fairly sure it's low, less sure how low |
-| Opposition abstention | 0.30 | 0.05 | [0.10, 0.60] | Normative | Norm exists; precise ratio uncertain |
+| Opposition abstention | 0.10 | 0.05 | [0.10, 0.60] | Normative | Budget votes are not neutral; opposition votes against most of the time |
 | distPenalty | 1.50 | 0.15 | [0.50, 2.50] | Structural | No calibration target; wide σ reflects genuine uncertainty |
 | Parsimony spread | 1.00 | 0.15 | [0.30, 1.50] | Structural | Direction clear (fewer parties preferred); magnitude uncertain |
 

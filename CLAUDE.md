@@ -20,11 +20,11 @@ Danish government formation model for the 2026 election. Bloc voting, two-round 
 node -e "const e = require('./sim5-engine.js'); console.log(JSON.stringify(e.simulate({}, 500), null, 2))"
 ```
 
-## Current output (~N=5000, post 2026-03-26 update)
+## Current output (~N=5000, post 2026-03-28 update)
 
-S+M+RV+SF ~34%, S+RV+SF ~24%, S+M+SF ~19%, S+M+RV ~14%, S+SF ~5%, V+KF+LA+M ~1%.
+S+M+RV+SF ~33%, S+RV+SF ~13%, blue ~25%, S+SF ~10%.
 
-The SF-M bilateral relationship is the single most consequential parameter (28pp range).
+The 90-vote gate, SF demandGov, and lower opposition abstention (0.10) concentrate probability on coalitions that clear the viability gate. The SF-M bilateral relationship remains highly consequential.
 
 ## Daily update pipeline
 

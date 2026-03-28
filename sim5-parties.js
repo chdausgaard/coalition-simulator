@@ -46,7 +46,7 @@ const S = {
       asPM: 0.00
     },
     M: {
-      inGov: 0.80,
+      inGov: 0.92,  // UPDATE 2026-03-28: 3 years SVM partnership; strategic necessity
       asSupport: 0.95,
       tolerateInGov: 0.00,
       asPM: 0.00
@@ -125,6 +125,7 @@ const SF = {
   govEligible: true,
   pmEligible: false,
   pmDemand: false,
+  demandGov: true, // UPDATE 2026-03-28: SF's explicit no-confidence threat
 
   participationPref: {
     government: 0.96,
@@ -135,7 +136,7 @@ const SF = {
 
   // FIXED: lowered from 0.68 to 0.59 because SF's brief combines a hard participation-format demand (government or opposition) with explicit issue-level flexibility: Dyhr says she does not believe in ultimatums and repeatedly opens the door to Moderaterne (SF.md).
   // UPDATE 2026-03-26: raised to 0.64 after kongerunde — SF's explicit no-confidence ultimatum ("SF will vote for a motion of no confidence against any government that SF is not part of") is harder than the earlier "doesn't believe in ultimatums" framing.
-  globalHarshness: 0.64,
+  globalHarshness: 0.55, // UPDATE 2026-03-28: blind calibration
 
   positions: {
     wealthTax: { ideal: 1, floor: 4, ceiling: 1, weight: 0.45 },
@@ -157,9 +158,9 @@ const SF = {
 
   relationships: {
     M: {
-      inGov: 0.72,
-      asSupport: 0.80,
-      tolerateInGov: 0.65,
+      inGov: 0.85,  // UPDATE 2026-03-28: strategic necessity — M is SF's access to power; 2-year signaling from Dyhr
+      asSupport: 0.88,
+      tolerateInGov: 0.85,  // UPDATE 2026-03-28: if SF would govern with M, it would tolerate M from outside
       asPM: 0.20
     },
     // FIXED: replaced hard zeros with tiny non-zero exploration values. The brief is categorical — "SF kommer ikke i regering med Venstre" — but the simulator prompt explicitly asked not to lock unlikely scenarios to literal zero unless the source really compels it (SF.md).
@@ -253,7 +254,8 @@ const M = {
   },
 
   // FIXED: lowered from 0.42 to 0.24. M's brief stresses "un-dogmatic and solution-oriented" centrism and explicitly says the party has no large grassroots base constraining Løkke; among all parties, M is the most flexible actor (M.md).
-  globalHarshness: 0.24,
+  // UPDATE 2026-03-28: raised to 0.32. Blind calibration reveals Løkke's specific vetoes create effective rigidity despite general flexibility.
+  globalHarshness: 0.32,
 
   positions: {
     // FIXED: corrected direction and level. The extraction had ideal 3 / floor 4 / ceiling 3, but M's brief says the party flatly rejects the wealth tax and that Løkke called it a "red line". Preferred outcome is no wealth tax, so ideal/ceiling belong at 4 and the compromise floor below that (M.md).
@@ -282,13 +284,13 @@ const M = {
       asPM: 0.75
     },
     SF: {
-      inGov: 0.68,
+      inGov: 0.52, // UPDATE 2026-03-28: blind calibration — highest policy distance among potential partners
       asSupport: 0.75,
       tolerateInGov: 0.80,
       asPM: 0.20
     },
     V: {
-      inGov: 0.75,
+      inGov: 0.62, // UPDATE 2026-03-28: blind calibration — personal rivalry from V-M split
       asSupport: 0.85,
       tolerateInGov: 0.85,
       asPM: 0.75
@@ -302,8 +304,8 @@ const M = {
     // M's brief makes the "no far-left dependency" line explicit, but the consensus outcome (S+SF+M+RV with EL external support) requires exactly this. Experts treat the red line as a negotiating position, not binding (M.md). tolerateInGov raised to 0.35: M reluctantly accepts EL as external support because the alternative (no government or pure red) is worse.
     EL: {
       inGov: 0.00,
-      asSupport: 0.42,
-      tolerateInGov: 0.35,
+      asSupport: 0.18, // UPDATE 2026-03-28: blind calibration — Løkke's "vippe EL ud" strategy; formal EL support significantly harder than informal tolerance
+      tolerateInGov: 0.10, // UPDATE 2026-03-28: Løkke explicitly hostile to EL in any configuration
       asPM: 0.00
     },
     // ALT is the milder of the two left-flank support parties. The consensus outcome places ALT outside supporting an M-containing government. Raised to reflect that experts treat this as likely (ALT.md; M.md).
@@ -329,7 +331,7 @@ const M = {
     },
     // ADDED: M needs an explicit view on LA. The brief says there is a significant ideological gap, but also that LA was actively considering pointing to Løkke as formateur and courting him on election night (M.md; LA.md).
     LA: {
-      inGov: 0.74,
+      inGov: 0.45, // UPDATE 2026-03-28: blind calibration — significant ideological gap (LA's libertarian economics vs M's pragmatic centrism)
       asSupport: 0.84,
       tolerateInGov: 0.84,
       asPM: 0.12
@@ -362,7 +364,7 @@ const EL = {
     opposition: 0.12
   },
 
-  globalHarshness: 0.64,
+  globalHarshness: 0.56, // UPDATE 2026-03-28: blind calibration
 
   positions: {
     wealthTax: { ideal: 0, floor: 3, ceiling: 0, weight: 0.62 },
@@ -388,8 +390,8 @@ const EL = {
     },
     M: {
       inGov: 0.08,
-      asSupport: 0.35,
-      tolerateInGov: 0.62,
+      asSupport: 0.45,  // UPDATE 2026-03-28: strategic necessity adjustment
+      tolerateInGov: 0.72,  // UPDATE 2026-03-28: Dragsted moved far; grassroots constraint still real
       asPM: 0.00
     },
     // ADDED: EL would never enter government with or support V (center-right). Ideological distance is enormous; EL's entire identity is opposition to liberal economic policy.
@@ -475,7 +477,7 @@ const ALT = {
     opposition: 0.20
   },
 
-  globalHarshness: 0.53,
+  globalHarshness: 0.48, // UPDATE 2026-03-28: blind calibration
 
   positions: {
     wealthTax: { ideal: 1, floor: 4, ceiling: 0, weight: 0.18 },
@@ -501,9 +503,9 @@ const ALT = {
       asPM: 0.58
     },
     M: {
-      inGov: 0.18,
-      asSupport: 0.42,
-      tolerateInGov: 0.64,
+      inGov: 0.30,  // UPDATE 2026-03-28: ALT more open to M than baseline suggested
+      asSupport: 0.50,  // UPDATE 2026-03-28: strategic necessity adjustment
+      tolerateInGov: 0.75,  // UPDATE 2026-03-28: Rosenkilde explicitly conciliatory on M
       asPM: 0.06
     },
     // ADDED: ALT→V near-impossible. ALT is a green-left party; V represents traditional right-center agricultural/liberal politics.
@@ -582,11 +584,12 @@ const RV = {
   pmEligible: false,
   pmDemand: false,
 
+  // UPDATE 2026-03-28: blind calibration — RV strongly prefers government
   participationPref: {
-    government: 0.78,
+    government: 0.88,
     stoettepartiForst: 0.02,
-    stoettepartiLoose: 0.08,
-    opposition: 0.12
+    stoettepartiLoose: 0.06,
+    opposition: 0.04
   },
 
   globalHarshness: 0.28,  // UPDATE 2026-03-26: Lidegaard: "probably the least difficult party" — most flexible actor
@@ -616,9 +619,9 @@ const RV = {
     },
     // ADDED: RV needs an explicit view on M. The brief calls M a pragmatically acceptable partner, notes mutual dependence between Lidegaard and Løkke, and places RV inside the consensus S+SF+M+RV formula (RV.md).
     M: {
-      inGov: 0.84,
-      asSupport: 0.88,
-      tolerateInGov: 0.82,
+      inGov: 0.92,  // UPDATE 2026-03-28: Lidegaard "we are dependent on each other"; desperate for government
+      asSupport: 0.90,
+      tolerateInGov: 0.10,  // UPDATE 2026-03-28: RV can't survive watching M govern without them — 2022 trauma
       asPM: 0.30
     },
     V: {
@@ -656,7 +659,7 @@ const RV = {
     },
     // ADDED: RV→KF moderate cross-bloc friction, but some centrist overlap.
     KF: {
-      inGov: 0.18,
+      inGov: 0.42, // UPDATE 2026-03-28: blind calibration
       asSupport: 0.30,
       tolerateInGov: 0.35,
       asPM: 0.08
@@ -922,11 +925,12 @@ const KF = {
   pmEligible: false,
   pmDemand: false,
 
+  // UPDATE 2026-03-28: blind calibration — KF more opposition-leaning
   participationPref: {
-    government: 0.70,
+    government: 0.55,
     stoettepartiForst: 0.10,
     stoettepartiLoose: 0.10,
-    opposition: 0.10
+    opposition: 0.25
   },
 
   globalHarshness: 0.40,
@@ -952,7 +956,7 @@ const KF = {
 
   relationships: {
     S: {
-      inGov: 0.43,  // UPDATE 2026-03-26: Juul "has not ruled out" working with S; invited to Frederiksen's talks
+      inGov: 0.35,  // UPDATE 2026-03-26: Juul "has not ruled out" working with S; invited to Frederiksen's talks // UPDATE 2026-03-28: blind calibration
       asSupport: 0.60,
       tolerateInGov: 0.72,
       asPM: 0.22
@@ -1069,9 +1073,9 @@ const DF = {
 
   relationships: {
     M: {
-      inGov: 0.00,
+      inGov: 0.10,  // UPDATE 2026-03-28: Messerschmidt vendetta but DF is still parliamentary
       asSupport: 0.15,
-      tolerateInGov: 0.10,
+      tolerateInGov: 0.20,  // UPDATE 2026-03-28: raised from 0.10
       asPM: 0.00
     },
     S: {
@@ -1186,9 +1190,9 @@ const DD = {
 
   relationships: {
     M: {
-      inGov: 0.30,
-      asSupport: 0.65,
-      tolerateInGov: 0.50,
+      inGov: 0.10,  // UPDATE 2026-03-28: Støjberg's personal animosity — "principløs"; binding at leadership level
+      asSupport: 0.35,  // UPDATE 2026-03-28: grudging tolerance but not enthusiasm
+      tolerateInGov: 0.30,  // UPDATE 2026-03-28: DD didn't reject M's participation, just leadership
       asPM: 0.00
     },
     S: {

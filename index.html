@@ -1324,7 +1324,7 @@
       const DEFAULTS = {
         flexibility: 0,
         redPreference: 0.5,
-        mBlueOrientation: 0.30,
+        mBlueOrientation: 0.30, // 90-vote viability gate active by default (engine-side)
         formateurOverride: "red",
         maxFormationRounds: 1,
         viabilityThreshold: 0.75,
@@ -1620,7 +1620,7 @@ onmessage = function(e) {
                         <div class="field-note">${party.id} stemmer imod enhver finanslov for en regering ${party.id} ikke sidder i.</div>
                       </div>
                       <label class="toggle">
-                        <input type="checkbox" id="${demandGovId}" data-control="demandGov-${party.id}" ${party.id === "S" || party.id === "M" ? "checked" : ""}>
+                        <input type="checkbox" id="${demandGovId}" data-control="demandGov-${party.id}" ${party.id === "S" || party.id === "M" || party.id === "SF" ? "checked" : ""}>
                         <span class="toggle-track"></span>
                       </label>
                     </div>
@@ -1747,10 +1747,10 @@ onmessage = function(e) {
             <div class="field">
               <div class="field-header">
                 <span class="field-label">Oppositionens tilbageholdenhed</span>
-                <span class="value-pill" id="control-oppositionAbstention-value">0,30</span>
+                <span class="value-pill" id="control-oppositionAbstention-value">0,10</span>
               </div>
-              <p class="field-desc">Hvor tilbageholdende er det største oppositionsparti ved finanslovsafstemningen? (dansk norm: oppositionen stemmer sjældent imod)</p>
-              <input type="range" id="control-oppositionAbstention" data-control="oppositionAbstention" min="0.1" max="0.7" step="0.05" value="0.3">
+              <p class="field-desc">Hvor tilbageholdende er det største oppositionsparti ved finanslovsafstemningen? Lavere = oppositionen stemmer oftere imod (finanslovsafstemninger er ikke neutrale).</p>
+              <input type="range" id="control-oppositionAbstention" data-control="oppositionAbstention" min="0.1" max="0.7" step="0.05" value="0.1">
               <div class="field-endpoints">
                 <span>Fuld tilbageholdenhed</span>
                 <span>Aktiv modstand</span>
@@ -2087,7 +2087,7 @@ onmessage = function(e) {
           mElTolerate: 0.35,
           passageWeight: 0.65,
           distPenalty: 1.5,
-          oppositionAbstention: 0.3,
+          oppositionAbstention: 0.10, // budget votes are not neutral; opposition votes against ~90% of the time
           rescueBase: 0.1,
           flexIncrement: 0.05,
           formateurPull: 0.3,
@@ -2981,7 +2981,7 @@ onmessage = function(e) {
       }
 
       // ==================== TIMELINE TAB ====================
-      const TIMELINE_DATA = [{"date":"2026-03-24","coalitions":{"S+RV+SF":35.1,"S+M+RV+SF":24.6,"S+M+SF":13,"S+M+RV":11.3,"V+KF+LA+M":5.2,"S+SF":2.2,"V+KF+M":1.8,"V+LA+M":1.3},"noGov":0,"formationStage":"valgaften","changelog":["Udgangspunkt: kalibrering fra valgaften, f\u00f8r forhandlingssignaler"]},{"date":"2026-03-26","coalitions":{"S+RV+SF":34.6,"S+M+RV+SF":26.7,"S+M+SF":14.7,"S+M+RV":6.4,"V+KF+LA+M":5.9,"V+KF+M":2.2,"S+SF":2.1,"V+LA+M":1.9},"noGov":0,"formationStage":"forhandlinger","changelog":["L\u00f8kkes strategiske orientering: 30 % sandsynlighed for at forf\u00f8lge bl\u00e5 koalition","N\u00e5r M forf\u00f8lger bl\u00e5: M blokerer r\u00f8de finanslove og n\u00e6gter S-ledet regering","H\u00f8jere viabilitetst\u00e6rskel (0,70\u21920,75)","SF forhandler h\u00e5rdere efter mistillidstrussel","Konservative \u00e5bner d\u00f8ren til S","S bl\u00f8der op p\u00e5 formueskat","RV signalerer maksimal fleksibilitet"]}];
+      const TIMELINE_DATA = [{"date":"2026-03-24","coalitions":{"S+M+RV+SF":39.6,"S+RV+SF":12.6,"V+KF+LA+M":10.2,"S+SF":9.1,"V+KF+M":7.9,"V+LA+M":5.2,"V+DD+KF+M":1.9,"V+DD+LA+M":1.5},"noGov":0,"formationStage":"valgaften","changelog":["Retrocast: baseline kalibrering med opdateret motor (90-stemme gate, bilateral CI, oppositionAbstention=0.10)"]},{"date":"2026-03-26","coalitions":{"S+M+RV+SF":39.3,"S+RV+SF":15.5,"S+SF":10,"V+KF+LA+M":8.3,"V+KF+M":6.7,"V+LA+M":4.2,"V+DF+KF+M":1.7,"V+DD+M":1.4},"noGov":0,"formationStage":"forhandlinger","changelog":["Retrocast: kongerunde-parametre med opdateret motor","L\u00f8kkes strategiske orientering: 30 % sandsynlighed for at forf\u00f8lge bl\u00e5 koalition","SF forhandler h\u00e5rdere efter mistillidstrussel","Konservative \u00e5bner d\u00f8ren til S"]},{"date":"2026-03-28","coalitions":{"S+M+RV+SF":33.2,"S+RV+SF":13.3,"V+KF+LA+M":10.9,"S+SF":9.7,"V+KF+M":9.4,"V+LA+M":6.3,"V+DD+M":2.1,"V+DD+KF+M":2.1},"noGov":0,"formationStage":"forhandlinger","changelog":["Motoropdatering: 90-stemme viabilitetsgate i format\u00f8rprotokol","oppositionAbstention: 0.30 \u2192 0.10","Bilateral CI p\u00e5 alle relationer (\u03c3=0.05 standard)","SF kr\u00e6ver at v\u00e6re i regering (demandGov=true)","M-accept rekalibreret ud fra strategisk n\u00f8dvendighed","EL bl\u00f8der op: fleksibel forhandlingsposition","KF mere oppositions-orienteret"]}];
       let timelineData = TIMELINE_DATA;
 
       function renderTimeline() {

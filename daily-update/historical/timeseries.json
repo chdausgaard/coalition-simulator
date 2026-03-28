@@ -2,47 +2,66 @@
   {
     "date": "2026-03-24",
     "coalitions": {
-      "S+RV+SF": 35.1,
-      "S+M+RV+SF": 24.599999999999998,
-      "S+M+SF": 13,
-      "S+M+RV": 11.3,
-      "V+KF+LA+M": 5.2,
-      "S+SF": 2.2,
-      "V+KF+M": 1.8,
-      "V+LA+M": 1.3,
-      "S+M+V": 0.8,
-      "S+KF+M+RV": 0.6
+      "S+M+RV+SF": 39.6,
+      "S+RV+SF": 12.6,
+      "V+KF+LA+M": 10.2,
+      "S+SF": 9.1,
+      "V+KF+M": 7.9,
+      "V+LA+M": 5.2,
+      "V+DD+KF+M": 1.9,
+      "V+DD+LA+M": 1.5
     },
     "noGov": 0,
     "formationStage": "valgaften",
     "changelog": [
-      "Udgangspunkt: kalibrering fra valgaften, før forhandlingssignaler"
+      "Retrocast: baseline kalibrering med opdateret motor (90-stemme gate, bilateral CI, oppositionAbstention=0.10)"
     ]
   },
   {
     "date": "2026-03-26",
     "coalitions": {
-      "S+RV+SF": 34.6,
-      "S+M+RV+SF": 26.700000000000003,
-      "S+M+SF": 14.700000000000001,
-      "S+M+RV": 6.4,
-      "V+KF+LA+M": 5.9,
-      "V+KF+M": 2.2,
-      "S+SF": 2.1,
-      "V+LA+M": 1.9,
-      "V+KF+LA": 0.8,
-      "S+KF+M+V": 0.7
+      "S+M+RV+SF": 39.3,
+      "S+RV+SF": 15.5,
+      "S+SF": 10,
+      "V+KF+LA+M": 8.3,
+      "V+KF+M": 6.7,
+      "V+LA+M": 4.2,
+      "V+DF+KF+M": 1.7,
+      "V+DD+M": 1.4
     },
     "noGov": 0,
     "formationStage": "forhandlinger",
     "changelog": [
+      "Retrocast: kongerunde-parametre med opdateret motor",
       "Løkkes strategiske orientering: 30 % sandsynlighed for at forfølge blå koalition",
-      "Når M forfølger blå: M blokerer røde finanslove og nægter S-ledet regering",
-      "Højere viabilitetstærskel (0,70→0,75)",
       "SF forhandler hårdere efter mistillidstrussel",
-      "Konservative åbner døren til S",
-      "S bløder op på formueskat",
-      "RV signalerer maksimal fleksibilitet"
+      "Konservative åbner døren til S"
+    ]
+  },
+  {
+    "date": "2026-03-28",
+    "coalitions": {
+      "S+M+RV+SF": 33.2,
+      "S+RV+SF": 13.3,
+      "V+KF+LA+M": 10.9,
+      "S+SF": 9.7,
+      "V+KF+M": 9.4,
+      "V+LA+M": 6.3,
+      "V+DD+M": 2.1,
+      "V+DD+KF+M": 2.1
+    },
+    "noGov": 0,
+    "formationStage": "forhandlinger",
+    "changelog": [
+      "Motoropdatering: 90-stemme viabilitetsgate i formatørprotokol",
+      "oppositionAbstention: 0.30 → 0.10",
+      "Bilateral CI på alle relationer (σ=0.05 standard)",
+      "SF kræver at være i regering (demandGov=true)",
+      "M-accept rekalibreret ud fra strategisk nødvendighed",
+      "M globalHarshness: 0.24 → 0.32 (blind kalibrering)",
+      "EL bløder op: globalHarshness 0.64 → 0.56, fleksibel forhandlingsposition",
+      "KF mere oppositions-orienteret: gov 0.70 → 0.55",
+      "RV→M tolerateInGov: 0.82 → 0.10 (2022-traume: RV kan ikke overleve M i regering uden RV)"
     ]
   }
 ]
