@@ -2,14 +2,13 @@
   {
     "date": "2026-03-24",
     "coalitions": {
-      "S+M+RV+SF": 39.6,
-      "S+RV+SF": 12.6,
-      "V+KF+LA+M": 10.2,
-      "S+SF": 9.1,
-      "V+KF+M": 7.9,
-      "V+LA+M": 5.2,
-      "V+DD+KF+M": 1.9,
-      "V+DD+LA+M": 1.5
+      "S+M+RV+SF": 38,
+      "S+RV+SF": 20.4,
+      "S+SF": 15.3,
+      "V+KF+LA+M": 5.4,
+      "V+KF+M": 4,
+      "V+LA+M": 2.6,
+      "V+DF+KF+M": 1.6
     },
     "noGov": 0,
     "formationStage": "valgaften",
@@ -20,14 +19,14 @@
   {
     "date": "2026-03-26",
     "coalitions": {
-      "S+M+RV+SF": 39.3,
-      "S+RV+SF": 15.5,
-      "S+SF": 10,
-      "V+KF+LA+M": 8.3,
-      "V+KF+M": 6.7,
-      "V+LA+M": 4.2,
-      "V+DF+KF+M": 1.7,
-      "V+DD+M": 1.4
+      "S+M+RV+SF": 39,
+      "S+RV+SF": 19.5,
+      "S+SF": 13.5,
+      "V+KF+LA+M": 4.6,
+      "V+KF+M": 3.9,
+      "V+LA+M": 2.4,
+      "V+DF+KF+M": 2.1,
+      "V+DF+M": 1.9
     },
     "noGov": 0,
     "formationStage": "forhandlinger",
@@ -40,14 +39,14 @@
   {
     "date": "2026-03-28",
     "coalitions": {
-      "S+M+RV+SF": 46.1,
-      "S+RV+SF": 15.9,
-      "S+SF": 12.1,
-      "V+KF+LA+M": 5.3,
-      "V+KF+M": 4.4,
-      "V+LA+M": 3.3,
-      "S+M+SF": 2.3,
-      "V+DF+KF+M": 1.1
+      "S+M+RV+SF": 39.7,
+      "V+KF+LA+M": 10.1,
+      "S+RV+SF": 9.5,
+      "V+KF+M": 8.3,
+      "S+SF": 7.5,
+      "V+LA+M": 5.7,
+      "V+DD+M": 2.1,
+      "V+DF+KF+M": 2.1
     },
     "noGov": 0,
     "formationStage": "forhandlinger",

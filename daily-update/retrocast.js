@@ -16,7 +16,7 @@ const Sim5Parties = require("../sim5-parties.js");
 const engine = require("../sim5-engine.js");
 const PARTIES_MAP = Sim5Parties.PARTIES_MAP;
 
-const N = 10000;
+const N = 20000;
 
 // Historical parameter overrides: for each date, list what was DIFFERENT
 // from today's values. The script temporarily applies these overrides,
