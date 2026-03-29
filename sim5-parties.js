@@ -997,7 +997,7 @@ const KF = {
     },
     // ADDED: KF→RV some centrist overlap, but cross-bloc friction.
     RV: {
-      inGov: 0.20,
+      inGov: 0.40,  // UPDATE 2026-03-28: KLAR alliance + KVR precedent; KF is "door ajar" party
       asSupport: 0.35,
       tolerateInGov: 0.40,
       asPM: 0.08

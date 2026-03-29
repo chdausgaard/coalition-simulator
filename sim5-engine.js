@@ -622,7 +622,7 @@ function selectGovernment(mandates, naAlignments, cfg, coalitions) {
   const redPreference = cfg.redPreference != null ? cfg.redPreference : 0.5;
   const maxRedRounds = cfg.maxFormationRounds != null ? cfg.maxFormationRounds : 3;
   const flexIncrement = cfg.flexIncrement || 0.05;
-  const maxParties = 4;
+  const maxParties = 5;
 
   const sLed = coalitions.filter(coalition => coalition.leader === "S");
   const blueLed = coalitions.filter(coalition => coalition.leader === "V");
@@ -1014,7 +1014,7 @@ function buildConfig(userParams) {
     formateurPull: 0.3,
     floorThreshold: 0.7,
     mistillidThreshold: 0.10,
-    require90Only: true  // Default: only 90-viable coalitions. Toggle off to allow skiftende flertal.
+    require90Only: false  // Default: 90-viable preferred in early rounds, skiftende flertal allowed in desperation. Toggle on to hard-block sub-90.
   };
 
   const cfg = { ...defaults };
