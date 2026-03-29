@@ -1274,7 +1274,9 @@
         "FO-JF": "#c34b46",
         "FO-SB": "#3d6799",
         "GL-NAL": "#2f6f73",
-        "GL-IA": "#4f8a58"
+        "GL-IA": "#4f8a58",
+        "LG-LA": "#14213F",   // same as LA but shown separately
+        "LG-BP": "#3A72FC"    // same as BP but shown separately
       };
 
       const DIMENSION_LABELS = {
@@ -1932,7 +1934,7 @@ onmessage = function(e) {
 
         // Sort by ideological position: left (EL) to right (LA/DF/BP), NA last
         const ideologyOrder = ["EL", "ALT", "SF", "S", "RV", "M", "KF", "V", "DD", "LA", "DF", "BP",
-                               "FO-JF", "GL-NAL", "GL-IA", "FO-SB"];
+                               "LG-LA", "LG-BP", "FO-JF", "GL-NAL", "GL-IA", "FO-SB"];
         const sorted = [...ALL_SEATS].sort((a, b) =>
           ideologyOrder.indexOf(a.id) - ideologyOrder.indexOf(b.id)
         );
@@ -1941,20 +1943,23 @@ onmessage = function(e) {
         const darkTextParties = new Set(["ALT", "DF", "DD", "BP"]);
         // Short labels for the bar (NA seats get abbreviated)
         const barLabel = {
-          "FO-JF": "FO", "FO-SB": "FO", "GL-NAL": "GL", "GL-IA": "GL"
+          "FO-JF": "FO", "FO-SB": "FO", "GL-NAL": "GL", "GL-IA": "GL",
+          "LG-LA": "LG", "LG-BP": "LG"
         };
 
         els.mandateBar.innerHTML = sorted.map(entry => {
           const seats = entry.mandates || 0;
           const label = barLabel[entry.id] || entry.id;
           const isNA = entry.id.includes("-");
+          const isLG = entry.id.startsWith("LG-");
           const textStyle = darkTextParties.has(entry.id)
             ? "color:#2a2420; text-shadow:none;"
             : isNA ? "font-size:0.6rem;" : "";
+          const lgStyle = isLG ? "opacity:0.5;" : "";
           return `
             <div
               class="mandate-segment"
-              style="background:${partyColor(entry.id)}; flex:${seats} 1 0%; ${textStyle}"
+              style="background:${partyColor(entry.id)}; flex:${seats} 1 0%; ${textStyle}${lgStyle}"
               title="${escapeHtml(entry.name)} · ${seats} mandat${seats > 1 ? "er" : ""}"
             >
               <span>${escapeHtml(label)}${seats > 1 ? " " + seats : ""}</span>

@@ -801,7 +801,7 @@ const V = {
 const LA = {
   id: "LA",
   name: "Liberal Alliance",
-  mandates: 16,
+  mandates: 15,  // UPDATE 2026-03-29: Cecilie Liv Hansen expelled, now løsgænger
   bloc: "blue",
 
   govEligible: true,
@@ -1272,7 +1272,7 @@ const DD = {
 const BP = {
   id: "BP",
   name: "Borgernes Parti",
-  mandates: 4,
+  mandates: 3,  // UPDATE 2026-03-29: Jacob Harris expelled, now løsgænger
   bloc: "blue",
 
   govEligible: false,
@@ -1426,6 +1426,28 @@ const NA_SEATS = [
     pFlexible: 0.30,
     pBlue: 0.05,
     notes: "Historically red-leaning via IA/SF ties, but refused to pre-commit. Wants Self-Government Act revision, constitutional reinterpretation, and equal status inside the Realm; the same anti-DF structural constraint applies."
+  },
+  // Løsgængere: expelled from blue parties March 28-29, 2026.
+  // Ideologically blue but no longer under party discipline.
+  {
+    id: "LG-LA",
+    name: "Cecilie Liv Hansen (tidl. LA)",
+    mandates: 1,
+    bloc: "na",
+    pRed: 0.02,
+    pFlexible: 0.10,
+    pBlue: 0.88,
+    notes: "Expelled from LA March 29. Ideologically liberal — expected to vote blue on most issues but not bound by party discipline."
+  },
+  {
+    id: "LG-BP",
+    name: "Jacob Harris (tidl. BP)",
+    mandates: 1,
+    bloc: "na",
+    pRed: 0.03,
+    pFlexible: 0.12,
+    pBlue: 0.85,
+    notes: "Expelled from BP March 28 for 'groft uforsvarlig forretningsførelse'. Blue-leaning but more unpredictable than LA løsgænger."
   }
 ];
 
