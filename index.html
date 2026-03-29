@@ -3201,6 +3201,7 @@ onmessage = function(e) {
         const totalWithSupport = totalSeats + supportSeats;
 
         // Eligible support parties: any non-government party + løsgængere
+        const lgLabels = { "LG-LA": "LG (LA)", "LG-BP": "LG (BP)" };
         const lgSeats = Sim5Parties.NA_SEATS.filter(s => s.id.startsWith("LG-")).map(s => ({ id: s.id, mandates: s.mandates, bloc: "na" }));
         const eligibleSupport = [...parties.filter(p => !govSet.has(p.id)), ...lgSeats];
 
@@ -3227,7 +3228,6 @@ onmessage = function(e) {
         }).join("");
 
         // Support party toggle pills
-        const lgLabels = { "LG-LA": "LG (LA)", "LG-BP": "LG (BP)" };
         const supportPills = selArr.length > 0 ? eligibleSupport.map(p => {
           const active = supportSet.has(p.id);
           const label = lgLabels[p.id] || p.id;
