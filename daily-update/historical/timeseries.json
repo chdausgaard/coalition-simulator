@@ -2,14 +2,14 @@
   {
     "date": "2026-03-24",
     "coalitions": {
-      "S+M+RV+SF": 43.6,
-      "S+RV+SF": 14.1,
-      "S+SF": 9.3,
-      "V+KF+LA+M": 7.2,
-      "V+KF+M": 5.1,
-      "V+LA+M": 3.6,
-      "V+DF+KF+M": 2.1,
-      "V+DF+M": 1.7
+      "S+M+RV+SF": 28.2,
+      "S+M+SF": 22,
+      "V+KF+LA+M": 11.1,
+      "V+KF+M": 9.3,
+      "V+LA+M": 5.7,
+      "V+M": 4.6,
+      "S+KF+M+RV": 2.1,
+      "V+DF+KF+M": 2
     },
     "noGov": 0,
     "formationStage": "valgaften",
@@ -20,42 +20,40 @@
   {
     "date": "2026-03-26",
     "coalitions": {
-      "S+M+RV+SF": 37.8,
-      "S+RV+SF": 17.2,
-      "S+SF": 12.6,
-      "V+KF+LA+M": 8.1,
-      "V+KF+M": 6.1,
-      "V+LA+M": 3.9,
-      "V+DF+KF+M": 1.5
+      "S+M+RV+SF": 27.4,
+      "V+KF+LA+M": 12.6,
+      "S+M+SF": 21.4,
+      "V+KF+M": 9.9,
+      "V+LA+M": 6.3,
+      "V+M": 4.9,
+      "S+KF+M+RV": 2.6,
+      "V+DF+KF+LA+M": 1.3
     },
     "noGov": 0,
     "formationStage": "forhandlinger",
     "changelog": [
-      "Løkkes strategiske orientering: 30 % sandsynlighed for at forfølge blå koalition",
-      "SF forhandler hårdere efter mistillidstrussel",
+      "SF mistillidstrussel hæver SF globalHarshness",
       "Konservative åbner døren til S"
     ]
   },
   {
     "date": "2026-03-28",
     "coalitions": {
-      "S+M+RV+SF": 49.1,
-      "S+RV+SF": 11.1,
-      "S+SF": 7.2,
-      "V+KF+LA+M": 6.9,
-      "V+KF+M": 5,
-      "V+LA+M": 3.8,
-      "V+DF+KF+M": 2.6,
-      "V+DF+M": 2.2
+      "S+M+RV+SF": 26.7,
+      "V+KF+LA+M": 12.3,
+      "S+M+SF": 21.4,
+      "V+KF+M": 9.2,
+      "V+LA+M": 5.8,
+      "V+M": 3.6,
+      "S+KF+M+RV": 2.5,
+      "V+DF+KF+LA+M": 2.4
     },
     "noGov": 0,
     "formationStage": "forhandlinger",
     "changelog": [
-      "M globalHarshness op (0.24 → 0.32): Løkkes hårde linje mod EL og formueskat",
       "EL bløder op: globalHarshness 0.64 → 0.56, fleksibel forhandlingsposition",
-      "SF globalHarshness ned (0.64 → 0.55): privat forventningsstyring om kompromiser",
-      "KF mere oppositions-orienteret (gov 0.70 → 0.55): tilfreds med opposition",
-      "KF→S inGov ned (0.43 → 0.35): SVMRK vurderes urealistisk"
+      "ALT globalHarshness ned (0.53 → 0.48): svinepagt som eneste ultimatum",
+      "SF globalHarshness ned (0.64 → 0.55): privat forventningsstyring om kompromiser"
     ]
   }
 ]

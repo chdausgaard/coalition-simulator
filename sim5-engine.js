@@ -244,6 +244,17 @@ function confidenceCheck(government, mandates, cfg) {
 
   for (const party of PARTIES_LIST) {
     if (govSet.has(party.id)) continue;
+    // Parties that demand government and are excluded would vote against
+    // — they have no incentive to let a government form without them.
+    // This aligns confidenceCheck with the demandGov gate in blocBudgetVote.
+    const demandExcluded =
+      (party.id === "S" && (cfg.sDemandGov != null ? cfg.sDemandGov : true)) ||
+      (party.id === "M" && cfg.mDemandGov) ||
+      (cfg.demandGov && cfg.demandGov[party.id]);
+    if (demandExcluded) {
+      opposition += mandates[party.id] || 0;
+      continue;
+    }
     const asPM = relationshipValue(party, leader, "asPM", 1.0);
     if (asPM < threshold) {
       opposition += mandates[party.id] || 0;
@@ -504,26 +515,12 @@ function scoreCoalition(coalition, mandates, pPassage, cfg) {
     }
   }
 
-  // 90-vote viability bonus: formateurs strongly prefer coalitions that can
-  // command 90 FOR votes (gov + forståelsespapir support) over those relying
-  // on skiftende flertal. A government that can't reliably pass budgets
-  // wouldn't form in the first place.
-  const supportSeats = (coalition.support || []).reduce((sum, s) => {
-    const sid = typeof s === "string" ? s : s.party;
-    return sum + (mandates[sid] || 0);
-  }, 0);
-  const reliableSeats = seats + supportSeats;
-  // Moderate preference for ≥90 reliable seats in scoring.
-  // The main 90-vote gate is in the formateur protocol (tryGroup90First),
-  // not here. This factor is a tiebreaker within the same tier.
-  const majorityViability = reliableSeats >= 90 ? 1.3 : 0.85;
-
   // Two-factor scoring: passage feasibility vs coalition quality.
   // w (passageWeight) controls the tradeoff. CI-varied per iteration
   // to express structural uncertainty about how formateurs decide.
   const w = cfg.passageWeight != null ? cfg.passageWeight : 0.65;
   const passage = pPassage;  // no exponent — w controls influence
-  const quality = ideoFit * parsimony * mwcc * govEase * majorityViability;
+  const quality = ideoFit * parsimony * mwcc * govEase;
   const score = Math.pow(passage, w) * Math.pow(Math.max(0.01, quality), 1 - w);
   return score;
 }
@@ -629,106 +626,49 @@ function selectGovernment(mandates, naAlignments, cfg, coalitions) {
   const mLed = coalitions.filter(coalition => coalition.leader === "M");
 
   // 90-vote filter: identifies coalitions that can plausibly assemble 90
-  // FOR votes from gov + friendly non-gov parties. Mirrors blocBudgetVote
-  // demand gates exactly to avoid divergence.
-  function filter90Viable(candidates, roundCfg) {
-    return candidates.filter(c => {
-      const govSet = new Set(c.government);
-      const govSeats = c.government.reduce((s, id) => s + (mandates[id] || 0), 0);
-      const govSide = getGovSide(c);
-      let friendlySeats = govSeats;
-      for (const p of PARTIES_LIST) {
-        if (govSet.has(p.id)) continue;
-        const m = mandates[p.id] || 0;
-        if (m < 1) continue;
-        // Demand gates — aligned with blocBudgetVote (lines 65-84)
-        if (p.id === "S" && (roundCfg.sDemandGov != null ? roundCfg.sDemandGov : true)) continue;
-        if (p.id === "M" && roundCfg.mDemandGov) continue;
-        if (p.id === "M" && roundCfg._mPursuesBlue && govSide === "red") continue;
-        if (roundCfg.demandGov && roundCfg.demandGov[p.id]) continue;
-        if (p.pmDemand && c.leader !== p.id) continue;
-        if (p.id === "M" && roundCfg.mDemandPM && c.leader !== "M") continue;
-        // Same-bloc or swing parties that tolerate gov members
-        const sameBloc = p.bloc === govSide;
-        const isSwing = p.bloc === "swing";
-        if (!sameBloc && !isSwing) continue;
-        // Minimum tolerance: a veto against any single gov member (e.g.,
-        // DF→M at 0.20) excludes the party — not diluted by high tolerance
-        // toward others. Default for missing tolerateInGov: 0.70 for same-bloc
-        // (natural allies), 0.40 for swing (pragmatic), 0.05 for cross-bloc.
-        let minTol = 1.0;
-        for (const gid of c.government) {
-          const gParty = PARTIES_MAP[gid];
-          const defaultTol = sameBloc ? 0.70 : (isSwing ? 0.40 : 0.05);
-          const tol = relationshipValue(p, gid, "tolerateInGov", defaultTol);
-          if (tol < minTol) minTol = tol;
-        }
-        if (minTol >= 0.30) friendlySeats += m;
-      }
-      return friendlySeats >= 90;
-    });
-  }
-
-  // require90: when true, ONLY 90-viable coalitions are considered (no
-  // fallback to sub-90). When false, 90-viable are tried first with
-  // sub-90 as fallback. Formateur protocol uses require90=true in early
-  // rounds and require90=false only in the final desperation round.
-  function tryGroup(groupCoalitions, bonusFn, roundCfg, threshold, require90) {
+  function tryGroup(groupCoalitions, bonusFn, roundCfg, threshold) {
+    let best = null;
     const candidates = groupCoalitions.filter(c => c.government.length <= maxParties);
 
-    function evalCandidates(coalitionList) {
-      let best = null;
-      for (const rawCoalition of coalitionList) {
-        const orderedGovernment = withLeaderFirst(rawCoalition.government, rawCoalition.leader);
-        const coalition = { ...rawCoalition, government: orderedGovernment };
+    for (const rawCoalition of candidates) {
+      const orderedGovernment = withLeaderFirst(rawCoalition.government, rawCoalition.leader);
+      const coalition = { ...rawCoalition, government: orderedGovernment };
 
-        const confidence = confidenceCheck(orderedGovernment, mandates, roundCfg);
-        if (!confidence.passes) continue;
-        if (!checkDyadAcceptance(orderedGovernment, roundCfg.flexibility || 0)) continue;
+      const confidence = confidenceCheck(orderedGovernment, mandates, roundCfg);
+      if (!confidence.passes) continue;
+      if (!checkDyadAcceptance(orderedGovernment, roundCfg.flexibility || 0)) continue;
 
-        const outsideParties = PARTIES_LIST
-          .map(party => party.id)
-          .filter(id => !orderedGovernment.includes(id));
-        const support = determineForstaaelsespapir(orderedGovernment, outsideParties, coalition.platform, roundCfg);
-        coalition.support = support;
+      const outsideParties = PARTIES_LIST
+        .map(party => party.id)
+        .filter(id => !orderedGovernment.includes(id));
+      const support = determineForstaaelsespapir(orderedGovernment, outsideParties, coalition.platform, roundCfg);
+      coalition.support = support;
 
-        const pPassage = computePpassage(coalition, coalition.platform, mandates, roundCfg);
-        if (pPassage < threshold) continue;
+      const pPassage = computePpassage(coalition, coalition.platform, mandates, roundCfg);
+      if (pPassage < threshold) continue;
 
-        const baseScore = scoreCoalition(coalition, mandates, pPassage, roundCfg);
-        const bonus = bonusFn ? bonusFn(coalition) : 1.0;
-        const totalScore = baseScore * bonus;
+      const baseScore = scoreCoalition(coalition, mandates, pPassage, roundCfg);
+      const bonus = bonusFn ? bonusFn(coalition) : 1.0;
+      const totalScore = baseScore * bonus;
 
-        if (!best || totalScore > best.score) {
-          best = {
-            pm: coalition.leader,
-            govType: classifyGovType(orderedGovernment),
-            coalition: orderedGovernment.join("+"),
-            government: orderedGovernment,
-            leader: coalition.leader,
-            platform: coalition.platform,
-            support,
-            pPassage,
-            score: totalScore,
-            confidence,
-            formationRound: 1,
-            govProfile: governabilityProfile(coalition, coalition.platform, mandates)
-          };
-        }
+      if (!best || totalScore > best.score) {
+        best = {
+          pm: coalition.leader,
+          govType: classifyGovType(orderedGovernment),
+          coalition: orderedGovernment.join("+"),
+          government: orderedGovernment,
+          leader: coalition.leader,
+          platform: coalition.platform,
+          support,
+          pPassage,
+          score: totalScore,
+          confidence,
+          formationRound: 1,
+          govProfile: governabilityProfile(coalition, coalition.platform, mandates)
+        };
       }
-      return best;
     }
-
-    // Try 90-viable coalitions first
-    const viable90 = filter90Viable(candidates, roundCfg);
-    const best90 = evalCandidates(viable90);
-    if (best90) return best90;
-
-    // Sub-90 fallback: only if require90 is false (desperation rounds)
-    if (!require90) {
-      return evalCandidates(candidates);
-    }
-    return null;
+    return best;
   }
 
   const sLedBonus = coalition => frederiksenBonus(coalition, redPreference);
@@ -747,9 +687,9 @@ function selectGovernment(mandates, naAlignments, cfg, coalitions) {
     const roundCfg = { ...cfg, flexibility: cfg.flexibility || 0, _naAlignments: naAlignments };
     // Evaluate all groups with the same threshold, pick overall best
     const candidates = [
-      tryGroup(sLed, sLedBonus, roundCfg, viabilityThreshold, true),
-      tryGroup(blueLed, blueBonus, roundCfg, viabilityThreshold, true),
-      tryGroup(mLed, mLedBonus, roundCfg, viabilityThreshold, true)
+      tryGroup(sLed, sLedBonus, roundCfg, viabilityThreshold),
+      tryGroup(blueLed, blueBonus, roundCfg, viabilityThreshold),
+      tryGroup(mLed, mLedBonus, roundCfg, viabilityThreshold)
     ].filter(Boolean);
     // Pick highest score
     let best = null;
@@ -764,9 +704,9 @@ function selectGovernment(mandates, naAlignments, cfg, coalitions) {
     // Desperation fallback: allow sub-90 coalitions
     const despCfg = { ...cfg, flexibility: Math.min(0.5, (cfg.flexibility || 0) + flexIncrement), _naAlignments: naAlignments };
     const despCandidates = [
-      tryGroup(sLed, sLedBonus, despCfg, 0.05, !!cfg.require90Only),
-      tryGroup(blueLed, blueBonus, despCfg, 0.05, !!cfg.require90Only),
-      tryGroup(mLed, mLedBonus, despCfg, 0.05, !!cfg.require90Only)
+      tryGroup(sLed, sLedBonus, despCfg, 0.05),
+      tryGroup(blueLed, blueBonus, despCfg, 0.05),
+      tryGroup(mLed, mLedBonus, despCfg, 0.05)
     ].filter(Boolean);
     let despBest = null;
     for (const c of despCandidates) { if (!despBest || c.score > despBest.score) despBest = c; }
@@ -786,8 +726,8 @@ function selectGovernment(mandates, naAlignments, cfg, coalitions) {
     for (let round = 0; round < maxRedRounds; round++) {
       const roundFlex = Math.min(0.5, (cfg.flexibility || 0) + round * flexIncrement);
       const roundCfg = { ...cfg, flexibility: roundFlex, _naAlignments: naAlignments };
-      const result = tryGroup(blueLed, blueBonus, roundCfg, blueViabilityThreshold, true)
-        || tryGroup(mLed, mLedBonus, roundCfg, blueViabilityThreshold, true);
+      const result = tryGroup(blueLed, blueBonus, roundCfg, blueViabilityThreshold)
+        || tryGroup(mLed, mLedBonus, roundCfg, blueViabilityThreshold);
       if (result) {
         result.formationRound = round + 1;
         result.formateurOrder = "blå først";
@@ -796,7 +736,7 @@ function selectGovernment(mandates, naAlignments, cfg, coalitions) {
     }
     // Fallback: S formateur with normal threshold
     const fallbackCfg = { ...cfg, flexibility: (cfg.flexibility || 0) + maxRedRounds * flexIncrement, _naAlignments: naAlignments };
-    const result = tryGroup(sLed, sLedBonus, fallbackCfg, viabilityThreshold, true);
+    const result = tryGroup(sLed, sLedBonus, fallbackCfg, viabilityThreshold);
     if (result) {
       result.formationRound = maxRedRounds + 1;
       result.formateurOrder = "rød først";
@@ -809,9 +749,9 @@ function selectGovernment(mandates, naAlignments, cfg, coalitions) {
       flexibility: (cfg.flexibility || 0) + (maxRedRounds + 1) * flexIncrement,
       _naAlignments: naAlignments
     };
-    const desperationResultBlue = tryGroup(sLed, sLedBonus, desperationCfgBlue, 0.05, !!cfg.require90Only)
-      || tryGroup(blueLed, blueBonus, desperationCfgBlue, 0.05, !!cfg.require90Only)
-      || tryGroup(mLed, mLedBonus, desperationCfgBlue, 0.05, !!cfg.require90Only);
+    const desperationResultBlue = tryGroup(sLed, sLedBonus, desperationCfgBlue, 0.05)
+      || tryGroup(blueLed, blueBonus, desperationCfgBlue, 0.05)
+      || tryGroup(mLed, mLedBonus, desperationCfgBlue, 0.05);
     if (desperationResultBlue) {
       desperationResultBlue.formationRound = maxRedRounds + 2;
       desperationResultBlue.formateurOrder = "desperation";
@@ -836,7 +776,7 @@ function selectGovernment(mandates, naAlignments, cfg, coalitions) {
     for (let round = 0; round < maxRedRounds; round++) {
       const roundFlex = Math.min(0.5, (cfg.flexibility || 0) + round * flexIncrement);
       const roundCfg = { ...cfg, flexibility: roundFlex, _naAlignments: naAlignments };
-      const result = tryGroup(mandateCoalitions, sLedBonus, roundCfg, viabilityThreshold, true);
+      const result = tryGroup(mandateCoalitions, sLedBonus, roundCfg, viabilityThreshold);
       if (result) {
         result.formationRound = round + 1;
         result.formateurOrder = "rød først";
@@ -850,8 +790,8 @@ function selectGovernment(mandates, naAlignments, cfg, coalitions) {
     const blueAfterMandateNum = maxRedRounds + 1;
     const blueAfterMandateFlex = Math.min(0.5, (cfg.flexibility || 0) + blueAfterMandateNum * flexIncrement);
     const blueAfterMandateCfg = { ...cfg, flexibility: blueAfterMandateFlex, _naAlignments: naAlignments };
-    const blueAfterMandate = tryGroup(blueLed, blueBonus, blueAfterMandateCfg, blueViabilityThreshold, true)
-      || tryGroup(mLed, mLedBonus, blueAfterMandateCfg, blueViabilityThreshold, true);
+    const blueAfterMandate = tryGroup(blueLed, blueBonus, blueAfterMandateCfg, blueViabilityThreshold)
+      || tryGroup(mLed, mLedBonus, blueAfterMandateCfg, blueViabilityThreshold);
     if (blueAfterMandate) {
       blueAfterMandate.formationRound = blueAfterMandateNum;
       blueAfterMandate.formateurOrder = "blå først";
@@ -864,7 +804,7 @@ function selectGovernment(mandates, naAlignments, cfg, coalitions) {
     const expandedNum = blueAfterMandateNum + 1;
     const expandedFlex = Math.min(0.5, (cfg.flexibility || 0) + expandedNum * flexIncrement);
     const expandedCfg = { ...cfg, flexibility: expandedFlex, _naAlignments: naAlignments };
-    const expandedResult = tryGroup(sLed, sLedBonus, expandedCfg, expandedThreshold, true);
+    const expandedResult = tryGroup(sLed, sLedBonus, expandedCfg, expandedThreshold);
     if (expandedResult) {
       expandedResult.formationRound = expandedNum;
       expandedResult.formateurOrder = "rød først";
@@ -875,7 +815,7 @@ function selectGovernment(mandates, naAlignments, cfg, coalitions) {
     for (let round = 0; round < maxRedRounds; round++) {
       const roundFlex = Math.min(0.5, (cfg.flexibility || 0) + round * flexIncrement);
       const roundCfg = { ...cfg, flexibility: roundFlex, _naAlignments: naAlignments };
-      const result = tryGroup(sLed, sLedBonus, roundCfg, viabilityThreshold, true);
+      const result = tryGroup(sLed, sLedBonus, roundCfg, viabilityThreshold);
       if (result) {
         result.formationRound = round + 1;
         result.formateurOrder = "rød først";
@@ -888,8 +828,8 @@ function selectGovernment(mandates, naAlignments, cfg, coalitions) {
   const blueRoundNum = hasMandateConstraint ? maxRedRounds + 3 : maxRedRounds + 1;
   const blueFlex = (cfg.flexibility || 0) + (blueRoundNum - 1) * flexIncrement;
   const blueCfg = { ...cfg, flexibility: Math.min(0.5, blueFlex), _naAlignments: naAlignments };
-  const result = tryGroup(blueLed, blueBonus, blueCfg, blueViabilityThreshold, true)
-    || tryGroup(mLed, mLedBonus, blueCfg, blueViabilityThreshold, true);
+  const result = tryGroup(blueLed, blueBonus, blueCfg, blueViabilityThreshold)
+    || tryGroup(mLed, mLedBonus, blueCfg, blueViabilityThreshold);
   if (result) {
     result.formationRound = blueRoundNum;
     result.formateurOrder = "blå først";
@@ -904,9 +844,9 @@ function selectGovernment(mandates, naAlignments, cfg, coalitions) {
     flexibility: Math.min(0.5, (cfg.flexibility || 0) + (desperationRoundNum - 1) * flexIncrement),
     _naAlignments: naAlignments
   };
-  const desperationResult = tryGroup(sLed, sLedBonus, desperationCfg, 0.05, !!cfg.require90Only)
-    || tryGroup(blueLed, blueBonus, desperationCfg, 0.05, !!cfg.require90Only)
-    || tryGroup(mLed, mLedBonus, desperationCfg, 0.05, !!cfg.require90Only);
+  const desperationResult = tryGroup(sLed, sLedBonus, desperationCfg, 0.05)
+    || tryGroup(blueLed, blueBonus, desperationCfg, 0.05)
+    || tryGroup(mLed, mLedBonus, desperationCfg, 0.05);
   if (desperationResult) {
     desperationResult.formationRound = desperationRoundNum;
     desperationResult.formateurOrder = "desperation";
@@ -998,7 +938,7 @@ function buildConfig(userParams) {
   const defaults = {
     flexibility: 0,
     viabilityThreshold: 0.75,
-    blueViabilityThreshold: 0.10,
+    blueViabilityThreshold: 0.75,
     minForVotes: 70,
     distPenalty: 1.5,
     passageWeight: 0.65,
@@ -1013,8 +953,7 @@ function buildConfig(userParams) {
     flexIncrement: 0.05,
     formateurPull: 0.3,
     floorThreshold: 0.7,
-    mistillidThreshold: 0.10,
-    require90Only: false  // Default: 90-viable preferred in early rounds, skiftende flertal allowed in desperation. Toggle on to hard-block sub-90.
+    mistillidThreshold: 0.10
   };
 
   const cfg = { ...defaults };
@@ -1091,10 +1030,10 @@ function simulate(userParams, N) {
   // When a user moves a slider (or a sweep injects a value), the CI should
   // not override it. CI only applies to parameters left at their defaults.
   const CI_DEFAULTS = {
-    mElTolerate: 0.10, viabilityThreshold: 0.75, passageWeight: 0.65, oppositionAbstention: 0.10,
-    elInformalRate: 0.45, elCentristPenalty: 0.08, elForstBase: 0.93,
-    rescueBase: 0.10, oppositionAbstention: 0.30, distPenalty: 1.50,
-    parsimonySpread: 1.0, mdfCooperationProb: 0.12
+    mElTolerate: 0.10, viabilityThreshold: 0.75, passageWeight: 0.65,
+    oppositionAbstention: 0.10, elInformalRate: 0.45, elCentristPenalty: 0.08,
+    elForstBase: 0.93, rescueBase: 0.10, distPenalty: 1.50,
+    parsimonySpread: 1.0, mdfCooperationProb: 0.08
   };
   function isUserSet(key) {
     if (CI_DEFAULTS[key] == null) return false;
@@ -1140,7 +1079,7 @@ function simulate(userParams, N) {
     // M↔DF cooperation probability: continuous draw replacing the old
     // discrete 12% switch. Genuine uncertainty about whether pragmatic
     // M-DF cooperation is possible in any given negotiation.
-    const _mdfBase = cfg.mdfCooperationProb != null ? cfg.mdfCooperationProb : 0.12;
+    const _mdfBase = cfg.mdfCooperationProb != null ? cfg.mdfCooperationProb : 0.08;
     const _dfRelaxProb = isUserSet("mdfCooperationProb")
       ? _mdfBase
       : Math.max(0, Math.min(0.30, normDraw(_mdfBase, 0.04)));
@@ -1196,9 +1135,7 @@ function simulate(userParams, N) {
     // M strategic orientation draw: Løkke simultaneously negotiates with both
     // blocs. Each iteration, M draws a strategic posture — pursue red (cooperate
     // with S-led coalitions) or pursue blue (block S-led, support blue).
-    // This captures the outside-option effect from bargaining theory: M's
-    // behavior in red negotiations depends on M's assessment of blue alternatives.
-    const _mBlueProb = cfg.mBlueOrientation != null ? cfg.mBlueOrientation : 0.30;
+    const _mBlueProb = cfg.mBlueOrientation != null ? cfg.mBlueOrientation : 0.50;
     const _mPursuesBlue = Math.random() < _mBlueProb;
 
     // When M pursues blue: temporarily make M hostile to S-led coalitions
@@ -1206,7 +1143,6 @@ function simulate(userParams, N) {
     const _savedMtoS_tolerate = PARTIES_MAP.M.relationships.S.tolerateInGov;
     const _savedMtoS_asPM = PARTIES_MAP.M.relationships.S.asPM;
     if (_mPursuesBlue) {
-      // M refuses to join or support S-led governments
       PARTIES_MAP.M.relationships.S.inGov = 0.01;
       PARTIES_MAP.M.relationships.S.tolerateInGov = 0.05;
       PARTIES_MAP.M.relationships.S.asPM = 0.01;

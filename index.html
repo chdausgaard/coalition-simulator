@@ -1324,14 +1324,13 @@
       const DEFAULTS = {
         flexibility: 0,
         redPreference: 0.5,
-        mBlueOrientation: 0.30, // 90-vote viability gate active by default (engine-side)
+        mBlueOrientation: 0.50,
         formateurOverride: "red",
         maxFormationRounds: 1,
         viabilityThreshold: 0.75,
         N: 5000,
         mDemandGov: true,
         sDemandGov: true,
-        require90Only: false,
         pmDemand: !!Sim5Parties.PARTIES_MAP.S.pmDemand,
         partySettings: MAIN_PARTIES.reduce((acc, party) => {
           acc[party.id] = {
@@ -1621,7 +1620,7 @@ onmessage = function(e) {
                         <div class="field-note">${party.id} stemmer imod enhver finanslov for en regering ${party.id} ikke sidder i.</div>
                       </div>
                       <label class="toggle">
-                        <input type="checkbox" id="${demandGovId}" data-control="demandGov-${party.id}" ${party.id === "S" || party.id === "M" || party.id === "SF" ? "checked" : ""}>
+                        <input type="checkbox" id="${demandGovId}" data-control="demandGov-${party.id}" ${party.id === "S" || party.id === "M" || party.id === "SF" || party.id === "RV" ? "checked" : ""}>
                         <span class="toggle-track"></span>
                       </label>
                     </div>
@@ -1696,17 +1695,6 @@ onmessage = function(e) {
                 <option value="red" selected>Rød (S) først — standard</option>
                 <option value="blue">Blå (V) først — kontrafaktisk</option>
               </select>
-            </div>
-
-            <div class="field inline">
-              <div>
-                <div class="field-label">Kræv 90 mandater</div>
-                <div class="field-note">Kun koalitioner der kan samle 90 stemmer (inkl. støttepartier) kan dannes. Slå fra for at tillade skiftende flertal.</div>
-              </div>
-              <label class="toggle">
-                <input type="checkbox" id="control-require90Only" data-control="require90Only">
-                <span class="toggle-track"></span>
-              </label>
             </div>
 
             <div class="field">
@@ -2027,7 +2015,6 @@ onmessage = function(e) {
           N: Number(document.getElementById("control-N").value),
           mDemandGov: document.getElementById("party-M-demandgov")?.checked || false,
           sDemandGov: document.getElementById("party-S-demandgov")?.checked || false,
-          require90Only: document.getElementById("control-require90Only")?.checked ?? true,
           demandGov: ["SF", "RV", "V", "KF", "LA"].reduce((acc, id) => {
             const el = document.getElementById(`party-${id}-demandgov`);
             if (el && el.checked) acc[id] = true;
@@ -2058,7 +2045,6 @@ onmessage = function(e) {
           viabilityThreshold: DEFAULTS.viabilityThreshold,
           N: DEFAULTS.N,
           mDemandGov: DEFAULTS.mDemandGov,
-          require90Only: DEFAULTS.require90Only,
           pmDemand: DEFAULTS.pmDemand,
           partySettings: MAIN_PARTIES.reduce((acc, party) => {
             acc[party.id] = { globalHarshness: DEFAULTS.partySettings[party.id].globalHarshness };
@@ -2081,7 +2067,6 @@ onmessage = function(e) {
         document.getElementById("control-viabilityThreshold").value = params.viabilityThreshold;
         document.getElementById("control-N").value = params.N;
         document.getElementById("party-M-demandgov").checked = params.mDemandGov;
-        if (document.getElementById("control-require90Only")) document.getElementById("control-require90Only").checked = params.require90Only;
         document.getElementById("party-S-pmdemand").checked = params.pmDemand;
         const sDemandGovEl = document.getElementById("party-S-demandgov");
         if (sDemandGovEl) sDemandGovEl.checked = params.sDemandGov != null ? params.sDemandGov : true;
@@ -2997,7 +2982,7 @@ onmessage = function(e) {
       }
 
       // ==================== TIMELINE TAB ====================
-      const TIMELINE_DATA = [{"date":"2026-03-24","coalitions":{"S+M+RV+SF":43.6,"S+RV+SF":14.1,"S+SF":9.3,"V+KF+LA+M":7.2,"V+KF+M":5.1,"V+LA+M":3.6,"V+DF+KF+M":2.1,"V+DF+M":1.7},"noGov":0,"formationStage":"valgaften","changelog":["Udgangspunkt: kalibrering fra valgaften, f\u00f8r forhandlingssignaler"]},{"date":"2026-03-26","coalitions":{"S+M+RV+SF":37.8,"S+RV+SF":17.2,"S+SF":12.6,"V+KF+LA+M":8.1,"V+KF+M":6.1,"V+LA+M":3.9,"V+DF+KF+M":1.5},"noGov":0,"formationStage":"forhandlinger","changelog":["L\u00f8kkes strategiske orientering: 30 % sandsynlighed for at forf\u00f8lge bl\u00e5 koalition","SF forhandler h\u00e5rdere efter mistillidstrussel","Konservative \u00e5bner d\u00f8ren til S"]},{"date":"2026-03-28","coalitions":{"S+M+RV+SF":49.1,"S+RV+SF":11.1,"S+SF":7.2,"V+KF+LA+M":6.9,"V+KF+M":5,"V+LA+M":3.8,"V+DF+KF+M":2.6,"V+DF+M":2.2},"noGov":0,"formationStage":"forhandlinger","changelog":["M globalHarshness op (0.24 \u2192 0.32): L\u00f8kkes h\u00e5rde linje mod EL og formueskat","EL bl\u00f8der op: globalHarshness 0.64 \u2192 0.56, fleksibel forhandlingsposition","SF globalHarshness ned (0.64 \u2192 0.55): privat forventningsstyring om kompromiser","KF mere oppositions-orienteret (gov 0.70 \u2192 0.55): tilfreds med opposition","KF\u2192S inGov ned (0.43 \u2192 0.35): SVMRK vurderes urealistisk"]}];
+      const TIMELINE_DATA = [{"date":"2026-03-24","coalitions":{"S+M+RV+SF":28.2,"S+M+SF":22,"V+KF+LA+M":11.1,"V+KF+M":9.3,"V+LA+M":5.7,"V+M":4.6,"S+KF+M+RV":2.1,"V+DF+KF+M":2},"noGov":0,"formationStage":"valgaften","changelog":["Udgangspunkt: kalibrering fra valgaften, f\u00f8r forhandlingssignaler"]},{"date":"2026-03-26","coalitions":{"S+M+RV+SF":27.4,"V+KF+LA+M":12.6,"S+M+SF":21.4,"V+KF+M":9.9,"V+LA+M":6.3,"V+M":4.9,"S+KF+M+RV":2.6,"V+DF+KF+LA+M":1.3},"noGov":0,"formationStage":"forhandlinger","changelog":["SF mistillidstrussel h\u00e6ver SF globalHarshness","Konservative \u00e5bner d\u00f8ren til S"]},{"date":"2026-03-28","coalitions":{"S+M+RV+SF":26.7,"V+KF+LA+M":12.3,"S+M+SF":21.4,"V+KF+M":9.2,"V+LA+M":5.8,"V+M":3.6,"S+KF+M+RV":2.5,"V+DF+KF+LA+M":2.4},"noGov":0,"formationStage":"forhandlinger","changelog":["EL bl\u00f8der op: globalHarshness 0.64 \u2192 0.56, fleksibel forhandlingsposition","ALT globalHarshness ned (0.53 \u2192 0.48): svinepagt som eneste ultimatum","SF globalHarshness ned (0.64 \u2192 0.55): privat forventningsstyring om kompromiser"]}];
       let timelineData = TIMELINE_DATA;
 
       function renderTimeline() {

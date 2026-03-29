@@ -22,7 +22,7 @@ node -e "const e = require('./sim5-engine.js'); console.log(JSON.stringify(e.sim
 
 ## Current output (~N=5000, post 2026-03-28 update)
 
-S+M+RV+SF ~49%, S+RV+SF ~11%, S+SF ~7%, blue ~21%.
+S+M+RV+SF ~27%, S+M+SF ~21%, V+KF+LA+M ~12%, S+KF+M+RV ~2.5%.
 
 The 90-vote gate, SF demandGov, and lower opposition abstention (0.10) concentrate probability on coalitions that clear the viability gate. The SF-M bilateral relationship remains highly consequential.
 

@@ -284,7 +284,7 @@ const M = {
       asPM: 0.75
     },
     SF: {
-      inGov: 0.52, // UPDATE 2026-03-28: blind calibration — highest policy distance among potential partners
+      inGov: 0.62, // UPDATE 2026-03-28: blind calibration (0.52) adjusted up — experts treat Løkke's red lines as negotiating positions, not binding
       asSupport: 0.75,
       tolerateInGov: 0.80,
       asPM: 0.20
@@ -583,6 +583,7 @@ const RV = {
   govEligible: true,
   pmEligible: false,
   pmDemand: false,
+  demandGov: true,  // UPDATE 2026-03-28: Lidegaard staked leadership on government entry; RV can't accept M governing without them
 
   // UPDATE 2026-03-28: blind calibration — RV strongly prefers government
   participationPref: {
@@ -956,10 +957,10 @@ const KF = {
 
   relationships: {
     S: {
-      inGov: 0.35,  // UPDATE 2026-03-26: Juul "has not ruled out" working with S; invited to Frederiksen's talks // UPDATE 2026-03-28: blind calibration
+      inGov: 0.35,  // UPDATE 2026-03-28: blind calibration
       asSupport: 0.60,
       tolerateInGov: 0.72,
-      asPM: 0.22
+      asPM: 0.05  // UPDATE 2026-03-28: Abildgaard "svært at se hvordan vi kunne støtte Frederiksen som statsminister"
     },
     M: {
       inGov: 0.92,

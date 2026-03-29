@@ -225,12 +225,12 @@ function enumerateCoalitions(parties, mandates, cfg) {
       members.push(id);
       seats += getMandatesForParty(id, mandates);
 
-      if (members.length > 4) {
+      if (members.length > 5) {
         break;
       }
     }
 
-    if (members.length > 4) {
+    if (members.length > 5) {
       continue;
     }
 

@@ -26,41 +26,33 @@ const N = 20000;
 // (SF demandGov, M-acceptance recalibration, oppositionAbstention, 90-gate)
 // are treated as "always should have been there" and apply to all dates.
 
+// Only revert BRIEF-DRIVEN changes (actual political events/signals).
+// All calibration/architecture changes apply to all dates uniformly.
 const HISTORICAL_OVERRIDES = {
   "2026-03-24": {
     label: "valgaften",
     formationStage: "valgaften",
-    changelog: ["Retrocast: baseline kalibrering med opdateret motor (90-stemme gate, bilateral CI, oppositionAbstention=0.10)"],
-    // Revert March 26 + March 28 daily-brief-driven parameter changes
+    changelog: ["Udgangspunkt: kalibrering fra valgaften, før forhandlingssignaler"],
     overrides: {
-      // March 26 changes (revert these for March 24)
-      "SF.globalHarshness": { from: 0.55, to: 0.59 },       // pre-kongerunde SF was softer
-      "KF.relationships.S.inGov": { from: 0.35, to: 0.30 },  // pre-kongerunde KF hadn't opened door
-      // March 28 changes (also revert)
-      "M.globalHarshness": { from: 0.32, to: 0.24 },         // pre-brief M was more flexible
-      "EL.globalHarshness": { from: 0.56, to: 0.64 },        // pre-brief EL was harsher
-      "ALT.globalHarshness": { from: 0.48, to: 0.53 },       // pre-brief ALT was harsher
-      "KF.participationPref.government": { from: 0.55, to: 0.70 },
-      "KF.participationPref.opposition": { from: 0.25, to: 0.10 },
+      // Revert March 26 kongerunde signals
+      "SF.globalHarshness": { from: 0.55, to: 0.59 },       // pre-kongerunde: no mistillidstrussel yet
+      "KF.relationships.S.inGov": { from: 0.35, to: 0.30 },  // pre-kongerunde: KF hadn't signaled openness
+      // Revert March 28 sættemøde signals
+      "EL.globalHarshness": { from: 0.56, to: 0.64 },        // pre-sættemøde: EL hadn't softened
+      "ALT.globalHarshness": { from: 0.48, to: 0.53 },       // pre-sættemøde: ALT hadn't signaled flexibility
     }
   },
   "2026-03-26": {
     label: "forhandlinger",
     formationStage: "forhandlinger",
     changelog: [
-      "Retrocast: kongerunde-parametre med opdateret motor",
-      "Løkkes strategiske orientering: 30 % sandsynlighed for at forfølge blå koalition",
-      "SF forhandler hårdere efter mistillidstrussel",
+      "SF mistillidstrussel hæver SF globalHarshness",
       "Konservative åbner døren til S"
     ],
-    // Revert only March 28 changes
     overrides: {
-      "M.globalHarshness": { from: 0.32, to: 0.24 },
+      // Revert only March 28 sættemøde signals
       "EL.globalHarshness": { from: 0.56, to: 0.64 },
       "ALT.globalHarshness": { from: 0.48, to: 0.53 },
-      "SF.globalHarshness": { from: 0.55, to: 0.64 },  // kongerunde value
-      "KF.participationPref.government": { from: 0.55, to: 0.70 },
-      "KF.participationPref.opposition": { from: 0.25, to: 0.10 },
     }
   }
 };
