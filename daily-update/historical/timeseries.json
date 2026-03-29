@@ -14,7 +14,7 @@
     "noGov": 0,
     "formationStage": "valgaften",
     "changelog": [
-      "Retrocast: baseline kalibrering med opdateret motor (90-stemme gate, bilateral CI, oppositionAbstention=0.10)"
+      "Udgangspunkt: kalibrering fra valgaften, før forhandlingssignaler"
     ]
   },
   {
@@ -32,7 +32,6 @@
     "noGov": 0,
     "formationStage": "forhandlinger",
     "changelog": [
-      "Retrocast: kongerunde-parametre med opdateret motor",
       "Løkkes strategiske orientering: 30 % sandsynlighed for at forfølge blå koalition",
       "SF forhandler hårdere efter mistillidstrussel",
       "Konservative åbner døren til S"
@@ -53,15 +52,11 @@
     "noGov": 0,
     "formationStage": "forhandlinger",
     "changelog": [
-      "Motoropdatering: 90-stemme viabilitetsgate i formatørprotokol",
-      "oppositionAbstention: 0.30 → 0.10",
-      "Bilateral CI på alle relationer (σ=0.05 standard)",
-      "SF kræver at være i regering (demandGov=true)",
-      "M-accept rekalibreret ud fra strategisk nødvendighed",
-      "M globalHarshness: 0.24 → 0.32 (blind kalibrering)",
+      "M globalHarshness op (0.24 → 0.32): Løkkes hårde linje mod EL og formueskat",
       "EL bløder op: globalHarshness 0.64 → 0.56, fleksibel forhandlingsposition",
-      "KF mere oppositions-orienteret: gov 0.70 → 0.55",
-      "RV→M tolerateInGov: 0.82 → 0.10 (2022-traume: RV kan ikke overleve M i regering uden RV)"
+      "SF globalHarshness ned (0.64 → 0.55): privat forventningsstyring om kompromiser",
+      "KF mere oppositions-orienteret (gov 0.70 → 0.55): tilfreds med opposition",
+      "KF→S inGov ned (0.43 → 0.35): SVMRK vurderes urealistisk"
     ]
   }
 ]
