@@ -16,19 +16,22 @@ The simulator asks two questions about each possible coalition. First, can it pa
 
 ---
 
-## Current baseline output (N=5,000, post 2026-03-28 update)
+## Current baseline output (N=20,000, post 2026-03-28 update)
 
 | Coalition | Pct (aggregated) |
 |-----------|-----------------|
-| S+M+RV+SF | ~44% |
-| Blue coalitions (V+KF+LA+M etc.) | ~25% |
-| S+RV+SF | ~12% |
+| S+M+RV+SF | ~27% |
+| S+M+SF | ~21% |
+| V+KF+LA+M | ~12% |
+| V+KF+M | ~9% |
+| V+LA+M | ~6% |
+| S+KF+M+RV | ~2.5% |
 
-The 90-vote viability gate, SF demandGov, and lower opposition abstention (0.10) shift probability toward larger coalitions that clear the gate without relying on skiftende flertal. Blue coalitions gain share because the gate penalizes sub-90 red combinations more than blue alternatives.
+Red-led ~56%, blue-led ~35%. The demandGov-aware confidence check eliminates sub-90 coalitions through model mechanics: any government excluding both M and SF faces 91+ opposition. Equal viability thresholds (0.75) for both sides. M orientation at 50/50 red/blue.
 
 Coalitions are split by forståelsespapir status in the dashboard (e.g., S+M+RV+SF with EL forst vs. without).
 
-The distribution reflects genuine uncertainty about the SF--M relationship, M--EL tolerance, and how formateurs trade off budget arithmetic against coalition quality.
+The distribution reflects genuine uncertainty about the M→SF bilateral (0.62), M's strategic orientation, and EL forståelsespapir negotiation.
 
 ---
 
@@ -156,21 +159,33 @@ Within each formateur's stage, all qualifying coalitions are scored by `scoreCoa
 - **Blue formateur:** larger-party leader (V or LA by seats) gets a 1.15 bonus. Includes stochastic noise.
 - **M formateur:** stochastic noise only.
 
-### 90-vote viability gate
+### DemandGov-aware confidence check
 
-In all formation rounds except the final desperation round, the formateur only considers coalitions that can plausibly assemble 90 FOR votes. "Friendly seats" = government members + same-bloc or swing parties whose minimum `tolerateInGov` toward all government members is >= 0.30, excluding any party with `demandGov` that is not in the coalition. Coalitions that fall short of 90 friendly seats -- i.e., those that would rely on *skiftende flertal* -- are filtered out before scoring. Sub-90 coalitions are only reconsidered in the final desperation round.
+The confidence check (`confidenceCheck`) determines whether a coalition can survive a no-confidence vote (opposition < 90 seats). It counts as opposition:
+- Parties with `asPM < 0.10` toward the PM (would vote against on principle)
+- Parties with `demandGov=true` that are excluded from the coalition (would vote against because exclusion is unacceptable)
 
-### SF demandGov
+This means any government excluding both M and SF faces 91+ opposition (M 14 + SF 20 + blue bloc with KF 77) and fails confidence. Sub-90 "skiftende flertal" coalitions are eliminated through model mechanics rather than an ad hoc gate.
 
-SF's explicit no-confidence threat (Tulle's "SF stemmer imod enhver regering, vi ikke selv sidder i") is encoded as `demandGov=true`. When SF is excluded from a government, it votes ~95% against the budget (1% FOR, 4% abstain), identical to the M and S demand gates. This is checked by default in the dashboard.
+### SF and RV demandGov
 
-### Opposition abstention recalibration
+SF's explicit no-confidence threat ("SF stemmer imod enhver regering, vi ikke selv sidder i") is encoded as `demandGov=true`. RV's demand is driven by the 2022 trauma — Lidegaard staked his leadership on government entry and cannot accept M governing without RV. Both vote ~95% against any government they are excluded from (1% FOR, 4% abstain), identical to the M and S demand gates.
 
-The `oppositionAbstention` parameter (controlling the largest opposition party's abstention-to-against ratio) now defaults to 0.10, down from 0.30. Budget votes are not neutral: the historical norm of opposition abstention applies to no-confidence votes more than to annual budget negotiations. The CI variation draws from N(0.10, 0.05), clamped to [0.10, 0.60].
+### Equal viability thresholds
+
+Both red and blue formateurs use the same `viabilityThreshold` (default 0.75). The previous asymmetry (0.75 red, 0.10 blue) was removed — both sides play by the same rules, and the parliamentary arithmetic determines which coalitions are viable.
+
+### M strategic orientation
+
+M draws a strategic orientation each iteration: 50% red cooperation, 50% blue. This replaces the previous 70/30 split. The equal probability reflects that Løkke's preference is for a centrist government — he is not inherently red-leaning. When M draws blue, M→S bilaterals are temporarily set near-zero, blocking S-led coalitions containing M.
+
+### Opposition abstention
+
+The `oppositionAbstention` parameter defaults to 0.10 (opposition votes against ~90% of the time on budgets). Budget votes are not neutral: the historical abstention norm applies more to no-confidence votes than to annual budget negotiations. CI variation: N(0.10, 0.04), clamped to [0.03, 0.25].
 
 ### Bilateral CI variation
 
-All bilateral relationship parameters (tolerateInGov, asPM, asSupport) are drawn per iteration from N(mean, sigma) with default sigma 0.05. Key uncertain bilaterals use higher sigma: SF<->M inGov (sigma 0.06), M->EL tolerance (sigma 0.10). This propagates relationship uncertainty through the model rather than committing to point estimates. See Section 10 for the full parameter table.
+All bilateral relationship parameters are drawn per iteration from N(mean, sigma) with default sigma 0.02. Key uncertain bilaterals use higher sigma: SF↔M inGov (0.03), M→EL tolerateInGov (0.08), EL→M tolerateInGov (0.06), DD→M tolerateInGov (0.06), RV→M tolerateInGov (0.04).
 
 ---
 

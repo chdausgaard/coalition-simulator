@@ -24,7 +24,7 @@ node -e "const e = require('./sim5-engine.js'); console.log(JSON.stringify(e.sim
 
 S+M+RV+SF ~27%, S+M+SF ~21%, V+KF+LA+M ~12%, S+KF+M+RV ~2.5%.
 
-The 90-vote gate, SF demandGov, and lower opposition abstention (0.10) concentrate probability on coalitions that clear the viability gate. The SF-M bilateral relationship remains highly consequential.
+DemandGov-aware confidence check eliminates sub-90 coalitions through model mechanics. Equal viability thresholds for red and blue (0.75). M orientation 50/50. The M→SF bilateral (0.62) and M's strategic orientation are the most consequential parameters.
 
 ## Daily update pipeline
 

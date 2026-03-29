@@ -1702,7 +1702,7 @@ onmessage = function(e) {
                 <span class="field-label">Viabilitetstærskel</span>
                 <span class="value-pill" id="control-viabilityThreshold-value">0,70</span>
               </div>
-              <p class="field-desc">Minimum sandsynlighed for at S-formatøren kan forhandle en budgetaftale med tilstrækkeligt mange støttepartier. Høj tærskel = kræver sikre aftaler. Lav = tager chancer. Blå formatøren (runde 2) bruger altid en lavere tærskel (0,10) da situationen er mere desperat.</p>
+              <p class="field-desc">Minimum sandsynlighed for at formatøren kan forhandle en budgetaftale med tilstrækkeligt mange støttepartier. Høj tærskel = kræver sikre aftaler. Lav = tager chancer. Gælder for både rød og blå formatør.</p>
               <input type="range" id="control-viabilityThreshold" data-control="viabilityThreshold" min="0.3" max="0.9" step="0.05" value="0.75">
             </div>
 
@@ -1907,7 +1907,7 @@ onmessage = function(e) {
                 <section class="field-group methodology-section">
                   <p class="field-label methodology-heading"><strong>Formationsprotokol</strong></p>
                   <p class="field-desc methodology-copy">
-                    S-formatøren forsøger først i 1-5 runder med stigende fleksibilitet. Hvis alle S-forsøg fejler, får en blå formatør chancen med lavere viabilitetstærskel (0.10 - desperation, jf. Hartlings 22-mandatregering). Hvis også det fejler, følger en sidste desperationsrunde med tærskel 0.05. Historisk er der altid dannet en regering.
+                    S-formatøren forsøger først i 1-5 runder med stigende fleksibilitet. Hvis alle S-forsøg fejler, får en blå formatør chancen med samme viabilitetstærskel. Hvis også det fejler, følger en sidste desperationsrunde med tærskel 0.05. Historisk er der altid dannet en regering.
                   </p>
                 </section>
 
