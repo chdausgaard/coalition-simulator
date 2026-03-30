@@ -1434,9 +1434,9 @@ const NA_SEATS = [
     name: "Cecilie Liv Hansen (tidl. LA)",
     mandates: 1,
     bloc: "na",
-    pRed: 0.05,
-    pFlexible: 0.20,
-    pBlue: 0.75,
+    pRed: 0.08,
+    pFlexible: 0.32,
+    pBlue: 0.60,
     notes: "Expelled from LA March 29. Somewhat left-leaning on immigration; more unpredictable than typical LA member."
   },
   {
@@ -1444,9 +1444,9 @@ const NA_SEATS = [
     name: "Jacob Harris (tidl. BP)",
     mandates: 1,
     bloc: "na",
-    pRed: 0.05,
-    pFlexible: 0.20,
-    pBlue: 0.75,
+    pRed: 0.08,
+    pFlexible: 0.32,
+    pBlue: 0.60,
     notes: "Expelled from BP March 28 for 'groft uforsvarlig forretningsførelse'. Blue-leaning but no party discipline."
   }
 ];
