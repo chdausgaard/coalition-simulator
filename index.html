@@ -3013,16 +3013,18 @@ onmessage = function(e) {
         }
         const topCoals = Object.entries(coalFreq)
           .sort((a, b) => b[1] - a[1])
-          .slice(0, 6)
+          .slice(0, 8)
           .map(e => e[0]);
 
         const COAL_COLORS = {
           "S+M+RV+SF": "#1e3a5f",
-          "S+RV+SF": "#c0392b",
           "S+M+SF": "#e67e22",
-          "S+M+RV": "#6a1b9a",
-          "S+SF": "#27ae60",
-          "V+KF+LA+M": "#2980b9"
+          "S+RV+SF": "#c0392b",
+          "S+KF+M+RV": "#6a1b9a",
+          "V+KF+LA+M": "#2980b9",
+          "V+KF+M": "#5dade2",
+          "V+LA+M": "#85c1e9",
+          "V+M": "#aed6f1"
         };
         const fallbackColors = ["#7f8c8d", "#d4a017", "#8e44ad", "#16a085", "#e74c3c", "#34495e"];
         let colorIdx = 0;
