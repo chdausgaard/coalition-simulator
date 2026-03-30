@@ -22,14 +22,18 @@ node -e "const e = require('./sim5-engine.js'); console.log(JSON.stringify(e.sim
 
 ## Current output (~N=5000, post 2026-03-28 update)
 
-S+M+RV+SF ~27%, S+M+SF ~21%, V+KF+LA+M ~12%, S+KF+M+RV ~2.5%.
+S+M+RV+SF ~24%, S+M+SF ~20%, S+RV+SF ~11%, V+KF+LA+M ~10%, V+KF+M ~7%.
 
-DemandGov-aware confidence check eliminates sub-90 coalitions through model mechanics. Equal viability thresholds for red and blue (0.75). M orientation 50/50. The M→SF bilateral (0.62) and M's strategic orientation are the most consequential parameters.
+DemandGov-aware confidence check eliminates sub-90 coalitions through model mechanics. Equal viability thresholds for red and blue (0.75). M orientation 50/50. Two løsgængere (pBlue=0.60) make S+RV+SF viable when both draw non-blue (~16% of iterations).
 
 ## Daily update pipeline
 
 `daily-update/` contains the parameter update pipeline: research prompt, apply script, timeseries.
 See `daily-update/historical/timeseries.json` for the coalition probability timeline.
+
+### Timeline retrocast without noise
+
+Timeline entries must be generated in a **single Node process** at N≥30000 to avoid inter-process MC variance. The retrocast script (`daily-update/retrocast.js`) handles this: it runs all dates sequentially, temporarily reverting brief-driven parameter changes and mandate counts for earlier dates. When adding a new date, run the full retrocast rather than generating the new entry separately — otherwise the numbers won't be comparable across dates.
 
 ## Dashboard tabs
 

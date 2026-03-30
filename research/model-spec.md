@@ -20,18 +20,18 @@ The simulator asks two questions about each possible coalition. First, can it pa
 
 | Coalition | Pct (aggregated) |
 |-----------|-----------------|
-| S+M+RV+SF | ~27% |
-| S+M+SF | ~21% |
-| V+KF+LA+M | ~12% |
-| V+KF+M | ~9% |
-| V+LA+M | ~6% |
-| S+KF+M+RV | ~2.5% |
+| S+M+RV+SF | ~24% |
+| S+M+SF | ~20% |
+| S+RV+SF | ~11% |
+| V+KF+LA+M | ~10% |
+| V+KF+M | ~7% |
+| S+KF+M+RV | ~2% |
 
-Red-led ~56%, blue-led ~35%. The demandGov-aware confidence check eliminates sub-90 coalitions through model mechanics: any government excluding both M and SF faces 91+ opposition. Equal viability thresholds (0.75) for both sides. M orientation at 50/50 red/blue.
+Red-led ~56%, blue-led ~35%. The demandGov-aware confidence check eliminates sub-90 coalitions through model mechanics: any government excluding both M and SF faces 91+ opposition — unless both løsgængere draw non-blue (~16% of iterations), which makes S+RV+SF viable. Equal viability thresholds (0.75) for both sides. M orientation at 50/50 red/blue.
 
-Coalitions are split by forståelsespapir status in the dashboard (e.g., S+M+RV+SF with EL forst vs. without).
+Two expelled blue MPs (LA→15, BP→3) are modeled as løsgængere with pBlue=0.60 via the NA seat mechanism. NA (Faroese/Greenlandic) seats abstain on confidence votes per convention; løsgængere vote actively.
 
-The distribution reflects genuine uncertainty about the M→SF bilateral (0.62), M's strategic orientation, and EL forståelsespapir negotiation.
+The distribution reflects genuine uncertainty about the M→SF bilateral (0.62), M's strategic orientation, løsgænger alignment, and EL forståelsespapir negotiation.
 
 ---
 
