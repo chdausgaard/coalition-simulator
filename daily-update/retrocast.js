@@ -33,13 +33,13 @@ const HISTORICAL_OVERRIDES = {
     label: "valgaften",
     formationStage: "valgaften",
     changelog: ["Udgangspunkt: kalibrering fra valgaften, før forhandlingssignaler"],
+    removeLG: true,  // No løsgængere before March 29
+    mandateOverrides: { LA: 16, BP: 4 },  // Pre-expulsion seat counts
     overrides: {
-      // Revert March 26 kongerunde signals
-      "SF.globalHarshness": { from: 0.55, to: 0.59 },       // pre-kongerunde: no mistillidstrussel yet
-      "KF.relationships.S.inGov": { from: 0.35, to: 0.30 },  // pre-kongerunde: KF hadn't signaled openness
-      // Revert March 28 sættemøde signals
-      "EL.globalHarshness": { from: 0.56, to: 0.64 },        // pre-sættemøde: EL hadn't softened
-      "ALT.globalHarshness": { from: 0.48, to: 0.53 },       // pre-sættemøde: ALT hadn't signaled flexibility
+      "SF.globalHarshness": { from: 0.55, to: 0.59 },
+      "KF.relationships.S.inGov": { from: 0.35, to: 0.30 },
+      "EL.globalHarshness": { from: 0.56, to: 0.64 },
+      "ALT.globalHarshness": { from: 0.48, to: 0.53 },
     }
   },
   "2026-03-26": {
@@ -49,8 +49,9 @@ const HISTORICAL_OVERRIDES = {
       "SF mistillidstrussel hæver SF globalHarshness",
       "Konservative åbner døren til S"
     ],
+    removeLG: true,
+    mandateOverrides: { LA: 16, BP: 4 },
     overrides: {
-      // Revert only March 28 sættemøde signals
       "EL.globalHarshness": { from: 0.56, to: 0.64 },
       "ALT.globalHarshness": { from: 0.48, to: 0.53 },
     }
@@ -63,12 +64,9 @@ const HISTORICAL_OVERRIDES = {
       "ALT globalHarshness ned (0.53 → 0.48): svinepagt som eneste ultimatum",
       "SF globalHarshness ned (0.64 → 0.55): privat forventningsstyring om kompromiser"
     ],
-    overrides: {
-      // Revert March 29 changes (LA/BP seat reductions + løsgængere are structural, not brief-driven)
-      // Actually: the expulsions ARE events. But the seats were changed in sim5-parties.js
-      // directly, so we need to temporarily restore LA=16, BP=4 for the March 28 retrocast.
-      // This is handled by mandate overrides, not party property overrides.
-    }
+    removeLG: true,
+    mandateOverrides: { LA: 16, BP: 4 },
+    overrides: {}
   }
 };
 
@@ -110,6 +108,29 @@ function runRetrocast(date, config) {
     console.log(`  ${key}: ${spec.from} → ${spec.to}`);
   }
 
+  // Mandate overrides: temporarily change party seat counts
+  const savedMandates = {};
+  for (const [partyId, seats] of Object.entries(config.mandateOverrides || {})) {
+    const party = PARTIES_MAP[partyId];
+    if (party) {
+      savedMandates[partyId] = party.mandates;
+      party.mandates = seats;
+      console.log(`  ${partyId}.mandates: ${savedMandates[partyId]} → ${seats}`);
+    }
+  }
+
+  // Temporarily remove LG seats if this date predates their expulsion
+  const removedLG = [];
+  if (config.removeLG) {
+    for (let i = Sim5Parties.NA_SEATS.length - 1; i >= 0; i--) {
+      if (Sim5Parties.NA_SEATS[i].id.startsWith("LG-")) {
+        removedLG.push({ index: i, seat: Sim5Parties.NA_SEATS[i] });
+        Sim5Parties.NA_SEATS.splice(i, 1);
+      }
+    }
+    if (removedLG.length) console.log(`  Removed ${removedLG.length} LG seats`);
+  }
+
   // Run simulation
   const result = engine.simulate({}, N);
 
@@ -132,6 +153,14 @@ function runRetrocast(date, config) {
   // Restore
   for (const [key, oldVal] of Object.entries(saved)) {
     if (oldVal != null) applyOverride(key, oldVal);
+  }
+  for (const [partyId, oldMandates] of Object.entries(savedMandates)) {
+    const party = PARTIES_MAP[partyId];
+    if (party) party.mandates = oldMandates;
+  }
+  // Restore removed LG seats
+  for (const { index, seat } of removedLG.reverse()) {
+    Sim5Parties.NA_SEATS.splice(index, 0, seat);
   }
 
   return {
