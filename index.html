@@ -2397,11 +2397,9 @@ onmessage = function(e) {
             ${segments.map(segment => `
               <div
                 class="stacked-segment ${segment.muted ? "muted" : ""}"
-                style="width:${segment.pct}%; background:${segment.muted ? segment.color : segment.color}"
+                style="width:${segment.pct}%; background:${segment.color}"
                 title="${segment.label}: ${formatPct(segment.pct, 0)}"
-              >
-                ${segment.pct >= 7 ? escapeHtml(segment.label) + " " + formatPct(segment.pct, 0) : escapeHtml(segment.label)}
-              </div>
+              ></div>
             `).join("")}
           </div>
           <div class="distribution-legend">
