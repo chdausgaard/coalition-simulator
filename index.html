@@ -2349,13 +2349,14 @@ onmessage = function(e) {
       function coalitionCategorySegments(results) {
         if (!results || !Array.isArray(results.topCoalitions)) return [];
         const cats = { "Centrum-rød": 0, "Tværblok": 0, "Centrum-blå": 0 };
-        const catColors = { "Centrum-rød": "#c0392b", "Tværblok": "#8e44ad", "Centrum-blå": "#2471a3" };
+        // Use S party color for red, purple for cross-bloc, V party color for blue
+        const catColors = { "Centrum-rød": PARTY_COLORS.S || "#e2001a", "Tværblok": "#8e44ad", "Centrum-blå": PARTY_COLORS.V || "#254c85" };
         for (const item of results.topCoalitions) {
           const members = item.govt.split("+");
           const category = Sim5Coalitions.classifyCoalitionCategory(members);
-          if (category === "center-left" || category === "red") cats["Centrum-rød"] += item.pct;
-          else if (category === "cross") cats["Tværblok"] += item.pct;
-          else if (category === "center-right" || category === "blue") cats["Centrum-blå"] += item.pct;
+          if (category === "center-red" || category === "red") cats["Centrum-rød"] += item.pct;
+          else if (category === "cross-bloc") cats["Tværblok"] += item.pct;
+          else if (category === "center-blue" || category === "blue") cats["Centrum-blå"] += item.pct;
           else cats["Centrum-rød"] += item.pct; // midter, other → red-side default
         }
         return Object.entries(cats)
