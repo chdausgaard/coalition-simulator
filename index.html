@@ -2349,19 +2349,21 @@ onmessage = function(e) {
       function coalitionCategorySegments(results) {
         if (!results || !Array.isArray(results.topCoalitions)) return [];
         const cats = { "Centrum-rød": 0, "Tværblok": 0, "Centrum-blå": 0 };
-        // Use S party color for red, purple for cross-bloc, V party color for blue
-        const catColors = { "Centrum-rød": PARTY_COLORS.S || "#e2001a", "Tværblok": "#8e44ad", "Centrum-blå": PARTY_COLORS.V || "#254c85" };
+        const catColors = { "Centrum-rød": PARTY_COLORS.S || "#e2001a", "Tværblok": "#8e44ad", "Centrum-blå": PARTY_COLORS.V || "#254c85", "Andet": "#8f9aae" };
         for (const item of results.topCoalitions) {
           const members = item.govt.split("+");
           const category = Sim5Coalitions.classifyCoalitionCategory(members);
           if (category === "center-red" || category === "red") cats["Centrum-rød"] += item.pct;
           else if (category === "cross-bloc") cats["Tværblok"] += item.pct;
           else if (category === "center-blue" || category === "blue") cats["Centrum-blå"] += item.pct;
-          else cats["Centrum-rød"] += item.pct; // midter, other → red-side default
+          else cats["Centrum-rød"] += item.pct;
         }
+        const assigned = Object.values(cats).reduce((a, b) => a + b, 0);
+        const remainder = Math.max(0, 100 - assigned);
+        if (remainder > 0.5) cats["Andet"] = remainder;
         return Object.entries(cats)
           .filter(([, pct]) => pct > 0.1)
-          .map(([label, pct]) => ({ label, pct, color: catColors[label] }));
+          .map(([label, pct]) => ({ label, pct, color: catColors[label] || "#8f9aae" }));
       }
 
       function renderCoalitionCategory(results) {
@@ -2370,9 +2372,7 @@ onmessage = function(e) {
         return `
           <div class="stacked-bar">
             ${segments.map(s => `
-              <div class="stacked-segment" style="width:${s.pct}%; background:${s.color}" title="${s.label}: ${formatPct(s.pct, 0)}">
-                ${s.pct >= 7 ? escapeHtml(s.label) + " " + formatPct(s.pct, 0) : escapeHtml(s.label)}
-              </div>
+              <div class="stacked-segment" style="width:${s.pct}%; background:${s.color}" title="${s.label}: ${formatPct(s.pct, 0)}"></div>
             `).join("")}
           </div>
           <div class="distribution-legend">
