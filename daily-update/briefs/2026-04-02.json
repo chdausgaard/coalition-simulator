@@ -1,0 +1,87 @@
+{
+  "date": "2026-04-02",
+  "summary": "Løkke escalated pressure for a cross-bloc centre deal via Facebook and press, framing the centre-left track as insufficient. Lidegaard pushed back with 'easier to make red parties fiscally responsible than blue parties green.' Cecilie Liv Hansen confirmed she will stay as independent løsgænger.",
+  "developments": [
+    {
+      "description": "Løkke posted Facebook video before Marienborg meeting: 'Koste hvad det vil' — personal resolve messaging, directional ambiguity maintained but kingmaker posture hardened.",
+      "source": "Avisen.dk (Ritzau), 1 April 2026 19:07",
+      "impact": "M globalHarshness up; M orientation ambiguity maintained"
+    },
+    {
+      "description": "Løkke described formation as 'mere end svært ud' and explicitly pressured S/V/KF to send 'positive signals' toward cross-bloc centre deal. Lidegaard responded: 'det er nemmere at gøre røde partier økonomisk ansvarlige, end at gøre blå partier grønne.'",
+      "source": "Presse-fotos.dk, 2 April 2026 19:00",
+      "impact": "crossBlocBonus up sharply; M→SF cooling; implicit critique of S+SF+RV landing zone"
+    },
+    {
+      "description": "Cecilie Liv Hansen confirmed in podcast interview that she intends to stay in Folketinget as independent. Described expulsion as 'et kæmpechok.'",
+      "source": "Presse-fotos.dk, 2 April 2026 11:11",
+      "impact": "LG-LA locks in independent status; pFlexible up"
+    }
+  ],
+  "parameterChanges": [
+    {
+      "party": "M",
+      "parameter": "globalHarshness",
+      "oldValue": 0.32,
+      "newValue": 0.35,
+      "justification": "'Koste hvad det vil' + 'det ser mere end svært ud' = harder bargaining posture"
+    },
+    {
+      "party": "M→SF",
+      "parameter": "inGov",
+      "oldValue": 0.62,
+      "newValue": 0.58,
+      "justification": "Løkke's cross-bloc framing explicitly deprioritizes centre-left track"
+    },
+    {
+      "party": "M→SF",
+      "parameter": "asSupport",
+      "oldValue": 0.75,
+      "newValue": 0.72,
+      "justification": "Same signal"
+    },
+    {
+      "party": "cfg",
+      "parameter": "crossBlocBonus",
+      "oldValue": 2.0,
+      "newValue": 5.0,
+      "justification": "Løkke explicitly and publicly making case for cross-bloc; dramatically higher pull toward 'over-the-middle' solutions"
+    },
+    {
+      "party": "V→S",
+      "parameter": "inGov/asSupport/tolerateInGov/asPM",
+      "oldValue": "0.08/0.12/0.10/0.02",
+      "newValue": "0.18/0.23/0.20/0.08",
+      "justification": "Blue PM fading as M pushes cross-bloc; V begins reluctant pivot (40% of total shift)"
+    },
+    {
+      "party": "KF→S",
+      "parameter": "inGov/asSupport/tolerateInGov/asPM",
+      "oldValue": "0.35/0.60/0.72/0.05",
+      "newValue": "0.42/0.66/0.76/0.12",
+      "justification": "KF most enthusiastic blue-side pivot (Juul door already ajar); 40% of shift"
+    },
+    {
+      "party": "LA→S",
+      "parameter": "inGov/asSupport/tolerateInGov/asPM",
+      "oldValue": "0.03/0.04/0.02/0.00",
+      "newValue": "0.05/0.10/0.07/0.01",
+      "justification": "LA identity constraint limits shift; mainly tolerance/support from outside; 40%"
+    },
+    {
+      "party": "LG-LA",
+      "parameter": "pFlexible",
+      "oldValue": 0.32,
+      "newValue": 0.40,
+      "justification": "Confirmed she stays as independent; locks in bargaining leverage"
+    }
+  ],
+  "structuralChanges": [
+    {
+      "description": "Blue løsgænger behavioral model: blue-origin LG seats never support red/center-red governments. Retroactive model correction.",
+      "scope": "engine (evalNABudgetVote, confidenceCheck, scoreCoalition)"
+    }
+  ],
+  "formationStage": "forhandlinger",
+  "confidenceAssessment": "medium-high — Løkke quotes are first-person via Facebook/wire; Lidegaard response is same-window"
+}

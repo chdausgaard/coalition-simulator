@@ -2,11 +2,12 @@
 /**
  * retrocast.js — Recalculate historical timeline entries using the current engine.
  *
- * When structural engine changes (90-vote gate, bilateral CI, oppositionAbstention)
- * are added, the historical timeline entries need to be retrocast to avoid
- * large non-event-driven shifts. This script re-runs each historical date
- * with the current engine but only the parameter values that were in effect
- * on that date.
+ * Architectural engine changes (three-state M orientation, opposition coordination,
+ * majority gap penalty, blue LG model, opposition budget discipline) apply to ALL
+ * dates uniformly — they are "the model was always wrong" fixes.
+ *
+ * Brief-driven changes (party parameters, seat counts, crossBlocBonus) are reverted
+ * for dates before they occurred.
  *
  * Usage: node daily-update/retrocast.js
  */
@@ -16,29 +17,120 @@ const Sim5Parties = require("../sim5-parties.js");
 const engine = require("../sim5-engine.js");
 const PARTIES_MAP = Sim5Parties.PARTIES_MAP;
 
-const N = 20000;
+const N = 30000;
 
-// Historical parameter overrides: for each date, list what was DIFFERENT
-// from today's values. The script temporarily applies these overrides,
-// runs the simulation, then restores current values.
-//
-// Only daily-brief-driven changes are reverted. Structural corrections
-// (SF demandGov, M-acceptance recalibration, oppositionAbstention, 90-gate)
-// are treated as "always should have been there" and apply to all dates.
+// ── Reversion blocks ─────────────────────────────────────────────────
+// Brief-driven changes grouped by the date they were introduced.
+// Earlier dates spread these to revert to the pre-change state.
 
-// Only revert BRIEF-DRIVEN changes (actual political events/signals).
-// All calibration/architecture changes apply to all dates uniformly.
+// April 1: GL red shift + EL softening
+const REVERT_APRIL_01 = {
+  "EL.globalHarshness": { from: 0.50, to: 0.56 },
+};
+const NA_OVERRIDES_PRE_APRIL_01 = {
+  "GL-IA": { pRed: 0.55, pFlexible: 0.40, pBlue: 0.05 },
+  "GL-NAL": { pRed: 0.42, pFlexible: 0.48, pBlue: 0.10 }
+};
+
+// April 2: M hardening, M→SF cooling, blue-party pivot (40%), crossBlocBonus
+const REVERT_APRIL_02 = {
+  "M.globalHarshness": { from: 0.35, to: 0.32 },
+  "M.relationships.SF.inGov": { from: 0.58, to: 0.62 },
+  "M.relationships.SF.asSupport": { from: 0.72, to: 0.75 },
+  // Full reversion of blue-party pivot (back to pre-pivot values)
+  "V.relationships.S.inGov": { from: 0.32, to: 0.08 },
+  "V.relationships.S.asSupport": { from: 0.40, to: 0.12 },
+  "V.relationships.S.tolerateInGov": { from: 0.35, to: 0.10 },
+  "V.relationships.S.asPM": { from: 0.18, to: 0.02 },
+  "KF.relationships.S.inGov": { from: 0.52, to: 0.35 },
+  "KF.relationships.S.asSupport": { from: 0.74, to: 0.60 },
+  "KF.relationships.S.tolerateInGov": { from: 0.82, to: 0.72 },
+  "KF.relationships.S.asPM": { from: 0.22, to: 0.05 },
+  "LA.relationships.S.inGov": { from: 0.08, to: 0.03 },
+  "LA.relationships.S.asSupport": { from: 0.18, to: 0.04 },
+  "LA.relationships.S.tolerateInGov": { from: 0.15, to: 0.02 },
+  "LA.relationships.S.asPM": { from: 0.02, to: 0.00 },
+};
+
+// April 4: BP toxicity increase (Schytte departure)
+const REVERT_APRIL_04_BP = {
+  "V.relationships.BP.inGov": { from: 0.10, to: 0.12 },
+  "V.relationships.BP.asSupport": { from: 0.26, to: 0.30 },
+  "V.relationships.BP.tolerateInGov": { from: 0.30, to: 0.35 },
+  "KF.relationships.BP.inGov": { from: 0.18, to: 0.20 },
+  "KF.relationships.BP.asSupport": { from: 0.30, to: 0.35 },
+  "KF.relationships.BP.tolerateInGov": { from: 0.35, to: 0.40 },
+  "LA.relationships.BP.inGov": { from: 0.28, to: 0.30 },
+  "LA.relationships.BP.asSupport": { from: 0.40, to: 0.45 },
+  "LA.relationships.BP.tolerateInGov": { from: 0.45, to: 0.50 },
+  "M.relationships.BP.asSupport": { from: 0.08, to: 0.10 },
+  "M.relationships.BP.tolerateInGov": { from: 0.10, to: 0.12 },
+};
+
+// April 6: V harshness + remaining 60% blue-party pivot
+const REVERT_APRIL_06 = {
+  "V.globalHarshness": { from: 0.75, to: 0.72 },
+  // Partial reversion: from final values to April-2 intermediate values
+  "V.relationships.S.inGov": { from: 0.32, to: 0.18 },
+  "V.relationships.S.asSupport": { from: 0.40, to: 0.23 },
+  "V.relationships.S.tolerateInGov": { from: 0.35, to: 0.20 },
+  "V.relationships.S.asPM": { from: 0.18, to: 0.08 },
+  "KF.relationships.S.inGov": { from: 0.52, to: 0.42 },
+  "KF.relationships.S.asSupport": { from: 0.74, to: 0.66 },
+  "KF.relationships.S.tolerateInGov": { from: 0.82, to: 0.76 },
+  "KF.relationships.S.asPM": { from: 0.22, to: 0.12 },
+  "LA.relationships.S.inGov": { from: 0.08, to: 0.05 },
+  "LA.relationships.S.asSupport": { from: 0.18, to: 0.10 },
+  "LA.relationships.S.tolerateInGov": { from: 0.15, to: 0.07 },
+  "LA.relationships.S.asPM": { from: 0.02, to: 0.01 },
+};
+
+// Pre-March-31 BP toxicity (before Isaksen/Nawa/Harris)
+const REVERT_PRE_MARCH_31_BP = {
+  "V.relationships.BP.inGov": { from: 0.10, to: 0.20 },
+  "V.relationships.BP.asSupport": { from: 0.26, to: 0.40 },
+  "V.relationships.BP.tolerateInGov": { from: 0.30, to: 0.45 },
+  "LA.relationships.BP.inGov": { from: 0.28, to: 0.40 },
+  "LA.relationships.BP.asSupport": { from: 0.40, to: 0.55 },
+  "LA.relationships.BP.tolerateInGov": { from: 0.45, to: 0.60 },
+  "LA.relationships.BP.asPM": { from: 0.06, to: 0.08 },
+  "KF.relationships.BP.inGov": { from: 0.18, to: 0.30 },
+  "KF.relationships.BP.asSupport": { from: 0.30, to: 0.45 },
+  "KF.relationships.BP.tolerateInGov": { from: 0.35, to: 0.50 },
+  "KF.relationships.BP.asPM": { from: 0.03, to: 0.05 },
+  "DF.relationships.BP.inGov": { from: 0.28, to: 0.35 },
+  "DF.relationships.BP.asSupport": { from: 0.42, to: 0.50 },
+  "DF.relationships.BP.tolerateInGov": { from: 0.48, to: 0.55 },
+  "DF.relationships.BP.asPM": { from: 0.04, to: 0.05 },
+  "DD.relationships.BP.inGov": { from: 0.22, to: 0.30 },
+  "DD.relationships.BP.asSupport": { from: 0.38, to: 0.45 },
+  "DD.relationships.BP.tolerateInGov": { from: 0.42, to: 0.50 },
+  "DD.relationships.BP.asPM": { from: 0.04, to: 0.05 },
+};
+
+// ── Historical overrides ─────────────────────────────────────────────
+// Architectural changes (three-state M orientation, opposition coordination,
+// majority gap penalty, blue LG model) apply to ALL dates uniformly.
+// Only info-driven changes are reverted per-date.
+
 const HISTORICAL_OVERRIDES = {
   "2026-03-24": {
     label: "valgaften",
     formationStage: "valgaften",
     changelog: ["Udgangspunkt: kalibrering fra valgaften, før forhandlingssignaler"],
-    removeLG: true,  // No løsgængere before March 29
-    mandateOverrides: { LA: 16, BP: 4 },  // Pre-expulsion seat counts
+    removeLG: true,
+    removeLGBP2: true,
+    mandateOverrides: { LA: 16, BP: 4 },
+    cfgOverrides: { crossBlocBonus: 1.0 },
     overrides: {
+      ...REVERT_APRIL_06,
+      ...REVERT_APRIL_04_BP,
+      ...REVERT_APRIL_02,
+      ...REVERT_APRIL_01,
+      ...REVERT_PRE_MARCH_31_BP,
       "SF.globalHarshness": { from: 0.55, to: 0.59 },
-      "KF.relationships.S.inGov": { from: 0.35, to: 0.30 },
-      "EL.globalHarshness": { from: 0.56, to: 0.64 },
+      "KF.relationships.S.inGov": { from: 0.52, to: 0.30 },
+      "EL.globalHarshness": { from: 0.50, to: 0.64 },
       "ALT.globalHarshness": { from: 0.48, to: 0.53 },
     }
   },
@@ -46,13 +138,20 @@ const HISTORICAL_OVERRIDES = {
     label: "forhandlinger",
     formationStage: "forhandlinger",
     changelog: [
-      "SF mistillidstrussel hæver SF globalHarshness",
-      "Konservative åbner døren til S"
+      "SF truer med mistillidsvotum mod enhver regering uden SF",
+      "Konservative (Mona Juul) åbner døren til samarbejde med S"
     ],
     removeLG: true,
+    removeLGBP2: true,
     mandateOverrides: { LA: 16, BP: 4 },
+    cfgOverrides: { crossBlocBonus: 1.0 },
     overrides: {
-      "EL.globalHarshness": { from: 0.56, to: 0.64 },
+      ...REVERT_APRIL_06,
+      ...REVERT_APRIL_04_BP,
+      ...REVERT_APRIL_02,
+      ...REVERT_APRIL_01,
+      ...REVERT_PRE_MARCH_31_BP,
+      "EL.globalHarshness": { from: 0.50, to: 0.64 },
       "ALT.globalHarshness": { from: 0.48, to: 0.53 },
     }
   },
@@ -60,27 +159,160 @@ const HISTORICAL_OVERRIDES = {
     label: "forhandlinger",
     formationStage: "forhandlinger",
     changelog: [
-      "EL bløder op: globalHarshness 0.64 → 0.56, fleksibel forhandlingsposition",
-      "ALT globalHarshness ned (0.53 → 0.48): svinepagt som eneste ultimatum",
-      "SF globalHarshness ned (0.64 → 0.55): privat forventningsstyring om kompromiser"
+      "EL bløder op: Dragsted signalerer fleksibilitet, ét krav (ulighed), folketingsgruppen forhandler",
+      "ALT reducerer til ét ultimatum: svinepagten",
+      "SF (Dyhr) styrer forventninger ned internt om kommende kompromiser"
     ],
     removeLG: true,
+    removeLGBP2: true,
     mandateOverrides: { LA: 16, BP: 4 },
-    overrides: {}
+    cfgOverrides: { crossBlocBonus: 1.0 },
+    overrides: {
+      ...REVERT_APRIL_06,
+      ...REVERT_APRIL_04_BP,
+      ...REVERT_APRIL_02,
+      ...REVERT_APRIL_01,
+      ...REVERT_PRE_MARCH_31_BP,
+    }
   },
   "2026-03-29": {
     label: "forhandlinger",
     formationStage: "forhandlinger",
     changelog: [
-      "LA ekskluderer Cecilie Liv Hansen → løsgænger (LA 16→15)",
-      "BP ekskluderer Jacob Harris → løsgænger (BP 4→3)",
-      "Løsgængere modelleret med probabilistisk blå tilknytning (60%)",
+      "LA ekskluderer Cecilie Liv Hansen → løsgænger (LA 16→15, 1 uafhængigt mandat)",
+      "BP ekskluderer Jacob Harris → løsgænger (BP 4→3, 1 uafhængigt mandat)",
       "Forhandlingspause: weekend bruges til uformelle bilaterale sonderinger"
     ],
-    removeLG: false,  // LG seats exist from this date
-    overrides: {}
+    removeLG: false,
+    removeLGBP2: true,
+    mandateOverrides: { BP: 3 },
+    cfgOverrides: { crossBlocBonus: 1.0 },
+    overrides: {
+      ...REVERT_APRIL_06,
+      ...REVERT_APRIL_04_BP,
+      ...REVERT_APRIL_02,
+      ...REVERT_APRIL_01,
+      ...REVERT_PRE_MARCH_31_BP,
+    }
+  },
+  "2026-03-30": {
+    label: "forhandlinger",
+    formationStage: "forhandlinger",
+    changelog: [
+      "Ingen nye politiske signaler (weekendpause, uformelle bilaterale sonderinger)"
+    ],
+    removeLG: false,
+    removeLGBP2: true,
+    mandateOverrides: { BP: 3 },
+    cfgOverrides: { crossBlocBonus: 1.0 },
+    revertMBP: true,
+    revertGLCorrelated: true,
+    overrides: {
+      ...REVERT_APRIL_06,
+      ...REVERT_APRIL_04_BP,
+      ...REVERT_APRIL_02,
+      ...REVERT_APRIL_01,
+      ...REVERT_PRE_MARCH_31_BP,
+    }
+  },
+  "2026-03-31": {
+    label: "forhandlinger",
+    formationStage: "forhandlinger",
+    changelog: [
+      "BP-toksicitet stiger: Isaksen/Nawa-kontrovers, Harris-efterdønninger fortsætter",
+      "Rona (M) erklærer blå blok 'helt finito' efter BP-uro",
+      "Grønlandske mandater (Høegh-Dam, Nathanielsen) ankommer koordineret før Marienborg-møde"
+    ],
+    removeLG: false,
+    removeLGBP2: true,
+    mandateOverrides: { BP: 3 },
+    cfgOverrides: { crossBlocBonus: 1.0 },
+    overrides: {
+      ...REVERT_APRIL_06,
+      ...REVERT_APRIL_04_BP,
+      ...REVERT_APRIL_02,
+      ...REVERT_APRIL_01,
+    },
+    naOverrides: NA_OVERRIDES_PRE_APRIL_01
+  },
+  "2026-04-01": {
+    label: "forhandlinger",
+    formationStage: "forhandlinger",
+    changelog: [
+      "Nathanielsen (IA) hælder 'selvfølgelig rødt', svært at se blå konstellation",
+      "Skaale peger på Frederiksen ved ankomst til Marienborg",
+      "Dragsted (EL) signalerer ingen ultimatummer, alle skal bøje sig"
+    ],
+    removeLG: false,
+    removeLGBP2: true,
+    mandateOverrides: { BP: 3 },
+    cfgOverrides: { crossBlocBonus: 1.0 },
+    overrides: {
+      ...REVERT_APRIL_06,
+      ...REVERT_APRIL_04_BP,
+      ...REVERT_APRIL_02,
+    }
+  },
+  "2026-04-02": {
+    label: "forhandlinger",
+    formationStage: "forhandlinger",
+    changelog: [
+      "Løkke presser eksplicit for tværblok-løsning ('koste hvad det vil')",
+      "M-forhandlingshårdhed stiger; SF↔M bilateral svækkes",
+      "Blå partier begynder pivot mod centristisk arrangement (40% skift)",
+      "Cecilie Liv Hansen bekræfter hun bliver som løsgænger"
+    ],
+    removeLG: false,
+    removeLGBP2: true,
+    mandateOverrides: { BP: 3 },
+    // crossBlocBonus = 5.0 takes effect (engine default)
+    overrides: {
+      ...REVERT_APRIL_06,
+      ...REVERT_APRIL_04_BP,
+    }
+  },
+  "2026-04-03": {
+    label: "forhandlinger",
+    formationStage: "forhandlinger",
+    changelog: [
+      "Ingen nye politiske signaler; to genoptællingsanmodninger modtaget (afgøres 10-14 april)"
+    ],
+    removeLG: false,
+    removeLGBP2: true,
+    mandateOverrides: { BP: 3 },
+    overrides: {
+      ...REVERT_APRIL_06,
+      ...REVERT_APRIL_04_BP,
+    }
+  },
+  "2026-04-04": {
+    label: "forhandlinger",
+    formationStage: "forhandlinger",
+    changelog: [
+      "Emilie Schytte forlader BP pga. retorik → BP 3→2 mandater, ny løsgænger",
+      "BP-toksicitet stiger yderligere"
+    ],
+    removeLG: false,
+    removeLGBP2: false,
+    overrides: {
+      ...REVERT_APRIL_06,
+    }
+  },
+  "2026-04-05": {
+    label: "forhandlinger",
+    formationStage: "forhandlinger",
+    changelog: [
+      "Megafon-måling: 42% ønsker tværblok-regering (op fra 35%); intet nyt partisignal"
+    ],
+    removeLG: false,
+    removeLGBP2: false,
+    overrides: {
+      ...REVERT_APRIL_06,
+    }
   }
 };
+
+// ── Override application ─────────────────────────────────────────────
 
 function applyOverride(key, value) {
   const parts = key.split(".");
@@ -120,7 +352,7 @@ function runRetrocast(date, config) {
     console.log(`  ${key}: ${spec.from} → ${spec.to}`);
   }
 
-  // Mandate overrides: temporarily change party seat counts
+  // Mandate overrides
   const savedMandates = {};
   for (const [partyId, seats] of Object.entries(config.mandateOverrides || {})) {
     const party = PARTIES_MAP[partyId];
@@ -131,7 +363,7 @@ function runRetrocast(date, config) {
     }
   }
 
-  // Temporarily remove LG seats if this date predates their expulsion
+  // Remove LG seats if pre-expulsion
   const removedLG = [];
   if (config.removeLG) {
     for (let i = Sim5Parties.NA_SEATS.length - 1; i >= 0; i--) {
@@ -143,26 +375,76 @@ function runRetrocast(date, config) {
     if (removedLG.length) console.log(`  Removed ${removedLG.length} LG seats`);
   }
 
-  // Run simulation
-  const result = engine.simulate({}, N);
+  // Remove LG-BP2 (Schytte) if pre-departure
+  const removedLGBP2 = [];
+  if (!config.removeLG && config.removeLGBP2) {
+    for (let i = Sim5Parties.NA_SEATS.length - 1; i >= 0; i--) {
+      if (Sim5Parties.NA_SEATS[i].id === "LG-BP2") {
+        removedLGBP2.push({ index: i, seat: Sim5Parties.NA_SEATS[i] });
+        Sim5Parties.NA_SEATS.splice(i, 1);
+      }
+    }
+    if (removedLGBP2.length) console.log(`  Removed LG-BP2`);
+  }
+
+  // Remove M→BP if pre-existence
+  let savedMBP = null;
+  if (config.revertMBP) {
+    const mParty = PARTIES_MAP.M;
+    if (mParty && mParty.relationships.BP) {
+      savedMBP = mParty.relationships.BP;
+      delete mParty.relationships.BP;
+      console.log("  Removed M→BP relationship");
+    }
+  }
+
+  // Revert GL correlated draws if pre-coordination
+  const savedGL = [];
+  if (config.revertGLCorrelated) {
+    for (const seat of Sim5Parties.NA_SEATS) {
+      if (seat.glCorrelated) {
+        savedGL.push({
+          seat, glCorrelated: seat.glCorrelated,
+          pRed: seat.pRed, pFlexible: seat.pFlexible, pBlue: seat.pBlue
+        });
+        delete seat.glCorrelated;
+        if (seat.id === "GL-NAL") { seat.pRed = 0.50; seat.pFlexible = 0.40; }
+        if (seat.id === "GL-IA") { seat.pRed = 0.65; seat.pFlexible = 0.30; }
+        console.log(`  ${seat.id}: reverted to independent draw`);
+      }
+    }
+  }
+
+  // NA seat probability overrides
+  const savedNA = [];
+  if (config.naOverrides) {
+    for (const seat of Sim5Parties.NA_SEATS) {
+      if (config.naOverrides[seat.id]) {
+        const ov = config.naOverrides[seat.id];
+        savedNA.push({ seat, pRed: seat.pRed, pFlexible: seat.pFlexible, pBlue: seat.pBlue });
+        seat.pRed = ov.pRed;
+        seat.pFlexible = ov.pFlexible;
+        seat.pBlue = ov.pBlue;
+        console.log(`  ${seat.id}: pRed=${ov.pRed}, pFlex=${ov.pFlexible}, pBlue=${ov.pBlue}`);
+      }
+    }
+  }
+
+  // Run simulation with cfg overrides
+  const simCfg = config.cfgOverrides || {};
+  const result = engine.simulate(simCfg, N);
 
   // Collect top coalitions
   const coalitions = {};
   for (const c of result.topCoalitions.slice(0, 10)) {
-    const label = c.support && c.support.length > 0
-      ? c.govt  // with support already encoded in pct
-      : c.govt;
-    coalitions[label] = (coalitions[label] || 0) + c.pct;
+    coalitions[c.govt] = (coalitions[c.govt] || 0) + c.pct;
   }
-
-  // Round to 1 decimal
   for (const key of Object.keys(coalitions)) {
     coalitions[key] = +coalitions[key].toFixed(1);
   }
-
   console.log("  Results:", JSON.stringify(coalitions));
 
-  // Restore
+  // ── Restore ────────────────────────────────────────────────────────
   for (const [key, oldVal] of Object.entries(saved)) {
     if (oldVal != null) applyOverride(key, oldVal);
   }
@@ -170,28 +452,38 @@ function runRetrocast(date, config) {
     const party = PARTIES_MAP[partyId];
     if (party) party.mandates = oldMandates;
   }
-  // Restore removed LG seats
   for (const { index, seat } of removedLG.reverse()) {
     Sim5Parties.NA_SEATS.splice(index, 0, seat);
   }
+  for (const { index, seat } of removedLGBP2.reverse()) {
+    Sim5Parties.NA_SEATS.splice(index, 0, seat);
+  }
+  if (savedMBP) PARTIES_MAP.M.relationships.BP = savedMBP;
+  for (const { seat, glCorrelated, pRed, pFlexible, pBlue } of savedGL) {
+    seat.glCorrelated = glCorrelated;
+    seat.pRed = pRed; seat.pFlexible = pFlexible;
+    if (pBlue !== undefined) seat.pBlue = pBlue;
+  }
+  for (const { seat, pRed, pFlexible, pBlue } of savedNA) {
+    seat.pRed = pRed; seat.pFlexible = pFlexible; seat.pBlue = pBlue;
+  }
 
   return {
-    date,
-    coalitions,
+    date, coalitions,
     noGov: result.noGovPct,
     formationStage: config.formationStage,
     changelog: config.changelog
   };
 }
 
-// Run all retrocasts
+// ── Run all retrocasts ───────────────────────────────────────────────
 const timeline = [];
 for (const [date, config] of Object.entries(HISTORICAL_OVERRIDES)) {
   timeline.push(runRetrocast(date, config));
 }
 
-// Run current date
-console.log("\n=== Current: 2026-03-30 ===");
+// Current date (2026-04-06): no overrides needed
+console.log("\n=== Current: 2026-04-06 ===");
 const current = engine.simulate({}, N);
 const currentCoalitions = {};
 for (const c of current.topCoalitions.slice(0, 10)) {
@@ -203,17 +495,14 @@ for (const key of Object.keys(currentCoalitions)) {
 console.log("  Results:", JSON.stringify(currentCoalitions));
 
 timeline.push({
-  date: "2026-03-30",
+  date: "2026-04-06",
   coalitions: currentCoalitions,
   noGov: current.noGovPct,
   formationStage: "forhandlinger",
   changelog: [
-    "Motoropdatering: simultan koalitionskonkurrence (erstatter sekventiel formatørprotokol)",
-    "Endogen M-orientering: Løkke vurderer begge blokke ud fra politisk fit, centrismepræference og P(passage)²",
-    "Kvalitetsstraffe: flertalsgab (√-deficit) og ekstern mandatafhængighed (NA/LG)",
-    "DemandGov blødgjort: 95% → 90% imod",
-    "Tværblok-bonus i M-nyttefunktion (crossBlocBonus=2.0)",
-    "Fix: bilateral drift-bug i CI-genopretning"
+    "Forhandlinger genoptages efter påske ved Marienborg",
+    "Troels Lund Poulsen ude 7-10 dage efter øjenoperation → V-hårdhed stiger",
+    "Resterende blå-parti pivot mod centristisk arrangement (fuld effekt)"
   ]
 });
 

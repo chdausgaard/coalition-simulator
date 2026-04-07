@@ -1,0 +1,62 @@
+{
+  "date": "2026-04-04",
+  "summary": "Emilie Schytte left Borgernes Parti citing dissatisfaction with party rhetoric, reducing BP to 2 mandates and adding a third blue-origin løsgænger. No same-window response from BP leadership.",
+  "developments": [
+    {
+      "description": "Schytte announced departure from BP: 'Jeg kan ikke længere stå inde for den retorik, partiet fører.' Left over leadership style disagreements, not ideology. Did not commit to joining another party.",
+      "source": "Avisen.dk (Ritzau), 4 April 2026 22:51",
+      "impact": "BP 3→2 mandates; new LG-BP2 løsgænger; BP toxicity deepens"
+    }
+  ],
+  "parameterChanges": [
+    {
+      "party": "BP",
+      "parameter": "mandates",
+      "oldValue": 3,
+      "newValue": 2,
+      "justification": "Schytte departure"
+    },
+    {
+      "party": "V→BP",
+      "parameter": "asSupport/tolerateInGov/inGov",
+      "oldValue": "0.30/0.35/0.12",
+      "newValue": "0.26/0.30/0.10",
+      "justification": "Third BP instability event; V can't rely on BP"
+    },
+    {
+      "party": "KF→BP",
+      "parameter": "asSupport/tolerateInGov/inGov",
+      "oldValue": "0.35/0.40/0.20",
+      "newValue": "0.30/0.35/0.18",
+      "justification": "KF further distances from fragmenting BP"
+    },
+    {
+      "party": "LA→BP",
+      "parameter": "asSupport/tolerateInGov/inGov",
+      "oldValue": "0.45/0.50/0.30",
+      "newValue": "0.40/0.45/0.28",
+      "justification": "BP isolation deepens; LA already expelled own member"
+    },
+    {
+      "party": "M→BP",
+      "parameter": "asSupport/tolerateInGov",
+      "oldValue": "0.10/0.12",
+      "newValue": "0.08/0.10",
+      "justification": "Marginal further reduction"
+    }
+  ],
+  "newEntities": [
+    {
+      "id": "LG-BP2",
+      "name": "Emilie Schytte (tidl. BP)",
+      "type": "løsgænger",
+      "blocOrigin": "blue",
+      "pRed": 0.00,
+      "pFlexible": 0.40,
+      "pBlue": 0.60,
+      "notes": "Left over leadership disagreements, not ideology. Blue-origin."
+    }
+  ],
+  "formationStage": "forhandlinger",
+  "confidenceAssessment": "high — direct quote from Schytte; seat change is factual"
+}

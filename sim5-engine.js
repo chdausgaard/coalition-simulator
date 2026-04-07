@@ -73,6 +73,14 @@ function blocBudgetVote(partyId, coalition, cfg) {
   if (partyId === "M" && cfg._mPursuesBlue && !govIds.includes("M") && govSide === "red") {
     return { pFor: 0.02, pAbstain: 0.08, pAgainst: 0.90 };
   }
+  // M pursues cross-bloc: opposes pure center-left govs from outside,
+  // but supports cross-bloc govs (S-led with blue partners) normally.
+  if (partyId === "M" && cfg._mPursuesCrossBloc && !govIds.includes("M")) {
+    const hasBlueInGov = govIds.some(id => PARTIES_MAP[id] && PARTIES_MAP[id].bloc === "blue");
+    if (!hasBlueInGov) {
+      return { pFor: 0.02, pAbstain: 0.08, pAgainst: 0.90 };
+    }
+  }
   // General "demands government" gate for other parties (SF, RV, V, KF, LA)
   if (cfg.demandGov && cfg.demandGov[partyId] && !govIds.includes(partyId)) {
     return { pFor: 0.05, pAbstain: 0.05, pAgainst: 0.90 };
@@ -178,13 +186,26 @@ function blocBudgetVote(partyId, coalition, cfg) {
 
   const pFor = Math.min(0.95, Math.max(0.01, base));
 
-  // 1A: Opposition abstention norm — the largest opposite-bloc party
-  // (main opposition) tends to abstain rather than actively topple a
-  // government via budget rejection (historical Danish norm). Flip the
-  // against:abstain ratio for that party: ~30:70 instead of 70:30.
+  // Opposition budget vote discipline: parties without a negotiated
+  // relationship to the government vote against on the finance bill.
+  // The historical Danish abstention norm only applies to parties with
+  // at least some toleration relationship — random abstention from
+  // parties with no connection to the government is an artifact of
+  // independent draws and does not reflect coordinated opposition behavior.
   const oppositeBloc = govSide === "red" ? "blue" : (govSide === "blue" ? "red" : null);
+  const isOppositeBloc = oppositeBloc && party.bloc === oppositeBloc;
+
+  // Check if this party has any meaningful toleration of the government
+  let hasToleranceLink = false;
+  if (isOppositeBloc) {
+    for (const memberId of govIds) {
+      const tol = relationshipValue(party, memberId, "tolerateInGov", 0);
+      if (tol >= 0.20) { hasToleranceLink = true; break; }
+    }
+  }
+
   let isMainOpposition = false;
-  if (oppositeBloc && party.bloc === oppositeBloc) {
+  if (isOppositeBloc) {
     let largestId = null;
     let largestMandates = 0;
     for (const p of PARTIES_LIST) {
@@ -196,9 +217,16 @@ function blocBudgetVote(partyId, coalition, cfg) {
     isMainOpposition = (partyId === largestId);
   }
 
-  const againstShare = isMainOpposition
-    ? (cfg.oppositionAbstention != null ? cfg.oppositionAbstention : 0.3)
-    : 0.7;
+  let againstShare;
+  if (isOppositeBloc && !hasToleranceLink) {
+    // No relationship: near-certain opposition (budget is an existential vote)
+    againstShare = 0.92;
+  } else if (isMainOpposition) {
+    // Main opposition with some tolerance: historical abstention norm
+    againstShare = cfg.oppositionAbstention != null ? cfg.oppositionAbstention : 0.3;
+  } else {
+    againstShare = 0.70;
+  }
   const pAgainst = Math.max(0.02, (1 - pFor) * againstShare);
   const pAbstain = Math.max(0, 1 - pFor - pAgainst);
   return { pFor, pAbstain, pAgainst };
@@ -218,6 +246,23 @@ function evalNABudgetVote(seatId, coalition, cfg) {
   // Greenlandic DF exception: break abstain norm on sovereignty grounds
   if ((seatId === "GL-NAL" || seatId === "GL-IA") && government.includes("DF")) {
     return { pFor: 0.02, pAbstain: 0.18, pAgainst: 0.80 };
+  }
+
+  // Blue-origin løsgængere: never support red/center-red governments.
+  // They oppose or abstain at baseline blue party rates. Variation is
+  // only in their behavior toward blue/centrist governments.
+  const seat = NA_SEATS.find(s => s.id === seatId);
+  if (seat && seat.blocOrigin === "blue") {
+    if (govSide === "red" || govSide === "center-red") {
+      return { pFor: 0.02, pAbstain: 0.28, pAgainst: 0.70 };
+    }
+    if (alignment === "blue") {
+      if (govSide === "blue" || govSide === "center-blue") return { pFor: 0.75, pAbstain: 0.20, pAgainst: 0.05 };
+      return { pFor: 0.50, pAbstain: 0.40, pAgainst: 0.10 }; // cross-bloc, other
+    }
+    // Flexible: uncertain about blue/centrist government support
+    if (govSide === "blue" || govSide === "center-blue") return { pFor: 0.40, pAbstain: 0.40, pAgainst: 0.20 };
+    return { pFor: 0.30, pAbstain: 0.45, pAgainst: 0.25 }; // cross-bloc, other
   }
 
   if (alignment === "red") {
@@ -270,6 +315,11 @@ function confidenceCheck(government, mandates, cfg) {
     // Løsgængere (LG) are Danish MPs who vote actively.
     const isNA = seat.id.startsWith("FO-") || seat.id.startsWith("GL-");
     if (isNA) continue;  // NA seats abstain on confidence votes
+    // Blue-origin løsgængere always oppose red/center-red governments
+    if (seat.blocOrigin === "blue" && (govSide === "red" || govSide === "center-red")) {
+      opposition += mandates[seat.id] || seat.mandates || 0;
+      continue;
+    }
     const alignment = alignments[seat.id] || "flexible";
     if ((alignment === "red" && govSide === "blue") || (alignment === "blue" && govSide === "red")) {
       opposition += mandates[seat.id] || seat.mandates || 0;
@@ -382,6 +432,15 @@ function computePpassage(coalition, platform, mandates, cfg) {
   const hasRescueCandidates = isMinority && rescueCandidates.length > 0;
   // ── End pivot setup ────────────────────────────────────────────
 
+  // Pre-tag opposite-bloc parties for coordinated draws
+  const oppCoordRate = cfg.oppositionCoordination != null ? cfg.oppositionCoordination : 0.85;
+  for (const vp of votingParties) {
+    const party = PARTIES_MAP[vp.id];
+    if (!party) continue;
+    vp._isOppBloc = (govSide === "red" && party.bloc === "blue")
+                  || (govSide === "blue" && party.bloc === "red");
+  }
+
   for (let i = 0; i < MC_DRAWS; i++) {
     let forVotes = govMandates;
     let againstVotes = 0;
@@ -389,7 +448,22 @@ function computePpassage(coalition, platform, mandates, cfg) {
     // Track per-party outcomes for potential rescue attempt
     const partyOutcomes = hasRescueCandidates ? [] : null;
 
+    // Opposition coordination draw: with high probability, all opposite-bloc
+    // parties coordinate and vote as a bloc (overwhelmingly against).
+    // Only when they fail to coordinate do individual draws apply.
+    // This prevents the independence artifact where many small individual
+    // abstention probabilities compound into unrealistic survival rates
+    // for thin coalitions.
+    const oppCoordinates = Math.random() < oppCoordRate;
+
     for (const vp of votingParties) {
+      // Coordinated opposition: all opposite-bloc parties vote against together
+      if (vp._isOppBloc && oppCoordinates) {
+        againstVotes += vp.m;
+        if (partyOutcomes) partyOutcomes.push({ id: vp.id, m: vp.m, vote: "against" });
+        continue;
+      }
+
       const r = Math.random();
       if (r < vp.pFor) {
         forVotes += vp.m;
@@ -485,6 +559,16 @@ function mwccBonus(government, mandates, cfg) {
 
 function scoreCoalition(coalition, mandates, pPassage, cfg) {
   const government = coalition.government || [];
+
+  // M pursues cross-bloc: M refuses to join pure center-left coalitions.
+  // Score near-zero so these are never selected.
+  if (cfg._mPursuesCrossBloc && government.includes("M")) {
+    const hasBluePartner = government.some(id =>
+      id !== "M" && PARTIES_MAP[id] && PARTIES_MAP[id].bloc === "blue"
+    );
+    if (!hasBluePartner) return 0.001;
+  }
+
   const seats = government.reduce((sum, id) => sum + (mandates[id] || 0), 0);
   const nGov = government.length;
   const avgDist = avgPairwisePolicyDistance(government);
@@ -546,10 +630,22 @@ function scoreCoalition(coalition, mandates, pPassage, cfg) {
   }
   const totalDanishSupport = seats + forstSeats + looseSeats;
   const majorityDeficit = Math.max(0, 90 - totalDanishSupport);
-  const mgpK = cfg.majorityGapK != null ? cfg.majorityGapK : 0.08;
-  const majorityGapFactor = majorityDeficit > 0
-    ? 1.0 / (1.0 + mgpK * Math.sqrt(majorityDeficit))
-    : 1.0;
+  // Two-part majority gap penalty:
+  // 1. Sharp regime shift at 90→89: crossing from majority to minority is
+  //    qualitatively different (you need partners for every vote).
+  //    Immediate drop to minorityBaseFactor (~0.55).
+  // 2. Gaussian decay below that: calibrated to empirical Danish record.
+  //    Largest routine deficit (gov + support base) is ~5-8 seats.
+  //    Deficit 11 has never occurred with a defined support base.
+  //    sigma=4: d=5 → 0.73, d=8 → 0.37, d=11 → 0.13, d=15 → 0.02
+  const minorityBase = cfg.minorityBaseFactor != null ? cfg.minorityBaseFactor : 0.55;
+  const mgpSigma = cfg.majorityGapSigma != null ? cfg.majorityGapSigma : 4.0;
+  let majorityGapFactor;
+  if (majorityDeficit === 0) {
+    majorityGapFactor = 1.0;
+  } else {
+    majorityGapFactor = minorityBase * Math.exp(-(majorityDeficit * majorityDeficit) / (2 * mgpSigma * mgpSigma));
+  }
 
   // External seat dependency: penalty for coalitions that need NA or LG
   // seats to reach 90. Governments are reluctant to depend on actors
@@ -559,6 +655,10 @@ function scoreCoalition(coalition, mandates, pPassage, cfg) {
   const naAlignments = cfg._naAlignments || cfg.naAlignments || {};
   let alignedExternalSeats = 0;
   for (const seat of NA_SEATS) {
+    // Blue-origin løsgængere never align with red/center-red governments
+    if (seat.blocOrigin === "blue" && (govSide === "red" || govSide === "center-red")) {
+      continue;
+    }
     const alignment = naAlignments[seat.id] || "flexible";
     const isAligned = (alignment === "red" && govSide === "red")
       || (alignment === "blue" && govSide === "blue");
@@ -607,15 +707,11 @@ function frederiksenBonus(coalition, redPreference) {
 
 function evaluateMOrientation(coalitions, mandates, cfg) {
   const mParty = PARTIES_MAP.M;
-  const crossBlocBonus = cfg.crossBlocBonus != null ? cfg.crossBlocBonus : 2.0;
-  const CENTRISM_BONUS = {
-    "center-red": 1.0,
-    "cross-bloc": crossBlocBonus,
-    "center-blue": 1.0
-  };
+  const crossBlocBonus = cfg.crossBlocBonus != null ? cfg.crossBlocBonus : 5.0;
   const PRESELECT_COUNT = 5;
   const passageCfg = { ...(cfg || {}) };
   delete passageCfg._mPursuesBlue;
+  delete passageCfg._mPursuesCrossBloc;
 
   function computePolicyFit(platform) {
     let weightedDistanceSum = 0;
@@ -644,6 +740,7 @@ function evaluateMOrientation(coalitions, mandates, cfg) {
     return false;
   }
 
+  // Build descriptors for all M-containing coalitions
   const descriptors = [];
   for (const coalition of coalitions || []) {
     const government = coalition.government || [];
@@ -657,52 +754,66 @@ function evaluateMOrientation(coalitions, mandates, cfg) {
 
     const policyFit = computePolicyFit(coalition.platform || {});
     const category = classifyCoalitionCategory(government);
-    const centrismBonus = CENTRISM_BONUS[category] || 1.0;
-    const heuristic = policyFit * centrismBonus * ((coalition.seats || 0) / 90);
+    const heuristic = policyFit * ((coalition.seats || 0) / 90);
 
     descriptors.push({
-      coalition,
-      isRedSide,
-      isBlueSide,
-      policyFit,
-      centrismBonus,
-      heuristic
+      coalition, isRedSide, isBlueSide, category, policyFit, heuristic
     });
   }
 
-  function pickTopCandidates(sideKey) {
-    return descriptors
-      .filter(entry => entry[sideKey])
-      .sort((a, b) => b.heuristic - a.heuristic)
-      .slice(0, PRESELECT_COUNT);
-  }
+  // Three-state M orientation: center-left, cross-bloc, blue.
+  // Split M-containing coalitions into three pools.
+  const centerLeftCandidates = descriptors
+    .filter(e => e.isRedSide && e.category !== "cross-bloc")
+    .sort((a, b) => b.heuristic - a.heuristic)
+    .slice(0, PRESELECT_COUNT);
 
-  const redCandidates = pickTopCandidates("isRedSide");
-  const blueCandidates = pickTopCandidates("isBlueSide");
+  const crossBlocCandidates = descriptors
+    .filter(e => e.category === "cross-bloc")
+    .sort((a, b) => b.heuristic - a.heuristic)
+    .slice(0, PRESELECT_COUNT);
+
+  const blueCandidates = descriptors
+    .filter(e => e.isBlueSide)
+    .sort((a, b) => b.heuristic - a.heuristic)
+    .slice(0, PRESELECT_COUNT);
+
   const utilityCache = new Map();
 
-  function computeUtility(entry) {
-    const cacheKey = entry.coalition;
+  function computeUtility(entry, bonus) {
+    const cacheKey = `${entry.coalition.government.join("+")}|${bonus}`;
     if (!utilityCache.has(cacheKey)) {
       const pPassage = computePpassage(entry.coalition, entry.coalition.platform, mandates, passageCfg);
       // Passage enters squared: strategic actors discount low-viability paths
       // superlinearly. At P=0.15 (DF blocks blue), 0.15²=0.023 is devastating.
       // At P=0.99 (red with M), 0.99²=0.98 is invisible.
-      utilityCache.set(cacheKey, entry.policyFit * entry.centrismBonus * pPassage * pPassage);
+      utilityCache.set(cacheKey, entry.policyFit * bonus * pPassage * pPassage);
     }
     return utilityCache.get(cacheKey);
   }
 
-  const utilityRed = redCandidates.length
-    ? Math.max(...redCandidates.map(computeUtility))
+  const utilityCenterLeft = centerLeftCandidates.length
+    ? Math.max(...centerLeftCandidates.map(e => computeUtility(e, 1.0)))
+    : 0.01;
+  const utilityCrossBloc = crossBlocCandidates.length
+    ? Math.max(...crossBlocCandidates.map(e => computeUtility(e, crossBlocBonus)))
     : 0.01;
   const utilityBlue = blueCandidates.length
-    ? Math.max(...blueCandidates.map(computeUtility))
+    ? Math.max(...blueCandidates.map(e => computeUtility(e, 1.0)))
     : 0.01;
-  const pBlue = utilityBlue / (utilityBlue + utilityRed + 1e-10);
-  const mPursuesBlue = Math.random() < pBlue;
 
-  return { mPursuesBlue, pBlue, utilityRed, utilityBlue };
+  const totalUtility = utilityCenterLeft + utilityCrossBloc + utilityBlue;
+  const pCenterLeft = utilityCenterLeft / totalUtility;
+  const pCrossBloc = utilityCrossBloc / totalUtility;
+  const pBlue = utilityBlue / totalUtility;
+
+  const r = Math.random();
+  let orientation;
+  if (r < pCenterLeft) orientation = "center-left";
+  else if (r < pCenterLeft + pCrossBloc) orientation = "cross-bloc";
+  else orientation = "blue";
+
+  return { orientation, pCenterLeft, pCrossBloc, pBlue, utilityCenterLeft, utilityCrossBloc, utilityBlue };
 }
 
 function determineForstaaelsespapir(government, outsideParties, platform, cfg) {
@@ -1061,7 +1172,41 @@ function drawNAAlignments(cfg) {
   const shift = cfg.naRedShift || 0;
   const alignments = {};
 
-  for (const seat of NA_SEATS) {
+  // Correlated Greenlandic seats: draw once using averaged probabilities,
+  // then assign the same alignment to both. Reflects coordinated posture
+  // reported 2026-03-31 (Sermitsiaq).
+  const glSeats = NA_SEATS.filter(s => s.glCorrelated);
+  const otherSeats = NA_SEATS.filter(s => !s.glCorrelated);
+
+  if (glSeats.length >= 2) {
+    // Average the GL seats' probabilities for a single joint draw
+    let avgRed = 0, avgFlex = 0, avgBlue = 0;
+    for (const seat of glSeats) {
+      avgRed += Math.max(0, Math.min(1, seat.pRed + shift));
+      avgFlex += seat.pFlexible;
+      avgBlue += Math.max(0, Math.min(1, seat.pBlue - shift));
+    }
+    avgRed /= glSeats.length;
+    avgFlex /= glSeats.length;
+    avgBlue /= glSeats.length;
+
+    const total = avgRed + avgFlex + avgBlue;
+    const pRedN = avgRed / total;
+    const pFlexN = avgFlex / total;
+    const r = Math.random();
+
+    let glAlignment;
+    if (r < pRedN) glAlignment = "red";
+    else if (r < pRedN + pFlexN) glAlignment = "flexible";
+    else glAlignment = "blue";
+
+    for (const seat of glSeats) {
+      alignments[seat.id] = glAlignment;
+    }
+  }
+
+  // Independent draws for non-correlated seats (FO, løsgængere)
+  for (const seat of otherSeats) {
     let pRed = seat.pRed + shift;
     let pBlue = seat.pBlue - shift;
     const pFlexible = seat.pFlexible;
@@ -1309,9 +1454,11 @@ function simulate(userParams, N) {
       ? cfg.parsimonySpread
       : Math.max(0.3, Math.min(1.5, normDraw(1.0, 0.15)));
 
-    let _mPursuesBlue;
+    // Three-state M orientation: center-left, cross-bloc, blue
+    let _mOrientation;
     if (cfg.mBlueOrientation != null) {
-      _mPursuesBlue = Math.random() < cfg.mBlueOrientation;
+      // Legacy binary override: number = P(blue)
+      _mOrientation = Math.random() < cfg.mBlueOrientation ? "blue" : "center-left";
     } else {
       const evalCfg = {
         ...cfg,
@@ -1325,9 +1472,12 @@ function simulate(userParams, N) {
         distPenalty: _iterDistPenalty,
         parsimonySpread: _iterParsimony
       };
-      const mOrientation = evaluateMOrientation(coalitions, mandates, evalCfg);
-      _mPursuesBlue = mOrientation.mPursuesBlue;
+      const mOri = evaluateMOrientation(coalitions, mandates, evalCfg);
+      _mOrientation = mOri.orientation;
     }
+
+    const _mPursuesBlue = _mOrientation === "blue";
+    const _mPursuesCrossBloc = _mOrientation === "cross-bloc";
 
     const _savedMtoS_inGov = PARTIES_MAP.M.relationships.S.inGov;
     const _savedMtoS_tolerate = PARTIES_MAP.M.relationships.S.tolerateInGov;
@@ -1351,9 +1501,31 @@ function simulate(userParams, N) {
         oppositionAbstention: _iterAbstention,
         distPenalty: _iterDistPenalty,
         parsimonySpread: _iterParsimony,
-        _mPursuesBlue
+        _mPursuesBlue,
+        _mPursuesCrossBloc
       };
-      const result = selectGovernment(mandates, naAlignments, iterCfg, coalitions);
+      let result = selectGovernment(mandates, naAlignments, iterCfg, coalitions);
+
+      // M orientation fallback: if M's orientation produced either (a) a
+      // government excluding M (cross-bloc failed, S formed without M), or
+      // (b) a government with unviable passage probability (blue orientation
+      // produced V+KF+M at 7% pPassage — no real actor would form that),
+      // M abandons the orientation. Re-run fully unconstrained.
+      const orientationViabilityFloor = cfg.orientationViabilityFloor != null ? cfg.orientationViabilityFloor : 0.25;
+      const orientationConstrained = _mPursuesCrossBloc || _mPursuesBlue;
+      if (orientationConstrained && result) {
+        const mExcluded = !result.government.includes("M");
+        const unviable = result.pPassage != null && result.pPassage < orientationViabilityFloor;
+        if (mExcluded || unviable) {
+          // Restore M→S bilaterals before fallback re-run
+          PARTIES_MAP.M.relationships.S.inGov = _savedMtoS_inGov;
+          PARTIES_MAP.M.relationships.S.tolerateInGov = _savedMtoS_tolerate;
+          PARTIES_MAP.M.relationships.S.asPM = _savedMtoS_asPM;
+          const fallbackCfg = { ...iterCfg, _mPursuesCrossBloc: false, _mPursuesBlue: false };
+          const fallbackResult = selectGovernment(mandates, naAlignments, fallbackCfg, coalitions);
+          if (fallbackResult) result = fallbackResult;
+        }
+      }
 
       if (!result) {
         agg.noGovCount++;

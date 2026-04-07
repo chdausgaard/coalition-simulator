@@ -255,7 +255,8 @@ const M = {
 
   // FIXED: lowered from 0.42 to 0.24. M's brief stresses "un-dogmatic and solution-oriented" centrism and explicitly says the party has no large grassroots base constraining Løkke; among all parties, M is the most flexible actor (M.md).
   // UPDATE 2026-03-28: raised to 0.32. Blind calibration reveals Løkke's specific vetoes create effective rigidity despite general flexibility.
-  globalHarshness: 0.32,
+  // UPDATE 2026-04-02: "koste hvad det vil" + explicit cross-bloc pressure = harder bargaining posture
+  globalHarshness: 0.35,
 
   positions: {
     // FIXED: corrected direction and level. The extraction had ideal 3 / floor 4 / ceiling 3, but M's brief says the party flatly rejects the wealth tax and that Løkke called it a "red line". Preferred outcome is no wealth tax, so ideal/ceiling belong at 4 and the compromise floor below that (M.md).
@@ -284,8 +285,8 @@ const M = {
       asPM: 0.75
     },
     SF: {
-      inGov: 0.62, // UPDATE 2026-03-28: blind calibration (0.52) adjusted up — experts treat Løkke's red lines as negotiating positions, not binding
-      asSupport: 0.75,
+      inGov: 0.58, // UPDATE 2026-04-02: Løkke's cross-bloc framing deprioritizes centre-left track
+      asSupport: 0.72, // UPDATE 2026-04-02: same signal
       tolerateInGov: 0.80,
       asPM: 0.20
     },
@@ -342,6 +343,15 @@ const M = {
       asSupport: 0.58,
       tolerateInGov: 0.55,
       asPM: 0.00
+    },
+    // ADDED 2026-03-31: M→BP. Løkke has no interest in governing with BP;
+    // BP toxicity (Isaksen/Nawa, Harris affair) makes even tolerance costly.
+    // UPDATE 2026-04-04: Schytte departure deepens BP isolation
+    BP: {
+      inGov: 0.00,
+      asSupport: 0.08,
+      tolerateInGov: 0.10,
+      asPM: 0.00
     }
   }
 };
@@ -364,7 +374,7 @@ const EL = {
     opposition: 0.12
   },
 
-  globalHarshness: 0.56, // UPDATE 2026-03-28: blind calibration
+  globalHarshness: 0.50, // UPDATE 2026-04-01: Dragsted "no ultimatums, everyone needs to bend" — tactical softening
 
   positions: {
     wealthTax: { ideal: 0, floor: 3, ceiling: 0, weight: 0.62 },
@@ -706,7 +716,8 @@ const V = {
     opposition: 0.35
   },
 
-  globalHarshness: 0.72,
+  // UPDATE 2026-04-06: TLP sidelined 7-10 days; deputy negotiators more cautious/rigid
+  globalHarshness: 0.75,
 
   positions: {
     wealthTax: { ideal: 4, floor: 3, ceiling: 4, weight: 0.90 },
@@ -727,11 +738,13 @@ const V = {
   demandCurrency: ["wealthTax", "fiscal", "defense", "immigration"],
 
   relationships: {
+    // UPDATE 2026-04-02: blue PM increasingly dead; V pivots toward centrist arrangements
+    // UPDATE 2026-04-06: TLP absence + talks restart make blue PM death concrete
     S: {
-      inGov: 0.08,
-      asSupport: 0.12,
-      tolerateInGov: 0.10,
-      asPM: 0.02
+      inGov: 0.32,
+      asSupport: 0.40,
+      tolerateInGov: 0.35,
+      asPM: 0.18
     },
     M: {
       inGov: 0.95,
@@ -789,10 +802,12 @@ const V = {
       asPM: 0.10
     },
     // ADDED: V→BP compatible on some issues, but BP is more extreme.
+    // UPDATE 2026-03-31: BP toxicity rose (Isaksen/Nawa, Harris fallout).
+    // UPDATE 2026-04-04: Schytte departure; third BP instability event
     BP: {
-      inGov: 0.20,
-      asSupport: 0.40,
-      tolerateInGov: 0.45,
+      inGov: 0.10,
+      asSupport: 0.26,
+      tolerateInGov: 0.30,
       asPM: 0.02
     }
   }
@@ -836,12 +851,13 @@ const LA = {
   demandCurrency: ["wealthTax", "fiscal", "nuclear", "defense", "immigration", "storeBededag"],
 
   relationships: {
-    // FIXED: replaced hard all-zero coding with tiny non-zero exploration values for cabinet/support configurations, while keeping asPM at 0.00 because LA explicitly maintained "no Social Democratic PM" on election night (LA.md).
+    // FIXED: replaced hard all-zero coding with tiny non-zero exploration values.
+    // UPDATE 2026-04-06: blue PM dead; LA reluctantly opens to tolerating/supporting centrist gov from outside
     S: {
-      inGov: 0.03,
-      asSupport: 0.04,
-      tolerateInGov: 0.02,
-      asPM: 0.00
+      inGov: 0.08,
+      asSupport: 0.18,
+      tolerateInGov: 0.15,
+      asPM: 0.02
     },
     M: {
       inGov: 0.85,
@@ -906,11 +922,13 @@ const LA = {
       asPM: 0.15
     },
     // ADDED: LA→BP compatible on economics, immigration, defense.
+    // UPDATE 2026-03-31: LA expelled its own member; BP toxicity rising.
+    // UPDATE 2026-04-04: Schytte departure deepens BP isolation
     BP: {
-      inGov: 0.40,
-      asSupport: 0.55,
-      tolerateInGov: 0.60,
-      asPM: 0.08
+      inGov: 0.28,
+      asSupport: 0.40,
+      tolerateInGov: 0.45,
+      asPM: 0.06
     }
   }
 };
@@ -956,11 +974,13 @@ const KF = {
   demandCurrency: ["wealthTax", "immigration", "defense", "nuclear", "pesticideBan"],
 
   relationships: {
+    // UPDATE 2026-04-02: blue PM fading; KF most enthusiastic blue-side pivot toward centrist
+    // UPDATE 2026-04-06: steep further adjustment as blue PM becomes virtually impossible
     S: {
-      inGov: 0.35,  // UPDATE 2026-03-28: blind calibration
-      asSupport: 0.60,
-      tolerateInGov: 0.72,
-      asPM: 0.05  // UPDATE 2026-03-28: Abildgaard "svært at se hvordan vi kunne støtte Frederiksen som statsminister"
+      inGov: 0.52,
+      asSupport: 0.74,
+      tolerateInGov: 0.82,
+      asPM: 0.22
     },
     M: {
       inGov: 0.92,
@@ -1025,11 +1045,13 @@ const KF = {
       asPM: 0.20
     },
     // ADDED: KF→BP compatible on some issues.
+    // UPDATE 2026-03-31: BP toxicity rose; KF is image-conscious.
+    // UPDATE 2026-04-04: Schytte departure; KF further distances from BP
     BP: {
-      inGov: 0.30,
-      asSupport: 0.45,
-      tolerateInGov: 0.50,
-      asPM: 0.05
+      inGov: 0.18,
+      asSupport: 0.30,
+      tolerateInGov: 0.35,
+      asPM: 0.03
     }
   }
 };
@@ -1073,10 +1095,14 @@ const DF = {
   demandCurrency: ["immigration", "pension", "fiscal", "climateTgt"],
 
   relationships: {
+    // CALIBRATION: Kongerunde formally excludes M from government.
+    // Messerschmidt's softest formula: both DF+M as støttepartier outside
+    // cabinet (asSupport preserved). tolerateInGov near-zero: no evidence
+    // DF would let M sit in government.
     M: {
-      inGov: 0.10,  // UPDATE 2026-03-28: Messerschmidt vendetta but DF is still parliamentary
+      inGov: 0.02,
       asSupport: 0.15,
-      tolerateInGov: 0.20,  // UPDATE 2026-03-28: raised from 0.10
+      tolerateInGov: 0.05,
       asPM: 0.00
     },
     S: {
@@ -1142,11 +1168,12 @@ const DF = {
       asPM: 0.15
     },
     // ADDED: DF→BP compatible on immigration, both right-wing.
+    // UPDATE 2026-03-31: BP toxicity rose, but DF is ideologically closest.
     BP: {
-      inGov: 0.35,
-      asSupport: 0.50,
-      tolerateInGov: 0.55,
-      asPM: 0.05
+      inGov: 0.28,
+      asSupport: 0.42,
+      tolerateInGov: 0.48,
+      asPM: 0.04
     }
   }
 };
@@ -1190,10 +1217,13 @@ const DD = {
   demandCurrency: ["immigration", "climateTgt", "wealthTax", "fiscal"],
 
   relationships: {
+    // CALIBRATION: DD backed Troels Lund for "en borgerlig regering" but
+    // no post-election statement supports tolerance of M in cabinet.
+    // Støjberg called Løkke "rød"; DD more open than DF but unproven.
     M: {
-      inGov: 0.10,  // UPDATE 2026-03-28: Støjberg's personal animosity — "principløs"; binding at leadership level
-      asSupport: 0.35,  // UPDATE 2026-03-28: grudging tolerance but not enthusiasm
-      tolerateInGov: 0.30,  // UPDATE 2026-03-28: DD didn't reject M's participation, just leadership
+      inGov: 0.05,
+      asSupport: 0.20,
+      tolerateInGov: 0.12,
       asPM: 0.00
     },
     S: {
@@ -1259,11 +1289,12 @@ const DD = {
       asPM: 0.10
     },
     // ADDED: DD→BP compatible on immigration, both right-wing.
+    // UPDATE 2026-03-31: BP toxicity rose.
     BP: {
-      inGov: 0.30,
-      asSupport: 0.45,
-      tolerateInGov: 0.50,
-      asPM: 0.05
+      inGov: 0.22,
+      asSupport: 0.38,
+      tolerateInGov: 0.42,
+      asPM: 0.04
     }
   }
 };
@@ -1272,7 +1303,7 @@ const DD = {
 const BP = {
   id: "BP",
   name: "Borgernes Parti",
-  mandates: 3,  // UPDATE 2026-03-29: Jacob Harris expelled, now løsgænger
+  mandates: 2,  // UPDATE 2026-04-04: Schytte also left; Harris expelled 2026-03-29
   bloc: "blue",
 
   govEligible: false,
@@ -1412,9 +1443,12 @@ const NA_SEATS = [
     name: "Qarsoq Høegh-Dam (Naleraq)",
     mandates: 1,
     bloc: "na",
-    pRed: 0.50,
+    glCorrelated: true,  // UPDATE 2026-03-31: GL seats draw jointly
+    pRed: 0.52,
     pFlexible: 0.40,
-    pBlue: 0.10,
+    pBlue: 0.08,
+    // UPDATE 2026-04-01: indirect red shift via coordinated Greenlandic posture
+    // and Nathanielsen's public red lean. No direct quote from Qarsoq.
     notes: "Formally neither red nor blue; wants major Danish investment under the Self-Government Act while fully preserving Greenland's right to independence. DF's proposal for a Danish referendum on Greenlandic independence is a near-absolute blocker."
   },
   {
@@ -1422,9 +1456,12 @@ const NA_SEATS = [
     name: "Naaja Hjelholt Nathanielsen (Inuit Ataqatigiit)",
     mandates: 1,
     bloc: "na",
-    pRed: 0.65,
-    pFlexible: 0.30,
-    pBlue: 0.05,
+    glCorrelated: true,  // UPDATE 2026-03-31: GL seats draw jointly
+    pRed: 0.72,
+    pFlexible: 0.25,
+    pBlue: 0.03,
+    // UPDATE 2026-04-01: "Vi hælder selvfølgelig rødt" + "svært at se" blue constellation.
+    // Foreign-policy conditionality keeps meaningful pFlexible.
     notes: "Historically red-leaning via IA/SF ties, but refused to pre-commit. Wants Self-Government Act revision, constitutional reinterpretation, and equal status inside the Realm; the same anti-DF structural constraint applies."
   },
   // Løsgængere: expelled from blue parties March 28-29, 2026.
@@ -1434,20 +1471,34 @@ const NA_SEATS = [
     name: "Cecilie Liv Hansen (tidl. LA)",
     mandates: 1,
     bloc: "na",
-    pRed: 0.08,
-    pFlexible: 0.32,
+    blocOrigin: "blue",
+    pRed: 0.00,
+    pFlexible: 0.40,
     pBlue: 0.60,
-    notes: "Expelled from LA March 29. Somewhat left-leaning on immigration; more unpredictable than typical LA member."
+    notes: "Expelled from LA March 29. Blue-origin løsgænger; never supports red/center-red governments."
   },
   {
     id: "LG-BP",
     name: "Jacob Harris (tidl. BP)",
     mandates: 1,
     bloc: "na",
-    pRed: 0.08,
-    pFlexible: 0.32,
+    blocOrigin: "blue",
+    pRed: 0.00,
+    pFlexible: 0.40,
     pBlue: 0.60,
-    notes: "Expelled from BP March 28 for 'groft uforsvarlig forretningsførelse'. Blue-leaning but no party discipline."
+    notes: "Expelled from BP March 28. Blue-origin løsgænger; never supports red/center-red governments."
+  },
+  // UPDATE 2026-04-04: Emilie Schytte left BP over leadership disagreements
+  {
+    id: "LG-BP2",
+    name: "Emilie Schytte (tidl. BP)",
+    mandates: 1,
+    bloc: "na",
+    blocOrigin: "blue",
+    pRed: 0.00,
+    pFlexible: 0.40,
+    pBlue: 0.60,
+    notes: "Left BP 4 April over leadership style disagreements. Blue-origin løsgænger; never supports red/center-red governments."
   }
 ];
 

@@ -1903,13 +1903,15 @@ onmessage = function(e) {
               <section class="field-group methodology-section">
                 <p class="field-label methodology-heading"><strong>Løkkes centrale rolle</strong></p>
                 <p class="field-desc methodology-copy">
-                  Moderaterne sidder med nøglen til regeringsdannelsen. Løkke kan vælge rød side (S+M-koalitioner med høj budgetsikkerhed) eller blå side (V+M-koalitioner med lav budgetsikkerhed men tættere politisk match). Modellen beregner Løkkes valg <em>endogent</em> i hver iteration: han vurderer den bedste koalition på begge sider og vælger probabilistisk ud fra en nyttefunktion.
+                  Moderaterne sidder med nøglen til regeringsdannelsen. Modellen beregner Løkkes strategiske orientering <em>endogent</em> i hver iteration med tre mulige udfald:
                 </p>
                 <p class="field-desc methodology-copy">
-                  <strong>Løkkes nyttefunktion:</strong> For hver koalition med M beregnes tre faktorer. (1) <em>Politisk nærhed</em>: hvor tæt er koalitionens forhandlede platform på Løkkes egne politiske idealer? (2) <em>Centrismepræference</em>: en bonus for koalitioner der krydser blokkene — Løkke grundlagde Moderaterne for at bygge bro. (3) <em>Regeringsduelighed</em>: sandsynligheden for at koalitionen kan vedtage en finanslov, opløftet i anden potens — en strategisk aktør nedvurderer koalitioner med lav overlevelseschance overproportionalt.
+                  <strong>Centrum-venstre:</strong> M deltager normalt i S-ledede koalitioner (S+M+RV+SF osv.).<br>
+                  <strong>Tværblok:</strong> M insisterer på koalitioner der inkluderer mindst ét blåt parti (S+KF+M+V, S+KF+M+RV osv.). Rene centrum-venstre-koalitioner med M blokeres. Hvis ingen tværblok-koalition kan dannes, falder M tilbage til den næstbedste mulighed.<br>
+                  <strong>Blå:</strong> M→S lukkes helt — kun blå koalitioner med M er mulige.
                 </p>
                 <p class="field-desc methodology-copy">
-                  Løkke sammenligner den bedste koalition på rød og blå side og vælger probabilistisk: sandsynligheden for at gå blå er lig blå nytte delt med den samlede nytte. Når Løkke vælger en side, lukkes den anden side — M nægter at samarbejde med den fravalgte side. Du kan fastlåse Løkkes orientering manuelt i kontrolpanelet eller lade modellen beregne den.
+                  <strong>Løkkes nyttefunktion:</strong> For hver koalition med M beregnes tre faktorer. (1) <em>Politisk nærhed</em>: hvor tæt er koalitionens forhandlede platform på Løkkes egne politiske idealer? (2) <em>Tværblokbonus</em>: koalitioner der krydser blokkene modtager en bonus (crossBlocBonus). (3) <em>Regeringsduelighed</em>: sandsynligheden for at koalitionen kan vedtage en finanslov, opløftet i anden potens. De tre orienteringers sandsynligheder beregnes ud fra den bedste koalition i hver pulje.
                 </p>
               </section>
 
@@ -1933,7 +1935,7 @@ onmessage = function(e) {
                 <section class="field-group methodology-section">
                   <p class="field-label methodology-heading"><strong>Scoringsfunktionens komponenter</strong></p>
                   <p class="field-desc methodology-copy">
-                    Koalitionskvalitet = ideoFit &times; parsimony &times; mwcc &times; govEase &times; flertalsgab &times; eksternAfhængighed. De fire første: ideoFit måler parvise politiske afstande, parsimony belønner færre partier, mwcc giver bonus til minimum vindende forbundne koalitioner, govEase måler evnen til at finde flertal. Flertalsgab er en ikke-lineær straf for koalitioner hvis samlede støttegrundlag (regering + forståelsespapir + støttepartier) falder under 90 mandater — straf er størst lige under 90 og aftager derefter. Ekstern afhængighed straffer koalitioner der er afhængige af nordatlantiske mandater eller løsgængere.
+                    Koalitionskvalitet = ideoFit &times; parsimony &times; mwcc &times; govEase &times; flertalsgab &times; eksternAfhængighed. De fire første: ideoFit måler parvise politiske afstande, parsimony belønner færre partier, mwcc giver bonus til minimum vindende forbundne koalitioner, govEase måler evnen til at finde flertal. Flertalsgab har to dele: (1) et skarpt regimeskift ved grænsen til mindretal (faktor 0,55 allerede ved ét mandats underskud — at gå fra flertal til mindretal er den største kvalitative ændring), og (2) Gauss-fald under det (σ=4, kalibreret mod dansk historik: underskud over 8-10 mandater med defineret støttegrundlag er aldrig forekommet). Oppositionskoordination: med 85% sandsynlighed stemmer alle oppositionsblokkens partier koordineret imod finansloven, hvilket forhindrer at mange små individuelle sandsynligheder for undladelse akkumulerer til urealistiske overlevelsesrater for tynde koalitioner. Ekstern afhængighed straffer koalitioner der er afhængige af nordatlantiske mandater eller løsgængere.
                   </p>
                 </section>
 
@@ -1954,7 +1956,7 @@ onmessage = function(e) {
                 <section class="field-group methodology-section">
                   <p class="field-label methodology-heading"><strong>Formationsprotokol</strong></p>
                   <p class="field-desc methodology-copy">
-                    Alle koalitioner konkurrerer simultant: S-ledede, V-ledede og M-ledede koalitioner evalueres parallelt, og den højest scorende vinder. Dette afspejler at alle sider forhandler samtidigt i virkeligheden. Løkkes endogene orientering bestemmer, hvilke koalitioner der er tilgængelige — når Løkke vælger blå, lukkes S+M-koalitioner. Scoringsfunktionen alene afgør vinderen; ingen viabilitetstærskel favoriserer den ene side.
+                    Alle koalitioner konkurrerer simultant: S-ledede, V-ledede og M-ledede koalitioner evalueres parallelt, og den højest scorende vinder. Løkkes tretrins-orientering bestemmer, hvilke koalitioner der er tilgængelige: centrum-venstre (alle S+M-koalitioner åbne), tværblok (M kræver blåt parti i koalitionen), eller blå (S+M lukkes). Når Løkke vælger tværblok men ingen tværblok-koalition er levedygtig, falder M automatisk tilbage til næstbedste alternativ i stedet for at stå udenfor.
                   </p>
                 </section>
 

@@ -1,0 +1,53 @@
+{
+  "date": "2026-04-06",
+  "summary": "Talks restart after Easter at Marienborg. Troels Lund Poulsen sidelined 7-10 days after acute eye surgery, increasing V negotiation rigidity. Remaining 60% of blue-party centrist pivot applied as blue PM paths are now virtually closed.",
+  "developments": [
+    {
+      "description": "Frederiksen resumes government-formation meetings Monday at Marienborg, Tuesday at Statsministeriet. RV and ALT confirmed participation. Løkke re-inserts 'S/V/KF must send positive signals' framing.",
+      "source": "Din Avis (Ritzau), 6 April 2026 11:42",
+      "impact": "Process continues in forhandlinger stage; Løkke cross-bloc pressure maintained"
+    },
+    {
+      "description": "Troels Lund Poulsen underwent acute eye operation Saturday evening, must rest 7-10 days. Timing is mid-negotiation restart.",
+      "source": "Din Avis (Ritzau), 6 April 2026 09:41",
+      "impact": "V globalHarshness up (deputy negotiators more cautious); blue-side convergence slowed"
+    },
+    {
+      "description": "Voxmeter poll: 50.4% favour mandates belonging to parties rather than individuals. Framed as reaction to recent expulsions creating independents.",
+      "source": "Din Avis (Ritzau), 6 April 2026 08:15",
+      "impact": "Indirect legitimacy signal against relying on løsgænger-dependent majorities"
+    }
+  ],
+  "parameterChanges": [
+    {
+      "party": "V",
+      "parameter": "globalHarshness",
+      "oldValue": 0.72,
+      "newValue": 0.75,
+      "justification": "TLP sidelined 7-10 days; deputy negotiators tend to be more cautious/rigid"
+    },
+    {
+      "party": "V→S",
+      "parameter": "inGov/asSupport/tolerateInGov/asPM",
+      "oldValue": "0.18/0.23/0.20/0.08",
+      "newValue": "0.32/0.40/0.35/0.18",
+      "justification": "Blue PM virtually dead; TLP absence makes it concrete; remaining 60% of pivot"
+    },
+    {
+      "party": "KF→S",
+      "parameter": "inGov/asSupport/tolerateInGov/asPM",
+      "oldValue": "0.42/0.66/0.76/0.12",
+      "newValue": "0.52/0.74/0.82/0.22",
+      "justification": "Same logic; KF most enthusiastic pivot; remaining 60%"
+    },
+    {
+      "party": "LA→S",
+      "parameter": "inGov/asSupport/tolerateInGov/asPM",
+      "oldValue": "0.05/0.10/0.07/0.01",
+      "newValue": "0.08/0.18/0.15/0.02",
+      "justification": "LA identity constraint; mainly tolerance/support from outside; remaining 60%"
+    }
+  ],
+  "formationStage": "forhandlinger",
+  "confidenceAssessment": "medium — TLP quote is first-person; blue-party pivot is inference from accumulated signals, not single-quote evidence"
+}

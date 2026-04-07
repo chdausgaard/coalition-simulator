@@ -20,11 +20,11 @@ Danish government formation model for the 2026 election. Bloc voting, two-round 
 node -e "const e = require('./sim5-engine.js'); console.log(JSON.stringify(e.simulate({}, 500), null, 2))"
 ```
 
-## Current output (~N=5000, post 2026-03-28 update)
+## Current output (~N=10000, post 2026-04-06 update)
 
-S+M+RV+SF ~24%, S+M+SF ~20%, S+RV+SF ~11%, V+KF+LA+M ~10%, V+KF+M ~7%.
+S+M+RV+SF ~37%, S+M+SF ~18%, cross-bloc (S+KF+M+V, S+KF+M+RV, S+M+V) ~17%, S+RV+SF ~14%.
 
-DemandGov-aware confidence check eliminates sub-90 coalitions through model mechanics. Equal viability thresholds for red and blue (0.75). M orientation 50/50. Two løsgængere (pBlue=0.60) make S+RV+SF viable when both draw non-blue (~16% of iterations).
+Three-state M orientation (center-left / cross-bloc / blue) with cross-bloc fallback. Opposition coordination (0.85) prevents independence-artifact inflation of thin-coalition passage rates. Two-part majority gap penalty (sharp drop at 90→89, Gaussian σ=4 below). Three blue-origin løsgængere (blocOrigin="blue") never support red/center-red governments. crossBlocBonus=5.0 (Løkke's explicit April 2 push).
 
 ## Daily update pipeline
 

@@ -113,11 +113,21 @@ pAgainst = max(0.02, (1 - pFor) * againstShare)
 pAbstain = 1 - pFor - pAgainst
 ```
 
-Where `againstShare` is 0.3 for the main opposition party (largest excluded opposite-bloc party) and 0.7 for all others. See opposition abstention norm below.
+Where `againstShare` depends on the party's relationship to the government:
+
+| Condition | againstShare | Rationale |
+|-----------|-------------|-----------|
+| Opposite-bloc, no tolerance link (tolerateInGov < 0.20 for all gov members) | 0.92 | Budget is existential; no reason to abstain |
+| Main opposition (largest opposite-bloc party) with tolerance link | 0.30 | Historical abstention norm |
+| All others | 0.70 | Default |
 
 ### Opposition abstention norm
 
-The largest opposition party gets a flipped against-to-abstain ratio: 30:70 instead of 70:30. This reflects the strong Danish norm that the main opposition abstains rather than actively topples a government via budget rejection. Historical evidence: S abstained on the KVR finanslov in 1989 (allowing passage with only 63 FOR votes); AJ voting against in 1983 was "considered a break with tradition."
+The largest opposition party gets a flipped against-to-abstain ratio: 30:70 instead of 70:30, but only if it has at least some tolerance relationship (tolerateInGov ≥ 0.20) with a government member. Parties without any tolerance link vote overwhelmingly against (againstShare = 0.92) — random abstention from parties with no connection to the government is an artifact of independent draws, not a reflection of coordinated parliamentary behavior. Historical evidence for the norm: S abstained on the KVR finanslov in 1989 (allowing passage with only 63 FOR votes); AJ voting against in 1983 was "considered a break with tradition."
+
+### Opposition coordination
+
+In the MC budget vote simulation, opposite-bloc parties draw a single coordination check with probability `oppositionCoordination` (default 0.85). When coordination succeeds, all opposite-bloc parties vote against as a bloc — no individual draws. This prevents the compound-independence artifact where 10 parties each with 5% abstention probability collectively allow thin coalitions to pass budgets unrealistically often. When coordination fails (15%), individual draws apply normally, reflecting occasional breakdowns in opposition discipline (vekslende flertal on specific issues).
 
 ---
 
@@ -175,9 +185,27 @@ SF's explicit no-confidence threat ("SF stemmer imod enhver regering, vi ikke se
 
 Both red and blue formateurs use the same `viabilityThreshold` (default 0.75). The previous asymmetry (0.75 red, 0.10 blue) was removed — both sides play by the same rules, and the parliamentary arithmetic determines which coalitions are viable.
 
-### M strategic orientation
+### M strategic orientation (three-state)
 
-M draws a strategic orientation each iteration: 50% red cooperation, 50% blue. This replaces the previous 70/30 split. The equal probability reflects that Løkke's preference is for a centrist government — he is not inherently red-leaning. When M draws blue, M→S bilaterals are temporarily set near-zero, blocking S-led coalitions containing M.
+M draws one of three strategic orientations each iteration:
+
+| Orientation | Effect |
+|-------------|--------|
+| **Center-left** | M joins S-led coalitions normally |
+| **Cross-bloc** | M only joins S-led coalitions that include ≥1 blue party (V, KF, LA). Pure center-left coalitions containing M are scored near-zero. If no cross-bloc coalition forms, M falls back to its next-best option endogenously. |
+| **Blue** | M→S bilaterals set near-zero, blocking all S-led coalitions containing M |
+
+The probabilities are computed endogenously via `evaluateMOrientation`: for each orientation, the best available coalition's utility (policyFit × bonus × pPassage²) is computed. Cross-bloc candidates receive `crossBlocBonus` (default 5.0). The three utilities determine the draw probabilities.
+
+**Orientation viability fallback:** After coalition selection, the engine checks whether M's orientation produced a viable result. If either (a) M was excluded from the selected government, or (b) the selected government's pPassage falls below `orientationViabilityFloor` (default 0.25), M abandons the orientation. The engine restores M→S bilaterals and re-runs coalition selection fully unconstrained. This prevents two pathological outcomes: M insisting on cross-bloc when V/KF won't cooperate (fallback: M squeezes into center-left), and M insisting on blue when blue coalitions have 7% passage probability (fallback: M joins whatever scores best).
+
+### Opposition coordination
+
+Opposition parties coordinate on budget votes. With probability `oppositionCoordination` (default 0.85), all opposite-bloc parties vote against as a bloc. Only when coordination fails (15% of draws) do individual party draws apply. This prevents the independence artifact where many small individual abstention probabilities compound into unrealistic survival rates for thin coalitions.
+
+### Opposition budget discipline
+
+Opposite-bloc parties without a meaningful toleration relationship to any government member (tolerateInGov < 0.20 for all members) get near-zero abstention rates on budget votes (againstShare = 0.92). The historical Danish abstention norm (main opposition abstains rather than actively topples) only applies to parties with at least some tolerance link.
 
 ### Opposition abstention
 
@@ -287,7 +315,7 @@ score = passage^w * quality^(1-w)
 
 Where:
 - `passage` = P(passage) from the Monte Carlo budget vote
-- `quality` = ideoFit * parsimony * mwcc * govEase
+- `quality` = ideoFit * parsimony * mwcc * govEase * majorityGapFactor * externalDepFactor
 - `w` = passageWeight, CI-varied per iteration as N(0.65, 0.08) clamped [0.50, 0.90]
 
 This two-factor form separates the institutional gate (can this government survive?) from the political judgment (is this a natural coalition?). The weight `w` is CI-varied because we genuinely don't know how much formateurs prioritize arithmetic versus political fit.
@@ -319,6 +347,22 @@ Majority governments (>= 90 seats) get no parsimony adjustment -- if you have a 
 "Connected" means average pairwise policy distance < 0.4. "Minimum winning" means either (a) the coalition holds 90+ seats and removing any party drops it below 90, or (b) every party contributes at least 8% of the coalition's seats.
 
 **Governing ease (`govEase`):** `0.5 + 1.0 * avgFeasibility`, where avgFeasibility is the mean feasibility score from `governabilityProfile` across all policy dimensions. Range ~0.5--1.5. A coalition that can build majorities across many policy dimensions (via *vekslende flertal*) scores higher. This uses the existing per-dimension feasibility computation, which checks how much weighted support vs. opposition exists outside the coalition for each dimension of the platform.
+
+**Majority gap factor (`majorityGapFactor`):** Two-part penalty for coalitions whose total support base (government + forståelsespapir + loose support) falls short of 90:
+
+- At exactly 90+: factor = 1.0 (no penalty)
+- At 89 (deficit = 1): sharp regime shift to `minorityBaseFactor` (default 0.55) × Gaussian decay. Crossing from majority to minority is the biggest qualitative shift — you need partners for every vote.
+- Below 89: Gaussian decay `exp(-d² / (2σ²))` with σ = 4.0. Calibrated to the Danish empirical record: largest routine deficit with a defined support base is ~5-8 seats. Deficit 11 has never occurred.
+
+| Deficit | Factor | Interpretation |
+|---------|--------|----------------|
+| 0 | 1.00 | Majority — no penalty |
+| 1 | 0.54 | Just crossed the line |
+| 5 | 0.39 | Upper routine range |
+| 8 | 0.20 | Stretched |
+| 11 | 0.07 | Near-impossible |
+
+**External dependency (`externalDepFactor`):** Graduated penalty (~0.90 per seat) for coalitions needing NA or løsgænger seats to reach 90. Blue-origin løsgængere never count as aligned for red/center-red governments.
 
 ---
 
