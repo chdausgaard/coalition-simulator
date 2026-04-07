@@ -1209,7 +1209,7 @@
         <div class="title-block">
           <h1>Koalitionssimulatoren</h1>
           <p>Folketingsvalget 2026</p>
-          <p style="font-size:0.82rem; color:var(--muted); margin-top:4px;">Senest opdateret: 29. marts 2026 · Opdateres jævnligt under regeringsforhandlingerne</p>
+          <p style="font-size:0.82rem; color:var(--muted); margin-top:4px;">Senest opdateret: 6. april 2026 · Opdateres jævnligt under regeringsforhandlingerne</p>
         </div>
         <div class="header-meta">
           <div class="meta-chip" id="totalMandatesMeta">179 mandater i modellen</div>
@@ -1275,8 +1275,9 @@
         "FO-SB": "#3d6799",
         "GL-NAL": "#2f6f73",
         "GL-IA": "#4f8a58",
-        "LG-LA": "#14213F",   // same as LA but shown separately
-        "LG-BP": "#3A72FC"    // same as BP but shown separately
+        "LG-LA": "#14213F",
+        "LG-BP": "#3A72FC",
+        "LG-BP2": "#3A72FC"
       };
 
       const DIMENSION_LABELS = {
@@ -1979,34 +1980,42 @@ onmessage = function(e) {
         const total = totalMandates();
         els.totalMandatesMeta.textContent = total + " mandater i modellen";
 
-        // Sort by ideological position: left (EL) to right (LA/DF/BP), NA last
+        // Sort: parties left→right, then grouped: LG, GL, FO
         const ideologyOrder = ["EL", "ALT", "SF", "S", "RV", "M", "KF", "V", "DD", "LA", "DF", "BP",
-                               "LG-LA", "LG-BP", "FO-JF", "GL-NAL", "GL-IA", "FO-SB"];
+                               "LG-LA", "LG-BP", "LG-BP2", "GL-NAL", "GL-IA", "FO-JF", "FO-SB"];
         const sorted = [...ALL_SEATS].sort((a, b) =>
           ideologyOrder.indexOf(a.id) - ideologyOrder.indexOf(b.id)
         );
 
-        // Light-colored parties need dark text
         const darkTextParties = new Set(["ALT", "DF", "DD", "BP"]);
-        // Short labels for the bar (NA seats get abbreviated)
         const barLabel = {
           "FO-JF": "FO", "FO-SB": "FO", "GL-NAL": "GL", "GL-IA": "GL",
-          "LG-LA": "LG", "LG-BP": "LG"
+          "LG-LA": "LG", "LG-BP": "LG", "LG-BP2": "LG"
+        };
+
+        // Gradient backgrounds: LG = old party color + grey stripe, FO/GL = flag colors
+        const barBackground = {
+          "LG-LA": `repeating-linear-gradient(135deg, ${PARTY_COLORS.LA} 0px, ${PARTY_COLORS.LA} 4px, #999 4px, #999 8px)`,
+          "LG-BP": `repeating-linear-gradient(135deg, ${PARTY_COLORS.BP} 0px, ${PARTY_COLORS.BP} 4px, #999 4px, #999 8px)`,
+          "LG-BP2": `repeating-linear-gradient(135deg, ${PARTY_COLORS.BP} 0px, ${PARTY_COLORS.BP} 4px, #999 4px, #999 8px)`,
+          "GL-NAL": "linear-gradient(135deg, #d00c33 50%, #fff 50%)",
+          "GL-IA": "linear-gradient(135deg, #d00c33 50%, #fff 50%)",
+          "FO-JF": "linear-gradient(135deg, #002f6c 33%, #fff 33% 66%, #d00c33 66%)",
+          "FO-SB": "linear-gradient(135deg, #002f6c 33%, #fff 33% 66%, #d00c33 66%)"
         };
 
         els.mandateBar.innerHTML = sorted.map(entry => {
           const seats = entry.mandates || 0;
           const label = barLabel[entry.id] || entry.id;
           const isNA = entry.id.includes("-");
-          const isLG = entry.id.startsWith("LG-");
+          const bg = barBackground[entry.id] || partyColor(entry.id);
           const textStyle = darkTextParties.has(entry.id)
             ? "color:#2a2420; text-shadow:none;"
             : isNA ? "font-size:0.6rem;" : "";
-          const lgStyle = isLG ? "opacity:0.5;" : "";
           return `
             <div
               class="mandate-segment"
-              style="background:${partyColor(entry.id)}; flex:${seats} 1 0%; ${textStyle}${lgStyle}"
+              style="background:${bg}; flex:${seats} 1 0%; ${textStyle}"
               title="${escapeHtml(entry.name)} · ${seats} mandat${seats > 1 ? "er" : ""}"
             >
               <span>${escapeHtml(label)}${seats > 1 ? " " + seats : ""}</span>
