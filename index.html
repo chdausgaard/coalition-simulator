@@ -2346,6 +2346,45 @@ onmessage = function(e) {
         return segments;
       }
 
+      function coalitionCategorySegments(results) {
+        if (!results || !Array.isArray(results.topCoalitions)) return [];
+        const cats = { "Centrum-rød": 0, "Tværblok": 0, "Centrum-blå": 0 };
+        const catColors = { "Centrum-rød": "#c0392b", "Tværblok": "#8e44ad", "Centrum-blå": "#2471a3" };
+        for (const item of results.topCoalitions) {
+          const members = item.govt.split("+");
+          const category = Sim5Coalitions.classifyCoalitionCategory(members);
+          if (category === "center-left" || category === "red") cats["Centrum-rød"] += item.pct;
+          else if (category === "cross") cats["Tværblok"] += item.pct;
+          else if (category === "center-right" || category === "blue") cats["Centrum-blå"] += item.pct;
+          else cats["Centrum-rød"] += item.pct; // midter, other → red-side default
+        }
+        return Object.entries(cats)
+          .filter(([, pct]) => pct > 0.1)
+          .map(([label, pct]) => ({ label, pct, color: catColors[label] }));
+      }
+
+      function renderCoalitionCategory(results) {
+        const segments = coalitionCategorySegments(results);
+        if (!segments.length) return '';
+        return `
+          <div class="stacked-bar">
+            ${segments.map(s => `
+              <div class="stacked-segment" style="width:${s.pct}%; background:${s.color}" title="${s.label}: ${formatPct(s.pct, 0)}">
+                ${s.pct >= 7 ? escapeHtml(s.label) + " " + formatPct(s.pct, 0) : escapeHtml(s.label)}
+              </div>
+            `).join("")}
+          </div>
+          <div class="distribution-legend">
+            ${segments.map(s => `
+              <span class="legend-pill">
+                <span class="legend-dot" style="background:${s.color}"></span>
+                ${escapeHtml(s.label)} ${formatPct(s.pct, 0)}
+              </span>
+            `).join("")}
+          </div>
+        `;
+      }
+
       function renderPmDistribution(results) {
         const segments = pmDistributionSegments(results);
         if (!segments.length) {
@@ -2586,14 +2625,12 @@ onmessage = function(e) {
                   </div>
                 </div>
 
-                <div class="metric-strip">
-                  <div class="metric-card">
-                    <small>Ingen regering</small>
-                    <strong class="mono">${formatPct(results.noGovPct || 0, 0)}</strong>
+                <div class="card pm-card">
+                  <div class="card-header">
+                    <strong>Koalitionsfordeling</strong>
                   </div>
-                  <div class="metric-card">
-                    <small>Hyppigste regering</small>
-                    <strong>${topCoalition ? escapeHtml(topCoalition.label) : "Ingen"}</strong>
+                  <div class="card-body">
+                    ${renderCoalitionCategory(results)}
                   </div>
                 </div>
 
