@@ -37,19 +37,14 @@ const REVERT_APRIL_02 = {
   "M.globalHarshness": { from: 0.35, to: 0.32 },
   "M.relationships.SF.inGov": { from: 0.58, to: 0.62 },
   "M.relationships.SF.asSupport": { from: 0.72, to: 0.75 },
-  // Full reversion of blue-party pivot (back to pre-pivot values)
+  // Full reversion of blue-party pivot (inGov + tolerateInGov only;
+  // asSupport and asPM don't change — joining ≠ propping up from outside)
   "V.relationships.S.inGov": { from: 0.32, to: 0.08 },
-  "V.relationships.S.asSupport": { from: 0.40, to: 0.12 },
   "V.relationships.S.tolerateInGov": { from: 0.35, to: 0.10 },
-  "V.relationships.S.asPM": { from: 0.18, to: 0.02 },
   "KF.relationships.S.inGov": { from: 0.52, to: 0.35 },
-  "KF.relationships.S.asSupport": { from: 0.74, to: 0.60 },
   "KF.relationships.S.tolerateInGov": { from: 0.82, to: 0.72 },
-  "KF.relationships.S.asPM": { from: 0.22, to: 0.05 },
   "LA.relationships.S.inGov": { from: 0.08, to: 0.03 },
-  "LA.relationships.S.asSupport": { from: 0.18, to: 0.04 },
   "LA.relationships.S.tolerateInGov": { from: 0.15, to: 0.02 },
-  "LA.relationships.S.asPM": { from: 0.02, to: 0.00 },
 };
 
 // April 4: BP toxicity increase (Schytte departure)
@@ -72,17 +67,11 @@ const REVERT_APRIL_06 = {
   "V.globalHarshness": { from: 0.75, to: 0.72 },
   // Partial reversion: from final values to April-2 intermediate values
   "V.relationships.S.inGov": { from: 0.32, to: 0.18 },
-  "V.relationships.S.asSupport": { from: 0.40, to: 0.23 },
   "V.relationships.S.tolerateInGov": { from: 0.35, to: 0.20 },
-  "V.relationships.S.asPM": { from: 0.18, to: 0.08 },
   "KF.relationships.S.inGov": { from: 0.52, to: 0.42 },
-  "KF.relationships.S.asSupport": { from: 0.74, to: 0.66 },
   "KF.relationships.S.tolerateInGov": { from: 0.82, to: 0.76 },
-  "KF.relationships.S.asPM": { from: 0.22, to: 0.12 },
   "LA.relationships.S.inGov": { from: 0.08, to: 0.05 },
-  "LA.relationships.S.asSupport": { from: 0.18, to: 0.10 },
   "LA.relationships.S.tolerateInGov": { from: 0.15, to: 0.07 },
-  "LA.relationships.S.asPM": { from: 0.02, to: 0.01 },
 };
 
 // Pre-March-31 BP toxicity (before Isaksen/Nawa/Harris)

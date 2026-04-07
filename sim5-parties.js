@@ -740,11 +740,12 @@ const V = {
   relationships: {
     // UPDATE 2026-04-02: blue PM increasingly dead; V pivots toward centrist arrangements
     // UPDATE 2026-04-06: TLP absence + talks restart make blue PM death concrete
+    // asSupport/asPM stay low: V accepts joining S-led govt, not propping up S from outside
     S: {
       inGov: 0.32,
-      asSupport: 0.40,
+      asSupport: 0.12,
       tolerateInGov: 0.35,
-      asPM: 0.18
+      asPM: 0.02
     },
     M: {
       inGov: 0.95,
@@ -852,12 +853,13 @@ const LA = {
 
   relationships: {
     // FIXED: replaced hard all-zero coding with tiny non-zero exploration values.
-    // UPDATE 2026-04-06: blue PM dead; LA reluctantly opens to tolerating/supporting centrist gov from outside
+    // UPDATE 2026-04-06: blue PM dead; LA reluctantly opens to joining centrist gov
+    // asSupport/asPM stay low: LA accepts joining S-led govt, not propping up S from outside
     S: {
       inGov: 0.08,
-      asSupport: 0.18,
+      asSupport: 0.05,
       tolerateInGov: 0.15,
-      asPM: 0.02
+      asPM: 0.00
     },
     M: {
       inGov: 0.85,
@@ -976,11 +978,12 @@ const KF = {
   relationships: {
     // UPDATE 2026-04-02: blue PM fading; KF most enthusiastic blue-side pivot toward centrist
     // UPDATE 2026-04-06: steep further adjustment as blue PM becomes virtually impossible
+    // asSupport/asPM stay low: KF accepts joining S-led govt, not propping up S from outside
     S: {
       inGov: 0.52,
-      asSupport: 0.74,
+      asSupport: 0.60,
       tolerateInGov: 0.82,
-      asPM: 0.22
+      asPM: 0.05
     },
     M: {
       inGov: 0.92,
