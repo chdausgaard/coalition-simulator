@@ -707,7 +707,7 @@ function frederiksenBonus(coalition, redPreference) {
 
 function evaluateMOrientation(coalitions, mandates, cfg) {
   const mParty = PARTIES_MAP.M;
-  const crossBlocBonus = cfg.crossBlocBonus != null ? cfg.crossBlocBonus : 5.0;
+  const crossBlocBonus = cfg.crossBlocBonus != null ? cfg.crossBlocBonus : 6.0;
   const PRESELECT_COUNT = 5;
   const passageCfg = { ...(cfg || {}) };
   delete passageCfg._mPursuesBlue;

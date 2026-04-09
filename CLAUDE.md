@@ -20,11 +20,16 @@ Danish government formation model for the 2026 election. Bloc voting, two-round 
 node -e "const e = require('./sim5-engine.js'); console.log(JSON.stringify(e.simulate({}, 500), null, 2))"
 ```
 
-## Current output (~N=10000, post 2026-04-06 update)
+### `simulate()` return shape
 
-S+M+RV+SF ~37%, S+M+SF ~18%, cross-bloc (S+KF+M+V, S+KF+M+RV, S+M+V) ~17%, S+RV+SF ~14%.
+`simulate(overrides, N)` returns `{ N, pm, govType, topCoalitions, formationRounds, formateurOrder, noGovPct }`.
 
-Three-state M orientation (center-left / cross-bloc / blue) with cross-bloc fallback. Opposition coordination (0.85) prevents independence-artifact inflation of thin-coalition passage rates. Two-part majority gap penalty (sharp drop at 90→89, Gaussian σ=4 below). Three blue-origin løsgængere (blocOrigin="blue") never support red/center-red governments. crossBlocBonus=5.0 (Løkke's explicit April 2 push).
+- `topCoalitions` is an array of objects: `{ govt, pct, avgPPassage, platform, govProfile, support, looseSupport, naSupport }`. Key fields: `govt` (string, e.g. `"S+M+RV+SF"`), `pct` (number, percentage). Multiple entries can share the same `govt` (different support configurations); aggregate by `govt` to get total probability.
+- Party data (`sim5-parties.js`) uses `mandates` (not `seats`) and is accessed via named exports (e.g. `p.S`, `p.V`) or `p.PARTIES_LIST` / `p.PARTIES_MAP`.
+
+## Model architecture
+
+Three-state M orientation (center-left / cross-bloc / blue) with cross-bloc fallback. Opposition coordination prevents independence-artifact inflation of thin-coalition passage rates. Two-part majority gap penalty. Blue-origin løsgængere never support red/center-red governments. See `sim5-engine.js` for current parameter defaults and `sim5-parties.js` for calibration values.
 
 ## Daily update pipeline
 

@@ -74,6 +74,17 @@ const REVERT_APRIL_06 = {
   "LA.relationships.S.tolerateInGov": { from: 0.15, to: 0.07 },
 };
 
+// April 9: S/SF/EL softening, M hardening, crossBlocBonus 5→6
+const REVERT_APRIL_09 = {
+  "S.globalHarshness": { from: 0.35, to: 0.45 },
+  "S.positions.pension.weight": { from: 0.35, to: 0.65 },
+  "S.positions.fiscal.weight": { from: 0.35, to: 0.60 },
+  "SF.globalHarshness": { from: 0.40, to: 0.55 },
+  "SF.positions.wealthTax.weight": { from: 0.10, to: 0.45 },
+  "EL.globalHarshness": { from: 0.38, to: 0.50 },
+  "M.globalHarshness": { from: 0.40, to: 0.35 },
+};
+
 // Pre-March-31 BP toxicity (before Isaksen/Nawa/Harris)
 const REVERT_PRE_MARCH_31_BP = {
   "V.relationships.BP.inGov": { from: 0.10, to: 0.20 },
@@ -112,14 +123,15 @@ const HISTORICAL_OVERRIDES = {
     mandateOverrides: { LA: 16, BP: 4 },
     cfgOverrides: { crossBlocBonus: 1.0 },
     overrides: {
+      ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
       ...REVERT_APRIL_04_BP,
       ...REVERT_APRIL_02,
       ...REVERT_APRIL_01,
       ...REVERT_PRE_MARCH_31_BP,
-      "SF.globalHarshness": { from: 0.55, to: 0.59 },
+      "SF.globalHarshness": { from: 0.40, to: 0.59 },
       "KF.relationships.S.inGov": { from: 0.52, to: 0.30 },
-      "EL.globalHarshness": { from: 0.50, to: 0.64 },
+      "EL.globalHarshness": { from: 0.38, to: 0.64 },
       "ALT.globalHarshness": { from: 0.48, to: 0.53 },
     }
   },
@@ -135,12 +147,13 @@ const HISTORICAL_OVERRIDES = {
     mandateOverrides: { LA: 16, BP: 4 },
     cfgOverrides: { crossBlocBonus: 1.0 },
     overrides: {
+      ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
       ...REVERT_APRIL_04_BP,
       ...REVERT_APRIL_02,
       ...REVERT_APRIL_01,
       ...REVERT_PRE_MARCH_31_BP,
-      "EL.globalHarshness": { from: 0.50, to: 0.64 },
+      "EL.globalHarshness": { from: 0.38, to: 0.64 },
       "ALT.globalHarshness": { from: 0.48, to: 0.53 },
     }
   },
@@ -157,6 +170,7 @@ const HISTORICAL_OVERRIDES = {
     mandateOverrides: { LA: 16, BP: 4 },
     cfgOverrides: { crossBlocBonus: 1.0 },
     overrides: {
+      ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
       ...REVERT_APRIL_04_BP,
       ...REVERT_APRIL_02,
@@ -177,6 +191,7 @@ const HISTORICAL_OVERRIDES = {
     mandateOverrides: { BP: 3 },
     cfgOverrides: { crossBlocBonus: 1.0 },
     overrides: {
+      ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
       ...REVERT_APRIL_04_BP,
       ...REVERT_APRIL_02,
@@ -197,6 +212,7 @@ const HISTORICAL_OVERRIDES = {
     revertMBP: true,
     revertGLCorrelated: true,
     overrides: {
+      ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
       ...REVERT_APRIL_04_BP,
       ...REVERT_APRIL_02,
@@ -217,6 +233,7 @@ const HISTORICAL_OVERRIDES = {
     mandateOverrides: { BP: 3 },
     cfgOverrides: { crossBlocBonus: 1.0 },
     overrides: {
+      ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
       ...REVERT_APRIL_04_BP,
       ...REVERT_APRIL_02,
@@ -237,6 +254,7 @@ const HISTORICAL_OVERRIDES = {
     mandateOverrides: { BP: 3 },
     cfgOverrides: { crossBlocBonus: 1.0 },
     overrides: {
+      ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
       ...REVERT_APRIL_04_BP,
       ...REVERT_APRIL_02,
@@ -254,8 +272,9 @@ const HISTORICAL_OVERRIDES = {
     removeLG: false,
     removeLGBP2: true,
     mandateOverrides: { BP: 3 },
-    // crossBlocBonus = 5.0 takes effect (engine default)
+    cfgOverrides: { crossBlocBonus: 5.0 },  // crossBlocBonus was 5.0 from April 2–8
     overrides: {
+      ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
       ...REVERT_APRIL_04_BP,
     }
@@ -269,7 +288,9 @@ const HISTORICAL_OVERRIDES = {
     removeLG: false,
     removeLGBP2: true,
     mandateOverrides: { BP: 3 },
+    cfgOverrides: { crossBlocBonus: 5.0 },
     overrides: {
+      ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
       ...REVERT_APRIL_04_BP,
     }
@@ -283,7 +304,9 @@ const HISTORICAL_OVERRIDES = {
     ],
     removeLG: false,
     removeLGBP2: false,
+    cfgOverrides: { crossBlocBonus: 5.0 },
     overrides: {
+      ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
     }
   },
@@ -295,8 +318,25 @@ const HISTORICAL_OVERRIDES = {
     ],
     removeLG: false,
     removeLGBP2: false,
+    cfgOverrides: { crossBlocBonus: 5.0 },
     overrides: {
+      ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
+    }
+  },
+  "2026-04-06": {
+    label: "forhandlinger",
+    formationStage: "forhandlinger",
+    changelog: [
+      "Forhandlinger genoptages efter påske ved Marienborg",
+      "Troels Lund Poulsen ude 7-10 dage efter øjenoperation → V-hårdhed stiger",
+      "Resterende blå-parti pivot mod centristisk arrangement (fuld effekt)"
+    ],
+    removeLG: false,
+    removeLGBP2: false,
+    cfgOverrides: { crossBlocBonus: 5.0 },
+    overrides: {
+      ...REVERT_APRIL_09,
     }
   }
 };
@@ -317,6 +357,14 @@ function applyOverride(key, value) {
   if (parts[1] === "participationPref") {
     const old = party.participationPref[parts[2]];
     party.participationPref[parts[2]] = value;
+    return old;
+  }
+  if (parts[1] === "positions") {
+    const posId = parts[2];
+    const field = parts[3];
+    if (!party.positions[posId]) { console.warn("No position:", key); return null; }
+    const old = party.positions[posId][field];
+    party.positions[posId][field] = value;
     return old;
   }
   if (parts[1] === "relationships") {
@@ -471,8 +519,8 @@ for (const [date, config] of Object.entries(HISTORICAL_OVERRIDES)) {
   timeline.push(runRetrocast(date, config));
 }
 
-// Current date (2026-04-06): no overrides needed
-console.log("\n=== Current: 2026-04-06 ===");
+// Current date (2026-04-09): no overrides needed
+console.log("\n=== Current: 2026-04-09 ===");
 const current = engine.simulate({}, N);
 const currentCoalitions = {};
 for (const c of current.topCoalitions.slice(0, 10)) {
@@ -484,14 +532,15 @@ for (const key of Object.keys(currentCoalitions)) {
 console.log("  Results:", JSON.stringify(currentCoalitions));
 
 timeline.push({
-  date: "2026-04-06",
+  date: "2026-04-09",
   coalitions: currentCoalitions,
   noGov: current.noGovPct,
   formationStage: "forhandlinger",
   changelog: [
-    "Forhandlinger genoptages efter påske ved Marienborg",
-    "Troels Lund Poulsen ude 7-10 dage efter øjenoperation → V-hårdhed stiger",
-    "Resterende blå-parti pivot mod centristisk arrangement (fuld effekt)"
+    "SF dropper formueskat som krav; S indsnævrer til 2 røde linjer (udlændinge, sprøjteforbud)",
+    "EL (Dragsted) roser Løkke, kun ét bredt krav (ulighed)",
+    "Løkke fastholder skepsis efter 4 timer: 'ser stadigvæk tungt ud'",
+    "crossBlocBonus 5→6: Løkke gentager tværblok-præference efter lang forhandling"
   ]
 });
 

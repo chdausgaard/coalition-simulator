@@ -2,11 +2,11 @@
   {
     "date": "2026-03-24",
     "coalitions": {
-      "S+M+RV+SF": 51.3,
-      "S+M+SF": 27.4,
-      "S+KF+M+RV": 4.9,
-      "V+M": 3.4,
-      "V+KF+M": 3.2,
+      "S+M+RV+SF": 51.7,
+      "S+M+SF": 27.5,
+      "S+KF+M+RV": 4.7,
+      "V+KF+M": 3.3,
+      "V+M": 3.2,
       "V+KF+LA+M": 2.6,
       "V+LA+M": 2.2,
       "S+M+V": 1.2
@@ -20,14 +20,14 @@
   {
     "date": "2026-03-26",
     "coalitions": {
-      "S+M+RV+SF": 51,
-      "S+M+SF": 27.6,
-      "S+KF+M+RV": 5.4,
-      "V+M": 3.2,
-      "V+KF+M": 3.1,
-      "V+KF+LA+M": 2.7,
-      "V+LA+M": 2.1,
-      "S+M+V": 1.1
+      "S+M+RV+SF": 51.1,
+      "S+M+SF": 26.7,
+      "S+KF+M+RV": 5.7,
+      "V+M": 3.4,
+      "V+KF+M": 3.2,
+      "V+KF+LA+M": 2.5,
+      "V+LA+M": 2.4,
+      "S+M+V": 1.2
     },
     "noGov": 0,
     "formationStage": "forhandlinger",
@@ -39,14 +39,14 @@
   {
     "date": "2026-03-28",
     "coalitions": {
-      "S+M+RV+SF": 51.1,
+      "S+M+RV+SF": 50.8,
       "S+M+SF": 27.5,
-      "S+KF+M+RV": 5.3,
-      "V+M": 3.3,
-      "V+KF+M": 3.1,
-      "V+KF+LA+M": 2.6,
-      "V+LA+M": 2.3,
-      "S+M+V": 1.1
+      "S+KF+M+RV": 5.5,
+      "V+KF+M": 3.3,
+      "V+M": 3.2,
+      "V+KF+LA+M": 2.5,
+      "V+LA+M": 2.2,
+      "S+KF+M+V": 1.2
     },
     "noGov": 0,
     "formationStage": "forhandlinger",
@@ -59,16 +59,16 @@
   {
     "date": "2026-03-29",
     "coalitions": {
-      "S+M+RV+SF": 51.2,
-      "S+M+SF": 27.7,
-      "S+KF+M+RV": 5.1,
+      "S+M+RV+SF": 51.5,
+      "S+M+SF": 27.6,
+      "S+KF+M+RV": 5,
+      "V+M": 3.3,
       "V+KF+M": 3.2,
-      "V+M": 3.1,
-      "V+KF+LA+M": 2.7,
-      "V+LA+M": 2,
-      "S+M+V": 1.2
+      "V+KF+LA+M": 2.6,
+      "V+LA+M": 2.1,
+      "S+KF+M+V": 1
     },
-    "noGov": 0,
+    "noGov": 0.01,
     "formationStage": "forhandlinger",
     "changelog": [
       "LA ekskluderer Cecilie Liv Hansen → løsgænger (LA 16→15, 1 uafhængigt mandat)",
@@ -79,13 +79,13 @@
   {
     "date": "2026-03-30",
     "coalitions": {
-      "S+M+RV+SF": 51.6,
-      "S+M+SF": 27.4,
+      "S+M+RV+SF": 51.8,
+      "S+M+SF": 27,
       "S+KF+M+RV": 5,
       "V+KF+M": 3.2,
       "V+M": 3,
-      "V+KF+LA+M": 2.7,
-      "V+LA+M": 2.1,
+      "V+KF+LA+M": 2.8,
+      "V+LA+M": 2.3,
       "S+KF+M+V": 1.1
     },
     "noGov": 0,
@@ -98,13 +98,13 @@
     "date": "2026-03-31",
     "coalitions": {
       "S+M+RV+SF": 51.8,
-      "S+M+SF": 26.6,
+      "S+M+SF": 26.9,
       "S+KF+M+RV": 5,
-      "V+KF+M": 3.2,
       "V+M": 3.2,
-      "V+KF+LA+M": 3,
-      "V+LA+M": 2.3,
-      "S+M+V": 1.1
+      "V+KF+M": 3.1,
+      "V+KF+LA+M": 2.5,
+      "V+LA+M": 2.2,
+      "S+M+V": 1.3
     },
     "noGov": 0,
     "formationStage": "forhandlinger",
@@ -117,16 +117,16 @@
   {
     "date": "2026-04-01",
     "coalitions": {
-      "S+M+RV+SF": 51.8,
+      "S+M+RV+SF": 51.5,
       "S+M+SF": 27.1,
-      "S+KF+M+RV": 5.2,
+      "S+KF+M+RV": 5.1,
       "V+M": 3.3,
-      "V+KF+M": 3.1,
-      "V+KF+LA+M": 2.6,
-      "V+LA+M": 2.1,
-      "S+KF+M+V": 1
+      "V+KF+M": 3.3,
+      "V+KF+LA+M": 2.5,
+      "V+LA+M": 2.2,
+      "S+M+V": 1.2
     },
-    "noGov": 0,
+    "noGov": 0.01,
     "formationStage": "forhandlinger",
     "changelog": [
       "Nathanielsen (IA) hælder 'selvfølgelig rødt', svært at se blå konstellation",
@@ -137,14 +137,14 @@
   {
     "date": "2026-04-02",
     "coalitions": {
-      "S+M+RV+SF": 44.5,
-      "S+M+SF": 25,
-      "S+KF+M+RV": 8.2,
+      "S+M+RV+SF": 44.3,
+      "S+M+SF": 24.7,
+      "S+KF+M+RV": 8.1,
       "S+KF+M+V": 3.6,
       "V+M": 3.4,
-      "V+KF+M": 3.3,
-      "S+M+V": 3.3,
-      "V+KF+LA+M": 2.7
+      "V+KF+M": 3.4,
+      "S+M+V": 3.4,
+      "V+KF+LA+M": 2.8
     },
     "noGov": 0,
     "formationStage": "forhandlinger",
@@ -158,14 +158,14 @@
   {
     "date": "2026-04-03",
     "coalitions": {
-      "S+M+RV+SF": 44.6,
-      "S+M+SF": 24.7,
-      "S+KF+M+RV": 8.3,
+      "S+M+RV+SF": 44.5,
+      "S+M+SF": 25.1,
+      "S+KF+M+RV": 8,
       "S+KF+M+V": 3.5,
-      "V+M": 3.4,
-      "S+M+V": 3.3,
-      "V+KF+M": 3.2,
-      "V+KF+LA+M": 2.8
+      "V+KF+M": 3.5,
+      "S+M+V": 3.4,
+      "V+M": 3.2,
+      "V+KF+LA+M": 2.9
     },
     "noGov": 0,
     "formationStage": "forhandlinger",
@@ -176,14 +176,14 @@
   {
     "date": "2026-04-04",
     "coalitions": {
-      "S+M+RV+SF": 44.4,
-      "S+M+SF": 24.5,
-      "S+KF+M+RV": 8.2,
-      "S+KF+M+V": 3.4,
-      "V+KF+M": 3.4,
-      "S+M+V": 3.4,
-      "V+M": 3.3,
-      "V+KF+LA+M": 2.9
+      "S+M+RV+SF": 44.2,
+      "S+M+SF": 25.5,
+      "S+KF+M+RV": 8,
+      "S+KF+M+V": 3.5,
+      "V+KF+M": 3.3,
+      "V+M": 3.2,
+      "S+M+V": 3.2,
+      "V+KF+LA+M": 3.1
     },
     "noGov": 0,
     "formationStage": "forhandlinger",
@@ -195,14 +195,14 @@
   {
     "date": "2026-04-05",
     "coalitions": {
-      "S+M+RV+SF": 44.4,
-      "S+M+SF": 25,
-      "S+KF+M+RV": 8.3,
+      "S+M+RV+SF": 44.3,
+      "S+M+SF": 25.1,
+      "S+KF+M+RV": 8.2,
       "S+KF+M+V": 3.5,
-      "S+M+V": 3.4,
-      "V+KF+M": 3.4,
-      "V+M": 3.3,
-      "V+KF+LA+M": 2.8
+      "V+M": 3.5,
+      "S+M+V": 3.5,
+      "V+KF+M": 3.1,
+      "V+KF+LA+M": 2.9
     },
     "noGov": 0,
     "formationStage": "forhandlinger",
@@ -213,14 +213,14 @@
   {
     "date": "2026-04-06",
     "coalitions": {
-      "S+M+RV+SF": 41.7,
-      "S+M+SF": 22.9,
-      "S+KF+M+RV": 7.7,
-      "S+KF+M+V": 7.4,
-      "S+M+V": 6,
-      "V+M": 3,
+      "S+M+RV+SF": 41.6,
+      "S+M+SF": 22.5,
+      "S+KF+M+RV": 8,
+      "S+KF+M+V": 7.5,
+      "S+M+V": 6.1,
       "V+KF+M": 3,
-      "V+KF+LA+M": 2.6
+      "V+M": 3,
+      "V+KF+LA+M": 2.5
     },
     "noGov": 0,
     "formationStage": "forhandlinger",
@@ -228,6 +228,27 @@
       "Forhandlinger genoptages efter påske ved Marienborg",
       "Troels Lund Poulsen ude 7-10 dage efter øjenoperation → V-hårdhed stiger",
       "Resterende blå-parti pivot mod centristisk arrangement (fuld effekt)"
+    ]
+  },
+  {
+    "date": "2026-04-09",
+    "coalitions": {
+      "S+M+RV+SF": 41,
+      "S+M+SF": 22.7,
+      "S+KF+M+RV": 8.1,
+      "S+KF+M+V": 7.6,
+      "S+M+V": 6,
+      "V+KF+M": 3.1,
+      "V+M": 3,
+      "V+KF+LA+M": 2.6
+    },
+    "noGov": 0,
+    "formationStage": "forhandlinger",
+    "changelog": [
+      "SF dropper formueskat som krav; S indsnævrer til 2 røde linjer (udlændinge, sprøjteforbud)",
+      "EL (Dragsted) roser Løkke, kun ét bredt krav (ulighed)",
+      "Løkke fastholder skepsis efter 4 timer: 'ser stadigvæk tungt ud'",
+      "crossBlocBonus 5→6: Løkke gentager tværblok-præference efter lang forhandling"
     ]
   }
 ]

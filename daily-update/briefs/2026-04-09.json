@@ -1,0 +1,95 @@
+{
+  "date": "2026-04-09",
+  "summary": "SF drops formueskat publicly; Frederiksen narrows to 2 red lines (immigration, pesticideBan). EL (Dragsted) conciliatory, praises Løkke. Løkke unmoved after 4 hours: 'stadigvæk tungt ud'. Red-bloc parties systematically clearing obstacles while M holds firm.",
+  "developments": [
+    {
+      "description": "SF (Olsen Dyhr) publicly abandons formueskat as requirement: 'vi er også villige til at kigge på andre finansieringskilder'. Previously a stated M dealbreaker.",
+      "source": "TV 2 / DR, 7 April 2026",
+      "impact": "SF wealthTax weight 0.45→0.10; SF globalHarshness 0.55→0.40"
+    },
+    {
+      "description": "Frederiksen names only 2 non-negotiable demands: stram udlændingepolitik and nationalt sprøjteforbud. Hans Redder (TV 2) flags conspicuous absence of formueskat, folkeskole, Arne-pension.",
+      "source": "TV 2, 7 April 2026",
+      "impact": "S globalHarshness 0.45→0.35; S pension weight 0.65→0.35; S fiscal weight 0.60→0.35"
+    },
+    {
+      "description": "Dragsted (EL) praises Løkke personally, names only one broad ultimatum (inequality), reports consensus on nature/water policy. 'Det er ikke os, der udelukker at forhandle med Løkke.'",
+      "source": "DR / TV 2, 7 April 2026",
+      "impact": "EL globalHarshness 0.50→0.38"
+    },
+    {
+      "description": "Løkke emerges from 4-hour session: 'Det ser stadigvæk tungt ud'. Questions whether mandate can deliver 'tilstrækkelig offensiv økonomisk politik'. Reiterates 'Det bedste er at få en regering hen over midten'.",
+      "source": "DR / TV 2, 7 April 2026",
+      "impact": "M globalHarshness 0.35→0.40; crossBlocBonus 5.0→6.0"
+    },
+    {
+      "description": "Troels Lund Poulsen sidelined after acute eye surgery (7-10 days). V absent from formation process this window.",
+      "source": "Facebook / Ritzau, 6 April 2026",
+      "impact": "No new V parameter changes (already captured in April 6 update)"
+    },
+    {
+      "description": "Greenland MPs (Nathanielsen, Høegh-Dam) present 5 formal demands to Frederiksen. Nathanielsen: 'svært at se blå konstellation'.",
+      "source": "ArcticToday, 8 April 2026",
+      "impact": "No parameter change (already coded with red lean; demands are S-GL bilateral, not coalition variables)"
+    }
+  ],
+  "parameterChanges": [
+    {
+      "party": "S",
+      "parameter": "globalHarshness",
+      "oldValue": 0.45,
+      "newValue": 0.35,
+      "justification": "Frederiksen narrowed to 2 red lines; Redder: 'nødt til at strege store dele'"
+    },
+    {
+      "party": "S",
+      "parameter": "positions.pension.weight",
+      "oldValue": 0.65,
+      "newValue": 0.35,
+      "justification": "Conspicuously absent from Frederiksen's 2 stated red lines"
+    },
+    {
+      "party": "S",
+      "parameter": "positions.fiscal.weight",
+      "oldValue": 0.60,
+      "newValue": 0.35,
+      "justification": "Conspicuously absent from Frederiksen's 2 stated red lines"
+    },
+    {
+      "party": "SF",
+      "parameter": "globalHarshness",
+      "oldValue": 0.55,
+      "newValue": 0.40,
+      "justification": "SF dropped formueskat publicly + systematic obstacle-clearing for M"
+    },
+    {
+      "party": "SF",
+      "parameter": "positions.wealthTax.weight",
+      "oldValue": 0.45,
+      "newValue": 0.10,
+      "justification": "Dyhr: 'villige til at kigge på andre finansieringskilder' — publicly abandoned"
+    },
+    {
+      "party": "EL",
+      "parameter": "globalHarshness",
+      "oldValue": 0.50,
+      "newValue": 0.38,
+      "justification": "Dragsted praised Løkke; one broad ultimatum; consensus on nature/water"
+    },
+    {
+      "party": "M",
+      "parameter": "globalHarshness",
+      "oldValue": 0.35,
+      "newValue": 0.40,
+      "justification": "'Stadigvæk tungt ud' after 4 hrs; unmoved while all others soften"
+    },
+    {
+      "parameter": "crossBlocBonus",
+      "oldValue": 5.0,
+      "newValue": 6.0,
+      "justification": "Løkke reiterated cross-bloc preference after long centre-left session"
+    }
+  ],
+  "formationStage": "forhandlinger",
+  "confidenceAssessment": "high — SF formueskat concession and Frederiksen's 2-red-lines are first-person public statements; Løkke's posture is direct quote; Dragsted's conciliation is direct quote"
+}

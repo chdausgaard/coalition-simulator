@@ -17,7 +17,8 @@ const S = {
   },
 
   // One issue ultimatum (immigration) + one structural non-negotiable (PM); wealth tax, pension, and other issues explicitly flexible (S.md).
-  globalHarshness: 0.45,
+  // UPDATE 2026-04-09: Frederiksen narrowed to 2 red lines (immigration, pesticideBan); Redder: "nødt til at strege store dele"
+  globalHarshness: 0.35,
 
   positions: {
     wealthTax: { ideal: 2, floor: 4, ceiling: 2, weight: 0.25 },  // UPDATE 2026-03-26: Frederiksen called wealth tax "a means to an end, can be replaced" — softening signal
@@ -25,8 +26,8 @@ const S = {
     natureLaw: { ideal: 1, floor: 2, ceiling: 1, weight: 0.20 },
     pesticideBan: { ideal: 1, floor: 1, ceiling: 1, weight: 0.90 },
     immigration: { ideal: 3, floor: 3, ceiling: 3, weight: 0.90 },
-    pension: { ideal: 0, floor: 1, ceiling: 0, weight: 0.65 },
-    fiscal: { ideal: 0, floor: 1, ceiling: 0, weight: 0.60 },
+    pension: { ideal: 0, floor: 1, ceiling: 0, weight: 0.35 },  // UPDATE 2026-04-09: conspicuously absent from Frederiksen's 2 red lines
+    fiscal: { ideal: 0, floor: 1, ceiling: 0, weight: 0.35 },  // UPDATE 2026-04-09: same — Redder flagged absence as the signal
     nuclear: { ideal: 2, floor: 1, ceiling: 2, weight: 0.15 },
     // FIXED: opened range from 1/1/1 to 1/2/0. The brief makes S hawkish on defense, but not uniquely absolutist; the zero-flexibility coding was too rigid relative to other issues that were actually labeled ultimative (S.md).
     defense: { ideal: 1, floor: 2, ceiling: 0, weight: 0.70 },
@@ -136,10 +137,11 @@ const SF = {
 
   // FIXED: lowered from 0.68 to 0.59 because SF's brief combines a hard participation-format demand (government or opposition) with explicit issue-level flexibility: Dyhr says she does not believe in ultimatums and repeatedly opens the door to Moderaterne (SF.md).
   // UPDATE 2026-03-26: raised to 0.64 after kongerunde — SF's explicit no-confidence ultimatum ("SF will vote for a motion of no confidence against any government that SF is not part of") is harder than the earlier "doesn't believe in ultimatums" framing.
-  globalHarshness: 0.55, // UPDATE 2026-03-28: blind calibration
+  // UPDATE 2026-04-09: SF dropped formueskat publicly; systematic obstacle-clearing for M
+  globalHarshness: 0.40,
 
   positions: {
-    wealthTax: { ideal: 1, floor: 4, ceiling: 1, weight: 0.45 },
+    wealthTax: { ideal: 1, floor: 4, ceiling: 1, weight: 0.10 },  // UPDATE 2026-04-09: Dyhr: "villige til at kigge på andre finansieringskilder" — publicly abandoned
     climateTgt: { ideal: 1, floor: 2, ceiling: 1, weight: 0.75 },
     natureLaw: { ideal: 0, floor: 1, ceiling: 0, weight: 0.80 },
     pesticideBan: { ideal: 0, floor: 1, ceiling: 0, weight: 0.70 },
@@ -256,7 +258,8 @@ const M = {
   // FIXED: lowered from 0.42 to 0.24. M's brief stresses "un-dogmatic and solution-oriented" centrism and explicitly says the party has no large grassroots base constraining Løkke; among all parties, M is the most flexible actor (M.md).
   // UPDATE 2026-03-28: raised to 0.32. Blind calibration reveals Løkke's specific vetoes create effective rigidity despite general flexibility.
   // UPDATE 2026-04-02: "koste hvad det vil" + explicit cross-bloc pressure = harder bargaining posture
-  globalHarshness: 0.35,
+  // UPDATE 2026-04-09: "stadigvæk tungt ud" after 4 hrs; unmoved while all others soften = revealed rigidity
+  globalHarshness: 0.40,
 
   positions: {
     // FIXED: corrected direction and level. The extraction had ideal 3 / floor 4 / ceiling 3, but M's brief says the party flatly rejects the wealth tax and that Løkke called it a "red line". Preferred outcome is no wealth tax, so ideal/ceiling belong at 4 and the compromise floor below that (M.md).
@@ -374,7 +377,8 @@ const EL = {
     opposition: 0.12
   },
 
-  globalHarshness: 0.50, // UPDATE 2026-04-01: Dragsted "no ultimatums, everyone needs to bend" — tactical softening
+  // UPDATE 2026-04-09: praised Løkke personally; one broad ultimatum (inequality); consensus on nature policy
+  globalHarshness: 0.38,
 
   positions: {
     wealthTax: { ideal: 0, floor: 3, ceiling: 0, weight: 0.62 },
