@@ -314,7 +314,7 @@ const HISTORICAL_OVERRIDES = {
     label: "forhandlinger",
     formationStage: "forhandlinger",
     changelog: [
-      "Megafon-måling: 42% ønsker tværblok-regering (op fra 35%); intet nyt partisignal"
+      "Intet nyt partisignal (påskepause)"
     ],
     removeLG: false,
     removeLGBP2: false,

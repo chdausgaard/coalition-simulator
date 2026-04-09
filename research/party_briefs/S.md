@@ -123,7 +123,7 @@ DR's pre-election analysis described her as maintaining "top-down control" for a
 - **PM demand:** Ironclad. No analyst questions it.
 - **Immigration ultimatum:** Genuine but largely untested, since potential partners mostly agree or accept S's line as the price of government.
 - **Sprøjteforbud:** Broad popular support. Likely to survive negotiations.
-- **Formueskat:** Negotiable. Frederiksen signaled this herself. A Megafon poll showed the country split (41% for, 45% against).
+- **Formueskat:** Negotiable. Frederiksen signaled this herself.
 - **Pension reform:** Faces strong opposition from Moderaterne (Løkke flatly disagreed) and will likely be scaled back significantly.
 
 ---
