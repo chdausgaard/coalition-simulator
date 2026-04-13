@@ -1,0 +1,2119 @@
+{
+  "_meta": {
+    "snapshotDate": "2026-03-31",
+    "engineVersion": "sim5-v1",
+    "parentSnapshot": "2026-03-30",
+    "briefRef": null,
+    "formationStage": "forhandlinger",
+    "label": "forhandlinger",
+    "changelog": [
+      "BP-toksicitet stiger: Isaksen/Nawa-kontrovers, Harris-efterdønninger fortsætter",
+      "Rona (M) erklærer blå blok 'helt finito' efter BP-uro",
+      "Grønlandske mandater (Høegh-Dam, Nathanielsen) ankommer koordineret før Marienborg-møde"
+    ]
+  },
+  "parties": {
+    "S": {
+      "id": "S",
+      "name": "Socialdemokratiet",
+      "mandates": 38,
+      "bloc": "red",
+      "govEligible": true,
+      "pmEligible": true,
+      "pmDemand": true,
+      "participationPref": {
+        "government": 0.95,
+        "stoettepartiForst": 0,
+        "stoettepartiLoose": 0,
+        "opposition": 0.05
+      },
+      "globalHarshness": 0.45,
+      "positions": {
+        "wealthTax": {
+          "ideal": 2,
+          "floor": 4,
+          "ceiling": 2,
+          "weight": 0.25
+        },
+        "climateTgt": {
+          "ideal": 2,
+          "floor": 3,
+          "ceiling": 2,
+          "weight": 0.45
+        },
+        "natureLaw": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 1,
+          "weight": 0.2
+        },
+        "pesticideBan": {
+          "ideal": 1,
+          "floor": 1,
+          "ceiling": 1,
+          "weight": 0.9
+        },
+        "immigration": {
+          "ideal": 3,
+          "floor": 3,
+          "ceiling": 3,
+          "weight": 0.9
+        },
+        "pension": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.65
+        },
+        "fiscal": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.6
+        },
+        "nuclear": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.15
+        },
+        "defense": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 0,
+          "weight": 0.7
+        },
+        "euConventions": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.55
+        },
+        "forstaaelsespapir": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.15
+        },
+        "storeBededag": {
+          "ideal": 1,
+          "floor": 0,
+          "ceiling": 2,
+          "weight": 0.25
+        }
+      },
+      "concessionCurrency": [
+        "wealthTax",
+        "storeBededag",
+        "natureLaw",
+        "forstaaelsespapir"
+      ],
+      "demandCurrency": [
+        "immigration",
+        "pesticideBan",
+        "pension",
+        "fiscal"
+      ],
+      "relationships": {
+        "SF": {
+          "inGov": 0.9,
+          "asSupport": 0.95,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "M": {
+          "inGov": 0.92,
+          "asSupport": 0.95,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "V": {
+          "inGov": 0.25,
+          "asSupport": 0.6,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "EL": {
+          "inGov": 0.35,
+          "asSupport": 0.82,
+          "tolerateInGov": 0.75,
+          "asPM": 0
+        },
+        "ALT": {
+          "inGov": 0.45,
+          "asSupport": 0.88,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "RV": {
+          "inGov": 0.88,
+          "asSupport": 0.85,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "LA": {
+          "inGov": 0.03,
+          "asSupport": 0.05,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "KF": {
+          "inGov": 0.3,
+          "asSupport": 0.5,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "DF": {
+          "inGov": 0.02,
+          "asSupport": 0.08,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "DD": {
+          "inGov": 0.02,
+          "asSupport": 0.05,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "BP": {
+          "inGov": 0,
+          "asSupport": 0.02,
+          "tolerateInGov": 0,
+          "asPM": 0
+        }
+      }
+    },
+    "SF": {
+      "id": "SF",
+      "name": "Socialistisk Folkeparti",
+      "mandates": 20,
+      "bloc": "red",
+      "govEligible": true,
+      "pmEligible": false,
+      "pmDemand": false,
+      "demandGov": true,
+      "participationPref": {
+        "government": 0.96,
+        "stoettepartiForst": 0,
+        "stoettepartiLoose": 0,
+        "opposition": 0.04
+      },
+      "globalHarshness": 0.55,
+      "positions": {
+        "wealthTax": {
+          "ideal": 1,
+          "floor": 4,
+          "ceiling": 1,
+          "weight": 0.45
+        },
+        "climateTgt": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 1,
+          "weight": 0.75
+        },
+        "natureLaw": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.8
+        },
+        "pesticideBan": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.7
+        },
+        "immigration": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 1,
+          "weight": 0.45
+        },
+        "pension": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 1,
+          "weight": 0.2
+        },
+        "fiscal": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.8
+        },
+        "nuclear": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.45
+        },
+        "defense": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 1,
+          "weight": 0.45
+        },
+        "euConventions": {
+          "ideal": 1,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.25
+        },
+        "forstaaelsespapir": {
+          "ideal": 0,
+          "floor": 0,
+          "ceiling": 1,
+          "weight": 0.35
+        },
+        "storeBededag": {
+          "ideal": 0,
+          "floor": 2,
+          "ceiling": 0,
+          "weight": 0.55
+        }
+      },
+      "concessionCurrency": [
+        "wealthTax",
+        "climateTgt",
+        "storeBededag",
+        "immigration"
+      ],
+      "demandCurrency": [
+        "fiscal",
+        "natureLaw",
+        "pesticideBan"
+      ],
+      "relationships": {
+        "M": {
+          "inGov": 0.85,
+          "asSupport": 0.88,
+          "tolerateInGov": 0.85,
+          "asPM": 0.2
+        },
+        "V": {
+          "inGov": 0.02,
+          "asSupport": 0.02,
+          "tolerateInGov": 0.01,
+          "asPM": 0.01
+        },
+        "KF": {
+          "inGov": 0.02,
+          "asSupport": 0.02,
+          "tolerateInGov": 0.01,
+          "asPM": 0.01
+        },
+        "LA": {
+          "inGov": 0.02,
+          "asSupport": 0.03,
+          "tolerateInGov": 0.01,
+          "asPM": 0
+        },
+        "S": {
+          "inGov": 0.92,
+          "asSupport": 0.95,
+          "tolerateInGov": 0.95,
+          "asPM": 0.85
+        },
+        "EL": {
+          "inGov": 0.15,
+          "asSupport": 0.75,
+          "tolerateInGov": 0.78,
+          "asPM": 0.05
+        },
+        "ALT": {
+          "inGov": 0.2,
+          "asSupport": 0.72,
+          "tolerateInGov": 0.75,
+          "asPM": 0.05
+        },
+        "RV": {
+          "inGov": 0.78,
+          "asSupport": 0.72,
+          "tolerateInGov": 0.75,
+          "asPM": 0.1
+        },
+        "DF": {
+          "inGov": 0,
+          "asSupport": 0.02,
+          "tolerateInGov": 0.02,
+          "asPM": 0
+        },
+        "DD": {
+          "inGov": 0,
+          "asSupport": 0.03,
+          "tolerateInGov": 0.05,
+          "asPM": 0
+        },
+        "BP": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0,
+          "asPM": 0
+        }
+      }
+    },
+    "M": {
+      "id": "M",
+      "name": "Moderaterne",
+      "mandates": 14,
+      "bloc": "swing",
+      "govEligible": true,
+      "pmEligible": true,
+      "pmDemand": false,
+      "participationPref": {
+        "government": 0.85,
+        "stoettepartiForst": 0.03,
+        "stoettepartiLoose": 0.07,
+        "opposition": 0.05
+      },
+      "globalHarshness": 0.32,
+      "positions": {
+        "wealthTax": {
+          "ideal": 4,
+          "floor": 3,
+          "ceiling": 4,
+          "weight": 0.85
+        },
+        "climateTgt": {
+          "ideal": 2,
+          "floor": 3,
+          "ceiling": 2,
+          "weight": 0.45
+        },
+        "natureLaw": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 1,
+          "weight": 0.25
+        },
+        "pesticideBan": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 1,
+          "weight": 0.2
+        },
+        "immigration": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 1,
+          "weight": 0.55
+        },
+        "pension": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.65
+        },
+        "fiscal": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 2,
+          "weight": 0.55
+        },
+        "nuclear": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.5
+        },
+        "defense": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 1,
+          "weight": 0.5
+        },
+        "euConventions": {
+          "ideal": 1,
+          "floor": 0,
+          "ceiling": 1,
+          "weight": 0.3
+        },
+        "forstaaelsespapir": {
+          "ideal": 3,
+          "floor": 2,
+          "ceiling": 3,
+          "weight": 0.2
+        },
+        "storeBededag": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.35
+        }
+      },
+      "concessionCurrency": [
+        "climateTgt",
+        "natureLaw",
+        "pesticideBan",
+        "forstaaelsespapir"
+      ],
+      "demandCurrency": [
+        "wealthTax",
+        "pension",
+        "immigration",
+        "fiscal",
+        "nuclear"
+      ],
+      "relationships": {
+        "S": {
+          "inGov": 0.8,
+          "asSupport": 0.9,
+          "tolerateInGov": 0.85,
+          "asPM": 0.75
+        },
+        "SF": {
+          "inGov": 0.62,
+          "asSupport": 0.75,
+          "tolerateInGov": 0.8,
+          "asPM": 0.2
+        },
+        "V": {
+          "inGov": 0.62,
+          "asSupport": 0.85,
+          "tolerateInGov": 0.85,
+          "asPM": 0.75
+        },
+        "DF": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "EL": {
+          "inGov": 0,
+          "asSupport": 0.18,
+          "tolerateInGov": 0.1,
+          "asPM": 0
+        },
+        "ALT": {
+          "inGov": 0,
+          "asSupport": 0.32,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "RV": {
+          "inGov": 0.88,
+          "asSupport": 0.92,
+          "tolerateInGov": 0.9,
+          "asPM": 0.1
+        },
+        "KF": {
+          "inGov": 0.86,
+          "asSupport": 0.9,
+          "tolerateInGov": 0.9,
+          "asPM": 0.1
+        },
+        "LA": {
+          "inGov": 0.45,
+          "asSupport": 0.84,
+          "tolerateInGov": 0.84,
+          "asPM": 0.12
+        },
+        "DD": {
+          "inGov": 0.4,
+          "asSupport": 0.58,
+          "tolerateInGov": 0.55,
+          "asPM": 0
+        },
+        "BP": {
+          "inGov": 0,
+          "asSupport": 0.1,
+          "tolerateInGov": 0.12,
+          "asPM": 0
+        }
+      }
+    },
+    "EL": {
+      "id": "EL",
+      "name": "Enhedslisten",
+      "mandates": 11,
+      "bloc": "red",
+      "govEligible": false,
+      "pmEligible": false,
+      "pmDemand": false,
+      "participationPref": {
+        "government": 0.1,
+        "stoettepartiForst": 0.78,
+        "stoettepartiLoose": 0,
+        "opposition": 0.12
+      },
+      "globalHarshness": 0.56,
+      "positions": {
+        "wealthTax": {
+          "ideal": 0,
+          "floor": 3,
+          "ceiling": 0,
+          "weight": 0.62
+        },
+        "climateTgt": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 0,
+          "weight": 0.56
+        },
+        "natureLaw": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.68
+        },
+        "pesticideBan": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.54
+        },
+        "immigration": {
+          "ideal": 0,
+          "floor": 2,
+          "ceiling": 0,
+          "weight": 0.78
+        },
+        "pension": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.34
+        },
+        "fiscal": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.67
+        },
+        "nuclear": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.18
+        },
+        "defense": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.28
+        },
+        "euConventions": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.72
+        },
+        "forstaaelsespapir": {
+          "ideal": 0,
+          "floor": 0,
+          "ceiling": 0,
+          "weight": 1
+        },
+        "storeBededag": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.3
+        }
+      },
+      "concessionCurrency": [
+        "wealthTax",
+        "defense",
+        "nuclear",
+        "storeBededag"
+      ],
+      "demandCurrency": [
+        "forstaaelsespapir",
+        "immigration",
+        "euConventions",
+        "natureLaw",
+        "fiscal"
+      ],
+      "relationships": {
+        "S": {
+          "asPM": 0.68
+        },
+        "M": {
+          "inGov": 0.08,
+          "asSupport": 0.45,
+          "tolerateInGov": 0.72,
+          "asPM": 0
+        },
+        "V": {
+          "inGov": 0,
+          "asSupport": 0.02,
+          "tolerateInGov": 0.02,
+          "asPM": 0
+        },
+        "SF": {
+          "inGov": 0.15,
+          "asSupport": 0.88,
+          "tolerateInGov": 0.9,
+          "asPM": 0.45
+        },
+        "RV": {
+          "inGov": 0.05,
+          "asSupport": 0.45,
+          "tolerateInGov": 0.55,
+          "asPM": 0.05
+        },
+        "LA": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "KF": {
+          "inGov": 0,
+          "asSupport": 0.02,
+          "tolerateInGov": 0.02,
+          "asPM": 0
+        },
+        "DF": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "DD": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0.02,
+          "asPM": 0
+        },
+        "BP": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "ALT": {
+          "inGov": 0.1,
+          "asSupport": 0.82,
+          "tolerateInGov": 0.85,
+          "asPM": 0.15
+        }
+      }
+    },
+    "ALT": {
+      "id": "ALT",
+      "name": "Alternativet",
+      "mandates": 5,
+      "bloc": "red",
+      "govEligible": false,
+      "pmEligible": false,
+      "pmDemand": false,
+      "participationPref": {
+        "government": 0.14,
+        "stoettepartiForst": 0.18,
+        "stoettepartiLoose": 0.48,
+        "opposition": 0.2
+      },
+      "globalHarshness": 0.48,
+      "positions": {
+        "wealthTax": {
+          "ideal": 1,
+          "floor": 4,
+          "ceiling": 0,
+          "weight": 0.18
+        },
+        "climateTgt": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.76
+        },
+        "natureLaw": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.66
+        },
+        "pesticideBan": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.61
+        },
+        "immigration": {
+          "ideal": 0,
+          "floor": 2,
+          "ceiling": 0,
+          "weight": 0.34
+        },
+        "pension": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 0,
+          "weight": 0.1
+        },
+        "fiscal": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.38
+        },
+        "nuclear": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.2
+        },
+        "defense": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.18
+        },
+        "euConventions": {
+          "ideal": 1,
+          "floor": 0,
+          "ceiling": 0,
+          "weight": 0.4
+        },
+        "forstaaelsespapir": {
+          "ideal": 3,
+          "floor": 2,
+          "ceiling": 3,
+          "weight": 0.12
+        },
+        "storeBededag": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 0,
+          "weight": 0.05
+        }
+      },
+      "concessionCurrency": [
+        "wealthTax",
+        "forstaaelsespapir",
+        "immigration",
+        "defense",
+        "storeBededag"
+      ],
+      "demandCurrency": [
+        "climateTgt",
+        "natureLaw",
+        "pesticideBan"
+      ],
+      "relationships": {
+        "S": {
+          "asPM": 0.58
+        },
+        "M": {
+          "inGov": 0.3,
+          "asSupport": 0.5,
+          "tolerateInGov": 0.75,
+          "asPM": 0.06
+        },
+        "V": {
+          "inGov": 0,
+          "asSupport": 0.03,
+          "tolerateInGov": 0.05,
+          "asPM": 0
+        },
+        "SF": {
+          "inGov": 0.2,
+          "asSupport": 0.82,
+          "tolerateInGov": 0.85,
+          "asPM": 0.35
+        },
+        "RV": {
+          "inGov": 0.1,
+          "asSupport": 0.55,
+          "tolerateInGov": 0.6,
+          "asPM": 0.1
+        },
+        "EL": {
+          "inGov": 0.08,
+          "asSupport": 0.78,
+          "tolerateInGov": 0.8,
+          "asPM": 0.12
+        },
+        "LA": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "KF": {
+          "inGov": 0,
+          "asSupport": 0.02,
+          "tolerateInGov": 0.05,
+          "asPM": 0
+        },
+        "DF": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "DD": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0.02,
+          "asPM": 0
+        },
+        "BP": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0,
+          "asPM": 0
+        }
+      }
+    },
+    "RV": {
+      "id": "RV",
+      "name": "Radikale Venstre",
+      "mandates": 10,
+      "bloc": "red",
+      "govEligible": true,
+      "pmEligible": false,
+      "pmDemand": false,
+      "demandGov": true,
+      "participationPref": {
+        "government": 0.88,
+        "stoettepartiForst": 0.02,
+        "stoettepartiLoose": 0.06,
+        "opposition": 0.04
+      },
+      "globalHarshness": 0.28,
+      "positions": {
+        "wealthTax": {
+          "ideal": 4,
+          "floor": 3,
+          "ceiling": 4,
+          "weight": 0.74
+        },
+        "climateTgt": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 0,
+          "weight": 0.73
+        },
+        "natureLaw": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.56
+        },
+        "pesticideBan": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.49
+        },
+        "immigration": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 0,
+          "weight": 0.44
+        },
+        "pension": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.54
+        },
+        "fiscal": {
+          "ideal": 1,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.42
+        },
+        "nuclear": {
+          "ideal": 1,
+          "floor": 0,
+          "ceiling": 2,
+          "weight": 0.12
+        },
+        "defense": {
+          "ideal": 1,
+          "floor": 0,
+          "ceiling": 2,
+          "weight": 0.34
+        },
+        "euConventions": {
+          "ideal": 1,
+          "floor": 0,
+          "ceiling": 0,
+          "weight": 0.46
+        },
+        "forstaaelsespapir": {
+          "ideal": 3,
+          "floor": 2,
+          "ceiling": 3,
+          "weight": 0.05
+        },
+        "storeBededag": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.35
+        }
+      },
+      "concessionCurrency": [
+        "immigration",
+        "fiscal",
+        "forstaaelsespapir",
+        "defense"
+      ],
+      "demandCurrency": [
+        "climateTgt",
+        "wealthTax",
+        "natureLaw",
+        "pension"
+      ],
+      "relationships": {
+        "S": {
+          "asPM": 0.76
+        },
+        "M": {
+          "inGov": 0.92,
+          "asSupport": 0.9,
+          "tolerateInGov": 0.1,
+          "asPM": 0.3
+        },
+        "V": {
+          "inGov": 0.22,
+          "asSupport": 0.36,
+          "tolerateInGov": 0.5,
+          "asPM": 0.18
+        },
+        "EL": {
+          "inGov": 0.22,
+          "asSupport": 0.78,
+          "tolerateInGov": 0.84,
+          "asPM": 0.02
+        },
+        "SF": {
+          "inGov": 0.78,
+          "asSupport": 0.8,
+          "tolerateInGov": 0.82,
+          "asPM": 0.15
+        },
+        "ALT": {
+          "inGov": 0.18,
+          "asSupport": 0.55,
+          "tolerateInGov": 0.6,
+          "asPM": 0.05
+        },
+        "LA": {
+          "inGov": 0.12,
+          "asSupport": 0.2,
+          "tolerateInGov": 0.25,
+          "asPM": 0.05
+        },
+        "KF": {
+          "inGov": 0.42,
+          "asSupport": 0.3,
+          "tolerateInGov": 0.35,
+          "asPM": 0.08
+        },
+        "DF": {
+          "inGov": 0,
+          "asSupport": 0.02,
+          "tolerateInGov": 0.05,
+          "asPM": 0
+        },
+        "DD": {
+          "inGov": 0.02,
+          "asSupport": 0.08,
+          "tolerateInGov": 0.12,
+          "asPM": 0
+        },
+        "BP": {
+          "inGov": 0,
+          "asSupport": 0.02,
+          "tolerateInGov": 0.05,
+          "asPM": 0
+        }
+      }
+    },
+    "V": {
+      "id": "V",
+      "name": "Venstre",
+      "mandates": 18,
+      "bloc": "blue",
+      "govEligible": true,
+      "pmEligible": true,
+      "pmDemand": false,
+      "participationPref": {
+        "government": 0.55,
+        "stoettepartiForst": 0.05,
+        "stoettepartiLoose": 0.05,
+        "opposition": 0.35
+      },
+      "globalHarshness": 0.72,
+      "positions": {
+        "wealthTax": {
+          "ideal": 4,
+          "floor": 3,
+          "ceiling": 4,
+          "weight": 0.9
+        },
+        "climateTgt": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 3,
+          "weight": 0.45
+        },
+        "natureLaw": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.35
+        },
+        "pesticideBan": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.45
+        },
+        "immigration": {
+          "ideal": 3,
+          "floor": 2,
+          "ceiling": 4,
+          "weight": 0.75
+        },
+        "pension": {
+          "ideal": 1,
+          "floor": 0,
+          "ceiling": 1,
+          "weight": 0.4
+        },
+        "fiscal": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.75
+        },
+        "nuclear": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 0,
+          "weight": 0.55
+        },
+        "defense": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 0,
+          "weight": 0.8
+        },
+        "euConventions": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.7
+        },
+        "forstaaelsespapir": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 3,
+          "weight": 0.2
+        },
+        "storeBededag": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.45
+        }
+      },
+      "concessionCurrency": [
+        "climateTgt",
+        "natureLaw",
+        "pension",
+        "forstaaelsespapir"
+      ],
+      "demandCurrency": [
+        "wealthTax",
+        "fiscal",
+        "defense",
+        "immigration"
+      ],
+      "relationships": {
+        "S": {
+          "inGov": 0.08,
+          "asSupport": 0.12,
+          "tolerateInGov": 0.1,
+          "asPM": 0.02
+        },
+        "M": {
+          "inGov": 0.95,
+          "asSupport": 0.95,
+          "tolerateInGov": 1,
+          "asPM": 0.2
+        },
+        "RV": {
+          "inGov": 0.12,
+          "asSupport": 0.2,
+          "tolerateInGov": 0.25,
+          "asPM": 0.05
+        },
+        "EL": {
+          "inGov": 0,
+          "asSupport": 0.02,
+          "tolerateInGov": 0.02,
+          "asPM": 0
+        },
+        "ALT": {
+          "inGov": 0,
+          "asSupport": 0.03,
+          "tolerateInGov": 0.05,
+          "asPM": 0
+        },
+        "LA": {
+          "inGov": 0.82,
+          "asSupport": 0.88,
+          "tolerateInGov": 0.92,
+          "asPM": 0.15
+        },
+        "KF": {
+          "inGov": 0.88,
+          "asSupport": 0.92,
+          "tolerateInGov": 0.95,
+          "asPM": 0.3
+        },
+        "DF": {
+          "inGov": 0.45,
+          "asSupport": 0.72,
+          "tolerateInGov": 0.78,
+          "asPM": 0.05
+        },
+        "DD": {
+          "inGov": 0.55,
+          "asSupport": 0.7,
+          "tolerateInGov": 0.75,
+          "asPM": 0.1
+        },
+        "BP": {
+          "inGov": 0.12,
+          "asSupport": 0.3,
+          "tolerateInGov": 0.35,
+          "asPM": 0.02
+        }
+      }
+    },
+    "LA": {
+      "id": "LA",
+      "name": "Liberal Alliance",
+      "mandates": 15,
+      "bloc": "blue",
+      "govEligible": true,
+      "pmEligible": false,
+      "pmDemand": false,
+      "participationPref": {
+        "government": 0.55,
+        "stoettepartiForst": 0.05,
+        "stoettepartiLoose": 0.15,
+        "opposition": 0.25
+      },
+      "globalHarshness": 0.63,
+      "positions": {
+        "wealthTax": {
+          "ideal": 4,
+          "floor": 3,
+          "ceiling": 4,
+          "weight": 1
+        },
+        "climateTgt": {
+          "ideal": 3,
+          "floor": 2,
+          "ceiling": 3,
+          "weight": 0.5
+        },
+        "natureLaw": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.25
+        },
+        "pesticideBan": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.3
+        },
+        "immigration": {
+          "ideal": 3,
+          "floor": 2,
+          "ceiling": 4,
+          "weight": 0.8
+        },
+        "pension": {
+          "ideal": 1,
+          "floor": 0,
+          "ceiling": 2,
+          "weight": 0.35
+        },
+        "fiscal": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 1
+        },
+        "nuclear": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.85
+        },
+        "defense": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.8
+        },
+        "euConventions": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.75
+        },
+        "forstaaelsespapir": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 3,
+          "weight": 0.15
+        },
+        "storeBededag": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.65
+        }
+      },
+      "concessionCurrency": [
+        "climateTgt",
+        "natureLaw",
+        "pesticideBan",
+        "pension",
+        "forstaaelsespapir"
+      ],
+      "demandCurrency": [
+        "wealthTax",
+        "fiscal",
+        "nuclear",
+        "defense",
+        "immigration",
+        "storeBededag"
+      ],
+      "relationships": {
+        "S": {
+          "inGov": 0.03,
+          "asSupport": 0.05,
+          "tolerateInGov": 0.02,
+          "asPM": 0
+        },
+        "M": {
+          "inGov": 0.85,
+          "asSupport": 0.9,
+          "tolerateInGov": 0.95,
+          "asPM": 0.45
+        },
+        "V": {
+          "inGov": 0.82,
+          "asSupport": 0.88,
+          "tolerateInGov": 0.92,
+          "asPM": 0.75
+        },
+        "SF": {
+          "inGov": 0,
+          "asSupport": 0.02,
+          "tolerateInGov": 0.02,
+          "asPM": 0
+        },
+        "EL": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "ALT": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0.02,
+          "asPM": 0
+        },
+        "RV": {
+          "inGov": 0.15,
+          "asSupport": 0.25,
+          "tolerateInGov": 0.3,
+          "asPM": 0.05
+        },
+        "KF": {
+          "inGov": 0.8,
+          "asSupport": 0.85,
+          "tolerateInGov": 0.9,
+          "asPM": 0.5
+        },
+        "DF": {
+          "inGov": 0.3,
+          "asSupport": 0.45,
+          "tolerateInGov": 0.5,
+          "asPM": 0.1
+        },
+        "DD": {
+          "inGov": 0.45,
+          "asSupport": 0.6,
+          "tolerateInGov": 0.65,
+          "asPM": 0.15
+        },
+        "BP": {
+          "inGov": 0.3,
+          "asSupport": 0.45,
+          "tolerateInGov": 0.5,
+          "asPM": 0.06
+        }
+      }
+    },
+    "KF": {
+      "id": "KF",
+      "name": "Det Konservative Folkeparti",
+      "mandates": 13,
+      "bloc": "blue",
+      "govEligible": true,
+      "pmEligible": false,
+      "pmDemand": false,
+      "participationPref": {
+        "government": 0.55,
+        "stoettepartiForst": 0.1,
+        "stoettepartiLoose": 0.1,
+        "opposition": 0.25
+      },
+      "globalHarshness": 0.4,
+      "positions": {
+        "wealthTax": {
+          "ideal": 4,
+          "floor": 3,
+          "ceiling": 4,
+          "weight": 0.85
+        },
+        "climateTgt": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 0,
+          "weight": 0.65
+        },
+        "natureLaw": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 0,
+          "weight": 0.55
+        },
+        "pesticideBan": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 0,
+          "weight": 0.7
+        },
+        "immigration": {
+          "ideal": 3,
+          "floor": 2,
+          "ceiling": 4,
+          "weight": 0.8
+        },
+        "pension": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.7
+        },
+        "fiscal": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.8
+        },
+        "nuclear": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.7
+        },
+        "defense": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.9
+        },
+        "euConventions": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.75
+        },
+        "forstaaelsespapir": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 3,
+          "weight": 0.15
+        },
+        "storeBededag": {
+          "ideal": 1,
+          "floor": 0,
+          "ceiling": 2,
+          "weight": 0.05
+        }
+      },
+      "concessionCurrency": [
+        "climateTgt",
+        "natureLaw",
+        "forstaaelsespapir",
+        "storeBededag"
+      ],
+      "demandCurrency": [
+        "wealthTax",
+        "immigration",
+        "defense",
+        "nuclear",
+        "pesticideBan"
+      ],
+      "relationships": {
+        "S": {
+          "inGov": 0.35,
+          "asSupport": 0.6,
+          "tolerateInGov": 0.72,
+          "asPM": 0.05
+        },
+        "M": {
+          "inGov": 0.92,
+          "asSupport": 0.95,
+          "tolerateInGov": 0.98,
+          "asPM": 0.6
+        },
+        "V": {
+          "inGov": 0.85,
+          "asSupport": 0.9,
+          "tolerateInGov": 0.92,
+          "asPM": 0.8
+        },
+        "SF": {
+          "inGov": 0.02,
+          "asSupport": 0.05,
+          "tolerateInGov": 0.08,
+          "asPM": 0
+        },
+        "EL": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "ALT": {
+          "inGov": 0,
+          "asSupport": 0.02,
+          "tolerateInGov": 0.05,
+          "asPM": 0
+        },
+        "RV": {
+          "inGov": 0.4,
+          "asSupport": 0.35,
+          "tolerateInGov": 0.4,
+          "asPM": 0.08
+        },
+        "LA": {
+          "inGov": 0.78,
+          "asSupport": 0.84,
+          "tolerateInGov": 0.88,
+          "asPM": 0.35
+        },
+        "DF": {
+          "inGov": 0.5,
+          "asSupport": 0.65,
+          "tolerateInGov": 0.7,
+          "asPM": 0.15
+        },
+        "DD": {
+          "inGov": 0.55,
+          "asSupport": 0.68,
+          "tolerateInGov": 0.72,
+          "asPM": 0.2
+        },
+        "BP": {
+          "inGov": 0.2,
+          "asSupport": 0.35,
+          "tolerateInGov": 0.4,
+          "asPM": 0.03
+        }
+      }
+    },
+    "DF": {
+      "id": "DF",
+      "name": "Dansk Folkeparti",
+      "mandates": 16,
+      "bloc": "blue",
+      "govEligible": true,
+      "pmEligible": false,
+      "pmDemand": false,
+      "participationPref": {
+        "government": 0.4,
+        "stoettepartiForst": 0.35,
+        "stoettepartiLoose": 0.05,
+        "opposition": 0.2
+      },
+      "globalHarshness": 0.86,
+      "positions": {
+        "wealthTax": {
+          "ideal": 4,
+          "floor": 3,
+          "ceiling": 4,
+          "weight": 0.45
+        },
+        "climateTgt": {
+          "ideal": 3,
+          "floor": 2,
+          "ceiling": 3,
+          "weight": 0.75
+        },
+        "natureLaw": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.35
+        },
+        "pesticideBan": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.25
+        },
+        "immigration": {
+          "ideal": 4,
+          "floor": 3,
+          "ceiling": 4,
+          "weight": 1
+        },
+        "pension": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.75
+        },
+        "fiscal": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.75
+        },
+        "nuclear": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.45
+        },
+        "defense": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 0,
+          "weight": 0.35
+        },
+        "euConventions": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.55
+        },
+        "forstaaelsespapir": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 0,
+          "weight": 0.3
+        },
+        "storeBededag": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.15
+        }
+      },
+      "concessionCurrency": [
+        "forstaaelsespapir",
+        "nuclear",
+        "defense",
+        "natureLaw"
+      ],
+      "demandCurrency": [
+        "immigration",
+        "pension",
+        "fiscal",
+        "climateTgt"
+      ],
+      "relationships": {
+        "M": {
+          "inGov": 0.02,
+          "asSupport": 0.15,
+          "tolerateInGov": 0.05,
+          "asPM": 0
+        },
+        "S": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "SF": {
+          "inGov": 0,
+          "asSupport": 0.02,
+          "tolerateInGov": 0.05,
+          "asPM": 0
+        },
+        "EL": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "ALT": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "RV": {
+          "inGov": 0,
+          "asSupport": 0.02,
+          "tolerateInGov": 0.05,
+          "asPM": 0
+        },
+        "V": {
+          "inGov": 0.75,
+          "asSupport": 0.85,
+          "tolerateInGov": 0.9,
+          "asPM": 0.7
+        },
+        "LA": {
+          "inGov": 0.55,
+          "asSupport": 0.7,
+          "tolerateInGov": 0.75,
+          "asPM": 0.3
+        },
+        "KF": {
+          "inGov": 0.65,
+          "asSupport": 0.75,
+          "tolerateInGov": 0.8,
+          "asPM": 0.4
+        },
+        "DD": {
+          "inGov": 0.5,
+          "asSupport": 0.65,
+          "tolerateInGov": 0.7,
+          "asPM": 0.15
+        },
+        "BP": {
+          "inGov": 0.28,
+          "asSupport": 0.42,
+          "tolerateInGov": 0.48,
+          "asPM": 0.04
+        }
+      }
+    },
+    "DD": {
+      "id": "DD",
+      "name": "Danmarksdemokraterne",
+      "mandates": 10,
+      "bloc": "blue",
+      "govEligible": true,
+      "pmEligible": false,
+      "pmDemand": false,
+      "participationPref": {
+        "government": 0.42,
+        "stoettepartiForst": 0.33,
+        "stoettepartiLoose": 0.1,
+        "opposition": 0.15
+      },
+      "globalHarshness": 0.58,
+      "positions": {
+        "wealthTax": {
+          "ideal": 4,
+          "floor": 3,
+          "ceiling": 4,
+          "weight": 0.55
+        },
+        "climateTgt": {
+          "ideal": 3,
+          "floor": 2,
+          "ceiling": 3,
+          "weight": 0.8
+        },
+        "natureLaw": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.5
+        },
+        "pesticideBan": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.35
+        },
+        "immigration": {
+          "ideal": 3,
+          "floor": 2,
+          "ceiling": 4,
+          "weight": 0.9
+        },
+        "pension": {
+          "ideal": 1,
+          "floor": 0,
+          "ceiling": 2,
+          "weight": 0.35
+        },
+        "fiscal": {
+          "ideal": 1,
+          "floor": 0,
+          "ceiling": 2,
+          "weight": 0.7
+        },
+        "nuclear": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.6
+        },
+        "defense": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 0,
+          "weight": 0.35
+        },
+        "euConventions": {
+          "ideal": 1,
+          "floor": 0,
+          "ceiling": 2,
+          "weight": 0.3
+        },
+        "forstaaelsespapir": {
+          "ideal": 1,
+          "floor": 2,
+          "ceiling": 0,
+          "weight": 0.25
+        },
+        "storeBededag": {
+          "ideal": 1,
+          "floor": 0,
+          "ceiling": 2,
+          "weight": 0.1
+        }
+      },
+      "concessionCurrency": [
+        "nuclear",
+        "defense",
+        "forstaaelsespapir",
+        "pension"
+      ],
+      "demandCurrency": [
+        "immigration",
+        "climateTgt",
+        "wealthTax",
+        "fiscal"
+      ],
+      "relationships": {
+        "M": {
+          "inGov": 0.05,
+          "asSupport": 0.2,
+          "tolerateInGov": 0.12,
+          "asPM": 0
+        },
+        "S": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "V": {
+          "inGov": 0.7,
+          "asSupport": 0.8,
+          "tolerateInGov": 0.85,
+          "asPM": 0.65
+        },
+        "SF": {
+          "inGov": 0,
+          "asSupport": 0.03,
+          "tolerateInGov": 0.05,
+          "asPM": 0
+        },
+        "EL": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "ALT": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0.02,
+          "asPM": 0
+        },
+        "RV": {
+          "inGov": 0,
+          "asSupport": 0.05,
+          "tolerateInGov": 0.1,
+          "asPM": 0
+        },
+        "LA": {
+          "inGov": 0.55,
+          "asSupport": 0.7,
+          "tolerateInGov": 0.75,
+          "asPM": 0.25
+        },
+        "KF": {
+          "inGov": 0.6,
+          "asSupport": 0.72,
+          "tolerateInGov": 0.78,
+          "asPM": 0.35
+        },
+        "DF": {
+          "inGov": 0.5,
+          "asSupport": 0.65,
+          "tolerateInGov": 0.7,
+          "asPM": 0.1
+        },
+        "BP": {
+          "inGov": 0.22,
+          "asSupport": 0.38,
+          "tolerateInGov": 0.42,
+          "asPM": 0.04
+        }
+      }
+    },
+    "BP": {
+      "id": "BP",
+      "name": "Borgernes Parti",
+      "mandates": 3,
+      "bloc": "blue",
+      "govEligible": false,
+      "pmEligible": false,
+      "pmDemand": false,
+      "participationPref": {
+        "government": 0,
+        "stoettepartiForst": 0.12,
+        "stoettepartiLoose": 0.58,
+        "opposition": 0.3
+      },
+      "globalHarshness": 0.9,
+      "positions": {
+        "wealthTax": {
+          "ideal": 4,
+          "floor": 3,
+          "ceiling": 4,
+          "weight": 0.7
+        },
+        "climateTgt": {
+          "ideal": 3,
+          "floor": 2,
+          "ceiling": 3,
+          "weight": 0.8
+        },
+        "natureLaw": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.55
+        },
+        "pesticideBan": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.45
+        },
+        "immigration": {
+          "ideal": 4,
+          "floor": 3,
+          "ceiling": 4,
+          "weight": 1
+        },
+        "pension": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.55
+        },
+        "fiscal": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.95
+        },
+        "nuclear": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.75
+        },
+        "defense": {
+          "ideal": 0,
+          "floor": 1,
+          "ceiling": 0,
+          "weight": 0.8
+        },
+        "euConventions": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.55
+        },
+        "forstaaelsespapir": {
+          "ideal": 3,
+          "floor": 2,
+          "ceiling": 3,
+          "weight": 0.6
+        },
+        "storeBededag": {
+          "ideal": 2,
+          "floor": 1,
+          "ceiling": 2,
+          "weight": 0.15
+        }
+      },
+      "concessionCurrency": [
+        "forstaaelsespapir",
+        "natureLaw",
+        "pesticideBan",
+        "storeBededag",
+        "pension"
+      ],
+      "demandCurrency": [
+        "immigration",
+        "fiscal",
+        "defense",
+        "nuclear"
+      ],
+      "relationships": {
+        "M": {
+          "inGov": 0.35,
+          "asSupport": 0.55,
+          "tolerateInGov": 0.5,
+          "asPM": 0.1
+        },
+        "S": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "V": {
+          "inGov": 0.55,
+          "asSupport": 0.7,
+          "tolerateInGov": 0.75,
+          "asPM": 0.55
+        },
+        "SF": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0.02,
+          "asPM": 0
+        },
+        "EL": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "ALT": {
+          "inGov": 0,
+          "asSupport": 0,
+          "tolerateInGov": 0,
+          "asPM": 0
+        },
+        "RV": {
+          "inGov": 0,
+          "asSupport": 0.02,
+          "tolerateInGov": 0.05,
+          "asPM": 0
+        },
+        "LA": {
+          "inGov": 0.55,
+          "asSupport": 0.68,
+          "tolerateInGov": 0.72,
+          "asPM": 0.3
+        },
+        "KF": {
+          "inGov": 0.45,
+          "asSupport": 0.6,
+          "tolerateInGov": 0.65,
+          "asPM": 0.2
+        },
+        "DF": {
+          "inGov": 0.4,
+          "asSupport": 0.55,
+          "tolerateInGov": 0.6,
+          "asPM": 0.1
+        },
+        "DD": {
+          "inGov": 0.35,
+          "asSupport": 0.5,
+          "tolerateInGov": 0.55,
+          "asPM": 0.08
+        }
+      }
+    }
+  },
+  "naSeats": [
+    {
+      "id": "FO-JF",
+      "name": "Sjúrður Skaale (Javnaðarflokkurin)",
+      "mandates": 1,
+      "bloc": "na",
+      "pRed": 0.95,
+      "pFlexible": 0.05,
+      "pBlue": 0,
+      "notes": "Predictable Faroese red seat; Javnaðarflokkurin cooperates with Socialdemokratiet. Leverage is limited compared with Greenlandic seats."
+    },
+    {
+      "id": "FO-SB",
+      "name": "Anna Falkenberg (Sambandsflokkurin)",
+      "mandates": 1,
+      "bloc": "na",
+      "pRed": 0,
+      "pFlexible": 0.05,
+      "pBlue": 0.95,
+      "notes": "Predictable Faroese blue seat; Venstre sister-party link and unionist profile make this the stable blue North Atlantic mandate."
+    },
+    {
+      "id": "GL-NAL",
+      "name": "Qarsoq Høegh-Dam (Naleraq)",
+      "mandates": 1,
+      "bloc": "na",
+      "glCorrelated": true,
+      "pRed": 0.42,
+      "pFlexible": 0.48,
+      "pBlue": 0.1,
+      "notes": "Formally neither red nor blue; wants major Danish investment under the Self-Government Act while fully preserving Greenland's right to independence. DF's proposal for a Danish referendum on Greenlandic independence is a near-absolute blocker."
+    },
+    {
+      "id": "GL-IA",
+      "name": "Naaja Hjelholt Nathanielsen (Inuit Ataqatigiit)",
+      "mandates": 1,
+      "bloc": "na",
+      "glCorrelated": true,
+      "pRed": 0.55,
+      "pFlexible": 0.4,
+      "pBlue": 0.05,
+      "notes": "Historically red-leaning via IA/SF ties, but refused to pre-commit. Wants Self-Government Act revision, constitutional reinterpretation, and equal status inside the Realm; the same anti-DF structural constraint applies."
+    },
+    {
+      "id": "LG-LA",
+      "name": "Cecilie Liv Hansen (tidl. LA)",
+      "mandates": 1,
+      "bloc": "na",
+      "blocOrigin": "blue",
+      "pRed": 0,
+      "pFlexible": 0.4,
+      "pBlue": 0.6,
+      "notes": "Expelled from LA March 29. Blue-origin løsgænger; never supports red/center-red governments."
+    },
+    {
+      "id": "LG-BP",
+      "name": "Jacob Harris (tidl. BP)",
+      "mandates": 1,
+      "bloc": "na",
+      "blocOrigin": "blue",
+      "pRed": 0,
+      "pFlexible": 0.4,
+      "pBlue": 0.6,
+      "notes": "Expelled from BP March 28. Blue-origin løsgænger; never supports red/center-red governments."
+    }
+  ],
+  "engineCfg": {
+    "crossBlocBonus": 1
+  }
+}
