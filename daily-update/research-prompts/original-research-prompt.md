@@ -1,12 +1,14 @@
 # Daily Coalition Formation Research Brief
 
-Date: {DATE}
+Date: 31 March
 
 ## Task
 
 You are monitoring the Danish government formation process following the
 24 March 2026 election. Produce a research brief covering developments
-in the last 24 hours that could affect which government forms.
+**in the last 24 hours** (during **March 30** or the morning of **March 31**) that could affect which government forms. 
+Make sure no earlier articles are included; it is a hard constraint. All earlier developments up until March 29 are covered.
+Include only articles writte during March 30 or the morning og March 31.
 
 This brief will be read by an AI agent that translates findings into
 model parameter changes. You do NOT need to propose specific numeric
@@ -46,7 +48,7 @@ Focus on:
 
 ## Party and coalition reference
 
-**Parties (12 + 4 NA seats = 179 total, 90 for majority):**
+**Parties (12 + 6 NA seats = 179 total, 90 for majority):**
 
 | Party | ID | Seats | Bloc | Key person |
 |-------|-----|-------|------|------------|
@@ -54,34 +56,36 @@ Focus on:
 | SF | SF | 20 | Red | Pia Olsen Dyhr |
 | Venstre | V | 18 | Blue | Troels Lund Poulsen |
 | Dansk Folkeparti | DF | 16 | Blue | Morten Messerschmidt |
-| Liberal Alliance | LA | 16 | Blue | Alex Vanopslagh |
+| Liberal Alliance | LA | 15 | Blue | Alex Vanopslagh |
 | Moderaterne | M | 14 | Swing | Lars Løkke Rasmussen |
 | Konservative | KF | 13 | Blue | Mona Juul |
 | Enhedslisten | EL | 11 | Red | Pelle Dragsted |
 | Danmarksdemokraterne | DD | 10 | Blue | Inger Støjberg |
 | Radikale Venstre | RV | 10 | Red | Martin Lidegaard |
 | Alternativet | ALT | 5 | Red | Franciska Rosenkilde |
-| Borgernes Parti | BP | 4 | Blue | Lars Boje Mathiesen |
+| Borgernes Parti | BP | 3 | Blue | Lars Boje Mathiesen |
 
-**Most likely coalitions (current model output):**
+Two løsgængere (expelled from blue parties Mar 28-29) sit as
+independents: Cecilie Liv Hansen (ex-LA, 1 seat) and Jacob Harris
+(ex-BP, 1 seat). Both lean blue (~60%) but are unpredictable.
 
 | Coalition | ~Pct | Seats | Key dependency |
 |-----------|------|-------|----------------|
-| S+RV+SF | ~35% | 68 | EL external support, M not blocking |
-| S+M+RV+SF | ~27% | 82 | SF-M mutual acceptance |
-| S+M+SF | ~15% | 72 | SF-M acceptance, EL support |
-| S+M+RV | ~6% | 62 | EL support |
-| V+KF+LA+M | ~6% | 61 | DF/DD abstention, M pursues blue |
-| S+SF | ~2% | 58 | Cross-bloc budget rescue |
+| S+M+RV+SF | ~32% | 82 | SF-M mutual acceptance |
+| S+M+SF | ~19% | 72 | SF-M acceptance, EL support |
+| V+KF+LA+M | ~11% | 60 | DF/DD abstention, M pursues blue |
+| V+KF+M | ~11% | 45 | Broad blue support needed |
+| S+RV+SF | ~7% | 68 | EL external support, M not blocking |
+| V+LA+M | ~7% | 47 | Broad blue support needed |
 
 **Key model variables (what the analyst will be calibrating):**
 
-- **Løkkes orientering** (0-100%): probability M pursues blue coalition
-  vs. cooperating with S. Currently 30%. The single most consequential
-  variable — when M pursues blue, M blocks S-led coalitions and supports
-  blue.
+- **Løkkes orientering**: M orientation is now endogenous — the model
+  computes M's expected utility from each side's best coalition and
+  draws orientation probabilistically (~50/50 under current parameters).
+  Signals that shift M's perceived utility from either side change this.
 - **SF↔M bilateral** (0-1): will SF and M accept each other in
-  government? Currently SF→M=0.72, M→SF=0.68. Gates whether S+M+RV+SF
+  government? Currently SF→M=0.85, M→SF=0.62. Gates whether S+M+RV+SF
   can form.
 - **Party harshness** (0-1): overall negotiation rigidity per party.
   Higher = harder to reach deals.
@@ -91,11 +95,8 @@ Focus on:
 - **Bilateral relationships**: each party has acceptance values toward
   every other party for governing together, tolerating from outside,
   and accepting as PM.
-
-## What NOT to do
-
-- Do NOT invent developments. If nothing happened, say "no significant
-  developments."
+- **Løsgænger orientation** (pBlue 0-1): how the two independents vote.
+  Currently 0.60 blue for both. Matters for S+RV+SF viability.
 - Do NOT speculate beyond what sources report.
 - Do NOT propose specific numeric parameter changes — that's the
   analyst's job.

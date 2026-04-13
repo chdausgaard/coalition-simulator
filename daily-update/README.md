@@ -13,6 +13,16 @@ research agent reports.
    time series
 4. `historical/` — dated simulation results for trendline display
 
+## Changelog convention
+
+Each entry in `historical/timeseries.json` has a `changelog` array. This
+must describe **only event-driven changes**: what happened in the real world
+and which parameters were adjusted in response. Never reference engine
+architecture, structural refactors, or calibration changes — those are
+applied uniformly to all dates via the retrocast and are invisible in
+the timeline by design. If a date had no political developments, the
+changelog should say so (e.g. "Ingen nye politiske signaler").
+
 ## Usage
 
 ```bash

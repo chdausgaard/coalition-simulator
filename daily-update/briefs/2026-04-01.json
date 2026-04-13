@@ -1,0 +1,74 @@
+{
+  "date": "2026-04-01",
+  "summary": "North Atlantic signals favored Frederiksen: Nathanielsen said IA 'obviously leans red' and struggled to see a blue constellation. Skaale pointed to Frederiksen. Enhedslisten's Dragsted signaled tactical softening — no ultimatums, everyone needs to bend.",
+  "developments": [
+    {
+      "description": "Nathanielsen publicly leaned red at Marienborg: 'Vi hælder selvfølgelig rødt' and said she struggled to see a viable blue constellation. Tied participation to Greenlandic foreign-policy demands.",
+      "source": "Herald/Ritzau, 31 March 2026",
+      "impact": "GL-IA pRed up sharply, pFlexible and pBlue down"
+    },
+    {
+      "description": "Skaale reported pointing to Frederiksen on arrival at Marienborg. Coordinated Greenlandic posture continued.",
+      "source": "Ritzau, 31 March 2026",
+      "impact": "GL-NAL pRed up moderately via coordinated posture"
+    },
+    {
+      "description": "Dragsted said EL enters negotiations without ultimatums and accepts all sides need to bend. Wealth-tax demand maintained but tactical posture softened.",
+      "source": "The Local/Ritzau, 1 April 2026",
+      "impact": "EL globalHarshness down"
+    }
+  ],
+  "parameterChanges": [
+    {
+      "party": "GL-IA",
+      "parameter": "pRed",
+      "oldValue": 0.55,
+      "newValue": 0.72,
+      "justification": "'Vi hælder selvfølgelig rødt' + 'svært at se' blue constellation (Herald/Ritzau, 31/3)"
+    },
+    {
+      "party": "GL-IA",
+      "parameter": "pFlexible",
+      "oldValue": 0.40,
+      "newValue": 0.25,
+      "justification": "Foreign-policy conditionality retains meaningful flexibility but less than before"
+    },
+    {
+      "party": "GL-IA",
+      "parameter": "pBlue",
+      "oldValue": 0.05,
+      "newValue": 0.03,
+      "justification": "Nathanielsen explicitly struggled to see blue constellation"
+    },
+    {
+      "party": "GL-NAL",
+      "parameter": "pRed",
+      "oldValue": 0.42,
+      "newValue": 0.52,
+      "justification": "Indirect red shift via coordinated posture and Nathanielsen's gravity; no direct Qarsoq quote"
+    },
+    {
+      "party": "GL-NAL",
+      "parameter": "pFlexible",
+      "oldValue": 0.48,
+      "newValue": 0.40,
+      "justification": "Coordinated posture narrows flexibility somewhat"
+    },
+    {
+      "party": "GL-NAL",
+      "parameter": "pBlue",
+      "oldValue": 0.10,
+      "newValue": 0.08,
+      "justification": "Small blue reduction consistent with red-leaning Greenlandic coordination"
+    },
+    {
+      "party": "EL",
+      "parameter": "globalHarshness",
+      "oldValue": 0.56,
+      "newValue": 0.50,
+      "justification": "Dragsted: 'no ultimatums, everyone needs to bend, we're prepared to do that' (The Local/Ritzau, 1/4)"
+    }
+  ],
+  "formationStage": "forhandlinger",
+  "confidenceAssessment": "medium-high — direct quotes from actors at Marienborg; Dragsted quote is first-person and explicit"
+}
