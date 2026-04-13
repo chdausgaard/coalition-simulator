@@ -53,7 +53,7 @@ const S = {
       asPM: 0.00
     },
     V: {
-      inGov: 0.25,
+      inGov: 0.35, // UPDATE 2026-04-13: Frederiksen publicly invited V into govt talks (broad-middle track, 12 April)
       asSupport: 0.60,
       tolerateInGov: 0.00,
       asPM: 0.00
@@ -88,7 +88,7 @@ const S = {
     },
     // ADDED: S→KF low probability. Cross-bloc, though KF participated in SVM government 2022-2025.
     KF: {
-      inGov: 0.30,
+      inGov: 0.40, // UPDATE 2026-04-13: KF joined Tuesday's expanded govt talks at Frederiksen's invitation
       asSupport: 0.50,
       tolerateInGov: 0.00,
       asPM: 0.00
@@ -288,13 +288,13 @@ const M = {
       asPM: 0.75
     },
     SF: {
-      inGov: 0.58, // UPDATE 2026-04-02: Løkke's cross-bloc framing deprioritizes centre-left track
+      inGov: 0.50, // UPDATE 2026-04-13: Løkke's 10 April ultimatum framed centre-left track as insufficient; M less willing to cabinet with SF
       asSupport: 0.72, // UPDATE 2026-04-02: same signal
       tolerateInGov: 0.80,
       asPM: 0.20
     },
     V: {
-      inGov: 0.62, // UPDATE 2026-03-28: blind calibration — personal rivalry from V-M split
+      inGov: 0.72, // UPDATE 2026-04-13: Løkke actively demanded V at the table 10 April; V-M rivalry discount weaker this window
       asSupport: 0.85,
       tolerateInGov: 0.85,
       asPM: 0.75
@@ -640,7 +640,7 @@ const RV = {
       asPM: 0.30
     },
     V: {
-      inGov: 0.22,
+      inGov: 0.30, // UPDATE 2026-04-13: Lidegaard "åbne for at forhandle begge veje" under S-led formation
       asSupport: 0.36,
       tolerateInGov: 0.50,
       asPM: 0.18
@@ -714,10 +714,10 @@ const V = {
   pmDemand: false,
 
   participationPref: {
-    government: 0.55,
+    government: 0.60, // UPDATE 2026-04-13: V attended Monday's talks in Statsministeriet
     stoettepartiForst: 0.05,
     stoettepartiLoose: 0.05,
-    opposition: 0.35
+    opposition: 0.30 // UPDATE 2026-04-13: offset of government-participation bump
   },
 
   // UPDATE 2026-04-06: TLP sidelined 7-10 days; deputy negotiators more cautious/rigid
@@ -730,7 +730,7 @@ const V = {
     pesticideBan: { ideal: 2, floor: 1, ceiling: 2, weight: 0.45 },
     immigration: { ideal: 3, floor: 2, ceiling: 4, weight: 0.75 },
     pension: { ideal: 1, floor: 0, ceiling: 1, weight: 0.40 },
-    fiscal: { ideal: 2, floor: 1, ceiling: 2, weight: 0.75 },
+    fiscal: { ideal: 2, floor: 1, ceiling: 2, weight: 0.85 },  // UPDATE 2026-04-13: Lose framed 'ansvarlig økonomisk politik' as V's entry condition; TLP reiterated no shared economic foundation
     nuclear: { ideal: 1, floor: 2, ceiling: 0, weight: 0.55 },
     defense: { ideal: 1, floor: 2, ceiling: 0, weight: 0.80 },
     euConventions: { ideal: 2, floor: 1, ceiling: 2, weight: 0.70 },
@@ -746,7 +746,7 @@ const V = {
     // UPDATE 2026-04-06: TLP absence + talks restart make blue PM death concrete
     // asSupport/asPM stay low: V accepts joining S-led govt, not propping up S from outside
     S: {
-      inGov: 0.32,
+      inGov: 0.35, // UPDATE 2026-04-13: V attended Monday's talks; Lose and TLP both said S-led 'ikke oplagt' — attendance not convergence
       asSupport: 0.12,
       tolerateInGov: 0.35,
       asPM: 0.02

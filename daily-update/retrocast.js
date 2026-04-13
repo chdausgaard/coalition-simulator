@@ -12,6 +12,7 @@
  * Usage: node daily-update/retrocast.js
  */
 
+const fs = require("fs");
 const path = require("path");
 const Sim5Parties = require("../sim5-parties.js");
 const engine = require("../sim5-engine.js");
@@ -85,6 +86,21 @@ const REVERT_APRIL_09 = {
   "M.globalHarshness": { from: 0.40, to: 0.35 },
 };
 
+// April 13: procedural opening (V/KF pulled into format by Løkke ultimatum; Frederiksen
+// publicly broadens to middle track) without substantive softening (SF vetoes V/KF;
+// V still "ikke oplagt"). crossBlocBonus held stable at 6.0.
+const REVERT_APRIL_13 = {
+  "M.relationships.V.inGov": { from: 0.72, to: 0.62 },
+  "M.relationships.SF.inGov": { from: 0.50, to: 0.58 },
+  "V.participationPref.government": { from: 0.60, to: 0.55 },
+  "V.participationPref.opposition": { from: 0.30, to: 0.35 },
+  "V.relationships.S.inGov": { from: 0.35, to: 0.32 },
+  "V.positions.fiscal.weight": { from: 0.85, to: 0.75 },
+  "RV.relationships.V.inGov": { from: 0.30, to: 0.22 },
+  "S.relationships.V.inGov": { from: 0.35, to: 0.25 },
+  "S.relationships.KF.inGov": { from: 0.40, to: 0.30 },
+};
+
 // Pre-March-31 BP toxicity (before Isaksen/Nawa/Harris)
 const REVERT_PRE_MARCH_31_BP = {
   "V.relationships.BP.inGov": { from: 0.10, to: 0.20 },
@@ -123,6 +139,7 @@ const HISTORICAL_OVERRIDES = {
     mandateOverrides: { LA: 16, BP: 4 },
     cfgOverrides: { crossBlocBonus: 1.0 },
     overrides: {
+      ...REVERT_APRIL_13,
       ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
       ...REVERT_APRIL_04_BP,
@@ -147,6 +164,7 @@ const HISTORICAL_OVERRIDES = {
     mandateOverrides: { LA: 16, BP: 4 },
     cfgOverrides: { crossBlocBonus: 1.0 },
     overrides: {
+      ...REVERT_APRIL_13,
       ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
       ...REVERT_APRIL_04_BP,
@@ -170,6 +188,7 @@ const HISTORICAL_OVERRIDES = {
     mandateOverrides: { LA: 16, BP: 4 },
     cfgOverrides: { crossBlocBonus: 1.0 },
     overrides: {
+      ...REVERT_APRIL_13,
       ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
       ...REVERT_APRIL_04_BP,
@@ -191,6 +210,7 @@ const HISTORICAL_OVERRIDES = {
     mandateOverrides: { BP: 3 },
     cfgOverrides: { crossBlocBonus: 1.0 },
     overrides: {
+      ...REVERT_APRIL_13,
       ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
       ...REVERT_APRIL_04_BP,
@@ -212,6 +232,7 @@ const HISTORICAL_OVERRIDES = {
     revertMBP: true,
     revertGLCorrelated: true,
     overrides: {
+      ...REVERT_APRIL_13,
       ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
       ...REVERT_APRIL_04_BP,
@@ -233,6 +254,7 @@ const HISTORICAL_OVERRIDES = {
     mandateOverrides: { BP: 3 },
     cfgOverrides: { crossBlocBonus: 1.0 },
     overrides: {
+      ...REVERT_APRIL_13,
       ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
       ...REVERT_APRIL_04_BP,
@@ -254,6 +276,7 @@ const HISTORICAL_OVERRIDES = {
     mandateOverrides: { BP: 3 },
     cfgOverrides: { crossBlocBonus: 1.0 },
     overrides: {
+      ...REVERT_APRIL_13,
       ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
       ...REVERT_APRIL_04_BP,
@@ -274,6 +297,7 @@ const HISTORICAL_OVERRIDES = {
     mandateOverrides: { BP: 3 },
     cfgOverrides: { crossBlocBonus: 5.0 },  // crossBlocBonus was 5.0 from April 2–8
     overrides: {
+      ...REVERT_APRIL_13,
       ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
       ...REVERT_APRIL_04_BP,
@@ -290,6 +314,7 @@ const HISTORICAL_OVERRIDES = {
     mandateOverrides: { BP: 3 },
     cfgOverrides: { crossBlocBonus: 5.0 },
     overrides: {
+      ...REVERT_APRIL_13,
       ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
       ...REVERT_APRIL_04_BP,
@@ -306,6 +331,7 @@ const HISTORICAL_OVERRIDES = {
     removeLGBP2: false,
     cfgOverrides: { crossBlocBonus: 5.0 },
     overrides: {
+      ...REVERT_APRIL_13,
       ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
     }
@@ -320,6 +346,7 @@ const HISTORICAL_OVERRIDES = {
     removeLGBP2: false,
     cfgOverrides: { crossBlocBonus: 5.0 },
     overrides: {
+      ...REVERT_APRIL_13,
       ...REVERT_APRIL_09,
       ...REVERT_APRIL_06,
     }
@@ -336,7 +363,24 @@ const HISTORICAL_OVERRIDES = {
     removeLGBP2: false,
     cfgOverrides: { crossBlocBonus: 5.0 },
     overrides: {
+      ...REVERT_APRIL_13,
       ...REVERT_APRIL_09,
+    }
+  },
+  "2026-04-09": {
+    label: "forhandlinger",
+    formationStage: "forhandlinger",
+    changelog: [
+      "SF dropper formueskat som krav; S indsnævrer til 2 røde linjer (udlændinge, sprøjteforbud)",
+      "EL (Dragsted) roser Løkke, kun ét bredt krav (ulighed)",
+      "Løkke fastholder skepsis efter 4 timer: 'ser stadigvæk tungt ud'",
+      "crossBlocBonus 5→6: Løkke gentager tværblok-præference efter lang forhandling"
+    ],
+    removeLG: false,
+    removeLGBP2: false,
+    // No cfgOverrides: crossBlocBonus default 6.0 matches 2026-04-09 state (held stable on 2026-04-13)
+    overrides: {
+      ...REVERT_APRIL_13,
     }
   }
 };
@@ -519,8 +563,8 @@ for (const [date, config] of Object.entries(HISTORICAL_OVERRIDES)) {
   timeline.push(runRetrocast(date, config));
 }
 
-// Current date (2026-04-09): no overrides needed
-console.log("\n=== Current: 2026-04-09 ===");
+// Current date (2026-04-13): no overrides needed
+console.log("\n=== Current: 2026-04-13 ===");
 const current = engine.simulate({}, N);
 const currentCoalitions = {};
 for (const c of current.topCoalitions.slice(0, 10)) {
@@ -532,18 +576,24 @@ for (const key of Object.keys(currentCoalitions)) {
 console.log("  Results:", JSON.stringify(currentCoalitions));
 
 timeline.push({
-  date: "2026-04-09",
+  date: "2026-04-13",
   coalitions: currentCoalitions,
   noGov: current.noGovPct,
   formationStage: "forhandlinger",
   changelog: [
-    "SF dropper formueskat som krav; S indsnævrer til 2 røde linjer (udlændinge, sprøjteforbud)",
-    "EL (Dragsted) roser Løkke, kun ét bredt krav (ulighed)",
-    "Løkke fastholder skepsis efter 4 timer: 'ser stadigvæk tungt ud'",
-    "crossBlocBonus 5→6: Løkke gentager tværblok-præference efter lang forhandling"
+    "Løkke-ultimatum (10 april): V og KF trækkes ind i regeringsforhandlinger",
+    "Frederiksen åbner offentligt tværblok-spor 'hen over midten' (12 april), holder centrum-venstre i live",
+    "V (Lose, TLP) attenderer men fastholder S-ledet regering 'ikke oplagt'; fiskalpolitik som indgangskrav",
+    "SF (Dyhr) lukker hårdt for regering med V eller KF",
+    "RV (Lidegaard) åben begge veje under S; ønsker afklaring inden for dage"
   ]
 });
 
 // Output
 console.log("\n=== Final timeline ===");
 console.log(JSON.stringify(timeline, null, 2));
+
+// Write canonical timeseries.json
+const histPath = path.join(__dirname, "historical", "timeseries.json");
+fs.writeFileSync(histPath, JSON.stringify(timeline, null, 2));
+console.log(`\nWrote ${timeline.length} entries to ${histPath}`);

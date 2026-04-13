@@ -1,0 +1,108 @@
+{
+  "date": "2026-04-13",
+  "summary": "Process opened without substantive softening. Løkke's 10 April ultimatum forced V and KF into the negotiating format; Frederiksen on 12 April publicly adopted a broad-middle track in parallel with centre-left. But V (Lose, then TLP 13 April) still says S-led is 'ikke oplagt' and reframed fiscal responsibility as V's entry condition; SF (Dyhr 13 April) hard-vetoed governing with V or KF; RV (Lidegaard) stayed open both ways. Net: more procedural optionality, no reduction in substantive distance.",
+  "developments": [
+    {
+      "description": "Løkke ultimatum (10 April): Moderaterne stop attending unless Frederiksen widens talks to include V and KF. Frederiksen complies; V confirmed for Monday, KF for Tuesday.",
+      "source": "Ritzau / Ni.dk, 10 April 2026, 13:31",
+      "impact": "M pulled V and KF into the format as a condition of M's continued participation — confirms active cross-bloc pull from M and broadens S's practical invitation set. Mapped to M→V inGov and S→V/KF inGov, not to crossBlocBonus (held stable to avoid double-counting last window's 5.0→6.0 bump)."
+    },
+    {
+      "description": "Stephanie Lose (V, 10 April) accepts Monday meeting but frames 'ansvarlig økonomisk politik' as Venstre's entry condition and says S-led govt still 'ikke oplagt'. Also urges Løkke to seek kongelig undersøger role for V 'med Troels for bordenden'.",
+      "source": "LinkedIn / Ritzau, 10 April 2026",
+      "impact": "V fiscal weight 0.75→0.85; V.participationPref.government 0.55→0.60, opposition 0.35→0.30 (attendance without convergence)."
+    },
+    {
+      "description": "Frederiksen (12 April) publicly opens broad-middle track: 'intensiverer vi drøftelserne også med Venstre og Konservative. Særligt om økonomi.' Keeps centre-left alive in parallel.",
+      "source": "Facebook / Ritzau, 12 April 2026, 15:25",
+      "impact": "S→V inGov 0.25→0.35; S→KF inGov 0.30→0.40 (active invitation into govt talks, not just parliamentary support). S globalHarshness unchanged — both tracks remained open."
+    },
+    {
+      "description": "Troels Lund Poulsen (V, 13 April morning) reiterates no shared economic foundation with S and argues new Folketing is 'mere blåt' and should produce a more blue government. Narrows the opening Løkke read into TLP's earlier outreach.",
+      "source": "Ritzau, 13 April 2026, 09:05",
+      "impact": "V globalHarshness held at 0.75 — no softening signal. V→S bilateral nudged up 0.32→0.35 reflecting procedural engagement only."
+    },
+    {
+      "description": "Pia Olsen Dyhr (SF, 13 April) hard-vetoes governing with V or KF despite expanded table: 'SF kommer ikke til at gå i regering med Venstre eller De Konservative.' 'Alt for langt fra Venstre til SF.'",
+      "source": "Ritzau, 13 April 2026, 11:57",
+      "impact": "Reinforces existing SF→V and SF→KF near-zero inGov/tolerateInGov values (0.01–0.02). No numeric change; comment-only refresh to mark the signal is re-anchored, not stale."
+    },
+    {
+      "description": "Martin Lidegaard (RV, 13 April): 'Vi skal have afklaring … vi er åbne for at forhandle begge veje.' Wants clarity 'inden for dage og ikke uger'.",
+      "source": "Ritzau, 13 April 2026",
+      "impact": "RV→V inGov 0.22→0.30 — explicit two-track openness under S-led formation."
+    },
+    {
+      "description": "M–SF track relatively deprioritized in Løkke's framing this window; Løkke's leverage move targeted expanding rightward rather than consolidating centre-left.",
+      "source": "Ni.dk, 10–13 April 2026",
+      "impact": "M→SF inGov 0.58→0.50; M→V inGov 0.62→0.72."
+    }
+  ],
+  "parameterChanges": [
+    {
+      "party": "M",
+      "parameter": "relationships.V.inGov",
+      "oldValue": 0.62,
+      "newValue": 0.72,
+      "justification": "Løkke actively demanded V at the negotiating table on 10 April; the V–M personal-rivalry discount is weaker this window."
+    },
+    {
+      "party": "M",
+      "parameter": "relationships.SF.inGov",
+      "oldValue": 0.58,
+      "newValue": 0.50,
+      "justification": "Løkke's ultimatum framed the centre-left-plus-M track as insufficient; M less willing to cabinet with SF as result."
+    },
+    {
+      "party": "V",
+      "parameter": "participationPref.government",
+      "oldValue": 0.55,
+      "newValue": 0.60,
+      "justification": "V attended Monday's talks in Statsministeriet after Løkke's ultimatum — actual participation, not just availability."
+    },
+    {
+      "party": "V",
+      "parameter": "participationPref.opposition",
+      "oldValue": 0.35,
+      "newValue": 0.30,
+      "justification": "Offsets the government-participation bump; V now procedurally engaged."
+    },
+    {
+      "party": "V",
+      "parameter": "relationships.S.inGov",
+      "oldValue": 0.32,
+      "newValue": 0.35,
+      "justification": "V went to the table but Lose and TLP both said S-led govt 'ikke oplagt'; small procedural bump only, no substantive acceptance."
+    },
+    {
+      "party": "V",
+      "parameter": "positions.fiscal.weight",
+      "oldValue": 0.75,
+      "newValue": 0.85,
+      "justification": "Lose (10 April) framed 'ansvarlig økonomisk politik' as V's entry condition; TLP (13 April) reiterated no shared economic foundation. Fiscal elevated to public red line."
+    },
+    {
+      "party": "RV",
+      "parameter": "relationships.V.inGov",
+      "oldValue": 0.22,
+      "newValue": 0.30,
+      "justification": "Lidegaard: 'åbne for at forhandle begge veje' under S-led formation. Explicit two-track openness."
+    },
+    {
+      "party": "S",
+      "parameter": "relationships.V.inGov",
+      "oldValue": 0.25,
+      "newValue": 0.35,
+      "justification": "Frederiksen (12 April) publicly invited V into government talks on broad-middle track, not only as parliamentary support."
+    },
+    {
+      "party": "S",
+      "parameter": "relationships.KF.inGov",
+      "oldValue": 0.30,
+      "newValue": 0.40,
+      "justification": "Frederiksen same post: KF joined Tuesday's expanded govt talks."
+    }
+  ],
+  "formationStage": "forhandlinger",
+  "confidenceAssessment": "high on process moves (direct quotes from Løkke, Lose, Frederiksen, TLP, Dyhr, Lidegaard within window); medium on magnitudes — procedural openness is well-evidenced but substantive compatibility (SF↔V/KF, V↔S economic) remains blocked, so bumps on S→V/KF and M→V may widen the feasible-coalition set without producing passable ones. crossBlocBonus held stable to avoid double-counting 2026-04-09's 5.0→6.0 adjustment."
+}
