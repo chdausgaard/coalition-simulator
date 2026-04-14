@@ -1349,7 +1349,7 @@ function simulate(userParams, N) {
   // When a user moves a slider (or a sweep injects a value), the CI should
   // not override it. CI only applies to parameters left at their defaults.
   const CI_DEFAULTS = {
-    mElTolerate: 0.10, mSfInGov: 0.62, dfMTolerate: 0.20,
+    mElTolerate: 0.10, mSfInGov: 0.50, dfMTolerate: 0.05,
     viabilityThreshold: 0.75, passageWeight: 0.65,
     oppositionAbstention: 0.10, elInformalRate: 0.45, elCentristPenalty: 0.08,
     elForstBase: 0.93, rescueBase: 0.10, distPenalty: 1.50,

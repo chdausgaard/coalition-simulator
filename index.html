@@ -1330,8 +1330,8 @@
         redPreference: 0.5,
         mBlueOrientation: null, // null = endogenous
         crossBlocBonus: 6.0,
-        mSfInGov: 0.62,
-        dfMTolerate: 0.20,
+        mSfInGov: 0.5,
+        dfMTolerate: 0.05,
         formateurOverride: "simultaneous",
         maxFormationRounds: 1,
         viabilityThreshold: 0.75,
@@ -1708,19 +1708,19 @@ onmessage = function(e) {
             <div class="field">
               <div class="field-header">
                 <span class="field-label">Moderaternes accept af SF i regering</span>
-                <span class="value-pill" id="control-mSfInGov-value">0,62</span>
+                <span class="value-pill" id="control-mSfInGov-value">0,50</span>
               </div>
               <p class="field-desc">Løkkes villighed til at regere med SF. Afgørende for S+M+RV+SF.</p>
-              <input type="range" id="control-mSfInGov" data-control="mSfInGov" min="0" max="1" step="0.05" value="0.62">
+              <input type="range" id="control-mSfInGov" data-control="mSfInGov" min="0" max="1" step="0.05" value="0.5">
             </div>
 
             <div class="field">
               <div class="field-header">
                 <span class="field-label">DFs tolerance af M i blå regering</span>
-                <span class="value-pill" id="control-dfMTolerate-value">0,20</span>
+                <span class="value-pill" id="control-dfMTolerate-value">0,05</span>
               </div>
               <p class="field-desc">DFs villighed til at støtte en blå regering med Moderaterne. Afgørende for blå bloks finanslovsaritmetik.</p>
-              <input type="range" id="control-dfMTolerate" data-control="dfMTolerate" min="0" max="1" step="0.05" value="0.20">
+              <input type="range" id="control-dfMTolerate" data-control="dfMTolerate" min="0" max="1" step="0.05" value="0.05">
             </div>
 
             <div class="field">
@@ -1760,10 +1760,10 @@ onmessage = function(e) {
             <div class="field">
               <div class="field-header">
                 <span class="field-label">M–EL forståelsespapir</span>
-                <span class="value-pill" id="control-mElTolerate-value">0,35</span>
+                <span class="value-pill" id="control-mElTolerate-value">0,10</span>
               </div>
               <p class="field-desc">Sandsynlighed for at M accepterer EL som ekstern støtteparti via forståelsespapir. Løkkes "ingen venstrefløjsafhængighed"-linje er den centrale ubekendte i regeringsdannelsen. Ved 0 nedlægger M veto; ved 0,5+ er aftalen sandsynlig.</p>
-              <input type="range" id="control-mElTolerate" data-control="mElTolerate" min="0" max="0.7" step="0.05" value="0.35">
+              <input type="range" id="control-mElTolerate" data-control="mElTolerate" min="0" max="0.7" step="0.05" value="0.1">
             </div>
 
             <div class="field">
@@ -2162,7 +2162,7 @@ onmessage = function(e) {
         });
 
         const controlDefaults = {
-          mElTolerate: 0.35,
+          mElTolerate: 0.1,
           passageWeight: 0.65,
           distPenalty: 1.5,
           oppositionAbstention: 0.10, // budget votes are not neutral; opposition votes against ~90% of the time
