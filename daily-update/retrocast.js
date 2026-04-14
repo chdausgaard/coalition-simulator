@@ -15,6 +15,29 @@
 
 const fs = require("fs");
 const path = require("path");
+
+// Optional deterministic seed. When RETROCAST_SEED is set, override the
+// global Math.random with a mulberry32 stream so the Monte Carlo output
+// is reproducible byte-for-byte. build.js sets RETROCAST_SEED=42 so its
+// regenerated historical/timeseries.json (and the TIMELINE_DATA it feeds
+// into index.html) is idempotent under re-run. Standalone invocation
+// leaves Math.random untouched; each run produces a fresh draw as before.
+if (process.env.RETROCAST_SEED) {
+  const seed = Number(process.env.RETROCAST_SEED);
+  if (!Number.isFinite(seed)) {
+    throw new Error("RETROCAST_SEED must be numeric; got: " + process.env.RETROCAST_SEED);
+  }
+  let s = seed >>> 0;
+  Math.random = function () {
+    s = (s + 0x6D2B79F5) >>> 0;
+    let t = s;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  console.log(`[retrocast] seeded Math.random with mulberry32(${seed})`);
+}
+
 const Sim5Parties = require("../sim5-parties.js");
 const engine = require("../sim5-engine.js");
 
