@@ -1133,9 +1133,9 @@
       "relationships": {
         "S": {
           "inGov": 0.35,
-          "asSupport": 0.12,
+          "asSupport": 0.4,
           "tolerateInGov": 0.35,
-          "asPM": 0.02
+          "asPM": 0.18
         },
         "M": {
           "inGov": 0.95,
@@ -1300,9 +1300,9 @@
       "relationships": {
         "S": {
           "inGov": 0.08,
-          "asSupport": 0.05,
+          "asSupport": 0.18,
           "tolerateInGov": 0.15,
-          "asPM": 0
+          "asPM": 0.02
         },
         "M": {
           "inGov": 0.85,
@@ -1471,9 +1471,9 @@
       "relationships": {
         "S": {
           "inGov": 0.52,
-          "asSupport": 0.6,
+          "asSupport": 0.74,
           "tolerateInGov": 0.82,
-          "asPM": 0.05
+          "asPM": 0.22
         },
         "M": {
           "inGov": 0.92,
