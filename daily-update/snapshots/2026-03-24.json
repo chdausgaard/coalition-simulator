@@ -31,7 +31,7 @@
           "ideal": 2,
           "floor": 4,
           "ceiling": 2,
-          "weight": 0.25
+          "weight": 0.35
         },
         "climateTgt": {
           "ideal": 2,
@@ -191,7 +191,7 @@
       "pmDemand": false,
       "demandGov": true,
       "participationPref": {
-        "government": 0.96,
+        "government": 0.92,
         "stoettepartiForst": 0,
         "stoettepartiLoose": 0,
         "opposition": 0.04
@@ -872,7 +872,7 @@
         "stoettepartiLoose": 0.06,
         "opposition": 0.04
       },
-      "globalHarshness": 0.28,
+      "globalHarshness": 0.33,
       "positions": {
         "wealthTax": {
           "ideal": 4,
@@ -1466,7 +1466,7 @@
       ],
       "relationships": {
         "S": {
-          "inGov": 0.3,
+          "inGov": 0.38,
           "asSupport": 0.6,
           "tolerateInGov": 0.72,
           "asPM": 0.05

@@ -197,7 +197,7 @@
         "stoettepartiLoose": 0,
         "opposition": 0.04
       },
-      "globalHarshness": 0.55,
+      "globalHarshness": 0.64,
       "positions": {
         "wealthTax": {
           "ideal": 1,
@@ -1467,7 +1467,7 @@
       ],
       "relationships": {
         "S": {
-          "inGov": 0.35,
+          "inGov": 0.43,
           "asSupport": 0.6,
           "tolerateInGov": 0.72,
           "asPM": 0.05
