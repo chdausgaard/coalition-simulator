@@ -1296,7 +1296,7 @@
       "relationships": {
         "S": {
           "inGov": 0.03,
-          "asSupport": 0.05,
+          "asSupport": 0.04,
           "tolerateInGov": 0.02,
           "asPM": 0
         },
@@ -2090,6 +2090,6 @@
     }
   ],
   "engineCfg": {
-    "crossBlocBonus": 1
+    "crossBlocBonus": 2
   }
 }

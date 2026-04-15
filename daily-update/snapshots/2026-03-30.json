@@ -1290,7 +1290,7 @@
       "relationships": {
         "S": {
           "inGov": 0.03,
-          "asSupport": 0.05,
+          "asSupport": 0.04,
           "tolerateInGov": 0.02,
           "asPM": 0
         },
@@ -2087,7 +2087,7 @@
       "bloc": "na",
       "blocOrigin": "blue",
       "pRed": 0,
-      "pFlexible": 0.4,
+      "pFlexible": 0.32,
       "pBlue": 0.6,
       "notes": "Expelled from LA March 29. Blue-origin løsgænger; never supports red/center-red governments."
     },
@@ -2104,6 +2104,6 @@
     }
   ],
   "engineCfg": {
-    "crossBlocBonus": 1
+    "crossBlocBonus": 2
   }
 }
