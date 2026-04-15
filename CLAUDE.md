@@ -12,7 +12,7 @@ Danish government formation model for the 2026 election. Bloc voting, two-round 
 | `sim5-coalitions.js` | Coalition enumeration and platform negotiation |
 | `index.html` | Interactive dashboard (self-contained HTML). Embeds `TIMELINE_DATA`, `DEFAULTS`, and slider `value=` attributes that are regeneration targets. |
 | `daily-update/snapshots/*.json` | Per-date full state snapshots (parties + naSeats + engineCfg + meta). Canonical source of truth for historical state. |
-| `daily-update/drift-audit-report.md` | Phase 0 findings; enumerates known data-drift sites that Phase 6 will fix. |
+| `daily-update/drift-audit-report.md` | Phase 0 findings + Phase 6 resolution (Section H). |
 | `research/calibration.md` | Empirical voting records anchoring P(FOR) values |
 | `research/party_briefs/*.md` | Per-party research briefs (13 parties + NA seats) |
 
@@ -40,21 +40,19 @@ Three-state M orientation (center-left / cross-bloc / blue) with cross-bloc fall
 - **`briefs/<date>.json`** — authored JSON diffs (the research agent's output). Format has evolved: later briefs use full-path parameter keys (`"relationships.V.inGov"`); earlier briefs pack multiple fields into compact arrow form (`"V→S"` with `"inGov/asSupport/tolerateInGov/asPM"`).
 - **`snapshots/<date>.json`** — per-date full state. Immutable once written. Schema: `{ _meta, parties, naSeats, engineCfg }`. `_meta` carries `snapshotDate`, `engineVersion`, `parentSnapshot`, `briefRef`, `formationStage`, `label`, `changelog`.
 - **`retrocast.js`** — reads `snapshots/` in date order, swaps each into `Sim5Parties.PARTIES_MAP` / `NA_SEATS` in place (preserving object identity — the engine holds cached refs), runs `simulate()` under `snap.engineCfg`, writes `historical/timeseries.json`.
-- **`apply-update.js`** — LEGACY, only handles `globalHarshness` regex-patching. To be deleted once `build.js` lands.
-- **`build.js`** — NOT YET IMPLEMENTED. Planned: brief + parent snapshot → new snapshot + regenerated `sim5-parties.js` + regenerated `index.html` (TIMELINE_DATA, DEFAULTS, slider defaults) + run retrocast.
+- **`build.js`** — canonical write path. `node build.js <brief> --out <path>` reads brief + parent snapshot, asserts each `oldValue` against the parent, applies `newValue`s, and writes a staged snapshot (read-only against the repo). `--write` instead writes `snapshots/<date>.json`, regenerates `sim5-parties.js` (SNAPSHOT block + NA_SEATS.length), runs full retrocast (~30–35 min at N=30000), and regenerates `index.html` (TIMELINE_DATA + DEFAULTS + slider defaults + controlDefaults). **Only run `--write` on the latest brief** — older briefs would embed an older date's snapshot into `sim5-parties.js`. Bit-identity between `build.js --out` and the committed snapshot is the durable correctness invariant; see `/tmp/validate-phase4.js`-style harnesses.
 
-`sim5-parties.js` is a thin hydrator over `snapshots/2026-04-13.json` (the latest). The embedded region is delimited by `BEGIN_SNAPSHOT` / `END_SNAPSHOT` sentinel comments. `build.js` will regex-target that region.
+`sim5-parties.js` is a thin hydrator over `snapshots/2026-04-13.json` (the latest). The embedded region is delimited by `BEGIN_SNAPSHOT` / `END_SNAPSHOT` sentinel comments; `build.js` regex-targets that region.
 
 ### Timeline retrocast semantics
 
 Retrocast runs all dates in a **single Node process** at N=30000. Per-date state comes from the corresponding `snapshots/<date>.json`; there's no longer a REVERT-chain to replay. Object identity of `PARTIES_MAP` entries and `NA_SEATS` is preserved across date iterations via in-place mutation, because the engine caches references to these at module load.
 
-### Known drift (Phase 6 queue)
+### Phase 6 (complete)
 
-See `daily-update/drift-audit-report.md`. Summary:
-- Dashboard slider defaults + `DEFAULTS` block + engine `CI_DEFAULTS` for `mSfInGov`, `mElTolerate`, `dfMTolerate` are stale against live bilateral values (7 sites).
-- Un-captured `V/KF/LA → S.{asSupport, asPM}` in `REVERT_APRIL_02` / `REVERT_APRIL_06` snapshots may be deliberate modeling narrowing or silent un-application — requires brief-vs-live verification gate before fixing.
-- Pre-April-1 GL probabilities missing from 4 early-date snapshots; 1 date (`2026-03-30`) has wrong hardcoded values via `revertGLCorrelated`.
+Drift audit's open queue is empty. See `daily-update/drift-audit-report.md` Section H for the commit-by-commit resolution. The bit-identity invariant — `build.js --out <brief>` matches `snapshots/<date>.json` byte-for-byte — now holds for all 7 authored briefs and is the gate for any future snapshot edits.
+
+Sections B/C of the audit (REVERT chain `from` documentation drift) are intentionally unaddressed: runtime-irrelevant, obsoleted by Phase 1's snapshot materialization.
 
 ## Dashboard tabs
 
