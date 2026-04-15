@@ -223,3 +223,25 @@ Per-fix commit shape:
 5. Commit with the new pass-rate in the message (e.g., "Phase 6: back-fill SF.participationPref.government for 03-24; build.js 4/7 → 5/7").
 
 Open question to revisit during Phase 6: for the 04-06 dropped pattern, back-filling the missing asSupport/asPM values into 04-06+ changes simulated coalition behavior from 04-06 onward. That's a real model update, not just data cleanup. Decide whether the brief's authored values are what we want the model to reflect (i.e., trust the brief author's judgment) or whether they need re-adjudication against the underlying narrative before landing. The handoff's default posture — "brief is authored truth" — argues for the former.
+
+---
+
+## H. Phase 6 resolution (2026-04-15)
+
+Phase 6 corrective sweep complete. Five commits; build.js validator moved 4/7 → 7/7.
+
+| Commit | Findings resolved |
+|---|---|
+| `da82a45` | Sections D (3 sliders), E (`mSfInGov`, `dfMTolerate`), F (2 CI_DEFAULTS) — dashboard/engine defaults synced to live bilaterals |
+| `308bf4a` | Section G / 03-26 (`SF.participationPref.government` no-op pattern) + 03-26 brief's own dropped updates in committed snapshot |
+| `0933904` | Section G / 04-02 (`engineCfg.crossBlocBonus` mis-baseline + `LG-LA.pFlexible` un-captured) + 04-02 parent baselines (LA.S.asSupport) |
+| `75a1584` | Section G / 04-06 (6 V/KF/LA→S.{asSupport,asPM} dropped updates), propagated 04-02 → 04-13 via brief-rebuild chain. **Material simulation change**: blue-bloc support+PM weights toward S-led govt rise; cross-bloc S+KF+M+V coalition reaches 13.0% on 04-13 vs ~0% pre-fix |
+| `c10a0be` | 5 pre-April-1 GL probability snapshots (03-24, 03-26, 03-28, 03-29, 03-30) set to brief 04-01's authored oldValues; supersedes both `NA_OVERRIDES_PRE_APRIL_01` (only attached to 03-31) and `revertGLCorrelated` hardcoded values (03-30) |
+
+End-state checks at handoff close:
+- `node /tmp/validate-phase4.js` → 7/7 bit-identical
+- Full-baseline audit (brief oldValues vs parent snapshots) → all clean
+- Dropped-updates audit (brief newValues vs own snapshot) → all clean
+- `historical/timeseries.json` regenerated under `RETROCAST_SEED=42` after each commit
+
+Sections B and C (REVERT chain `from` documentation drift) remain unaddressed by design — runtime-irrelevant per the critical-interpretation note, and Phase 1's snapshot materialization obsoleted the `from` convention.
