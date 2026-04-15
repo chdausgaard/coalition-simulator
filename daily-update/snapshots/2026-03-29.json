@@ -2074,9 +2074,9 @@
       "mandates": 1,
       "bloc": "na",
       "glCorrelated": true,
-      "pRed": 0.52,
-      "pFlexible": 0.4,
-      "pBlue": 0.08,
+      "pRed": 0.42,
+      "pFlexible": 0.48,
+      "pBlue": 0.1,
       "notes": "Formally neither red nor blue; wants major Danish investment under the Self-Government Act while fully preserving Greenland's right to independence. DF's proposal for a Danish referendum on Greenlandic independence is a near-absolute blocker."
     },
     {
@@ -2085,9 +2085,9 @@
       "mandates": 1,
       "bloc": "na",
       "glCorrelated": true,
-      "pRed": 0.72,
-      "pFlexible": 0.25,
-      "pBlue": 0.03,
+      "pRed": 0.55,
+      "pFlexible": 0.4,
+      "pBlue": 0.05,
       "notes": "Historically red-leaning via IA/SF ties, but refused to pre-commit. Wants Self-Government Act revision, constitutional reinterpretation, and equal status inside the Realm; the same anti-DF structural constraint applies."
     },
     {
