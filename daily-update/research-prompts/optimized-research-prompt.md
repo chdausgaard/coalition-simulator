@@ -1,10 +1,10 @@
 # Optimized Prompt: Daily Coalition Formation Research Brief
 
-Date: **13 April 2026**
+Date: **27 April 2026**
 
 ## Task
 
-You are monitoring the Danish government formation process following the **24 March 2026 election**. Produce a research brief covering developments from **9 April 2026 (afternoon) through 12 April 2026 and the morning of 13 April 2026** — a four-day window — that could affect which government forms.
+You are monitoring the Danish government formation process following the **24 March 2026 election**. Produce a research brief covering developments from **13 April 2026 (afternoon) through 26 April 2026 and the morning of 27 April 2026** — a fourteen-day window — that could affect which government forms.
 
 This brief will be read by an AI agent that translates findings into model parameter changes. Do **not** propose numeric parameter updates. Focus on **evidence**: what happened, who said what, how other parties responded, and what that implies for coalition dynamics.
 
@@ -12,9 +12,9 @@ This brief will be read by an AI agent that translates findings into model param
 
 This is a **strict publication filter**:
 
-- Include **only** reporting, statements, interviews, liveblog entries, press appearances, social media posts, and wire copy published during **9 April (afternoon) – 12 April 2026** or the **morning of 13 April 2026**.
-- Do **not** include articles published before the afternoon of 9 April 2026, even if they describe relevant background.
-- Earlier developments up to **the morning of 9 April** are already covered elsewhere and must not be repeated except in one short background clause when absolutely necessary to explain a same-window development.
+- Include **only** reporting, statements, interviews, liveblog entries, press appearances, social media posts, and wire copy published during **13 April (afternoon) – 26 April 2026** or the **morning of 27 April 2026**.
+- Do **not** include articles published before the afternoon of 13 April 2026, even if they describe relevant background.
+- Earlier developments up to **the morning of 13 April** are already covered elsewhere and must not be repeated except in one short background clause when absolutely necessary to explain a same-window development.
 - If a source republishes or summarizes an older event during the valid window, include it **only if the new publication contains a new coalition-relevant quote, reaction, or framing from the valid window**.
 
 ## What counts as a relevant development
@@ -93,7 +93,7 @@ Group related quotes and events into developments. A single development can incl
 - responses from other parties
 - the coalition implication
 
-Because this brief covers a **four-day window**, organize developments **chronologically by day**. If a development spans multiple days (e.g., a statement on 10 April triggers responses on 11 April), group it under the day the triggering event occurred and note the follow-up dates.
+Because this brief covers a **fourteen-day window**, organize developments **chronologically by day**. If a development spans multiple days (e.g., a statement on 16 April triggers responses on 17 April), group it under the day the triggering event occurred and note the follow-up dates. With a longer window, expect more developments — but do not pad: omit days with no coalition-relevant activity, and keep the focus on consequential signals rather than exhaustive coverage of every minor statement.
 
 ### Step 4: Draft only after the audit is complete
 Do **not** start drafting once you merely have “enough.” Draft only after you have checked that:
@@ -174,14 +174,14 @@ The analyst will translate the brief into model changes. Do **not** provide numb
 Use this structure exactly:
 
 ```markdown
-# Research Brief: 9–13 April 2026
+# Research Brief: 13–27 April 2026
 
 ## Summary
-One paragraph overview of the four-day window.
+One paragraph overview of the fourteen-day window.
 
 ## Developments
 
-### 9 April (afternoon)
+### 13 April (afternoon)
 
 #### 1. [Title of development]
 **What:** ...
@@ -189,7 +189,7 @@ One paragraph overview of the four-day window.
 **Responses:** ...
 **Coalition impact:** ...
 
-### 10 April
+### 14 April
 
 #### 2. [Title of development]
 **What:** ...
@@ -197,8 +197,9 @@ One paragraph overview of the four-day window.
 **Responses:** ...
 **Coalition impact:** ...
 
-[Continue with 11 April, 12 April, 13 April (morning) as needed.
-Omit days with no coalition-relevant developments.]
+[Continue with 15 April, 16 April, 17 April, 18 April, 19 April, 20 April,
+21 April, 22 April, 23 April, 24 April, 25 April, 26 April, and 27 April
+(morning) as needed. Omit days with no coalition-relevant developments.]
 
 ## Formation stage
 Current stage: kongerunde / sættemøder / forhandlinger / aftaleudkast
@@ -211,7 +212,7 @@ What should the analyst monitor next?
 
 Before finalizing, verify all of the following:
 
-- [ ] Every cited item was published during **9 April (afternoon) – 12 April 2026** or the **morning of 13 April 2026**
+- [ ] Every cited item was published during **13 April (afternoon) – 26 April 2026** or the **morning of 27 April 2026**
 - [ ] All attached source material was reviewed, if present
 - [ ] A quote ledger was built before drafting
 - [ ] The final brief includes the most consequential same-window coalition quote(s)

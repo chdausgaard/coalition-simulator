@@ -266,5 +266,31 @@
       "SF (Dyhr) lukker hårdt for regering med V eller KF",
       "RV (Lidegaard) åben begge veje under S; ønsker afklaring inden for dage"
     ]
+  },
+  {
+    "date": "2026-04-27",
+    "coalitions": {
+      "S+M+RV+SF": 43,
+      "S+M+SF": 18.4,
+      "S+KF+M+RV": 8.8,
+      "S+KF+M+V": 8.7,
+      "S+RV+SF": 7,
+      "S+M+V": 5.3,
+      "S+M+RV+V": 1.6,
+      "S+M+RV": 1.4
+    },
+    "noGov": 0,
+    "formationStage": "forhandlinger",
+    "changelog": [
+      "Lidegaard (RV, 13 april): ingen regering uden M og R sammen — bekræfter M-RV kobling",
+      "KF-borgmestre (14 april) presser Juul mod regeringsdeltagelse; Riber Jakobsen skitserer S-SF-M-V-K",
+      "Olsen Dyhr (SF, 16 april): 'udvidet SVM-regering jo reelt er død' — peger MF mod rød-lilla",
+      "Velfærdsforligs-konflikt (21 april): V og KF anklager S for at blokere; Løkke 'Gryden er ved at være tom'",
+      "M får ubetinget tilsagn om genoptagelse i forligskreds (22-23 april); M vender tilbage til forhandlinger",
+      "Løkke (24 april): 'Vi er slet ikke optaget af det parlamentariske grundlag' + 'Dragsted en flink mand' — opblødning på EL-støtte",
+      "Juul (KF, 24 april): MF bør give stafetten videre",
+      "Olesen (LA) og Støjberg (DD), 25 april: angreb på Løkke som svigt af blå vælgere",
+      "Frederiksen (26 april) indkalder til Marienborg-møde 27. april; aktiv forhandling med SF, RV, M om regering, EL+ALT som parlamentarisk grundlag"
+    ]
   }
 ]

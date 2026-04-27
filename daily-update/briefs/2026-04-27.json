@@ -1,0 +1,136 @@
+{
+  "date": "2026-04-27",
+  "summary": "Two-phase window. Through 16 April the process drifted on procedural openness without substantive convergence: V (Lose) reiterated 'ansvarlig økonomi' as entry condition, KF mayors privately pushed Juul toward government participation, and SF (Olsen Dyhr) declared the udvidet SVM-track 'reelt død'. From 21 April the window pivoted: V and KF weaponized the velfærdsforlig as a procedural blocker; Løkke escalated economic pressure on S ('Gryden er ved at være tom'); M won a forligskreds reassurance on 23 April and returned to talks; on 24 April Løkke publicly de-emphasized the parliamentary basis ('Vi er slet ikke optaget af det parlamentariske grundlag') and called Dragsted 'en flink mand', read as a genuine softening on EL-as-support; LA (Olesen) and DD (Støjberg) attacked Løkke as betraying blue voters on 25 April; Juul (KF) called for the formateur baton to pass on. By 26 April the operative track was S+M+RV+SF in government with EL+ALT as outside parliamentary basis. Net: M shifts redward on EL-tolerance and away from V-anchored midter; KF re-hardens toward opposition; LA/DD-M relations deteriorate.",
+  "changelog": [
+    "Lidegaard (RV, 13 april): ingen regering uden M og R sammen — bekræfter M-RV kobling",
+    "KF-borgmestre (14 april) presser Juul mod regeringsdeltagelse; Riber Jakobsen skitserer S-SF-M-V-K",
+    "Olsen Dyhr (SF, 16 april): 'udvidet SVM-regering jo reelt er død' — peger MF mod rød-lilla",
+    "Velfærdsforligs-konflikt (21 april): V og KF anklager S for at blokere; Løkke 'Gryden er ved at være tom'",
+    "M får ubetinget tilsagn om genoptagelse i forligskreds (22-23 april); M vender tilbage til forhandlinger",
+    "Løkke (24 april): 'Vi er slet ikke optaget af det parlamentariske grundlag' + 'Dragsted en flink mand' — opblødning på EL-støtte",
+    "Juul (KF, 24 april): MF bør give stafetten videre",
+    "Olesen (LA) og Støjberg (DD), 25 april: angreb på Løkke som svigt af blå vælgere",
+    "Frederiksen (26 april) indkalder til Marienborg-møde 27. april; aktiv forhandling med SF, RV, M om regering, EL+ALT som parlamentarisk grundlag"
+  ],
+  "developments": [
+    {
+      "description": "Lidegaard (RV, 13 April): 'Vi kan ikke lave nogen regering uden hinanden' — binder RV og M sammen som gensidigt nødvendige under S-ledet formation. Holder både rød og bredere midter-vej åben, men begge S-ledet og RV-afhængige.",
+      "source": "Ritzau / Avisen.dk, 13 April 2026, 16:59",
+      "impact": "Bekræfter M-RV som kobling. Ingen separat parameterændring — RV→M og M→RV er allerede høje i 04-13 snapshot. Fungerer som fundament for senere udvikling, hvor M-RV-akse forbliver intakt på trods af KF-V-K-frafald."
+    },
+    {
+      "description": "KF-borgmesteroprør (14 April): Fem KF-borgmestre udtaler præference for regeringsdeltagelse over opposition; Jan Riber Jakobsen (Aabenraa) skitserer en S-SF-M-V-K-femparti-regering. Juul svarer at det giver mening at undersøge muligheden, men fastholder at hun stadig sigter efter en blå regering.",
+      "source": "Jyllands-Posten via Press-fotos, 14 April 2026",
+      "impact": "Internt KF-pres dokumenteret, men ledelsen re-hardener inden for samme vindue (Juul 24 April; se development 7). Ingen nettoparameterændring fra dette signal — overdøves af Juul's 24 April-stafet-udmelding."
+    },
+    {
+      "description": "Olsen Dyhr (SF, 16 April) til DR: 'midtersporet med en udvidet SVM-regering jo reelt er død' — efter KF effektivt har trukket sig fra videre forhandlinger med MF. Peger MF mod rød-lilla regering. Lidegaard siger det er 'for tidligt' at skifte kongelig undersøger; Lose gentager at V vil møde op for ansvarlig økonomi men parterne er langt fra hinanden.",
+      "source": "DR via Press-fotos, 16 April 2026",
+      "impact": "Stærkeste samme-vindues-signal om at SF accepterer M i regering så længe ruten er rød-lilla. Driver M.SF.inGov 0.50→0.62 — reverserer delvist 04-13 briefens 0.58→0.50, som var begrundet i Løkke's daværende højreorienterede pres."
+    },
+    {
+      "description": "Velfærdsforligs-konflikt (21 April): V og KF beskylder S for at undergrave forliget fordi M ikke teknisk indgik i forligskredsen, og hævder at sagen 'blokerer i sig selv vejen for fortsatte drøftelser om en regeringsdannelse'. Samme dag siger Løkke: 'S må vælge mellem Anker Jørgensen-politik og ansvarlig økonomi' og 'Gryden er ved at være tom'. Hummelgaard svarer på Facebook at S vil bekræfte forliget, men efter regeringsdannelsen.",
+      "source": "Ritzau / Avisen.dk, 21 April 2026; Hummelgaard på Facebook",
+      "impact": "Procedurelt blokerende, men understreger at den centrale skillelinje er økonomisk troværdighed snarere end blok-aritmetik. Ikke selvstændig parameterændring, men sætter scenen for udviklingen 22-24 April."
+    },
+    {
+      "description": "M-tilbagevenden (22-23 April): M får ubetinget tilsagn om at kunne genindgå i den centrale velfærdsforligs-kreds når ny regering er dannet; MF supplerer med ny arbejds-/familielivskommission. Løkke vender tilbage til forhandlinger efter knap to ugers fravær men siger til TV 2 at parterne er 'langt væk'.",
+      "source": "Ritzau via DK Nyt, 23 April 2026; TV 2 via Reuters, 23 April",
+      "impact": "Procedurelt gennembrud, ikke politisk. Genåbner S-M-kanalen som er nødvendig for hovedruten S+SF+RV+M. Ingen direkte parameterændring fra selve tilbagevenden — den substantielle softening kommer 24 April (development 6)."
+    },
+    {
+      "description": "Løkke (24 April) sænker saliencen på det parlamentariske grundlag: 'Vi er slet ikke optaget af det parlamentariske grundlag' og kalder Dragsted 'en flink mand'. Netavisen Pio og TV 2's Hans Redder læser udtalelsen som meningsfuld opblødning mod rød-lilla løsning. Løkke selv mener efterfølgende fortolkningen er overgjort, og en senior moderat afviser den som vrøvl.",
+      "source": "TV 2 / Netavisen Pio, 24 April 2026; Omni via Reuters",
+      "impact": "Periodens vigtigste enkeltsignal. Driver M.EL.asSupport 0.18→0.35. Walk-back vægtes som blå-publikum-hedging snarere end substantiel reversal: 26 April Ritzau bekræfter at den operative regeringssti er S+M+RV+SF + EL/ALT som parlamentarisk grundlag, hvilket forudsætter M's tolerance af EL som ekstern støtte. Driver også M.V.inGov 0.72→0.60 — genuin pivot væk fra V-forankret midter."
+    },
+    {
+      "description": "Juul (KF, 24 April) til TV 2 via Reuters: stafetten bør gives videre — MF bør ikke længere lede processen. Udmeldingen kommer i samme vindue som det tidligere borgmester-pres for åbenhed (development 2), og dominerer det fordi den kommer fra ledelsen og er offentlig.",
+      "source": "Reuters via TV 2, 24 April 2026",
+      "impact": "Driver KF.participationPref.government 0.55→0.45 og opposition 0.25→0.35; KF.S.asPM 0.22→0.15; KF.S.inGov 0.52→0.42. KF re-hardener mod opposition på trods af intern borgmesteråbenhed."
+    },
+    {
+      "description": "Blå modreaktion (25 April): Olesen (LA) siger Løkke har vildledt en bestemt vælgertype; Støjberg (DD) på sociale medier: 'gigantisk svigt af de blå vælgere, der troede på Løkkes garantier'. Løkke kommenterer ikke kritikken på dette tidspunkt.",
+      "source": "Netavisen Pio / Ritzau, 25 April 2026; Støjberg på sociale medier",
+      "impact": "Driver LA.M.tolerateInGov 0.95→0.85 og LA.M.inGov 0.85→0.75; DD.M.tolerateInGov 0.12→0.08. Bekræfter at blå observatører læser 24 April som en ægte opblødning — de ville ikke angribe så hårdt hvis de mente det var ingenting. Forværrer V+KF+LA+M-rutens omkringliggende blå goodwill."
+    },
+    {
+      "description": "MF (26 April) indkalder til nye Marienborg-forhandlinger 27. april uden offentliggjort deltagerliste eller dagsorden. Samme Ritzau-rapport fastslår at S forhandler mest intenst med SF, RV og M om regeringsdannelse, mens EL og ALT primært drøftes som parlamentarisk støtte.",
+      "source": "Ritzau / Avisen.dk, 26 April 2026",
+      "impact": "Bekræfter den operative regeringsformel ved vinduets afslutning. Ingen selvstændig parameterændring, men validerer at M.EL.asSupport-bumpet (development 6) afspejler operativ realitet, ikke spekulation."
+    }
+  ],
+  "parameterChanges": [
+    {
+      "party": "M",
+      "parameter": "relationships.EL.asSupport",
+      "oldValue": 0.18,
+      "newValue": 0.35,
+      "justification": "Løkke (24 April): 'Vi er slet ikke optaget af det parlamentariske grundlag' + 'Dragsted en flink mand'. 26 April Ritzau bekræfter operativ regeringssti S+M+RV+SF med EL/ALT som parlamentarisk grundlag. Walk-back vægtes som blå-publikum-hedging; den operative virkelighed forudsætter M's tolerance af EL som ekstern støtte. Periodens vigtigste enkeltsignal."
+    },
+    {
+      "party": "M",
+      "parameter": "relationships.SF.inGov",
+      "oldValue": 0.50,
+      "newValue": 0.62,
+      "justification": "Olsen Dyhr's 16 April 'udvidet SVM-regering reelt er død' + rød-lilla-framing positionerer aktivt M som regeringspartner. M's 23 April tilbagevenden + 26 April operative track (S+M+RV+SF) bekræfter at M og SF samtidig er inde i den levende regeringssti. Reverserer delvist 04-13 briefens 0.58→0.50 nedjustering, som blev begrundet i Løkke's daværende højreorienterede ultimatum-pres."
+    },
+    {
+      "party": "M",
+      "parameter": "relationships.V.inGov",
+      "oldValue": 0.72,
+      "newValue": 0.60,
+      "justification": "Hvis Løkke's 24 April-opblødning er ægte (operativ rød-lilla-track bekræfter), er V-forankret midter-rute korrespondende mindre attraktiv for M. Modellen bør ikke have M samtidig forpligtet til V og rød-lilla. Forbliver over 0.50 fordi V stadig er i dialog og velfærdsforligs-procedure er løst."
+    },
+    {
+      "party": "KF",
+      "parameter": "participationPref.government",
+      "oldValue": 0.55,
+      "newValue": 0.45,
+      "justification": "Juul (24 April): MF bør give stafetten videre. Ledelsen re-hardener mod opposition trods borgmesterpres for åbenhed."
+    },
+    {
+      "party": "KF",
+      "parameter": "participationPref.opposition",
+      "oldValue": 0.25,
+      "newValue": 0.35,
+      "justification": "Modregner government-nedjusteringen; bevarer sum=1.0 (stoetteparti-andele uændret). Juul's stafet-udmelding er klart oppositions-positionering."
+    },
+    {
+      "party": "KF",
+      "parameter": "relationships.S.asPM",
+      "oldValue": 0.22,
+      "newValue": 0.15,
+      "justification": "Juul's offentlige opfordring om at give stafetten videre er direkte afvisning af MF som siddende formateur."
+    },
+    {
+      "party": "KF",
+      "parameter": "relationships.S.inGov",
+      "oldValue": 0.52,
+      "newValue": 0.42,
+      "justification": "Samme signal — KF-ledelsens re-hardening mod S-ledet konfiguration. Borgmesteråbenheden (development 2) er en modstrøm men dækkes ikke af ledelsens offentlige linje. Forbliver over DD-niveau fordi KF stadig deltager i forhandlinger."
+    },
+    {
+      "party": "LA",
+      "parameter": "relationships.M.tolerateInGov",
+      "oldValue": 0.95,
+      "newValue": 0.85,
+      "justification": "Olesen (25 April): Løkke har vildledt vælgere. LA-M-relationer forværres efter Løkke's 24 April-opblødning."
+    },
+    {
+      "party": "LA",
+      "parameter": "relationships.M.inGov",
+      "oldValue": 0.85,
+      "newValue": 0.75,
+      "justification": "Samme signal — LA's aktive angreb gør LA+M-i-regering sværere selv hvis Løkke senere reverserer."
+    },
+    {
+      "party": "DD",
+      "parameter": "relationships.M.tolerateInGov",
+      "oldValue": 0.12,
+      "newValue": 0.08,
+      "justification": "Støjberg (25 April): 'gigantisk svigt af de blå vælgere'. Gulveffekt — DD-M er allerede lavt; lille men ægte yderligere forværring."
+    }
+  ],
+  "formationStage": "forhandlinger",
+  "confidenceAssessment": "Høj på de centrale signalers eksistens (alle citater direkte attribueret med samme-vindues-datering). Medium-høj på Løkke 24 April-magnitude: signalet er ægte men hedget af Løkke selv og en senior moderat; brugerens politiske læsning er at opblødningen er substantiel snarere end taktisk, hvilket understøttes af blå modreaktions-styrke (LA, DD ville ikke angribe så hårdt hvis intet var sket) og af 26 April Ritzau-bekræftelse af operativ rød-lilla-track. Medium på KF-magnitude: ledelsens re-hardening dominerer borgmester-modstrømmen, men intern KF-spaltning er et reelt usikkerhedsmoment. crossBlocBonus holdt stabil på 6: bevægelsen er asymmetrisk (M↔rød lettere, V/KF↔S uændret eller hårdere); bilateralændringer bærer effekten — global parameterjustering ville fejlagtigt løfte de blå-side cross-bloc-ruter, som evidens taler imod."
+}
