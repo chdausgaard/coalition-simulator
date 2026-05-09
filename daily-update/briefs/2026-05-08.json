@@ -1,0 +1,117 @@
+{
+  "date": "2026-05-08",
+  "summary": "Decisive day. Morning: Dragsted (EL) tells Ritzau there is 'momentum' at Marienborg-forhandlingerne and that EL is willing to compromise if Løkke does too — i.e., the red track is publicly described as still landable hours before the collapse. Afternoon (17:34): Løkke ends Frederiksen's mandate ('så skal vi ryste træet') and asks for Troels Lund Poulsen to become new royal investigator. Troels signals 'klar til at påtage mig opgaven'. Evening: kongerunde II — the king formally appoints Troels to lead negotiations on a government uden Socialdemokratiet og Moderaterne; the official note records 7 parties / 87 mandates behind Troels and 5 parties / 84 mandates still behind Frederiksen. Crucially, M's own recommendation language is 'hen over Folketingets midte' (i.e., not narrow blue), DF demands 'borgerlig regering' uden S og M plus 'muslimsk netto-udvandring', and SF says it would back a mistillidsvotum mod enhver regering uden SF. Net: M pivots toward V (V.inGov 0.68→0.78) and away from EL-as-parliamentary-basis (EL.asSupport 0.15, EL.tolerateInGov 0.05); KF consolidates in Troels-cirklen (participationPref.government 0.45→0.65, S.inGov 0.32→0.20, S.asPM 0.15→0.05); SF hardens modestly toward M after handover (M.tolerateInGov 0.85→0.75, M.asPM 0.20→0.12); S registers M's exit (M.inGov 0.92→0.85). engineCfg.crossBlocBonus 6→10: smal blå kan ikke nå 90 uden M, så cross-bloc-formuleringer er strukturelt mere relevante under Troels' mandat. Formation stage: forhandlinger → sættemøder.",
+  "changelog": [
+    "Dragsted (EL, 8 maj morgen): 'momentum' efter 3 timers Marienborg-forhandlinger; EL klar til kompromis hvis Løkke også er det — rødt spor offentligt levende timer før kollapset",
+    "Løkke (8 maj 17:34): bryder Frederiksen-mandatet ('vi skal ryste træet'), peger på Troels som ny kongelig undersøger; Troels 'klar til at påtage mig opgaven'",
+    "Kongerunde II (8 maj aften): Troels formelt udpeget til at lede forhandlinger om regering uden S og M; 7 partier/87 mandater bag Troels, 5 partier/84 bag Frederiksen",
+    "M's egen anbefalingstekst: regering 'hen over Folketingets midte' (ikke smal blå)",
+    "DF: 'borgerlig regering' uden S og M, plus 'muslimsk netto-udvandring' som betingelse",
+    "SF: vil støtte mistillidsvotum mod enhver regering uden SF",
+    "EL og ALT: kræver forhåndsaftale om politik før tolerering af regering",
+    "Olsen Dyhr (sent 8 maj): 'Det var ikke nemt. Men det var heller ikke umuligt' — rød framing er at substantiel grund eksisterede da Løkke skiftede side"
+  ],
+  "developments": [
+    {
+      "description": "Dragsted (EL, 8 May morgen) til Ritzau efter 3 timers Marienborg-forhandlinger torsdag aften: 'momentum' i forhandlingerne; EL klar til kompromis hvis Løkke også er det. Same-day wire publiceret 8 May. Vigtig modvægt til den senere fortolkning af kollapset — på morgenen af 8 May beskriver venstrefløjen stadig sporet som forhandlbart.",
+      "source": "Pelle Dragsted via Ritzau, 8 May 2026",
+      "impact": "Ingen selvstændig parameterændring. Bekræfter at den senere kollaps ikke var dødt-givet før Løkke's eftermiddagsskift. Bevarer EL.M.asSupport og EL.M.tolerateInGov uændret — EL forbliver konditionelt åben mod M efter 8 maj."
+    },
+    {
+      "description": "Løkke (8 May, 17:34, Netavisen Pio): bryder forhandlinger med Frederiksen og ønsker Troels Lund Poulsen som ny kongelig undersøger. Forklaring: '... så skal vi ryste træet.' Troels svarer: 'klar til at påtage mig opgaven.' Periodens vigtigste enkeltsignal — M flytter aktivt formateuren fra rød til blå side.",
+      "source": "Lars Løkke Rasmussen via Netavisen Pio, 8 May 2026, 17:34; Troels Lund Poulsen samme kilde",
+      "impact": "Driver M.relationships.V.inGov 0.68→0.78 (Troels-mandat aktivt installeret af M), M.relationships.EL.asSupport 0.35→0.15 og M.relationships.EL.tolerateInGov 0.10→0.05 (Løkke skifter væk fra EL-som-parlamentarisk-grundlag-rammen). M.S.inGov og M.S.asPM holdes uændret per brugerinstruktion: M signalerer aktivt at endemålet er 'hen over Folketingets midte', ikke smal blå — så S forbliver en levende returvej hvis Troels-runden fejler. M.V.asPM holdes uændret (0.75) per regel om at den ikke må overstige M.S.asPM (0.75)."
+    },
+    {
+      "description": "Kongerunde II (8 May aften): kongen udpeger formelt Troels Lund Poulsen til at lede forhandlinger om regering uden Socialdemokratiet og Moderaterne. Officiel note: 7 partier / 87 mandater bag Troels, 5 partier / 84 mandater stadig bag Frederiksen. M's egen anbefalingstekst: regering 'hen over Folketingets midte'. DF betinger sin støtte til Troels på 'en borgerlig regering' uden S eller M plus 'muslimsk netto-udvandring'. SF: vil støtte mistillidsvotum mod enhver regering uden SF. EL og ALT kræver forhåndsaftale om politik før tolerering. Officielle dokumenter offentliggør hardening på begge flanker.",
+      "source": "Officiel note fra Kongehuset, 8 May 2026",
+      "impact": "Driver KF.participationPref.government 0.45→0.65 og opposition 0.35→0.15 (KF aktivt indenfor Troels-cirklen, ikke længere oppositions-positioneret); KF.S.inGov 0.32→0.20 og KF.S.asPM 0.15→0.05 (afslutter pivot påbegyndt 7 maj). SF.M.tolerateInGov 0.85→0.75 og SF.M.asPM 0.20→0.12 (SF moderat hardening efter M aktivt valgte modparten — bevæget men ikke knækket; SF.M.inGov uændret per brugerinstruktion fordi SF-M-kompatibilitet ikke var brudpunktet). S.M.inGov 0.92→0.85 (S registrerer M's exit men ikke amputerer relationen — Frederiksen positionerer for retur). engineCfg.crossBlocBonus 6→10 fordi smal blå kun har 75-77 mandater uden M og uden løsgængere; cross-bloc-formuleringer er strukturelt mere relevante under Troels' mandat. formationStage forhandlinger→sættemøder."
+    },
+    {
+      "description": "Olsen Dyhr (SF, sent 8 May) sociale medier: 'Det var ikke nemt. Men det var heller ikke umuligt'. Argumenterer at Løkke har valgt blå blok i stedet for et substantielt rødt-lilla pakket-resultat (skole, vand, klima, konventioner). Frame-signal at den røde side ikke accepterer kollapset som politik-umuligt — det fremstilles som procedural.",
+      "source": "Pia Olsen Dyhr, sociale medier, sent 8 May 2026",
+      "impact": "Underbygger SF.M.inGov-holding (0.85): SF positionerer for retur hvis Troels-runden fejler. Bidrager til magnitude-kalibrering på SF.M.tolerateInGov-bevægelsen (0.85→0.75 i stedet for hårdere): bevæget men ikke afskaffet."
+    }
+  ],
+  "parameterChanges": [
+    {
+      "party": "M",
+      "parameter": "relationships.V.inGov",
+      "oldValue": 0.68,
+      "newValue": 0.78,
+      "justification": "M aktivt installerer Troels som kongelig undersøger 8 maj eftermiddag. Den interim-bevægelse fra 7 maj (0.60→0.68) afsluttes med fuld pivot. Holdes under 0.85 fordi M's egen anbefalingstekst stadig er 'hen over Folketingets midte', ikke smal blå."
+    },
+    {
+      "party": "M",
+      "parameter": "relationships.EL.asSupport",
+      "oldValue": 0.35,
+      "newValue": 0.15,
+      "justification": "Løkke's 24 april opblødning ('Vi er slet ikke optaget af det parlamentariske grundlag') var den retoriske top; 8 maj er den operative reversal — Løkke bryder netop den ramme der forudsatte EL-som-parlamentarisk-grundlag. Ikke til 0 fordi M's 'hen over midten' fortsat tillader at EL-toleret retur kunne genoplives hvis Troels fejler."
+    },
+    {
+      "party": "M",
+      "parameter": "relationships.EL.tolerateInGov",
+      "oldValue": 0.1,
+      "newValue": 0.05,
+      "justification": "Konsistent med asSupport-nedjusteringen. EL i regering har altid været marginalt for M; bevæger sig fra lavt til meget lavt, men ikke til 0."
+    },
+    {
+      "party": "KF",
+      "parameter": "participationPref.government",
+      "oldValue": 0.45,
+      "newValue": 0.65,
+      "justification": "KF aktivt indenfor Troels-cirklen — Juul's kontor som mødested 7 maj plus formel positionering bag Troels i kongerunde II. Stærkere end 24 april-justeringen (0.55→0.45) reverseret, fordi en aktiv blå regeringsdannelse nu er KF's operative spor."
+    },
+    {
+      "party": "KF",
+      "parameter": "participationPref.opposition",
+      "oldValue": 0.35,
+      "newValue": 0.15,
+      "justification": "Modregner government-justeringen; bevarer sum=1.0 (stoetteparti-andele uændret)."
+    },
+    {
+      "party": "KF",
+      "parameter": "relationships.S.inGov",
+      "oldValue": 0.32,
+      "newValue": 0.2,
+      "justification": "Afslutter pivot påbegyndt 7 maj. Kongerunde II's officielle note positionerer KF bag Troels' mandat — uforeneligt med høj S-kompatibilitet."
+    },
+    {
+      "party": "KF",
+      "parameter": "relationships.S.asPM",
+      "oldValue": 0.15,
+      "newValue": 0.05,
+      "justification": "Frederiksen's mandat er nu formelt afsluttet; KF har ingen aktiv interesse i S-PM-formel under Troels-runden."
+    },
+    {
+      "party": "SF",
+      "parameter": "relationships.M.tolerateInGov",
+      "oldValue": 0.85,
+      "newValue": 0.75,
+      "justification": "SF moderat hardening efter M aktivt valgte modparten i mandatskiftet. Bevæget men ikke knækket — Dyhr's sent-8-maj-frame ('ikke nemt, men heller ikke umuligt') signalerer at SF positionerer for retur hvis Troels fejler."
+    },
+    {
+      "party": "SF",
+      "parameter": "relationships.M.asPM",
+      "oldValue": 0.2,
+      "newValue": 0.12,
+      "justification": "Konsistent med tolerateInGov-bevægelsen. M som PM under Troels-rundens skygge er mindre attraktivt for SF — den letteste M-PM-formel ville være Frederiksen-retur, ikke Troels-mandat."
+    },
+    {
+      "party": "S",
+      "parameter": "relationships.M.inGov",
+      "oldValue": 0.92,
+      "newValue": 0.85,
+      "justification": "S registrerer M's exit fra Frederiksen-sporet men amputerer ikke relationen. Frederiksen's morgen-efter-frame (9 maj: substantiel grund eksisterede) positionerer aktivt for retur. Bevægelsen er proportional."
+    },
+    {
+      "party": "cfg",
+      "parameter": "crossBlocBonus",
+      "oldValue": 6,
+      "newValue": 10,
+      "justification": "Smal blå (V+KF+LA+DF+DD+BP+løsgængere) når kun ~75-77 mandater uden M; uden M er der ingen blå-only vej til 90. Cross-bloc-formuleringer (Troels+M, V+KF+M, V+S+M) er strukturelt mere relevante under Troels' mandat end de var under Frederiksen's. Brugerinstruktion: stærk forøgelse (6→10) i stedet for moderat (6→8)."
+    }
+  ],
+  "formationStage": "sættemøder",
+  "confidenceAssessment": "Høj på alle centrale signal-eksistenser: Løkke's brud (Netavisen Pio med tidsstempel 17:34), Troels' accept, kongerunde II's officielle note (kongehus-attribueret), DF's betingelser (officielt dokument), SF's mistillidsvotum-trussel (officielt dokument), Dragsted's morning-momentum (Ritzau), Dyhr's frame (sociale medier). Medium-høj på magnitude-kalibrering: M.V.inGov 0.78 holdes under 0.85 fordi M's anbefalingstekst stadig er 'hen over midten'; SF.M.tolerateInGov 0.75 (ikke lavere) fordi Dyhr aktivt positionerer for retur; KF.participationPref.government 0.65 (ikke højere) fordi KF stadig opererer udenfor det officielle forhandlingsspor og deltager i kongerunde-bekendtgørelse uden konkret forhandlingsstart. crossBlocBonus 6→10 er per direkte brugerinstruktion — magnitude reflekterer at smal blå strukturelt ikke kan nå 90 uden M, ikke en gradvis proceshypotese. Tally-afvigelse i kongerunde II-noten (87 mandater bag Troels — 7-parti-kombo med M giver typisk 89; uden M giver 75-77) flagges som åben — kan reflektere betinget M-anbefaling eller en separat løsgænger-tally; berører ikke parameterændringerne i denne brief."
+}

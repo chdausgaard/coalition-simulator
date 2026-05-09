@@ -1,25 +1,15 @@
-(function () {
-  // ── Embedded snapshot (generated from daily-update/snapshots/2026-04-13.json) ──
-  // Do not edit by hand. Phase 4's build.js regenerates this region via the
-  // BEGIN_SNAPSHOT / END_SNAPSHOT sentinels below.
-  // BEGIN_SNAPSHOT
-  const SNAPSHOT = {
+{
   "_meta": {
-    "snapshotDate": "2026-05-08",
+    "snapshotDate": "2026-05-07",
     "engineVersion": "sim5-v1",
-    "parentSnapshot": "2026-05-07",
-    "briefRef": "briefs/2026-05-08.json",
-    "formationStage": "sættemøder",
-    "label": "sættemøder",
+    "parentSnapshot": "2026-05-03",
+    "briefRef": "briefs/2026-05-07.json",
+    "formationStage": "forhandlinger",
+    "label": "forhandlinger",
     "changelog": [
-      "Dragsted (EL, 8 maj morgen): 'momentum' efter 3 timers Marienborg-forhandlinger; EL klar til kompromis hvis Løkke også er det — rødt spor offentligt levende timer før kollapset",
-      "Løkke (8 maj 17:34): bryder Frederiksen-mandatet ('vi skal ryste træet'), peger på Troels som ny kongelig undersøger; Troels 'klar til at påtage mig opgaven'",
-      "Kongerunde II (8 maj aften): Troels formelt udpeget til at lede forhandlinger om regering uden S og M; 7 partier/87 mandater bag Troels, 5 partier/84 bag Frederiksen",
-      "M's egen anbefalingstekst: regering 'hen over Folketingets midte' (ikke smal blå)",
-      "DF: 'borgerlig regering' uden S og M, plus 'muslimsk netto-udvandring' som betingelse",
-      "SF: vil støtte mistillidsvotum mod enhver regering uden SF",
-      "EL og ALT: kræver forhåndsaftale om politik før tolerering af regering",
-      "Olsen Dyhr (sent 8 maj): 'Det var ikke nemt. Men det var heller ikke umuligt' — rød framing er at substantiel grund eksisterede da Løkke skiftede side"
+      "Olsen Dyhr (SF, 5 maj) sociale medier: forhandlingerne 'rykker sig — skridt for skridt'; 'langt fra Løkke til Enhedslisten' — rød-spor svært men ikke dødt; ingen parameterændring (allerede priset i SF-posture)",
+      "Løkke møder Troels på Juul's kontor (7 maj morgen) trods M's formelle deltagelse i Frederiksen-forhandlinger; Ritzau bemærker at V og KF har stået udenfor officielle forhandlinger 'i ugevis'",
+      "Interim-forskydning: M.V.inGov 0.60→0.68 og KF.S.inGov 0.42→0.32 fanger at en blå tilbagefaldsoption holdes varm uden at være aktiveret"
     ]
   },
   "parties": {
@@ -132,7 +122,7 @@
           "asPM": 0
         },
         "M": {
-          "inGov": 0.85,
+          "inGov": 0.92,
           "asSupport": 0.95,
           "tolerateInGov": 0,
           "asPM": 0
@@ -298,8 +288,8 @@
         "M": {
           "inGov": 0.85,
           "asSupport": 0.88,
-          "tolerateInGov": 0.75,
-          "asPM": 0.12
+          "tolerateInGov": 0.85,
+          "asPM": 0.2
         },
         "V": {
           "inGov": 0.02,
@@ -479,7 +469,7 @@
           "asPM": 0.2
         },
         "V": {
-          "inGov": 0.78,
+          "inGov": 0.68,
           "asSupport": 0.85,
           "tolerateInGov": 0.85,
           "asPM": 0.75
@@ -492,8 +482,8 @@
         },
         "EL": {
           "inGov": 0,
-          "asSupport": 0.15,
-          "tolerateInGov": 0.05,
+          "asSupport": 0.35,
+          "tolerateInGov": 0.1,
           "asPM": 0
         },
         "ALT": {
@@ -1383,10 +1373,10 @@
       "pmEligible": false,
       "pmDemand": false,
       "participationPref": {
-        "government": 0.65,
+        "government": 0.45,
         "stoettepartiForst": 0.1,
         "stoettepartiLoose": 0.1,
-        "opposition": 0.15
+        "opposition": 0.35
       },
       "globalHarshness": 0.4,
       "positions": {
@@ -1478,10 +1468,10 @@
       ],
       "relationships": {
         "S": {
-          "inGov": 0.2,
+          "inGov": 0.32,
           "asSupport": 0.74,
           "tolerateInGov": 0.82,
-          "asPM": 0.05
+          "asPM": 0.15
         },
         "M": {
           "inGov": 0.92,
@@ -2146,116 +2136,6 @@
     }
   ],
   "engineCfg": {
-    "crossBlocBonus": 10
+    "crossBlocBonus": 6
   }
-};
-  // END_SNAPSHOT
-
-  // ── Canonical party order. Load-bearing: the engine iterates PARTIES_LIST
-  //    by index in several places; order must match the original source order.
-  const PARTY_ORDER = ["S","SF","M","EL","ALT","RV","V","LA","KF","DF","DD","BP"];
-
-  // ── Hydrate parties from snapshot, preserving PARTY_ORDER in both
-  //    PARTIES_MAP insertion order and PARTIES_LIST array order.
-  const PARTIES_MAP = {};
-  const PARTIES_LIST = [];
-  for (const id of PARTY_ORDER) {
-    const p = SNAPSHOT.parties[id];
-    if (!p) throw new Error("Snapshot missing party: " + id);
-    PARTIES_MAP[id] = p;
-    PARTIES_LIST.push(p);
-  }
-  const { S, SF, M, EL, ALT, RV, V, LA, KF, DF, DD, BP } = PARTIES_MAP;
-
-  const NA_SEATS = SNAPSHOT.naSeats;
-  if (NA_SEATS.length !== 8) {
-    throw new Error("NA_SEATS count drift: expected 8, got " + NA_SEATS.length);
-  }
-
-  // ── Structural constants (code, not data) ──
-  const DIMENSIONS = [
-    "wealthTax",
-    "climateTgt",
-    "natureLaw",
-    "pesticideBan",
-    "immigration",
-    "pension",
-    "fiscal",
-    "nuclear",
-    "defense",
-    "euConventions",
-    "forstaaelsespapir",
-    "storeBededag"
-  ];
-
-  const SCALE_MAX = {
-    wealthTax: 4,
-    climateTgt: 3,
-    natureLaw: 2,
-    pesticideBan: 2,
-    immigration: 4,
-    pension: 2,
-    fiscal: 2,
-    nuclear: 2,
-    defense: 2,
-    euConventions: 2,
-    forstaaelsespapir: 3,
-    storeBededag: 2
-  };
-
-  // ── Helper functions (code, copied verbatim from previous sim5-parties.js) ──
-  function isWithinRange(value, position) {
-    const lower = Math.min(position.ideal, position.floor);
-    const upper = Math.max(position.ideal, position.floor);
-
-    return value >= lower && value <= upper;
-  }
-
-  function distancePastFloor(value, position, dimension) {
-    const lower = Math.min(position.ideal, position.floor);
-    const upper = Math.max(position.ideal, position.floor);
-
-    if (isWithinRange(value, position)) {
-      return 0;
-    }
-
-    const nearestEdge = value < lower ? lower : upper;
-    return Math.abs(value - nearestEdge) / SCALE_MAX[dimension];
-  }
-
-  function policyDistance(partyA, partyB) {
-    let weightedDistanceSum = 0;
-    let weightSum = 0;
-
-    for (const dimension of DIMENSIONS) {
-      const positionA = partyA.positions[dimension];
-      const positionB = partyB.positions[dimension];
-      const avgWeight = (positionA.weight + positionB.weight) / 2;
-      const dist = Math.abs(positionA.ideal - positionB.ideal) / SCALE_MAX[dimension];
-
-      weightedDistanceSum += avgWeight * dist;
-      weightSum += avgWeight;
-    }
-
-    return weightSum === 0 ? 0 : weightedDistanceSum / weightSum;
-  }
-
-  // ── Export ──
-  const exportedSim5Parties = {
-    S, SF, M, EL, ALT, RV, V, LA, KF, DF, DD, BP,
-    NA_SEATS,
-    DIMENSIONS,
-    SCALE_MAX,
-    PARTIES_MAP,
-    PARTIES_LIST,
-    isWithinRange,
-    distancePastFloor,
-    policyDistance
-  };
-
-  if (typeof module !== "undefined" && module.exports) {
-    module.exports = exportedSim5Parties;
-  } else {
-    globalThis.Sim5Parties = exportedSim5Parties;
-  }
-})();
+}

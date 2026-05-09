@@ -1,0 +1,39 @@
+{
+  "date": "2026-05-07",
+  "summary": "Window 4–7 May. Two developments: a documentary 5 May Olsen Dyhr post that re-frames the red track as 'difficult, not dead' (record-length forhandlinger; 'langt fra Løkke til Enhedslisten'), and a parameter-relevant 7 May meeting where Løkke goes into Mona Juul's office while Troels Lund Poulsen is also present, despite Moderaterne still being formally engaged in Frederiksen's negotiations. Ritzau notes that V and KF have been outside the official negotiations 'for weeks'. The meeting is not yet a procedural break — Løkke explains it as 'vi har bare snakket sammen' — but it is the first concrete same-window evidence that Løkke is actively keeping a blue fallback warm. Two interim parameter moves are made: M.V.inGov bumps modestly upward (warming the blue route at M's option) and KF.S.inGov drops modestly (KF aligning with Troels-circle). The full pivot is reserved for the 8 May handover.",
+  "changelog": [
+    "Olsen Dyhr (SF, 5 maj) sociale medier: forhandlingerne 'rykker sig — skridt for skridt'; 'langt fra Løkke til Enhedslisten' — rød-spor svært men ikke dødt; ingen parameterændring (allerede priset i SF-posture)",
+    "Løkke møder Troels på Juul's kontor (7 maj morgen) trods M's formelle deltagelse i Frederiksen-forhandlinger; Ritzau bemærker at V og KF har stået udenfor officielle forhandlinger 'i ugevis'",
+    "Interim-forskydning: M.V.inGov 0.60→0.68 og KF.S.inGov 0.42→0.32 fanger at en blå tilbagefaldsoption holdes varm uden at være aktiveret"
+  ],
+  "developments": [
+    {
+      "description": "Olsen Dyhr (SF, 5 May) social-media-opslag: 'Forhandlingerne om en ny regering er på vej mod en danmarksrekord. Men de rykker sig – skridt for skridt.' Tilføjer at der er 'langt fra Lars Løkke Rasmussen til Enhedslisten'. Frame-signal: rød-spor svært men ikke blokkeret; den centrale ideologiske afstand er Løkke↔EL, ikke SF↔M.",
+      "source": "Pia Olsen Dyhr, sociale medier, 5 May 2026",
+      "impact": "Ingen parameterændring. SF's eksisterende parametre (SF.M.inGov 0.85, SF.M.tolerateInGov 0.85) indkapsler allerede positionen. Opslaget bekræfter at SF-side stadig opererer som om en M-inklusiv regering kunne lande. Dokumenteret for kronologi."
+    },
+    {
+      "description": "Løkke (7 May, ca. 11:06) går ind på Mona Juul's kontor, hvor Troels Lund Poulsen også er til stede, trods at M stadig formelt deltager i Frederiksen's forhandlinger. På spørgsmål til pressen: 'Vi har bare snakket sammen.' Ritzau understreger i samme rapport at V og KF ikke har været en del af de officielle forhandlinger 'i ugevis'. Mødet er det første konkrete samme-vindues-bevis på at Løkke aktivt holder en blå tilbagefaldsoption varm.",
+      "source": "Lars Løkke Rasmussen til pressen, 7 May 2026, 11:06; Ritzau",
+      "impact": "Driver M.V.inGov 0.60→0.68 og KF.S.inGov 0.42→0.32. Bevægelser holdes interim — den fulde pivot afventer 8 May-mandatskiftet. Magnitude er afdæmpet fordi Løkke selv afdramatiserer mødet og fordi M ikke ændrer formelle deltagelsesstatus i Frederiksen-sporet før 8 May."
+    }
+  ],
+  "parameterChanges": [
+    {
+      "party": "M",
+      "parameter": "relationships.V.inGov",
+      "oldValue": 0.6,
+      "newValue": 0.68,
+      "justification": "7 May Løkke-Troels-Juul-mødet er første samme-vindues-bevis på at en V-forankret midter-/blå-rute holdes varm parallelt med fortsatte røde forhandlinger. Bevægelsen holdes interim (0.68 i stedet for direkte til 0.78) fordi mødet ifølge Løkke selv ikke er procedural break, og fordi den fulde pivot afventer mandatskiftet 8 maj."
+    },
+    {
+      "party": "KF",
+      "parameter": "relationships.S.inGov",
+      "oldValue": 0.42,
+      "newValue": 0.32,
+      "justification": "KF (gennem Juul's kontor som mødested og parallelt med Juul's 24 april stafet-udmelding) konsoliderer position i Troels-cirklen. Bevægelsen holdes interim — den endelige hardening (0.20) ligger 8 maj efter Troels formelt får mandatet."
+    }
+  ],
+  "formationStage": "forhandlinger",
+  "confidenceAssessment": "Høj på 7 May-mødets eksistens og deltagerkreds (Ritzau-attributering, samtidige citater). Medium på interim-magnitude: bevægelserne er forankret i ét samme-vindues-event, og Løkke's egen afdramatisering ('vi har bare snakket sammen') trækker mod konservativ kalibrering. Den valgte interim-størrelse afspejler at mødet er signal-værdig men ikke proceduralt aktiverende; den fulde størrelse leveres i 8 maj-briefen efter mandatskiftet er offentligt. Dyhr 5 maj-opslaget er højt-tillid men parameter-neutralt."
+}

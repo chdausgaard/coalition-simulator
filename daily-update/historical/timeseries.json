@@ -292,5 +292,69 @@
       "Olesen (LA) og Støjberg (DD), 25 april: angreb på Løkke som svigt af blå vælgere",
       "Frederiksen (26 april) indkalder til Marienborg-møde 27. april; aktiv forhandling med SF, RV, M om regering, EL+ALT som parlamentarisk grundlag"
     ]
+  },
+  {
+    "date": "2026-05-03",
+    "coalitions": {
+      "S+M+RV+SF": 42.1,
+      "S+M+SF": 18.5,
+      "S+KF+M+RV": 9.2,
+      "S+KF+M+V": 9,
+      "S+RV+SF": 7,
+      "S+M+V": 5.3,
+      "S+M+RV+V": 1.7,
+      "S+M+RV": 1.3
+    },
+    "noGov": 0,
+    "formationStage": "forhandlinger",
+    "changelog": [
+      "Venstre (30 april, 12:29) sociale medier: 'Det er et stort svigt af Lars Løkke!' — opfordrer til ny kongelig undersøger; intra-blå pres dokumenteret, ingen parameterændring",
+      "Olsen Dyhr (SF, 1. maj-tale): 'Mandaterne rækker bare ikke til det' + 'bøje sig vs flække sig selv på tværs' + centre-right som 'skrækscenarie' — bekræfter eksisterende SF-posture, ingen parameterændring",
+      "Isaksen (BP, 3 maj) forlader BP, bliver løsgænger; truffet i 'god dialog' med Mathiesen; Mathiesen er nu alene i BP's folketingsgruppe"
+    ]
+  },
+  {
+    "date": "2026-05-07",
+    "coalitions": {
+      "S+M+RV+SF": 42.9,
+      "S+M+SF": 19.4,
+      "S+KF+M+V": 7.6,
+      "S+KF+M+RV": 7.2,
+      "S+RV+SF": 7.1,
+      "S+M+V": 6.5,
+      "S+M+RV+V": 1.9,
+      "S+M+RV": 1.3
+    },
+    "noGov": 0,
+    "formationStage": "forhandlinger",
+    "changelog": [
+      "Olsen Dyhr (SF, 5 maj) sociale medier: forhandlingerne 'rykker sig — skridt for skridt'; 'langt fra Løkke til Enhedslisten' — rød-spor svært men ikke dødt; ingen parameterændring (allerede priset i SF-posture)",
+      "Løkke møder Troels på Juul's kontor (7 maj morgen) trods M's formelle deltagelse i Frederiksen-forhandlinger; Ritzau bemærker at V og KF har stået udenfor officielle forhandlinger 'i ugevis'",
+      "Interim-forskydning: M.V.inGov 0.60→0.68 og KF.S.inGov 0.42→0.32 fanger at en blå tilbagefaldsoption holdes varm uden at være aktiveret"
+    ]
+  },
+  {
+    "date": "2026-05-08",
+    "coalitions": {
+      "S+M+RV+SF": 43.8,
+      "S+M+SF": 18.9,
+      "S+RV+SF": 10.2,
+      "S+M+V": 8.3,
+      "S+KF+M+V": 5.9,
+      "S+KF+M+RV": 4.9,
+      "S+M+RV+V": 2.3
+    },
+    "noGov": 0,
+    "formationStage": "sættemøder",
+    "changelog": [
+      "Dragsted (EL, 8 maj morgen): 'momentum' efter 3 timers Marienborg-forhandlinger; EL klar til kompromis hvis Løkke også er det — rødt spor offentligt levende timer før kollapset",
+      "Løkke (8 maj 17:34): bryder Frederiksen-mandatet ('vi skal ryste træet'), peger på Troels som ny kongelig undersøger; Troels 'klar til at påtage mig opgaven'",
+      "Kongerunde II (8 maj aften): Troels formelt udpeget til at lede forhandlinger om regering uden S og M; 7 partier/87 mandater bag Troels, 5 partier/84 bag Frederiksen",
+      "M's egen anbefalingstekst: regering 'hen over Folketingets midte' (ikke smal blå)",
+      "DF: 'borgerlig regering' uden S og M, plus 'muslimsk netto-udvandring' som betingelse",
+      "SF: vil støtte mistillidsvotum mod enhver regering uden SF",
+      "EL og ALT: kræver forhåndsaftale om politik før tolerering af regering",
+      "Olsen Dyhr (sent 8 maj): 'Det var ikke nemt. Men det var heller ikke umuligt' — rød framing er at substantiel grund eksisterede da Løkke skiftede side"
+    ]
   }
 ]

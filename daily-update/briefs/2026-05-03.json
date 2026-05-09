@@ -1,0 +1,49 @@
+{
+  "date": "2026-05-03",
+  "summary": "Window 28 April – 3 May. Two days of intra-blue pressure on Løkke (Venstre 30 April social-media post calling for new royal investigator) and one publicly-affirmed but parameter-neutral SF posture (Dyhr 1. maj speech: 'Mandaterne rækker bare ikke til det' + centre-right as 'skrækscenarie', plus 'bøje' vs 'flække sig selv på tværs'). The structurally consequential development is on 3 May: Nadja Natalie Isaksen leaves BP and becomes løsgænger, in 'god dialog' with Lars Boje Mathiesen — leaves Mathiesen alone in BP's parliamentary group. This is a reduction in BP's parliamentary weight and a third blue-origin løsgænger added to the model. The 30 April / 1 May items are documented for chronology but do not move parameters: V's posture toward M is tactical pressure that gets absorbed into Løkke's 8 May move, and SF's existing inGov/tolerate values for M (0.85/0.85) already encode Dyhr's flexibility-with-floors framing.",
+  "changelog": [
+    "Venstre (30 april, 12:29) sociale medier: 'Det er et stort svigt af Lars Løkke!' — opfordrer til ny kongelig undersøger; intra-blå pres dokumenteret, ingen parameterændring",
+    "Olsen Dyhr (SF, 1. maj-tale): 'Mandaterne rækker bare ikke til det' + 'bøje sig vs flække sig selv på tværs' + centre-right som 'skrækscenarie' — bekræfter eksisterende SF-posture, ingen parameterændring",
+    "Isaksen (BP, 3 maj) forlader BP, bliver løsgænger; truffet i 'god dialog' med Mathiesen; Mathiesen er nu alene i BP's folketingsgruppe"
+  ],
+  "developments": [
+    {
+      "description": "Venstre (30 April, 12:29) officielt social-media-opslag angriber Løkke for fortsatte røde forhandlinger: 'Det er et stort svigt af Lars Løkke!' og opfordrer ham — hvis han mener den økonomiske linje, han lovede vælgerne — til at 'pege på en ny kongelig undersøger'. Sætter scenen for blå-side-pres der kulminerer 8 maj.",
+      "source": "Venstre officielt opslag, 30 April 2026, 12:29",
+      "impact": "Ingen parameterændring. V's underliggende villighed til at regere med M er ikke ændret af opslaget; det er taktisk pres der bliver absorberet i Løkke's 8 maj mandatskifte. Dokumenteret for kronologi."
+    },
+    {
+      "description": "Olsen Dyhr (SF) i sin 1. maj-tale: 'Mandaterne rækker bare ikke til det' — accepterer offentligt at en ren rød regering ikke er aritmetisk mulig. Fortsætter: 'der er forskel på at bøje sig og at flække sig selv på tværs'. Beskriver centre-right-regering som 'et skrækscenarie'. Signalet er betinget fleksibilitet — SF er villig til at forhandle med M, men ikke for enhver pris.",
+      "source": "Pia Olsen Dyhr, 1. maj-tale, 1 May 2026",
+      "impact": "Ingen parameterændring. SF.M.inGov (0.85) og SF.M.tolerateInGov (0.85) i 04-27-snapshot indkapsler allerede Dyhr's 'fleksibilitet-med-gulve'-positur. Skrækscenarie-formuleringen om centre-right ekko'er allerede-lave SF.V/KF/LA.tolerateInGov-værdier (0.01-0.02). Dokumenteret for kronologi."
+    },
+    {
+      "description": "Nadja Natalie Isaksen forlader Borgernes Parti (3 May) og bliver løsgænger. Hun begrunder beslutningen med at de nødvendige forudsætninger ikke længere er til stede; understreger at exit'en er truffet i 'god dialog' med Lars Boje Mathiesen. I modsætning til Schytte-exit'en (4 April, intern lederskabskritik) er Isaksen-exit'en amikabel og rammeorienteret. Mathiesen er herefter alene tilbage i BP's folketingsgruppe.",
+      "source": "DR Nyheder via Nadja Natalie Isaksen, Facebook, 3 May 2026",
+      "impact": "Strukturel ændring. BP.mandates 2→1. Tilføjer LG-BP3 (Isaksen) som blue-origin løsgænger med samme profil som Harris/Schytte (pRed=0, pFlexible=0.4, pBlue=0.6) — exit-begrundelse er ikke politisk men ramme-/lederskabsorienteret, så blå-orientering bevares. Total mandatsum uændret 179."
+    }
+  ],
+  "parameterChanges": [
+    {
+      "party": "BP",
+      "parameter": "mandates",
+      "oldValue": 2,
+      "newValue": 1,
+      "justification": "Isaksen forlader BP 3 maj; BP's folketingsgruppe består herefter kun af Mathiesen."
+    }
+  ],
+  "newEntities": [
+    {
+      "id": "LG-BP3",
+      "name": "Nadja Natalie Isaksen (tidl. BP)",
+      "type": "løsgænger",
+      "blocOrigin": "blue",
+      "pRed": 0.0,
+      "pFlexible": 0.4,
+      "pBlue": 0.6,
+      "notes": "Left BP 3 May 2026 in amicable dialog with Lars Boje Mathiesen; cited that the necessary conditions for political work were no longer present. Blue-origin løsgænger; never supports red/center-red governments."
+    }
+  ],
+  "formationStage": "forhandlinger",
+  "confidenceAssessment": "Høj på Isaksen-strukturændringen (direkte attribueret Facebook-opslag, dækket af DR Nyheder). Høj på de to non-parameter-developments — V's opslag er offentligt og direkte attribueret; Dyhr's 1. maj-tale er offentlig. Klassificeringen af Isaksen som blue-origin/blue-leaning er konsistent med Harris og Schytte-profilerne; eksit-begrundelsen ('god dialog' med Mathiesen, ramme-fremfor-policy-kritik) underbygger at hun ikke skifter blok."
+}
